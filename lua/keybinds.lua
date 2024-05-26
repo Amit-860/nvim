@@ -58,6 +58,8 @@ if not vim.g.vscode then
   vim.keymap.set("n", "<leader>l", "<nop>", { desc = "+LSP", noremap = true })
   vim.keymap.set({ "n" }, "<leader>lr", "<cmd>Telescope lsp_references theme=get_ivy<CR>",
     { desc = "References", noremap = true })
+  vim.keymap.set({ "n" }, "<leader>lR", "<cmd>lua vim.lsp.buf.rename()<CR>",
+    { desc = "References", noremap = true })
   vim.keymap.set({ "n" }, "<leader>ld", "<cmd>Telescope lsp_definitions theme=get_ivy<CR>",
     { desc = "Definitions", noremap = true })
   vim.keymap.set({ "n" }, "<leader>li", "<cmd>Telescope lsp_implementations theme=get_ivy<CR>",
