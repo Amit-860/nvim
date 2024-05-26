@@ -34,14 +34,14 @@ end
 
 -- settings for neovim
 if not vim.g.vscode then
-  vim.keymap.set("n", "<leader>f", "<cmd>lua MiniPick.builtin.files()<cr>",
+  vim.keymap.set("n", "<leader>f", "<cmd>Telescope find_files<cr>",
     { noremap = true, silent = true, desc = 'Find File' })
   vim.keymap.set("n", "<leader>e", "<cmd>lua MiniFiles.open()<cr>",
     { noremap = true, silent = true, desc = 'Explorer' })
-  vim.keymap.set("n", "<leader><leader>", "<cmd>lua MiniPick.builtin.buffers()<cr>",
+  vim.keymap.set("n", "<leader><leader>", "<cmd>Telescope buffers theme=dropdown<cr>",
     { noremap = true, silent = true, desc = 'Find Buffer' })
   vim.keymap.set("n", "<leader>s", "<nop>", { desc = "Search", noremap = true })
-  vim.keymap.set("n", "<leader>ss", "<cmd>lua MiniPick.builtin.grep_live()<cr>",
+  vim.keymap.set("n", "<leader>ss", "<cmd>Telescope live_grep<cr>",
     { noremap = true, silent = true, desc = 'Find String' })
   vim.keymap.set("n", "<leader>c", "<cmd>bd<cr>", { noremap = true, silent = true, desc = 'Close Buffer' })
 
@@ -78,11 +78,18 @@ if not vim.g.vscode then
 
 
   -- LeetCode
-  vim.keymap.set('n', "L", ":Leet<cr>", { noremap = true, silent = true, desc = 'LeetCode' })
+  vim.keymap.set('n', "<leader>L", "<nop>", { noremap = true, silent = true, desc = 'LeetCode' })
+  vim.keymap.set('n', "<leader>Lt", ":Leet test<cr>", { noremap = true, silent = true, desc = 'Test' })
+  vim.keymap.set('n', "<leader>Ls", ":Leet submit<cr>", { noremap = true, silent = true, desc = 'Submit' })
 
 
   -- Home
-  vim.keymap.set('n', "<leader>.", ":lua MiniStarter.open()<cr>", { noremap = true, silent = true, desc = 'LeetCode' })
+  vim.keymap.set('n', "<leader>.", ":lua MiniStarter.open()<cr>", { noremap = true, silent = true, desc = 'Home' })
+
+  -- Code Runner
+  vim.keymap.set("n", "<leader>r", "<nop>", { desc = "Run", noremap = true })
+  vim.keymap.set("n", "<leader>rf", "<cmd>RunFile<CR>", { noremap = true, silent = true, desc = "Run File", })
+  vim.keymap.set("n", "<leader>rc", "<cmd>RunCode<CR>", { noremap = true, silent = true, desc = "Run Code", })
 end
 
 

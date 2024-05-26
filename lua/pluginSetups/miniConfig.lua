@@ -61,7 +61,7 @@ require('mini.indentscope').setup()
 require('mini.map').setup()
 -- require('mini.move').setup()
 require('mini.pairs').setup()
-require('mini.pick').setup()
+-- require('mini.pick').setup()
 require('mini.sessions').setup({ directory = ('%s%ssession'):format(vim.fn.stdpath('data'), '/'), autowrite = true })
 require('mini.splitjoin').setup()
 

@@ -71,9 +71,9 @@ end
 
 vim.g.mapleader = " "
 
-local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 
 -- plugins
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
   vim.fn.system({
     "git",
@@ -85,13 +85,15 @@ if not vim.loop.fs_stat(lazypath) then
   })
 end
 vim.opt.rtp:prepend(lazypath)
-
--- plugins
 require('plugins')
+
+-- adding lvim default keybinds
+require('lvimKeyBinds')
 
 -- Keybinding /lua/keybinds.lua
 require('keybinds')
 
+-- vscode specific opts
 if not vim.g.vscode then
   vim.cmd("colorscheme nightfox")
   vim.wo.relativenumber = true
@@ -99,5 +101,6 @@ if not vim.g.vscode then
   vim.opt.cmdwinheight = 1
   vim.opt.cmdheight = 0
 end
+
 -- vim.cmd([[hi Pmenu gui=underline guifg=#bcbcbc guibg=#af5f5f ]])
 vim.cmd([[hi Pmenu guibg=#131a25]])

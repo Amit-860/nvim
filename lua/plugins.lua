@@ -230,7 +230,6 @@ require("lazy").setup({
 
       -- optional
       "nvim-treesitter/nvim-treesitter",
-      "rcarriga/nvim-notify",
       "nvim-tree/nvim-web-devicons",
     },
     opts = {
@@ -295,7 +294,11 @@ require("lazy").setup({
   },
   {
     "debugloop/telescope-undo.nvim",
-    event = "BufRead"
+  },
+  {
+    "vigoux/notifier.nvim",
+    lazy = true,
+    opts = {},
   },
   opts = { checker = { frequency = 604800, } }
 })
