@@ -175,6 +175,7 @@ cmp.setup({
         end
       end,
     },
+    ['<CR>'] = cmp.mapping.confirm({ select = true }),
     ["<Tab>"] = cmp.mapping(function(fallback)
       if cmp.visible() then
         cmp.select_next_item()
@@ -202,14 +203,26 @@ cmp.setup({
 
 
   sources = cmp.config.sources({
-    { name = 'nvim_lsp' },
-    -- { name = 'vsnip' }, -- For vsnip users.
-    { name = 'luasnip' }, -- For luasnip users.
-    -- { name = 'ultisnips' }, -- For ultisnips users.
-    -- { name = 'snippy' }, -- For snippy users.
-  }, {
-    { name = 'buffer' },
-  })
+      { name = 'nvim_lsp' },
+      { name = 'nvim_lua' },
+      { name = 'nvim_lsp_signature_help' },
+      { name = 'nvim_lsp_document_symbol' },
+      { name = 'path' },
+      { name = 'treesitter' },
+      { name = 'luasnip' }, -- For luasnip users.
+      {
+        name = 'buffer',
+        option = {
+          get_bufnrs = function()
+            return vim.api.nvim_list_bufs()
+          end
+        }
+      },
+    },
+    {
+      -- { name = 'buffer' },
+    }
+  )
 })
 
 -- To use git you need to install the plugin petertriho/cmp-git and uncomment lines below
