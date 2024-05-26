@@ -40,14 +40,14 @@ if not vim.g.vscode then
     { noremap = true, silent = true, desc = 'Explorer' })
   vim.keymap.set("n", "<leader><leader>", "<cmd>Telescope buffers theme=dropdown<cr>",
     { noremap = true, silent = true, desc = 'Find Buffer' })
-  vim.keymap.set("n", "<leader>s", "<nop>", { desc = "Search", noremap = true })
+  vim.keymap.set("n", "<leader>s", "<nop>", { desc = "+Search", noremap = true })
   vim.keymap.set("n", "<leader>ss", "<cmd>Telescope live_grep<cr>",
     { noremap = true, silent = true, desc = 'Find String' })
   vim.keymap.set("n", "<leader>c", "<cmd>bd<cr>", { noremap = true, silent = true, desc = 'Close Buffer' })
 
 
   -- session
-  vim.keymap.set("n", "<leader>S", "<nop>", { desc = "Session", noremap = true })
+  vim.keymap.set("n", "<leader>S", "<nop>", { desc = "+Session", noremap = true })
   vim.keymap.set("n", "<leader>Ss", "<cmd>lua MiniSessions.select()<cr>",
     { noremap = true, silent = true, desc = 'Switch Session' })
   vim.keymap.set("n", "<leader>Sm", "<cmd>lua MiniSessions.write('Home.vim',{force=true})<cr>",
@@ -55,7 +55,7 @@ if not vim.g.vscode then
 
 
   -- Telescope
-  vim.keymap.set("n", "<leader>l", "<nop>", { desc = "LSP", noremap = true })
+  vim.keymap.set("n", "<leader>l", "<nop>", { desc = "+LSP", noremap = true })
   vim.keymap.set({ "n" }, "<leader>lr", "<cmd>Telescope lsp_references theme=get_ivy<CR>",
     { desc = "References", noremap = true })
   vim.keymap.set({ "n" }, "<leader>ld", "<cmd>Telescope lsp_definitions theme=get_ivy<CR>",
@@ -67,9 +67,13 @@ if not vim.g.vscode then
   vim.keymap.set({ "n" }, "<leader>lD", "<cmd>Telescope diagnostics theme=get_ivy<CR>",
     { desc = "Diagnostics", noremap = true })
 
+  -- Undo
+  vim.keymap.set({ "n" }, "<leader>z", "<cmd>:lua require('telescope').extensions.undo.undo({ side_by_side = true })<CR>",
+    { desc = "Undo", noremap = true })
+
 
   -- Quit
-  vim.keymap.set("n", "<leader>q", "<nop>", { desc = "Quit", noremap = true })
+  vim.keymap.set("n", "<leader>q", "<nop>", { desc = "+Quit", noremap = true })
   vim.keymap.set("n", "<leader>qq", "<cmd>q!<cr>", { noremap = true, silent = true, desc = "Quit", })
   vim.keymap.set('n', "<leader>qw", ":wq<cr>", { noremap = true, silent = true, desc = 'Write & Exit' })
   vim.keymap.set('n', "<leader>qQ", ":q!<cr>", { noremap = true, silent = true, desc = 'Force Exit' })
@@ -78,7 +82,7 @@ if not vim.g.vscode then
 
 
   -- LeetCode
-  vim.keymap.set('n', "<leader>L", "<nop>", { noremap = true, silent = true, desc = 'LeetCode' })
+  vim.keymap.set('n', "<leader>L", "<nop>", { noremap = true, silent = true, desc = '+LeetCode' })
   vim.keymap.set('n', "<leader>Lt", ":Leet test<cr>", { noremap = true, silent = true, desc = 'Test' })
   vim.keymap.set('n', "<leader>Ls", ":Leet submit<cr>", { noremap = true, silent = true, desc = 'Submit' })
 
@@ -87,7 +91,7 @@ if not vim.g.vscode then
   vim.keymap.set('n', "<leader>.", ":lua MiniStarter.open()<cr>", { noremap = true, silent = true, desc = 'Home' })
 
   -- Code Runner
-  vim.keymap.set("n", "<leader>r", "<nop>", { desc = "Run", noremap = true })
+  vim.keymap.set("n", "<leader>r", "<nop>", { desc = "+Run", noremap = true })
   vim.keymap.set("n", "<leader>rf", "<cmd>RunFile<CR>", { noremap = true, silent = true, desc = "Run File", })
   vim.keymap.set("n", "<leader>rc", "<cmd>RunCode<CR>", { noremap = true, silent = true, desc = "Run Code", })
 end

@@ -222,6 +222,7 @@ require("lazy").setup({
   },
   {
     "kawre/leetcode.nvim",
+    lazy = true,
     build = ":TSUpdate html",
     dependencies = {
       "nvim-telescope/telescope.nvim",
@@ -285,19 +286,20 @@ require("lazy").setup({
     cmd = { "Z" }
   },
   {
+    "nvim-telescope/telescope.nvim",
+  },
+  {
     "gbrlsnchs/telescope-lsp-handlers.nvim",
     event = "LspAttach"
   },
   {
     "nvim-telescope/telescope-ui-select.nvim",
-    event = "VeryLazy"
   },
   {
     "debugloop/telescope-undo.nvim",
   },
   {
     "vigoux/notifier.nvim",
-    lazy = true,
     opts = {},
   },
   opts = { checker = { frequency = 604800, } }
