@@ -6,7 +6,7 @@ miniclue.setup({
     { mode = 'x', keys = '<Leader>' },
 
     -- Built-in completion
-    -- { mode = 'i', keys = '<C-x>' },
+    { mode = 'n', keys = '<C-w>' },
 
     -- `g` key
     { mode = 'n', keys = 'g' },
@@ -31,12 +31,6 @@ miniclue.setup({
     { mode = 'n', keys = 'z' },
     { mode = 'x', keys = 'z' },
 
-    -- clues
-    -- clues = {
-    --   { mode = 'n', keys = '<Leader>b', desc = '+Buffers' },
-    --   { mode = 'n', keys = '<Leader>l', desc = '+LSP' },
-    -- },
-
   },
   clues = {
     function() miniclue.gen_clues.g() end,
@@ -59,10 +53,7 @@ require('mini.cursorword').setup()
 require('mini.files').setup()
 require('mini.indentscope').setup()
 require('mini.map').setup()
--- require('mini.move').setup()
 require('mini.pairs').setup()
--- require('mini.pick').setup()
-require('mini.sessions').setup({ directory = ('%s%ssession'):format(vim.fn.stdpath('data'), '/'), autowrite = true })
 require('mini.splitjoin').setup()
 
 local starter = require("mini.starter")
@@ -76,7 +67,9 @@ starter.setup({
   "███╗   ███╗██╗   ██╗██╗███╗   ███╗\n████╗ ████║██║   ██║██║████╗ ████║\n██╔████╔██║██║   ██║██║██╔████╔██║\n██║╚██╔╝██║╚██╗ ██╔╝██║██║╚██╔╝██║\n██║ ╚═╝ ██║ ╚████╔╝ ██║██║ ╚═╝ ██║\n╚═╝     ╚═╝  ╚═══╝  ╚═╝╚═╝     ╚═╝\n                                  ",
   items = {
     -- sessions
-    starter.sections.sessions(5, true),
+    new_section("Dir session", "lua require('persistence').load()", "Session"),
+    new_section("Last session", "lua require('persistence').load({last=true})", "Session"),
+    new_section("Ignore current session", "lua require('persistence').stop()", "Session"),
 
     -- telescope
     new_section("Find file", "Telescope find_files", "Telescope"),
@@ -87,7 +80,7 @@ starter.setup({
     new_section("Leet", "Leet", "LeetCode"),
 
     -- config
-    new_section("Configs", [[edit ~/AppData/Local/nvim/init.lua]], "Nvim"),
+    new_section("Config", [[edit ~/AppData/Local/nvim/init.lua]], "Nvim"),
     new_section("Plugins", [[edit ~/AppData/Local/nvim/lua/plugins.lua]], "Nvim"),
     new_section("Keybinds", [[edit ~/AppData/Local/nvim/lua/keybinds.lua]], "Nvim"),
 
@@ -95,24 +88,16 @@ starter.setup({
     new_section("New file", "ene | startinsert", "Built-in"),
     new_section("Quit", "qa", "Built-in"),
   },
-  -- content_hooks = {
-  --   starter.gen_hook.adding_bullet(pad .. "░ ", false),
-  --   starter.gen_hook.aligning("center", "center"),
-  -- },
   content_hooks = {
     starter.gen_hook.adding_bullet(),
-    -- starter.gen_hook.indexing('all', { 'Builtin actions' }),
     starter.gen_hook.aligning("center", "center"),
     starter.gen_hook.padding(3, 2),
   },
 })
 
 require('mini.statusline').setup()
--- require('mini.surround').setup()
 require('mini.tabline').setup()
--- require('mini.completion').setup()
 require('mini.basics').setup({
   options = { extra_ui = true, win_borders = 'double', },
   mappings = { windows = true, }
 })
--- require('mini.extra').setup()

@@ -1,4 +1,12 @@
 require("lazy").setup({
+  -- Lua
+  {
+    "folke/persistence.nvim",
+    event = "BufReadPre", -- this will only start session saving when an actual file was opened
+    opts = {
+      -- add any custom options here
+    }
+  },
   {
     "williamboman/mason.nvim",
   },
@@ -10,6 +18,12 @@ require("lazy").setup({
     opts = {},
     config = function()
       require('pluginSetups.lspConfig')
+    end
+  },
+  {
+    "nvim-telescope/telescope.nvim",
+    config = function()
+      require('pluginSetups.telescopeConfig')
     end
   },
   {
@@ -292,9 +306,6 @@ require("lazy").setup({
   {
     "nanotee/zoxide.vim",
     cmd = { "Z" }
-  },
-  {
-    "nvim-telescope/telescope.nvim",
   },
   {
     "gbrlsnchs/telescope-lsp-handlers.nvim",
