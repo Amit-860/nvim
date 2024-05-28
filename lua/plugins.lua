@@ -236,7 +236,7 @@ require("lazy").setup({
   },
   {
     "kawre/leetcode.nvim",
-    lazy = true,
+    cmd = { "Leet" },
     build = ":TSUpdate html",
     dependencies = {
       "nvim-telescope/telescope.nvim",
@@ -320,6 +320,12 @@ require("lazy").setup({
   {
     "vigoux/notifier.nvim",
     opts = {},
+  },
+  {
+    url = "https://git.sr.ht/~whynothugo/lsp_lines.nvim",
+    config = function()
+      require("lsp_lines").setup()
+    end,
   },
   opts = { checker = { frequency = 604800, } }
 })

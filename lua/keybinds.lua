@@ -34,15 +34,26 @@ end
 
 -- settings for neovim
 if not vim.g.vscode then
-  vim.keymap.set("n", "<leader>f", "<cmd>Telescope find_files<cr>",
-    { noremap = true, silent = true, desc = 'Find File' })
+  -- explorer
   vim.keymap.set("n", "<leader>e", "<cmd>lua MiniFiles.open()<cr>",
     { noremap = true, silent = true, desc = 'Explorer' })
+
+
+  -- list buffers
   vim.keymap.set("n", "<leader><leader>", "<cmd>Telescope buffers theme=dropdown<cr>",
     { noremap = true, silent = true, desc = 'Find Buffer' })
-  vim.keymap.set("n", "<leader>s", "<nop>", { desc = "+Search", noremap = true })
-  vim.keymap.set("n", "<leader>ss", "<cmd>Telescope live_grep<cr>",
+
+
+  -- find
+  vim.keymap.set("n", "<leader>f", "<nop>", { desc = "+Find", noremap = true })
+  vim.keymap.set("n", "<leader>ff", "<cmd>Telescope git_files<cr>",
+    { noremap = true, silent = true, desc = 'Find Git File' })
+  vim.keymap.set("n", "<leader>fF", "<cmd>Telescope find_files<cr>",
+    { noremap = true, silent = true, desc = 'Find All File' })
+  vim.keymap.set("n", "<leader>fs", "<cmd>Telescope live_grep<cr>",
     { noremap = true, silent = true, desc = 'Find String' })
+
+  -- close
   vim.keymap.set("n", "<leader>c", "<cmd>bd<cr>", { noremap = true, silent = true, desc = 'Close Buffer' })
 
 
@@ -56,17 +67,19 @@ if not vim.g.vscode then
 
   -- Telescope
   vim.keymap.set("n", "<leader>l", "<nop>", { desc = "+LSP", noremap = true })
+  vim.keymap.set({ "n" }, "<leader>la", "<cmd>lua vim.lsp.buf.code_action()<CR>",
+    { desc = "Code Action", noremap = true })
   vim.keymap.set({ "n" }, "<leader>lr", "<cmd>Telescope lsp_references theme=get_ivy<CR>",
     { desc = "References", noremap = true })
   vim.keymap.set({ "n" }, "<leader>lR", "<cmd>lua vim.lsp.buf.rename()<CR>",
-    { desc = "References", noremap = true })
+    { desc = "Rename Symbol", noremap = true })
   vim.keymap.set({ "n" }, "<leader>ld", "<cmd>Telescope lsp_definitions theme=get_ivy<CR>",
     { desc = "Definitions", noremap = true })
   vim.keymap.set({ "n" }, "<leader>li", "<cmd>Telescope lsp_implementations theme=get_ivy<CR>",
     { desc = "Implementations", noremap = true })
   vim.keymap.set({ "n" }, "<leader>ls", "<cmd>Telescope lsp_document_symbols theme=get_ivy<CR>",
     { desc = "Document Symbols", noremap = true })
-  vim.keymap.set({ "n" }, "<leader>lD", "<cmd>Telescope diagnostics theme=get_ivy<CR>",
+  vim.keymap.set({ "n" }, "<leader>lD", "<cmd>Telescope diagnostics bufnr=0 theme=get_ivy<CR>",
     { desc = "Diagnostics", noremap = true })
 
   -- Undo
@@ -92,10 +105,35 @@ if not vim.g.vscode then
   -- Home
   vim.keymap.set('n', "<leader>.", ":lua MiniStarter.open()<cr>", { noremap = true, silent = true, desc = 'Home' })
 
+
   -- Code Runner
   vim.keymap.set("n", "<leader>r", "<nop>", { desc = "+Run", noremap = true })
   vim.keymap.set("n", "<leader>rf", "<cmd>RunFile<CR>", { noremap = true, silent = true, desc = "Run File", })
   vim.keymap.set("n", "<leader>rc", "<cmd>RunCode<CR>", { noremap = true, silent = true, desc = "Run Code", })
+
+
+  --lazy
+  vim.keymap.set("n", "<leader>P", "<nop>", { desc = "+Plugins Mgr", noremap = true })
+  vim.keymap.set("n", "<leader>Pi", "<cmd>Lazy install<CR>", { noremap = true, silent = true, desc = "Install", })
+  vim.keymap.set("n", "<leader>Ps", "<cmd>Lazy sync<CR>", { noremap = true, silent = true, desc = "Sync", })
+  vim.keymap.set("n", "<leader>Pc", "<cmd>Lazy clean<CR>", { noremap = true, silent = true, desc = "Clean", })
+  vim.keymap.set("n", "<leader>Pm", "<cmd>Lazy<CR>", { noremap = true, silent = true, desc = "Manager", })
+
+  -- lsp lines
+  local lsp_lines_enable = false
+  vim.diagnostic.config({ virtual_lines = lsp_lines_enable })
+  vim.keymap.set("n", "<leader>lh",
+    function()
+      vim.diagnostic.config({
+        virtual_text = lsp_lines_enable,
+        signs = true,
+        underline = true,
+      })
+      vim.diagnostic.config({ virtual_lines = not lsp_lines_enable })
+      lsp_lines_enable = not lsp_lines_enable
+    end,
+    { desc = "Toggle HlChunk", noremap = true }
+  )
 end
 
 

@@ -72,7 +72,7 @@ starter.setup({
     new_section("Ignore current session", "lua require('persistence').stop()", "Session"),
 
     -- telescope
-    new_section("Find file", "Telescope find_files", "Telescope"),
+    new_section("Find file", "Telescope git_files", "Telescope"),
     new_section("Recent files", "Telescope oldfiles", "Telescope"),
     new_section("Grep text", "Telescope live_grep", "Telescope"),
 
