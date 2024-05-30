@@ -95,9 +95,9 @@ require('gitsigns').setup {
         map('x', 'igh', ':<C-U>Gitsigns select_hunk<CR>', { desc = "Select inside Git_Hunk" })
 
         -- Diff View
-        map('n', '<leader>d', "<CMD>DiffviewOpen<CR>", { desc = "Open Diff View" })
-        map('n', '<leader>o', "<CMD>DiffviewClose<CR>", { desc = "Close Diff View" })
-        map('n', '<leader>h', "<CMD>DiffviewFileHistory %<CR>", { desc = "Open File History for Current File" })
-        map('n', '<leader>H', "<CMD>DiffviewFileHistory<CR>", { desc = "Open File History" })
+        map('n', '<leader>gDo', "<CMD>DiffviewOpen<CR>", { desc = "Open Diff View" })
+        map('n', '<leader>gDc', "<CMD>DiffviewClose<CR>", { desc = "Close Diff View" })
+        map('n', '<leader>gDh', "<CMD>DiffviewFileHistory %<CR>", { desc = "Open File History for Current File" })
+        map('n', '<leader>gDH', "<CMD>DiffviewFileHistory<CR>", { desc = "Open File History" })
     end
 }

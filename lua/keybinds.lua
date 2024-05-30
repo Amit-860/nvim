@@ -94,9 +94,8 @@ if not vim.g.vscode then
     vim.keymap.set('n', "<leader>qw", ":wq<cr>", { noremap = true, silent = true, desc = 'Write & Exit' })
     vim.keymap.set('n', "<leader>qQ", ":q!<cr>", { noremap = true, silent = true, desc = 'Force Exit' })
     vim.keymap.set('n', "<C-q>", ":q<cr>", { noremap = true, silent = true, desc = 'Exit' })
-    vim.keymap.set('n', "<C-q>", ":tabclose<cr>", { noremap = true, silent = true, desc = 'Exit' })
     vim.keymap.set('n', "<C-Q>", ":q!<cr>", { noremap = true, silent = true, desc = 'Force Exit' })
-
+    vim.keymap.set('n', "<tab-q>", ":tabclose<cr>", { noremap = true, silent = true, desc = 'Exit' })
 
     -- LeetCode
     -- vim.keymap.set('n', "<leader>L", "<nop>", { noremap = true, silent = true, desc = '+LeetCode' })
