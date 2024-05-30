@@ -24,9 +24,13 @@ starter.setup({
         new_section("Ignore current session", "lua require('persistence').stop()", "Session"),
 
         -- telescope
-        new_section("Find file", "Telescope git_files", "Telescope"),
-        new_section("Recent files", "Telescope oldfiles", "Telescope"),
-        new_section("Grep text", "Telescope live_grep", "Telescope"),
+        new_section("Find file", "Telescope git_files", "Files"),
+        new_section("Recent files", "Telescope oldfiles", "Files"),
+
+        -- git
+        new_section("Neogit", "Neogit", "Git"),
+        new_section("Status", "Telescope git_status", "Git"),
+        new_section("Branches", "Telescope git_branches", "Git"),
 
         -- leetcode
         new_section("Leet", "Leet", "LeetCode"),

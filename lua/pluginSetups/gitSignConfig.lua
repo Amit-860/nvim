@@ -75,8 +75,8 @@ require('gitsigns').setup {
         map('n', '[g', "&diff ? '[c' : '<cmd>Gitsigns prev_hunk<CR>'", { expr = true })
 
         -- Actions
-        map('n', '<leader>g', '<nop>', { desc = "+Git" })
         map('n', '<leader>gs', ':Gitsigns stage_hunk<CR>', { desc = "Stage Hunk" })
+        map('n', '<leader>gn', ':Neogit<CR>', { desc = "Neogit" })
         map('v', '<leader>gs', ':Gitsigns stage_hunk<CR>', { desc = "Stage Hunk" })
         map('n', '<leader>gr', ':Gitsigns reset_hunk<CR>', { desc = "Reset Hunk" })
         map('v', '<leader>gr', ':Gitsigns reset_hunk<CR>', { desc = "Reset HUnk" })
@@ -87,11 +87,17 @@ require('gitsigns').setup {
         map('n', '<leader>gb', '<cmd>lua require"gitsigns".blame_line{full=true}<CR>', { desc = "Blame" })
         map('n', '<leader>gb', '<cmd>Gitsigns toggle_current_line_blame<CR>', { desc = "Toggle Curr_line Blame" })
         map('n', '<leader>gd', '<cmd>Gitsigns diffthis<CR>', { desc = "Diff this" })
-        map('n', '<leader>gD', '<cmd>lua require"gitsigns".diffthis("~")<CR>', { desc = "Diff this ~" })
         map('n', '<leader>gx', '<cmd>Gitsigns toggle_deleted<CR>', { desc = "Toggle Delete" })
+
 
         -- Text object
         map('o', 'igh', ':<C-U>Gitsigns select_hunk<CR>', { desc = "Select inside Git_Hunk" })
         map('x', 'igh', ':<C-U>Gitsigns select_hunk<CR>', { desc = "Select inside Git_Hunk" })
+
+        -- Diff View
+        map('n', '<leader>d', "<CMD>DiffviewOpen<CR>", { desc = "Open Diff View" })
+        map('n', '<leader>o', "<CMD>DiffviewClose<CR>", { desc = "Close Diff View" })
+        map('n', '<leader>h', "<CMD>DiffviewFileHistory %<CR>", { desc = "Open File History for Current File" })
+        map('n', '<leader>H', "<CMD>DiffviewFileHistory<CR>", { desc = "Open File History" })
     end
 }

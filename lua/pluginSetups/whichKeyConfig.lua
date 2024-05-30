@@ -92,12 +92,15 @@ which_key.register({
 }, { prefix = "[" })
 
 which_key.register({
-    f = { name = "File" },
-    g = { name = "Git" },
+    f = { name = "Find" },
+    g = {
+        name = "Git",
+        D = { name = "Diff Opts", }
+    },
     L = { name = "LeetCode" },
     l = { name = "LSP" },
-    P = { name = "Plugins" },
-    q = { name = "Quit" },
     r = { name = "Run" },
     S = { name = "Session" },
-}, { prefix = "<leader>" })
+    P = { name = "Plugins" },
+    q = { name = "Quit" },
+}, { prefix = "<space>" })

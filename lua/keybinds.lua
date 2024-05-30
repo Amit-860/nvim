@@ -45,7 +45,7 @@ if not vim.g.vscode then
 
 
     -- find
-    vim.keymap.set("n", "<leader>f", "<nop>", { desc = "+Find", noremap = true, silent = true })
+    -- vim.keymap.set("n", "<leader>f", "<nop>", { desc = "+Find", noremap = true, silent = true })
     vim.keymap.set("n", "<leader>ff", "<cmd>Telescope git_files<cr>",
         { noremap = true, silent = true, desc = 'Find Git File' })
     vim.keymap.set("n", "<leader>fF", "<cmd>Telescope find_files<cr>",
@@ -94,6 +94,7 @@ if not vim.g.vscode then
     vim.keymap.set('n', "<leader>qw", ":wq<cr>", { noremap = true, silent = true, desc = 'Write & Exit' })
     vim.keymap.set('n', "<leader>qQ", ":q!<cr>", { noremap = true, silent = true, desc = 'Force Exit' })
     vim.keymap.set('n', "<C-q>", ":q<cr>", { noremap = true, silent = true, desc = 'Exit' })
+    vim.keymap.set('n', "<C-q>", ":tabclose<cr>", { noremap = true, silent = true, desc = 'Exit' })
     vim.keymap.set('n', "<C-Q>", ":q!<cr>", { noremap = true, silent = true, desc = 'Force Exit' })
 
 
@@ -108,17 +109,18 @@ if not vim.g.vscode then
 
 
     -- Code Runner
-    -- vim.keymap.set("n", "<leader>r", "<nop>", { desc = "+Run", noremap = true })
+    vim.keymap.set("n", "<leader>r", "<nop>", { desc = "+Run", noremap = true })
     vim.keymap.set("n", "<leader>rf", "<cmd>RunFile<CR>", { noremap = true, silent = true, desc = "Run File", })
     vim.keymap.set("n", "<leader>rc", "<cmd>RunCode<CR>", { noremap = true, silent = true, desc = "Run Code", })
 
 
     --lazy
-    -- vim.keymap.set("n", "<leader>P", "<nop>", { desc = "+Plugins Mgr", noremap = true })
+    vim.keymap.set("n", "<leader>P", "<nop>", { desc = "+Plugins Mgr", noremap = true })
     vim.keymap.set("n", "<leader>Pi", "<cmd>Lazy install<CR>", { noremap = true, silent = true, desc = "Install", })
     vim.keymap.set("n", "<leader>Ps", "<cmd>Lazy sync<CR>", { noremap = true, silent = true, desc = "Sync", })
     vim.keymap.set("n", "<leader>Pc", "<cmd>Lazy clean<CR>", { noremap = true, silent = true, desc = "Clean", })
     vim.keymap.set("n", "<leader>Pm", "<cmd>Lazy<CR>", { noremap = true, silent = true, desc = "Manager", })
+
 
     -- lsp lines
     local lsp_lines_enable = false
