@@ -1,3 +1,4 @@
+local utils = require('utils')
 require('mini.ai').setup()
 require('mini.align').setup()
 require('mini.comment').setup()
@@ -7,6 +8,7 @@ require('mini.indentscope').setup()
 require('mini.map').setup()
 require('mini.pairs').setup()
 require('mini.splitjoin').setup()
+
 
 local starter = require("mini.starter")
 local pad = string.rep(" ", 0)
@@ -24,7 +26,7 @@ starter.setup({
         new_section("Ignore current session", "lua require('persistence').stop()", "Session"),
 
         -- telescope
-        new_section("Find file", "Telescope git_files", "Files"),
+        new_section("Find file", utils.smart_find_file, "Files"),
         new_section("Recent files", "Telescope oldfiles", "Files"),
 
         -- git

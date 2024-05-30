@@ -1,7 +1,6 @@
 local icons = require('icons')
 local which_key = require('which-key')
-
-which_key.setup({
+local which_key_opts = {
     plugins = {
         marks = true,     -- shows a list of your marks on ' and `
         registers = true, -- shadows your registers on " in NORMAL or <C-r> in INSERT mode
@@ -75,7 +74,13 @@ which_key.setup({
         buftypes = {},
         filetypes = { "TelescopePrompt" },
     },
-})
+}
+
+if vim.g.neovide then
+    which_key_opts.window.winblend = 75
+end
+
+which_key.setup(which_key_opts)
 
 which_key.register({
     [']'] = { name = "Next" },
@@ -93,12 +98,12 @@ which_key.register({
 
 which_key.register({
     f = { name = "Find" },
-    g = {
-        name = "Git",
-        D = { name = "Diff Opts", }
-    },
+    g = { name = "Git" },
+    gd = { name = "Diff", },
     L = { name = "LeetCode" },
     l = { name = "LSP" },
+    t = { name = "Trouble" },
+    D = { name = "Debug" },
     r = { name = "Run" },
     S = { name = "Session" },
     P = { name = "Plugins" },

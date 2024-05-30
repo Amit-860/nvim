@@ -5,7 +5,7 @@ vim.opt.shellcmdflag =
 vim.cmd([[
 		let &shellredir = '2>&1 | Out-File -Encoding UTF8 %s; exit $LastExitCode'
     set shellquote= shellxquote=
-		let &shellpipe = '2>&1 | Out-File -Encoding UTF8 %s; exit $LastExitCode'
+       let &shellpipe = '2>&1 | Out-File -Encoding UTF8 %s; exit $LastExitCode'
   ]])
 
 
@@ -139,3 +139,36 @@ end
 
 -- vim.cmd([[hi Pmenu gui=underline guifg=#bcbcbc guibg=#af5f5f ]])
 vim.cmd([[hi Pmenu guibg=#131a25]])
+
+
+-- setting specific to NEOVIDE
+if vim.g.neovide then
+    vim.cmd([[set guicursor=n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50
+ 		  \,a:blinkwait1000-blinkoff500-blinkon500-Cursor/lCursor]])
+    -- vim.o.guifont = "JetBrainsMono Nerd Font Mono:h10.4"
+    vim.o.guifont = "Iosevka Nerd Font Mono:h11"
+    vim.g.neovide_padding_top = 0
+    vim.g.neovide_padding_bottom = 0
+    vim.g.neovide_padding_right = 0
+    vim.g.neovide_padding_left = 4
+    vim.g.neovide_floating_blur_amount_x = 2.0
+    vim.g.neovide_floating_blur_amount_y = 2.0
+    vim.g.neovide_cursor_antialiasing = true
+    vim.g.neovide_cursor_trail_size = 0.2
+    vim.g.neovide_cursor_animate_in_insert_mode = false
+    vim.g.neovide_cursor_animate_command_line = false
+    vim.g.neovide_cursor_vfx_mode = "wireframe"
+    -- vim.g.neovide_cursor_vfx_mode = "railgun"
+    vim.g.neovide_cursor_vfx_particle_density = 10
+    vim.g.neovide_hide_mouse_when_typing = true
+    vim.g.neovide_underline_automatic_scaling = true
+    vim.g.neovide_no_idle = false
+    vim.g.neovide_cursor_unfocused_outline_width = 0.05
+    vim.g.neovide_confirm_quit = true
+
+    vim.g.neovide_transparency = 0.75
+    vim.g.neovide_fullscreen = false
+
+    vim.o.winblend = 50
+    vim.o.pumblend = 50
+end

@@ -103,7 +103,7 @@ local function has_words_before()
     return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match "%s" == nil
 end
 
-cmp.setup({
+local cmp_opts = {
     snippet = {
         -- REQUIRED - you must specify a snippet engine
         expand = function(args)
@@ -113,7 +113,6 @@ cmp.setup({
             -- vim.snippet.expand(args.body) -- For native neovim snippets (Neovim v0.10+)
         end,
     },
-
     window = {
         completion = {
             winhighlight = "Normal:Pmenu,FloatBorder:Pmenu,Search:None",
@@ -121,7 +120,6 @@ cmp.setup({
             side_padding = 0,
         },
     },
-
     formatting = {
         fields = { "abbr", "kind", "menu" },
         formatting = {
@@ -221,7 +219,17 @@ cmp.setup({
             -- { name = 'buffer' },
         }
     )
-})
+}
+
+
+if vim.g.neovide then
+    cmp_opts.window = {
+        completion = nil,
+        documentation = nil
+    }
+end
+
+cmp.setup(cmp_opts)
 
 -- To use git you need to install the plugin petertriho/cmp-git and uncomment lines below
 -- Set configuration for specific filetype.

@@ -1,6 +1,29 @@
 require("lazy").setup({
     -- theme
     {
+        'xiyaowong/transparent.nvim',
+        priority = 1000,
+        cond = not vim.g.neovide,
+        config = function()
+            require("transparent").setup({ -- Optional, you don't have to run setup.
+                groups = {                 -- table: default groups
+                    'Normal', 'NormalNC', 'Comment', 'Constant', 'Special', 'Identifier',
+                    'Statement', 'PreProc', 'Type', 'Underlined', 'Todo', 'String', 'Function',
+                    'Conditional', 'Repeat', 'Operator', 'Structure', 'LineNr', 'NonText',
+                    'SignColumn', 'CursorLine', 'CursorLineNr', 'StatusLine', 'StatusLineNC',
+                    'EndOfBuffer'
+                },
+                extra_groups = {
+                    --[["NormalFloat",]] "FloatBorder", --[["NvimTreeWinSeparator",]] "NvimTreeNormal",
+                    "NvimTreeNormalNC", "NvimTreeEndOfBuffer", "TroubleNormal", "TelescopeNormal",
+                    "TelescopeBorder", "WhichKeyFloat",
+                },                   -- table: additional groups that should be cleared
+                exclude_groups = {}, -- table: groups you don't want to clear
+            })
+            vim.cmd("TransparentEnable")
+        end
+    },
+    {
         "EdenEast/nightfox.nvim",
         cond = not vim.g.vscode,
         lazy = false,
@@ -10,8 +33,16 @@ require("lazy").setup({
         "nvim-tree/nvim-web-devicons",
         lazy = true,
     },
+    -- faster
     {
-        "vigoux/notifier.nvim",
+        'pteroctopus/faster.nvim',
+        opts = {}
+    },
+
+    -- notifier
+    {
+        "j-hui/fidget.nvim",
+        event = "UIEnter",
         opts = {},
     },
 
@@ -55,6 +86,11 @@ require("lazy").setup({
         config = function()
             require('pluginSetups.telescopeConfig')
         end
+    },
+    {
+        "folke/trouble.nvim",
+        dependencies = { "nvim-tree/nvim-web-devicons" },
+        opts = {},
     },
     {
         "stevearc/conform.nvim",
@@ -106,19 +142,24 @@ require("lazy").setup({
     },
 
     -- Debugging
-    -- {
-    --     "mfussenegger/nvim-dap",
-    --     lazy = true,
-    --     dependencies = {
-    --         "rcarriga/nvim-dap-ui",
-    --     },
-    -- },
-    --
-    -- -- Debugger user interface
-    -- {
-    --     "rcarriga/nvim-dap-ui",
-    --     lazy = true,
-    -- },
+    {
+        "mfussenegger/nvim-dap",
+        event = "LspAttach",
+        dependencies = { "rcarriga/nvim-dap-ui", },
+        config = function()
+            require('pluginSetups.dapConfig')
+        end
+    },
+
+    -- Debugger user interface
+    {
+        "rcarriga/nvim-dap-ui",
+        evert = "VeryLazy",
+        dependencies = { "mfussenegger/nvim-dap", "nvim-neotest/nvim-nio" },
+        config = function()
+            require('pluginSetups.dapUIConfig')
+        end
+    },
 
     -- Treesitter
     {
@@ -137,13 +178,6 @@ require("lazy").setup({
             local ts_opts = require('pluginSetups.treeSitterConfig')
             require 'nvim-treesitter.configs'.setup(ts_opts)
         end
-    },
-    {
-        "windwp/nvim-ts-autotag",
-        cond = not vim.g.vscode,
-        config = function()
-            require("nvim-ts-autotag").setup()
-        end,
     },
     {
         "romgrk/nvim-treesitter-context",
@@ -402,6 +436,7 @@ require("lazy").setup({
     },
     {
         "luukvbaal/statuscol.nvim",
+        event = "UIEnter",
         dependencies = {
             "lewis6991/gitsigns.nvim",
         },
@@ -409,5 +444,37 @@ require("lazy").setup({
             require("pluginSetups.statusColConfig")
         end
     },
+
+    -- scrollings
+    {
+        "karb94/neoscroll.nvim",
+        mappings = { -- Keys to be mapped to their corresponding default scrolling animation
+            '<C-u>', '<C-d>',
+            '<C-b>', '<C-f>',
+            '<C-y>', '<C-e>',
+            'zt', 'zz', 'zb',
+        },
+        config = function()
+            require('neoscroll').setup({
+                mappings = { -- Keys to be mapped to their corresponding default scrolling animation
+                    '<C-u>', '<C-d>',
+                    '<C-b>', '<C-f>',
+                    '<C-y>', '<C-e>',
+                    'zt', 'zz', 'zb',
+                },
+                hide_cursor = true,          -- Hide cursor while scrolling
+                stop_eof = true,             -- Stop at <EOF> when scrolling downwards
+                respect_scrolloff = false,   -- Stop scrolling when the cursor reaches the scrolloff margin of the file
+                cursor_scrolls_alone = true, -- The cursor will keep on scrolling even if the window cannot scroll further
+                easing = 'linear',           -- Default easing function
+                pre_hook = nil,              -- Function to run before the scrolling animation starts
+                post_hook = nil,             -- Function to run after the scrolling animation ends
+                performance_mode = false,    -- Disable "Performance Mode" on all buffers.
+            })
+        end
+    },
+
+
+    -- Lazy opts
     opts = { checker = { frequency = 604800, } }
 })
