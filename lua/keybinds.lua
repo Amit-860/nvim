@@ -9,7 +9,7 @@ if not vim.g.vscode then
 
     -- list buffers
     vim.keymap.set("n", "<leader><leader>", "<cmd>Telescope buffers theme=dropdown<cr>",
-        { noremap = true, silent = true, desc = 'Find Buffer' })
+        { noremap = true, silent = true, desc = 'which_key_ignore' })
 
 
     -- find
@@ -33,7 +33,7 @@ if not vim.g.vscode then
 
 
     -- Undo
-    vim.keymap.set({ "n" }, "<leader>z",
+    vim.keymap.set({ "n" }, "<leader>u",
         "<cmd>:lua require('telescope').extensions.undo.undo({ side_by_side = true })<CR>",
         { desc = "Undo", noremap = true })
 
@@ -60,7 +60,8 @@ if not vim.g.vscode then
 
 
     -- Home
-    vim.keymap.set('n', "<leader>.", ":lua MiniStarter.open()<cr>", { noremap = true, silent = true, desc = 'Home' })
+    vim.keymap.set('n', "<leader>.", ":lua MiniStarter.open()<cr>",
+        { noremap = true, silent = true, desc = 'which_key_ignore' })
 
 
     -- Code Runner
@@ -90,25 +91,42 @@ if not vim.g.vscode then
         { desc = "Step Out", noremap = true, silent = true })
     vim.keymap.set("n", "<F10>", function() require('dap').step_over() end,
         { desc = "Step Over", noremap = true, silent = true })
-    vim.keymap.set("n", "Dt", function() require('dap').terminate() end,
+    vim.keymap.set("n", "<leader>Dt", function() require('dap').terminate() end,
         { desc = "Terminate", noremap = true, silent = true })
-    vim.keymap.set("n", "Dr", function() require('dap').restart() end,
+    vim.keymap.set("n", "<leader>Dr", function() require('dap').restart() end,
         { desc = "Restart", noremap = true, silent = true })
-    vim.keymap.set("n", "Dc", function() require('dap').clear_breakpoints() end,
+    vim.keymap.set("n", "<leader>Dc", function() require('dap').clear_breakpoints() end,
         { desc = "Clear Breakpoints", noremap = true, silent = true })
-    vim.keymap.set("n", "Dl", function() require('dap').list_breakpoints() end,
+    vim.keymap.set("n", "<leader>Dl", function() require('dap').list_breakpoints() end,
         { desc = "List Breakpoints", noremap = true, silent = true })
-    vim.keymap.set("n", "Du", function() require('dap').up() end,
+    vim.keymap.set("n", "<leader>Du", function() require('dap').up() end,
         { desc = "Up", noremap = true, silent = true })
-    vim.keymap.set("n", "Dd", function() require('dap').down() end,
+    vim.keymap.set("n", "<leader>Dd", function() require('dap').down() end,
         { desc = "Down", noremap = true, silent = true })
-end
 
+    -- zoxide
+    vim.keymap.set("n", "<leader>z", utils.zoxide,
+        { desc = "Zoxide", noremap = true, silent = true })
+
+    -- Find and Replace
+    vim.keymap.set("n", "<leader>x", utils.find_and_replace,
+        { desc = "Replace", noremap = true, silent = true })
+
+    -- help
+    vim.keymap.set("n", "<leader>?k", ":Telescope keymaps<cr>",
+        { desc = "Search Keymaps", noremap = true, silent = true })
+    vim.keymap.set("n", "<leader>?c", ":Telescope commands<cr>",
+        { desc = "Search Commands", noremap = true, silent = true })
+    vim.keymap.set("n", "<leader>?h", ":Telescope help_tags<cr>",
+        { desc = "Search Docs", noremap = true, silent = true })
+    vim.keymap.set("n", "<leader>?t", ":Telescope colorscheme<cr>",
+        { desc = "Preview Theme", noremap = true, silent = true })
+end
 
 -- general
 vim.keymap.set("v", "<BS>", '"_d')
 vim.keymap.set('n', 'U', '<C-r>')
-vim.keymap.set('n', '<leader>h', "<cmd>noh<cr>", { desc = "NOH", noremap = true })
+vim.keymap.set('n', '<leader>h', "<cmd>noh<cr>", { desc = "which_key_ignore", noremap = true })
 vim.keymap.set({ "n", "o", "x" }, "gs", '_',
     { noremap = true, silent = true, desc = "Goto first Non-whitespace char" })
 vim.keymap.set({ "n", "o", "x" }, "gh", '0', { noremap = true, silent = true, desc = "Goto BOL" })

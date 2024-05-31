@@ -43,21 +43,6 @@ local on_attach = function(client, bufnr)
         end,
         { desc = "Toggle HlChunk", noremap = true }
     )
-
-    -- trouble
-    -- vim.keymap.set("n", "<leader>t", "<nop>", { desc = "+Plugins Mgr", noremap = true })
-    vim.keymap.set("n", "<leader>tt", function() require("trouble").toggle() end,
-        { noremap = true, silent = true, desc = "Toggle", })
-    vim.keymap.set("n", "<leader>tw", function() require("trouble").toggle("workspace_diagnostics") end,
-        { noremap = true, silent = true, desc = "workspace Diagnostic", })
-    vim.keymap.set("n", "<leader>td", function() require("trouble").toggle("document_diagnostics") end,
-        { noremap = true, silent = true, desc = "document Diagnostic", })
-    vim.keymap.set("n", "<leader>tq", function() require("trouble").toggle("quickfix") end,
-        { noremap = true, silent = true, desc = "Quickfix", })
-    vim.keymap.set("n", "<leader>tl", function() require("trouble").toggle("loclist") end,
-        { noremap = true, silent = true, desc = "LocList", })
-    vim.keymap.set("n", "<leader>tr", function() require("trouble").toggle("lsp_references") end,
-        { noremap = true, silent = true, desc = "References", })
 end
 
 

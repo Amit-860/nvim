@@ -2,18 +2,16 @@ local cmp = require('cmp')
 local cmp_mapping = require "cmp.config.mapping"
 local luasnip = require("luasnip")
 local lspkind = require('lspkind')
-local status_cmp_ok, cmp_types = pcall(require, "cmp.types.cmp")
+local cmp_types = require("cmp.types.cmp")
 local ConfirmBehavior = cmp_types.ConfirmBehavior
 local SelectBehavior = cmp_types.SelectBehavior
+local compare = require('cmp.config.compare')
 
-
+vim.api.nvim_set_hl(0, "CmpItemMenu", { italic = true })
+vim.api.nvim_set_hl(0, "CmpSelectedItem", { bg = "#709ad3", fg = "#111720", bold = true })
+vim.api.nvim_set_hl(0, "CmpComplitionMenu", { bg = "#202d3f" })
 
 local function jumpable(dir)
-    local luasnip_ok, luasnip = pcall(require, "luasnip")
-    if not luasnip_ok then
-        return false
-    end
-
     local win_get_cursor = vim.api.nvim_win_get_cursor
     local get_current_buf = vim.api.nvim_get_current_buf
 
@@ -103,57 +101,85 @@ local function has_words_before()
     return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match "%s" == nil
 end
 
+local source_icon = {
+    luasnip = "snip",
+    nvim_lsp = "lsp",
+    nvim_lua = 'lsp',
+    nvim_lsp_signature_help = 'lsp',
+    nvim_lsp_document_symbol = 'lsp',
+    path = 'path',
+    treesitter = 'TS',
+    buffer = 'buff'
+}
+
 local cmp_opts = {
     snippet = {
         -- REQUIRED - you must specify a snippet engine
         expand = function(args)
             require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
-            -- require('snippy').expand_snippet(args.body) -- For `snippy` users.
-            -- vim.fn["UltiSnips#Anon"](args.body) -- For `ultisnips` users.
-            -- vim.snippet.expand(args.body) -- For native neovim snippets (Neovim v0.10+)
         end,
     },
+
     window = {
         completion = {
-            winhighlight = "Normal:Pmenu,FloatBorder:Pmenu,Search:None",
+            -- winhighlight = "Normal:Pmenu,FloatBorder:Pmenu,CursorLine:@comment.note,Search:None",
+            winhighlight =
+            "Normal:CmpComplitionMenu,FloatBorder:CmpComplitionMenu,CursorLine:CmpSelectedItem,Search:None",
+            -- border = 'single',
             col_offset = 0,
             side_padding = 0,
         },
+        documentation = {
+            winhighlight = "Normal:CmpComplitionMenu,FloatBorder:CmpComplitionMenu,Search:None",
+            -- border = 'single',
+        },
     },
+
     formatting = {
-        fields = { "abbr", "kind", "menu" },
-        formatting = {
-            format = lspkind.cmp_format {
-                mode = 'symbol_text',
-                -- The function below will be called before any actual modifications
-                -- from lspkind so that you can provide more controls on popup
-                -- customization.
-                -- (See [#30](https://github.com/onsails/lspkind-nvim/pull/30))
-                before = function(_, vim_item)
-                    -- set max width of cmp window
-                    local width = 30
-                    local ellipses_char = '…'
-                    local label = vim_item.abbr
-                    local truncated_label = vim.fn.strcharpart(label, 0, width)
-                    if truncated_label ~= label then
-                        vim_item.abbr = truncated_label .. ellipses_char
-                    else
-                        vim_item.abbr = label .. ' '
-                    end
-                    return vim_item
-                end,
-            }
-        }
+        fields = { "kind", "abbr", "menu" },
+        format = function(entry, vim_item)
+            local kind = vim_item.kind
+            local ellipses_char = '…'
+
+            -- vim_item.kind = (icons[vim_item.kind] or "?") .. " " .. vim_item.kind             -- for icon without matching color label
+            -- vim_item.kind = (icons[vim_item.kind] or "?") .. " "                              -- for icon without label
+            vim_item.kind = " " .. lspkind.presets.default[kind] .. " " .. kind
+
+            -- vim_item.menu = " (" .. kind .. ")"
+
+            local source = entry.source.name
+
+            --removing dubplicates
+            if source == "luasnip" or source == "nvim_lsp" then
+                vim_item.dup = 0
+            end
+
+            vim_item.menu = "[" .. (source_icon[source] or source) .. "]"
+
+            -- trims down the extra long suggestions
+            local function trim(text)
+                local max = 30
+                if text and text:len() > max then
+                    text = text:sub(1, max) .. ellipses_char
+                end
+                return text
+            end
+
+            vim_item.abbr = trim(vim_item.abbr) .. " "
+
+            return vim_item
+        end
     },
 
     confirm_opts = {
         behavior = ConfirmBehavior.Replace,
-        select = false,
+        select = true,
     },
+
     experimental = {
         ghost_text = true,
-        native_menu = false,
     },
+
     mapping = cmp_mapping.preset.insert({
         ["<C-k>"] = cmp_mapping(cmp_mapping.select_prev_item(), { "i", "c" }),
         ["<C-j>"] = cmp_mapping(cmp_mapping.select_next_item(), { "i", "c" }),
@@ -161,6 +187,9 @@ local cmp_opts = {
         ["<Up>"] = cmp_mapping(cmp_mapping.select_prev_item { behavior = SelectBehavior.Select }, { "i" }),
         ["<C-d>"] = cmp_mapping.scroll_docs(-4),
         ["<C-f>"] = cmp_mapping.scroll_docs(4),
+        ["<C-l>"] = cmp_mapping(function()
+            cmp.complete()
+        end, { "i" }),
         ["<C-y>"] = cmp_mapping {
             i = cmp_mapping.confirm { behavior = ConfirmBehavior.Replace, select = false },
             c = function(fallback)
@@ -172,16 +201,16 @@ local cmp_opts = {
             end,
         },
         ['<CR>'] = cmp.mapping.confirm({ select = true }),
-        ["<Tab>"] = cmp.mapping(function(fallback)
+        ["<tab>"] = cmp.mapping(function(fallback)
             if cmp.visible() then
                 cmp.select_next_item()
             elseif luasnip.expand_or_locally_jumpable() then
                 luasnip.expand_or_jump()
             elseif jumpable(1) then
                 luasnip.jump(1)
-            elseif has_words_before() then
+                -- elseif has_words_before() then
                 -- cmp.complete()
-                fallback()
+                -- fallback()
             else
                 fallback()
             end
@@ -199,13 +228,15 @@ local cmp_opts = {
 
 
     sources = cmp.config.sources({
+            { name = 'luasnip' }, -- For luasnip users.
             { name = 'nvim_lsp' },
             { name = 'nvim_lua' },
             { name = 'nvim_lsp_signature_help' },
             { name = 'nvim_lsp_document_symbol' },
             { name = 'path' },
             { name = 'treesitter' },
-            { name = 'luasnip' }, -- For luasnip users.
+        },
+        {
             {
                 name = 'buffer',
                 option = {
@@ -214,11 +245,16 @@ local cmp_opts = {
                     end
                 }
             },
-        },
-        {
-            -- { name = 'buffer' },
         }
-    )
+    ),
+
+    sorting = {
+        comparators = {
+            compare.exact,
+            compare.recently_used,
+            compare.length,
+        }
+    }
 }
 
 
@@ -233,15 +269,15 @@ cmp.setup(cmp_opts)
 
 -- To use git you need to install the plugin petertriho/cmp-git and uncomment lines below
 -- Set configuration for specific filetype.
---[[ cmp.setup.filetype('gitcommit', {
+cmp.setup.filetype('gitcommit', {
     sources = cmp.config.sources({
-      { name = 'git' },
+        { name = 'git' },
     }, {
-      { name = 'buffer' },
+        { name = 'buffer' },
     })
- })
- require("cmp_git").setup() ]]
---
+})
+require("cmp_git").setup()
+
 
 -- Use buffer source for `/` and `?` (if you enabled `native_menu`, this won't work anymore).
 cmp.setup.cmdline({ '/', '?' }, {

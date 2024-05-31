@@ -1,33 +1,37 @@
 require("lazy").setup({
     -- theme
     {
-        'xiyaowong/transparent.nvim',
-        priority = 1000,
-        cond = not vim.g.neovide,
+        "xiyaowong/transparent.nvim",
         config = function()
-            require("transparent").setup({ -- Optional, you don't have to run setup.
-                groups = {                 -- table: default groups
-                    'Normal', 'NormalNC', 'Comment', 'Constant', 'Special', 'Identifier',
-                    'Statement', 'PreProc', 'Type', 'Underlined', 'Todo', 'String', 'Function',
-                    'Conditional', 'Repeat', 'Operator', 'Structure', 'LineNr', 'NonText',
-                    'SignColumn', 'CursorLine', 'CursorLineNr', 'StatusLine', 'StatusLineNC',
-                    'EndOfBuffer'
-                },
-                extra_groups = {
-                    --[["NormalFloat",]] "FloatBorder", --[["NvimTreeWinSeparator",]] "NvimTreeNormal",
+            require("transparent").setup({
+                groups = { "Normal", "NormalNC", "Comment", "Constant", "Special", "Identifier",
+                    "Statement", "PreProc", "Type", "Underlined", "Todo", "String", "Function",
+                    "Conditional", "Repeat", "Operator", "Structure", "LineNr", "NonText", "SignColumn",
+                    "CursorLineNr", "EndOfBuffer", },
+                extra_groups = { "FloatBorder", --[["NvimTreeWinSeparator",]] "NvimTreeNormal",
                     "NvimTreeNormalNC", "NvimTreeEndOfBuffer", "TroubleNormal", "TelescopeNormal",
-                    "TelescopeBorder", "WhichKeyFloat",
-                },                   -- table: additional groups that should be cleared
-                exclude_groups = {}, -- table: groups you don't want to clear
+                    "TelescopeBorder", "WhichKeyFloat", },
             })
-            vim.cmd("TransparentEnable")
-        end
+            vim.g.transparent_enabled = true
+        end,
     },
     {
         "EdenEast/nightfox.nvim",
         cond = not vim.g.vscode,
         lazy = false,
         priority = 1000,
+        -- config = function()
+        --     if not vim.g.neovide then
+        --         require('nightfox').setup({
+        --             options = {
+        --                 transparent = true,     -- Disable setting background
+        --                 terminal_colors = true, -- Set terminal colors (vim.g.terminal_color_*) used in `:terminal`
+        --                 dim_inactive = false,   -- Non focused panes set to alternative background
+        --                 module_default = true
+        --             }
+        --         })
+        --     end
+        -- end
     },
     {
         "nvim-tree/nvim-web-devicons",
@@ -53,6 +57,23 @@ require("lazy").setup({
         event = "VeryLazy",
         config = function()
             require('pluginSetups.whichKeyConfig')
+        end
+    },
+    {
+        'windwp/nvim-autopairs',
+        event = "InsertEnter",
+        config = true
+        -- use opts = {} for passing setup options
+        -- this is equalent to setup({}) function
+    },
+    {
+        "kylechui/nvim-surround",
+        version = "*", -- Use for stability; omit to use `main` branch for the latest features
+        event = "VeryLazy",
+        config = function()
+            require("nvim-surround").setup({
+                -- Configuration here, or leave empty to use defaults
+            })
         end
     },
 
@@ -86,11 +107,6 @@ require("lazy").setup({
         config = function()
             require('pluginSetups.telescopeConfig')
         end
-    },
-    {
-        "folke/trouble.nvim",
-        dependencies = { "nvim-tree/nvim-web-devicons" },
-        opts = {},
     },
     {
         "stevearc/conform.nvim",
@@ -370,11 +386,14 @@ require("lazy").setup({
             "hrsh7th/cmp-nvim-lsp-document-symbol",
             "hrsh7th/cmp-nvim-lsp-signature-help",
             'hrsh7th/cmp-cmdline',
+            'petertriho/cmp-git'
         },
         config = function()
             require('pluginSetups.cmpConfig')
+            -- require('pluginSetups.cmptestConfig')
         end
     },
+    { 'petertriho/cmp-git',                   lazy = true },
     { 'hrsh7th/cmp-nvim-lsp',                 lazy = true, },
     { 'hrsh7th/cmp-buffer',                   lazy = true },
     { 'hrsh7th/cmp-path',                     lazy = true },

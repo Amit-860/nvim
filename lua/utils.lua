@@ -9,4 +9,23 @@ M.smart_find_file = function()
     end
 end
 
+M.zoxide = function()
+    vim.ui.input({ prompt = "Pattern : " }, function(input)
+        vim.cmd("Z " .. input)
+    end)
+end
+
+M.find_and_replace = function()
+    local word = nil
+    vim.ui.input({ prompt = 'Find : ' }, function(input)
+        word = input
+    end)
+    if word then
+        vim.ui.input({ prompt = "Replace : " }, function(input)
+            vim.cmd(":%s/" .. word .. "/" .. input .. "/gc")
+        end)
+    end
+end
+
+
 return M

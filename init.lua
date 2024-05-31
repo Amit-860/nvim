@@ -8,7 +8,6 @@ vim.cmd([[
        let &shellpipe = '2>&1 | Out-File -Encoding UTF8 %s; exit $LastExitCode'
   ]])
 
-
 -- Set a compatible clipboard manager
 vim.g.clipboard = {
     copy = {
@@ -24,7 +23,7 @@ vim.g.clipboard = {
 local default_options = {
     backup = false,            -- creates a backup file
     clipboard = "unnamedplus", -- allows neovim to access the system clipboard
-    cmdheight = q,             -- more space in the neovim command line for displaying messages
+    cmdheight = 1,             -- more space in the neovim command line for displaying messages
     completeopt = { "menuone", "noselect" },
     conceallevel = 0,          -- so that `` is visible in markdown files
     fileencoding = "utf-8",    -- the encoding written to a file
@@ -128,6 +127,7 @@ require('lvimKeyBinds')
 -- Keybinding /lua/keybinds.lua
 require('keybinds')
 
+
 -- vscode specific opts
 if not vim.g.vscode then
     vim.cmd("colorscheme nightfox")
@@ -136,9 +136,6 @@ if not vim.g.vscode then
     vim.opt.cmdwinheight = 1
     vim.opt.cmdheight = 1
 end
-
--- vim.cmd([[hi Pmenu gui=underline guifg=#bcbcbc guibg=#af5f5f ]])
-vim.cmd([[hi Pmenu guibg=#131a25]])
 
 
 -- setting specific to NEOVIDE

@@ -1,12 +1,27 @@
 local utils = require('utils')
 require('mini.ai').setup()
 require('mini.align').setup()
-require('mini.comment').setup()
+require('mini.comment').setup({
+    appings = {
+        -- Toggle comment (like `gcip` - comment inner paragraph) for both
+        -- Normal and Visual modes
+        comment = 'gc',
+
+        -- Toggle comment on current line
+        comment_line = 'gc',
+
+        -- Toggle comment on visual selection
+        comment_visual = 'gc',
+
+        -- Define 'comment' textobject (like `dgc` - delete whole comment block)
+        -- Works also in Visual mode if mapping differs from `comment_visual`
+        textobject = 'gc',
+    },
+})
 require('mini.cursorword').setup()
 require('mini.files').setup()
 require('mini.indentscope').setup()
 require('mini.map').setup()
-require('mini.pairs').setup()
 require('mini.splitjoin').setup()
 
 
@@ -58,21 +73,4 @@ require('mini.tabline').setup()
 require('mini.basics').setup({
     options = { extra_ui = true, win_borders = 'double', },
     mappings = { windows = true, }
-})
-
-require('mini.surround').setup({
-    mappings = {
-        add = 'ys',
-        delete = 'ds',
-        find = 'yf',
-        find_left = 'yF',
-        highlight = 'yh',
-        replace = 'cs',
-        update_n_lines = '',
-
-        -- Add this only if you don't want to use extended mappings
-        suffix_last = '',
-        suffix_next = '',
-    },
-    search_method = 'cover_or_next',
 })
