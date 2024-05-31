@@ -21,8 +21,6 @@ require('mini.comment').setup({
 require('mini.cursorword').setup()
 require('mini.files').setup()
 require('mini.indentscope').setup()
-require('mini.map').setup()
-require('mini.splitjoin').setup()
 
 
 local starter = require("mini.starter")
@@ -73,4 +71,18 @@ require('mini.tabline').setup()
 require('mini.basics').setup({
     options = { extra_ui = true, win_borders = 'double', },
     mappings = { windows = true, }
+})
+
+local hipatterns = require('mini.hipatterns')
+hipatterns.setup({
+    highlighters = {
+        -- Highlight standalone 'FIXME', 'HACK', 'TODO', 'NOTE'
+        fixme     = { pattern = '%f[%w]()FIXME()%f[%W]', group = 'MiniHipatternsFixme' },
+        hack      = { pattern = '%f[%w]()HACK()%f[%W]', group = 'MiniHipatternsHack' },
+        todo      = { pattern = '%f[%w]()TODO()%f[%W]', group = 'MiniHipatternsTodo' },
+        note      = { pattern = '%f[%w]()NOTE()%f[%W]', group = 'MiniHipatternsNote' },
+
+        -- Highlight hex color strings (`#rrggbb`) using that color
+        hex_color = hipatterns.gen_highlighter.hex_color(),
+    },
 })

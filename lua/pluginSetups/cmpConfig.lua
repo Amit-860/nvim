@@ -8,8 +8,18 @@ local SelectBehavior = cmp_types.SelectBehavior
 local compare = require('cmp.config.compare')
 
 vim.api.nvim_set_hl(0, "CmpItemMenu", { italic = true })
-vim.api.nvim_set_hl(0, "CmpSelectedItem", { bg = "#709ad3", fg = "#111720", bold = true })
+vim.api.nvim_set_hl(0, "CmpSelectedItem", { bg = "#2c4b76", fg = "#dfdfe0", bold = true })
 vim.api.nvim_set_hl(0, "CmpComplitionMenu", { bg = "#202d3f" })
+
+vim.api.nvim_set_hl(0, "CmpItemKindClass", { bg = "#c94f6d", fg = "#131a24" })
+vim.api.nvim_set_hl(0, "CmpItemKindStruct", { bg = "#c94f6d", fg = "#131a24" })
+vim.api.nvim_set_hl(0, "CmpItemKindSnippet", { bg = "#86abdc", fg = "#131a24" })
+vim.api.nvim_set_hl(0, "CmpItemKindFunction", { bg = "#856bb9", fg = "#131a24" })
+vim.api.nvim_set_hl(0, "CmpItemKindText", { bg = "#dfdfe0", fg = "#131a24" })
+vim.api.nvim_set_hl(0, "CmpItemKindField", { bg = "#7ad5d6", fg = "#131a24" })
+vim.api.nvim_set_hl(0, "CmpItemKindVariable", { bg = "#7ad5d6", fg = "#131a24" })
+vim.api.nvim_set_hl(0, "CmpItemKindValue", { bg = "#dfdfe0", fg = "#131a24" })
+
 
 local function jumpable(dir)
     local win_get_cursor = vim.api.nvim_win_get_cursor
@@ -126,7 +136,7 @@ local cmp_opts = {
             winhighlight =
             "Normal:CmpComplitionMenu,FloatBorder:CmpComplitionMenu,CursorLine:CmpSelectedItem,Search:None",
             -- border = 'single',
-            col_offset = 0,
+            col_offset = -3,
             side_padding = 0,
         },
         documentation = {
@@ -143,7 +153,8 @@ local cmp_opts = {
 
             -- vim_item.kind = (icons[vim_item.kind] or "?") .. " " .. vim_item.kind             -- for icon without matching color label
             -- vim_item.kind = (icons[vim_item.kind] or "?") .. " "                              -- for icon without label
-            vim_item.kind = " " .. lspkind.presets.default[kind] .. " " .. kind
+            -- vim_item.kind = " " .. lspkind.presets.default[kind] .. " " .. kind
+            vim_item.kind = " " .. lspkind.presets.default[kind] .. " "
 
             -- vim_item.menu = " (" .. kind .. ")"
 
@@ -154,7 +165,8 @@ local cmp_opts = {
                 vim_item.dup = 0
             end
 
-            vim_item.menu = "[" .. (source_icon[source] or source) .. "]"
+            -- vim_item.menu = "[" .. (source_icon[source] or source) .. "]"
+            vim_item.menu = kind
 
             -- trims down the extra long suggestions
             local function trim(text)
