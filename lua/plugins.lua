@@ -213,15 +213,26 @@ require("lazy").setup({
         end,
     },
     { "nvim-treesitter/nvim-treesitter-textobjects" },
-    { "wellle/targets.vim" },
     {
         "ckolkey/ts-node-action",
         dependencies = { "nvim-treesitter" },
         Lazy = 'VeryLazy',
         opts = {},
     },
+    {
+        'HiPhish/rainbow-delimiters.nvim',
+        event = "BufReadPre",
+        config = function()
+            require('rainbow-delimiters.setup').setup {
+                strategy = {},
+                query = {},
+                highlight = {},
+            }
+        end
+    },
 
     -- motion
+    -- { "wellle/targets.vim" },
     {
         "AgusDOLARD/backout.nvim",
         event = "User FileOpened",
@@ -237,7 +248,7 @@ require("lazy").setup({
     { "tpope/vim-repeat" },
     {
         "drybalka/tree-climber.nvim",
-        event = "User FileOpened",
+        event = "BufReadPre",
         config = function()
             vim.keymap.set({ "n", "v", "o" }, "r",
                 require("tree-climber").goto_next,
@@ -425,9 +436,15 @@ require("lazy").setup({
     },
     {
         "nvim-telescope/telescope-ui-select.nvim",
+        event = "UIEnter"
     },
     {
         "debugloop/telescope-undo.nvim",
+        event = "BufReadPre"
+    },
+    {
+        'nvim-telescope/telescope-project.nvim',
+        event = "UIEnter"
     },
 
     -- git

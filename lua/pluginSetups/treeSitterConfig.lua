@@ -20,7 +20,7 @@ local ts_opts = {
 
     matchup = {
         enable = true, -- mandatory, false will disable the whole extension
-        disable = {}, -- optional, list of language that will be disabled
+        disable = {},  -- optional, list of language that will be disabled
     },
     highlight = {
         enable = true, -- false will disable the whole extension
@@ -40,7 +40,6 @@ local ts_opts = {
         },
     },
     indent = { enable = true, disable = { "yaml", "python" } },
-    -- autotag = { enable = true },
     textobjects = {
         swap = {
             enable = true,
@@ -72,7 +71,7 @@ local ts_opts = {
             },
             selection_modes = {
                 ['@parameter.outer'] = 'v', -- charwise
-                ['@function.outer'] = 'V', -- linewise
+                ['@function.outer'] = 'V',  -- linewise
                 ['@class.outer'] = '<c-v>', -- blockwise
             },
         },
@@ -83,7 +82,7 @@ local ts_opts = {
                 [']c'] = '@class.outer',
                 [']sc'] = '@class.inner',
 
-                [']f'] = '@function.outer', -- outside of the next function
+                [']f'] = '@function.outer',  -- outside of the next function
                 [']sf'] = '@function.inner', -- inside the start of the next function
 
                 [']l'] = '@loop.outer',
@@ -107,7 +106,7 @@ local ts_opts = {
                 ['[c'] = '@class.outer',
                 ['[sc'] = '@class.inner',
 
-                ['[f'] = '@function.outer', -- outside of the previous function
+                ['[f'] = '@function.outer',  -- outside of the previous function
                 ['[sf'] = '@function.inner', -- inside the start of the previous function
 
                 ['[l'] = '@loop.outer',

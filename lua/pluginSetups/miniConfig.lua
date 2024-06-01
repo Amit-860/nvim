@@ -2,7 +2,7 @@ local utils = require('utils')
 require('mini.ai').setup()
 require('mini.align').setup()
 require('mini.comment').setup({
-    appings = {
+    mappings = {
         -- Toggle comment (like `gcip` - comment inner paragraph) for both
         -- Normal and Visual modes
         comment = 'gc',
@@ -38,9 +38,17 @@ starter.setup({
         new_section("Last session", "lua require('persistence').load({last=true})", "Session"),
         new_section("Ignore current session", "lua require('persistence').stop()", "Session"),
 
-        -- telescope
+        -- Files
         new_section("Find file", utils.smart_find_file, "Files"),
         new_section("Recent files", "Telescope oldfiles", "Files"),
+
+        -- Projects
+        new_section("Project",
+            function()
+                require 'telescope'.extensions.project.project { display_type = 'full' }
+            end,
+            "Projects"
+        ),
 
         -- git
         new_section("Neogit", "Neogit", "Git"),

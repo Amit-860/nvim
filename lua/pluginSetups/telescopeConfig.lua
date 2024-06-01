@@ -146,6 +146,20 @@ local telescope_opts = {
                 },
             },
         },
+        project = {
+            base_dirs = {},
+            hidden_files = true, -- default: false
+            theme = "dropdown",
+            order_by = "recent",
+            search_by = { "title", "path" },
+            sync_with_nvim_tree = true, -- default false
+            -- default for on_project_selected = find project files
+            on_project_selected = function(prompt_bufnr)
+                -- Do anything you want in here. For example:
+                local project_actions = require("telescope._extensions.project.actions")
+                project_actions.change_working_directory(prompt_bufnr, false)
+            end
+        }
     }
 }
 
@@ -157,7 +171,7 @@ end
 require('telescope').setup(telescope_opts)
 
 -- This will load fzy_native and have it override the default file sorter
--- require("telescope").load_extension("projects")
 require("telescope").load_extension("lsp_handlers")
 require("telescope").load_extension("ui-select")
 require("telescope").load_extension("undo")
+require 'telescope'.load_extension('project')

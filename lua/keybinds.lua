@@ -14,11 +14,14 @@ if not vim.g.vscode then
 
     -- find
     -- vim.keymap.set("n", "<leader>f", "<nop>", { desc = "+Find", noremap = true, silent = true })
-    vim.keymap.set("n", "<leader>ff", utils.smart_find_file, { noremap = true, silent = true, desc = 'Find Git File' })
+    vim.keymap.set("n", "<leader>ff", utils.smart_find_file,
+        { noremap = true, silent = true, desc = 'Find Git File' })
     vim.keymap.set("n", "<leader>fF", "<cmd>Telescope find_files<cr>",
-        { noremap = true, silent = true, desc = 'Find All File' })
+        { noremap = true, silent = true, desc = 'All File' })
     vim.keymap.set("n", "<leader>fs", "<cmd>Telescope live_grep<cr>",
-        { noremap = true, silent = true, desc = 'Find String' })
+        { noremap = true, silent = true, desc = 'String' })
+    vim.keymap.set("n", "<leader>fr", "<cmd>Telescope oldfiles<cr>",
+        { noremap = true, silent = true, desc = 'Recent Files' })
 
     -- close Buffer
     vim.keymap.set("n", "<leader>c", "<cmd>bd<cr>", { noremap = true, silent = true, desc = 'Close Buffer' })
@@ -48,10 +51,10 @@ if not vim.g.vscode then
 
 
     -- tab
-    vim.keymap.set('n', "<M-q>", ":tabclose<cr>", { noremap = true, silent = true, desc = 'Exit' })
-    vim.keymap.set('n', "<M-n>", ":tabnew<cr>", { noremap = true, silent = true, desc = 'Exit' })
-    vim.keymap.set('n', "<M-l>", ":tabnext<cr>", { noremap = true, silent = true, desc = 'Exit' })
-    vim.keymap.set('n', "<M-h>", ":tabprevious<cr>", { noremap = true, silent = true, desc = 'Exit' })
+    vim.keymap.set('n', "<M-q>", ":tabclose<cr>", { noremap = true, silent = true, desc = 'Tab close' })
+    vim.keymap.set('n', "<M-n>", ":tabnew<cr>", { noremap = true, silent = true, desc = 'Tab new' })
+    vim.keymap.set('n', "<M-l>", ":tabnext<cr>", { noremap = true, silent = true, desc = 'Tab next' })
+    vim.keymap.set('n', "<M-h>", ":tabprevious<cr>", { noremap = true, silent = true, desc = 'Tab prev' })
 
     -- LeetCode
     -- vim.keymap.set('n', "<leader>L", "<nop>", { noremap = true, silent = true, desc = '+LeetCode' })
@@ -121,6 +124,13 @@ if not vim.g.vscode then
         { desc = "Search Docs", noremap = true, silent = true })
     vim.keymap.set("n", "<leader>?t", ":Telescope colorscheme<cr>",
         { desc = "Preview Theme", noremap = true, silent = true })
+
+    -- Project
+    vim.keymap.set("n", "<leader>p",
+        function()
+            require 'telescope'.extensions.project.project { display_type = 'full' }
+        end,
+        { desc = "Projects", noremap = true, silent = true })
 end
 
 -- general

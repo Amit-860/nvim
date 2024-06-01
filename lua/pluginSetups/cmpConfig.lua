@@ -8,17 +8,18 @@ local SelectBehavior = cmp_types.SelectBehavior
 local compare = require('cmp.config.compare')
 
 vim.api.nvim_set_hl(0, "CmpItemMenu", { italic = true })
-vim.api.nvim_set_hl(0, "CmpSelectedItem", { bg = "#2c4b76", fg = "#dfdfe0", bold = true })
+vim.api.nvim_set_hl(0, "CmpSelectedItem", { bg = "#00495c", fg = "#dfdfe0", bold = true })
 vim.api.nvim_set_hl(0, "CmpComplitionMenu", { bg = "#202d3f" })
 
-vim.api.nvim_set_hl(0, "CmpItemKindClass", { bg = "#c94f6d", fg = "#131a24" })
-vim.api.nvim_set_hl(0, "CmpItemKindStruct", { bg = "#c94f6d", fg = "#131a24" })
-vim.api.nvim_set_hl(0, "CmpItemKindSnippet", { bg = "#86abdc", fg = "#131a24" })
-vim.api.nvim_set_hl(0, "CmpItemKindFunction", { bg = "#856bb9", fg = "#131a24" })
-vim.api.nvim_set_hl(0, "CmpItemKindText", { bg = "#dfdfe0", fg = "#131a24" })
+vim.api.nvim_set_hl(0, "CmpItemKindClass", { bg = "#ff5c52", fg = "#131a24" })
+vim.api.nvim_set_hl(0, "CmpItemKindStruct", { bg = "#ff5c52", fg = "#131a24" })
+vim.api.nvim_set_hl(0, "CmpItemKindSnippet", { bg = "#59b9ff", fg = "#131a24" })
+vim.api.nvim_set_hl(0, "CmpItemKindMethod", { bg = "#86abdc", fg = "#131a24" })
+vim.api.nvim_set_hl(0, "CmpItemKindFunction", { bg = "#afafff", fg = "#131a24" })
 vim.api.nvim_set_hl(0, "CmpItemKindField", { bg = "#7ad5d6", fg = "#131a24" })
-vim.api.nvim_set_hl(0, "CmpItemKindVariable", { bg = "#7ad5d6", fg = "#131a24" })
-vim.api.nvim_set_hl(0, "CmpItemKindValue", { bg = "#dfdfe0", fg = "#131a24" })
+vim.api.nvim_set_hl(0, "CmpItemKindVariable", { bg = "#dfdfe0", fg = "#131a24" })
+vim.api.nvim_set_hl(0, "CmpItemKindValue", { bg = "#cfa333", fg = "#131a24" })
+vim.api.nvim_set_hl(0, "CmpItemKindText", { bg = "#81b29a", fg = "#131a24" })
 
 
 local function jumpable(dir)
@@ -160,6 +161,7 @@ local cmp_opts = {
 
             local source = entry.source.name
 
+
             --removing dubplicates
             if source == "luasnip" or source == "nvim_lsp" then
                 vim_item.dup = 0
@@ -170,7 +172,7 @@ local cmp_opts = {
 
             -- trims down the extra long suggestions
             local function trim(text)
-                local max = 30
+                local max = 40
                 if text and text:len() > max then
                     text = text:sub(1, max) .. ellipses_char
                 end
@@ -264,7 +266,7 @@ local cmp_opts = {
         comparators = {
             compare.exact,
             compare.recently_used,
-            compare.length,
+            -- compare.length,
         }
     }
 }
