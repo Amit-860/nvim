@@ -62,9 +62,9 @@ require("lazy").setup({
     {
         'windwp/nvim-autopairs',
         event = "InsertEnter",
-        config = true
-        -- use opts = {} for passing setup options
-        -- this is equalent to setup({}) function
+        config = function()
+            require('pluginSetups.autoPairConfig')
+        end
     },
     {
         "kylechui/nvim-surround",
@@ -75,6 +75,15 @@ require("lazy").setup({
                 -- Configuration here, or leave empty to use defaults
             })
         end
+    },
+    {
+        "utilyre/sentiment.nvim",
+        version = "*",
+        event = "VeryLazy", -- keep for lazy loading
+        opts = {},
+        init = function()
+            vim.g.loaded_matchparen = 1
+        end,
     },
 
     -- LSP

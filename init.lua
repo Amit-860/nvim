@@ -170,4 +170,4 @@ if vim.g.neovide then
     vim.o.pumblend = 50
 end
 
-vim.api.nvim_set_hl(0, "MatchParen", { bg = "#616466", fg = "#ffffff", bold = true, blend = 95 })
+vim.api.nvim_set_hl(0, "MatchParen", { bg = "#616466", fg = "#ffffff", bold = true })
