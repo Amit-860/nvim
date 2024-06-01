@@ -98,6 +98,7 @@ which_key.register({
 
 which_key.register({
     f = { name = "Find" },
+    ['/'] = { name = "which_key_ignore" },
     g = { name = "Git" },
     gd = { name = "Diff", },
     L = { name = "LeetCode" },

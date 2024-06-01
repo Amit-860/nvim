@@ -8,7 +8,8 @@ local SelectBehavior = cmp_types.SelectBehavior
 local compare = require('cmp.config.compare')
 
 vim.api.nvim_set_hl(0, "CmpItemMenu", { italic = true })
-vim.api.nvim_set_hl(0, "CmpSelectedItem", { bg = "#00495c", fg = "#dfdfe0", bold = true })
+-- vim.api.nvim_set_hl(0, "CmpSelectedItem", { bg = "#00495c", fg = "#dfdfe0", bold = true, reverse = true })
+vim.api.nvim_set_hl(0, "CmpSelectedItem", { bg = "#00495c", fg = "#dfdfe0", bold = true, })
 vim.api.nvim_set_hl(0, "CmpComplitionMenu", { bg = "#202d3f" })
 
 vim.api.nvim_set_hl(0, "CmpItemKindClass", { bg = "#ff5c52", fg = "#131a24" })
