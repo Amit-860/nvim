@@ -1,4 +1,5 @@
-require("lazy").setup({
+M = {}
+M.plugin_list = {
     -- theme
     {
         "xiyaowong/transparent.nvim",
@@ -410,7 +411,6 @@ require("lazy").setup({
         },
         config = function()
             require('pluginSetups.cmpConfig')
-            -- require('pluginSetups.cmptestConfig')
         end
     },
     { 'petertriho/cmp-git',                   lazy = true },
@@ -470,14 +470,18 @@ require("lazy").setup({
         cmd = { 'DiffviewOpen', 'DiffviewClose', 'FiffviewFileHistory' }
     },
     {
-        "NeogitOrg/neogit",
-        cmd = { 'Neogit' },
-        dependencies = {
-            "nvim-lua/plenary.nvim",         -- required
-            "nvim-telescope/telescope.nvim", -- optional
-            "sindrets/diffview.nvim",
+        "kdheepak/lazygit.nvim",
+        cmd = {
+            "LazyGit",
+            "LazyGitConfig",
+            "LazyGitCurrentFile",
+            "LazyGitFilter",
+            "LazyGitFilterCurrentFile",
         },
-        config = true
+        -- optional for floating window border decoration
+        dependencies = {
+            "nvim-lua/plenary.nvim",
+        },
     },
     {
         "luukvbaal/statuscol.nvim",
@@ -518,8 +522,8 @@ require("lazy").setup({
             })
         end
     },
+}
 
+M.opts = { checker = { frequency = 604800, } }
 
-    -- Lazy opts
-    opts = { checker = { frequency = 604800, } }
-})
+return M

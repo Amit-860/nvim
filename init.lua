@@ -24,39 +24,39 @@ local default_options = {
     backup = false,            -- creates a backup file
     clipboard = "unnamedplus", -- allows neovim to access the system clipboard
     cmdheight = 1,             -- more space in the neovim command line for displaying messages
+    cmdwinheight = 1,
     completeopt = { "menuone", "noselect" },
-    conceallevel = 0,          -- so that `` is visible in markdown files
-    fileencoding = "utf-8",    -- the encoding written to a file
-    foldmethod = "manual",     -- folding, set to "expr" for treesitter based folding
-    foldexpr = "",             -- set to "nvim_treesitter#foldexpr()" for treesitter based folding
-    hidden = true,             -- required to keep multiple buffers and open multiple buffers
-    hlsearch = true,           -- highlight all matches on previous search pattern
-    ignorecase = true,         -- ignore case in search patterns
-    mouse = "a",               -- allow the mouse to be used in neovim
-    pumheight = 10,            -- pop up menu height
-    showmode = false,          -- we don't need to see things like -- INSERT -- anymore
-    smartcase = true,          -- smart case
-    splitbelow = true,         -- force all horizontal splits to go below current window
-    splitright = true,         -- force all vertical splits to go to the right of current window
-    swapfile = false,          -- creates a swapfile
-    termguicolors = true,      -- set term gui colors (most terminals support this)
+    conceallevel = 0,       -- so that `` is visible in markdown files
+    fileencoding = "utf-8", -- the encoding written to a file
+    foldmethod = "manual",  -- folding, set to "expr" for treesitter based folding
+    foldexpr = "",          -- set to "nvim_treesitter#foldexpr()" for treesitter based folding
+    hidden = true,          -- required to keep multiple buffers and open multiple buffers
+    hlsearch = true,        -- highlight all matches on previous search pattern
+    ignorecase = true,      -- ignore case in search patterns
+    mouse = "a",            -- allow the mouse to be used in neovim
+    pumheight = 10,         -- pop up menu height
+    showmode = false,       -- we don't need to see things like -- INSERT -- anymore
+    smartcase = true,       -- smart case
+    splitbelow = true,      -- force all horizontal splits to go below current window
+    splitright = true,      -- force all vertical splits to go to the right of current window
+    swapfile = false,       -- creates a swapfile
+    termguicolors = true,   -- set term gui colors (most terminals support this)
     timeout = true,
-    timeoutlen = 300,          -- time to wait for a mapped sequence to complete (in milliseconds)
-    title = true,              -- set the title of window to the value of the titlestring
+    timeoutlen = 300,       -- time to wait for a mapped sequence to complete (in milliseconds)
+    title = true,           -- set the title of window to the value of the titlestring
     -- opt.titlestring = "%<%F%=%l/%L - nvim" -- what the title of the window will be set to
-    undofile = true,           -- enable persistent undo
-    updatetime = 100,          -- faster completion
-    writebackup = false,       -- if a file is being edited by another program (or was written to file while editing with another program), it is not allowed to be edited
-    expandtab = true,          -- convert tabs to spaces
-    shiftwidth = 4,            -- the number of spaces inserted for each indentation
-    tabstop = 4,               -- insert 2 spaces for a tab
-    cursorline = true,         -- highlight the current line
-    number = true,             -- set numbered lines
-    numberwidth = 4,           -- set number column width to 2 {default 4}
-    signcolumn = "yes",        -- always show the sign column, otherwise it would shift the text each time
-    wrap = false,              -- display lines as one long line
-    scrolloff = 8,             -- minimal number of screen lines to keep above and below the cursor.
-    sidescrolloff = 8,         -- minimal number of screen lines to keep left and right of the cursor.
+    undofile = true,        -- enable persistent undo
+    updatetime = 100,       -- faster completion
+    writebackup = false,    -- if a file is being edited by another program (or was written to file while editing with another program), it is not allowed to be edited
+    expandtab = true,       -- convert tabs to spaces
+    shiftwidth = 4,         -- the number of spaces inserted for each indentation
+    tabstop = 4,            -- insert 2 spaces for a tab
+    number = true,          -- set numbered lines
+    numberwidth = 4,        -- set number column width to 2 {default 4}
+    signcolumn = "yes",     -- always show the sign column, otherwise it would shift the text each time
+    wrap = false,           -- display lines as one long line
+    scrolloff = 8,          -- minimal number of screen lines to keep above and below the cursor.
+    sidescrolloff = 8,      -- minimal number of screen lines to keep left and right of the cursor.
     showcmd = false,
     ruler = false,
     laststatus = 3,
@@ -119,7 +119,7 @@ if not vim.loop.fs_stat(lazypath) then
     })
 end
 vim.opt.rtp:prepend(lazypath)
-require('plugins')
+require('lazy').setup(require("plugins").plugin_list)
 
 -- adding lvim default keybinds
 require('lvimKeyBinds')
@@ -130,18 +130,14 @@ require('keybinds')
 
 -- vscode specific opts
 if not vim.g.vscode then
-    vim.cmd("colorscheme nightfox")
-    vim.wo.relativenumber = true
-    vim.o.cursorline = true
-    vim.opt.cmdwinheight = 1
-    vim.opt.cmdheight = 1
 end
 
 
 -- setting specific to NEOVIDE
 if vim.g.neovide then
-    vim.cmd([[set guicursor=n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50
- 		  \,a:blinkwait1000-blinkoff500-blinkon500-Cursor/lCursor]])
+    vim.cmd(
+        [[set guicursor=n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50 \,a:blinkwait1000-blinkoff500-blinkon500-Cursor/lCursor]]
+    )
     -- vim.o.guifont = "JetBrainsMono Nerd Font Mono:h10.4"
     vim.o.guifont = "Iosevka Nerd Font Mono:h11"
     vim.g.neovide_padding_top = 0
@@ -170,4 +166,20 @@ if vim.g.neovide then
     vim.o.pumblend = 50
 end
 
-vim.api.nvim_set_hl(0, "MatchParen", { bg = "#616466", fg = "#ffffff", bold = true })
+vim.cmd("colorscheme nightfox")
+vim.api.nvim_set_hl(0, "MatchParen", { bg = nil, fg = "#fffd00", underdouble = true, bold = true })
+
+vim.api.nvim_set_hl(0, "CmpItemMenu", { italic = true })
+-- vim.api.nvim_set_hl(0, "CmpSelectedItem", { bg = "#00495c", fg = "#dfdfe0", bold = true, reverse = true })
+vim.api.nvim_set_hl(0, "CmpSelectedItem", { bg = "#00495c", fg = "#dfdfe0", bold = true, })
+vim.api.nvim_set_hl(0, "CmpComplitionMenu", { bg = "#202d3f" })
+
+vim.api.nvim_set_hl(0, "CmpItemKindClass", { bg = "#ff5c52", fg = "#131a24" })
+vim.api.nvim_set_hl(0, "CmpItemKindStruct", { bg = "#ff5c52", fg = "#131a24" })
+vim.api.nvim_set_hl(0, "CmpItemKindSnippet", { bg = "#59b9ff", fg = "#131a24" })
+vim.api.nvim_set_hl(0, "CmpItemKindMethod", { bg = "#86abdc", fg = "#131a24" })
+vim.api.nvim_set_hl(0, "CmpItemKindFunction", { bg = "#afafff", fg = "#131a24" })
+vim.api.nvim_set_hl(0, "CmpItemKindField", { bg = "#7ad5d6", fg = "#131a24" })
+vim.api.nvim_set_hl(0, "CmpItemKindVariable", { bg = "#dfdfe0", fg = "#131a24" })
+vim.api.nvim_set_hl(0, "CmpItemKindValue", { bg = "#cfa333", fg = "#131a24" })
+vim.api.nvim_set_hl(0, "CmpItemKindText", { bg = "#81b29a", fg = "#131a24" })

@@ -37,8 +37,8 @@ local on_attach = function(client, bufnr)
                 virtual_text = lsp_lines_enable,
                 signs = true,
                 underline = true,
+                virtual_lines = not lsp_lines_enable
             })
-            vim.diagnostic.config({ virtual_lines = not lsp_lines_enable })
             lsp_lines_enable = not lsp_lines_enable
         end,
         { desc = "Toggle HlChunk", noremap = true }

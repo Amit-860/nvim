@@ -22,7 +22,6 @@ require('mini.cursorword').setup()
 require('mini.files').setup()
 require('mini.indentscope').setup()
 
-
 local starter = require("mini.starter")
 local pad = string.rep(" ", 0)
 local new_section = function(name, action, section)
@@ -51,7 +50,7 @@ starter.setup({
         ),
 
         -- git
-        new_section("Neogit", "Neogit", "Git"),
+        new_section("LazyGit", "LazyGit", "Git"),
         new_section("Status", "Telescope git_status", "Git"),
         new_section("Branches", "Telescope git_branches", "Git"),
 
@@ -74,7 +73,34 @@ starter.setup({
     },
 })
 
-require('mini.statusline').setup()
+require('mini.statusline').setup({
+    content = {
+        active = function()
+            local mode, mode_hl = MiniStatusline.section_mode({ trunc_width = 120 })
+            local git           = MiniStatusline.section_git({ trunc_width = 40 })
+            local diff          = MiniStatusline.section_diff({ trunc_width = 75 })
+            local diagnostics   = MiniStatusline.section_diagnostics({ trunc_width = 75 })
+            local lsp           = MiniStatusline.section_lsp({ trunc_width = 75 })
+            local filename      = MiniStatusline.section_filename({ trunc_width = 140 })
+            local fileinfo      = MiniStatusline.section_fileinfo({ trunc_width = 120 })
+            local location      = MiniStatusline.section_location({ trunc_width = 75 })
+            local search        = MiniStatusline.section_searchcount({ trunc_width = 75 })
+
+            return MiniStatusline.combine_groups({
+                { hl = mode_hl,                 strings = { mode } },
+                { hl = 'MiniStatuslineDevinfo', strings = { git, diff, diagnostics, lsp } },
+                '%<', -- Mark general truncate point
+                { hl = 'MiniStatuslineFilename', strings = { filename } },
+                '%=', -- End left alignment
+                { hl = 'MiniStatuslineFileinfo', strings = { fileinfo } },
+                { hl = "CmpItemKindFunction",    strings = { search } },
+                { hl = mode_hl,                  strings = { location } },
+            })
+        end,
+    },
+    use_icons = true,
+    set_vim_settings = true,
+})
 require('mini.tabline').setup()
 require('mini.basics').setup({
     options = { extra_ui = true, win_borders = 'double', },
@@ -85,10 +111,10 @@ local hipatterns = require('mini.hipatterns')
 hipatterns.setup({
     highlighters = {
         -- Highlight standalone 'FIXME', 'HACK', 'TODO', 'NOTE'
-        fixme     = { pattern = '%f[%w]()FIXME()%f[%W]', group = 'MiniHipatternsFixme' },
-        hack      = { pattern = '%f[%w]()HACK()%f[%W]', group = 'MiniHipatternsHack' },
-        todo      = { pattern = '%f[%w]()TODO()%f[%W]', group = 'MiniHipatternsTodo' },
-        note      = { pattern = '%f[%w]()NOTE()%f[%W]', group = 'MiniHipatternsNote' },
+        fixme     = { pattern = '%f[%w]()FIXME()%f[%W]', group = 'CmpItemKindClass' },
+        hack      = { pattern = '%f[%w]()HACK()%f[%W]', group = 'CmpItemKindValue' },
+        todo      = { pattern = '%f[%w]()TODO()%f[%W]', group = 'CmpItemKindMethod' },
+        note      = { pattern = '%f[%w]()NOTE()%f[%W]', group = 'CmpItemKindText' },
 
         -- Highlight hex color strings (`#rrggbb`) using that color
         hex_color = hipatterns.gen_highlighter.hex_color(),
