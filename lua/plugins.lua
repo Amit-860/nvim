@@ -3,6 +3,7 @@ M.plugin_list = {
     -- theme
     {
         "xiyaowong/transparent.nvim",
+        cond = not vim.g.neovide,
         config = function()
             require("transparent").setup({
                 groups = { "Normal", "NormalNC", "Comment", "Constant", "Special", "Identifier",
@@ -469,19 +470,34 @@ M.plugin_list = {
         "sindrets/diffview.nvim",
         cmd = { 'DiffviewOpen', 'DiffviewClose', 'FiffviewFileHistory' }
     },
+    -- {
+    --     "kdheepak/lazygit.nvim",
+    --     cmd = {
+    --         "LazyGit",
+    --         "LazyGitConfig",
+    --         "LazyGitCurrentFile",
+    --         "LazyGitFilter",
+    --         "LazyGitFilterCurrentFile",
+    --     },
+    --     -- optional for floating window border decoration
+    --     dependencies = {
+    --         "nvim-lua/plenary.nvim",
+    --     },
+    --     config = function()
+    --      require("telescope").load_extension("lazygit")
+    --     end
+    -- },
     {
-        "kdheepak/lazygit.nvim",
-        cmd = {
-            "LazyGit",
-            "LazyGitConfig",
-            "LazyGitCurrentFile",
-            "LazyGitFilter",
-            "LazyGitFilterCurrentFile",
-        },
-        -- optional for floating window border decoration
+        "NeogitOrg/neogit",
         dependencies = {
-            "nvim-lua/plenary.nvim",
+            "nvim-lua/plenary.nvim",  -- required
+            "sindrets/diffview.nvim", -- optional - Diff integration
+
+            -- Only one of these is needed, not both.
+            "nvim-telescope/telescope.nvim", -- optional
+            "ibhagwan/fzf-lua",              -- optional
         },
+        config = true
     },
     {
         "luukvbaal/statuscol.nvim",

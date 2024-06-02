@@ -50,7 +50,8 @@ starter.setup({
         ),
 
         -- git
-        new_section("LazyGit", "LazyGit", "Git"),
+        -- new_section("Git", "LazyGit", "Git"),
+        new_section("NeoGit", "Neogit", "Git"),
         new_section("Status", "Telescope git_status", "Git"),
         new_section("Branches", "Telescope git_branches", "Git"),
 

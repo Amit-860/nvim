@@ -136,7 +136,8 @@ end
 -- setting specific to NEOVIDE
 if vim.g.neovide then
     vim.cmd(
-        [[set guicursor=n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50 \,a:blinkwait1000-blinkoff500-blinkon500-Cursor/lCursor]]
+        [[set guicursor=n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50
+        \,a:blinkwait1000-blinkoff500-blinkon500-Cursor/lCursor]]
     )
     -- vim.o.guifont = "JetBrainsMono Nerd Font Mono:h10.4"
     vim.o.guifont = "Iosevka Nerd Font Mono:h11"
