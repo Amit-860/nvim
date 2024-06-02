@@ -7,10 +7,10 @@ local ConfirmBehavior = cmp_types.ConfirmBehavior
 local SelectBehavior = cmp_types.SelectBehavior
 local compare = require('cmp.config.compare')
 
--- vim.api.nvim_set_hl(0, "CmpItemMenu", { italic = true })
--- -- vim.api.nvim_set_hl(0, "CmpSelectedItem", { bg = "#00495c", fg = "#dfdfe0", bold = true, reverse = true })
--- vim.api.nvim_set_hl(0, "CmpSelectedItem", { bg = "#00495c", fg = "#dfdfe0", bold = true, })
--- vim.api.nvim_set_hl(0, "CmpComplitionMenu", { bg = "#202d3f" })
+-- vim.api.nvim_set_hl(0, "CmpItemMenuM", { italic = true })
+-- -- vim.api.nvim_set_hl(0, "CmpSelectedItemM", { bg = "#00495c", fg = "#dfdfe0", bold = true, reverse = true })
+-- vim.api.nvim_set_hl(0, "CmpSelectedItemM", { bg = "#00495c", fg = "#dfdfe0", bold = true, })
+-- vim.api.nvim_set_hl(0, "CmpComplitionMenuM", { bg = "#202d3f" })
 --
 -- vim.api.nvim_set_hl(0, "CmpItemKindClass", { bg = "#ff5c52", fg = "#131a24" })
 -- vim.api.nvim_set_hl(0, "CmpItemKindStruct", { bg = "#ff5c52", fg = "#131a24" })
@@ -136,13 +136,13 @@ local cmp_opts = {
         completion = {
             -- winhighlight = "Normal:Pmenu,FloatBorder:Pmenu,CursorLine:@comment.note,Search:None",
             winhighlight =
-            "Normal:CmpComplitionMenu,FloatBorder:CmpComplitionMenu,CursorLine:CmpSelectedItem,Search:None",
+            "Normal:CmpComplitionMenuM,FloatBorder:CmpComplitionMenuM,CursorLine:CmpSelectedItemM,Search:None",
             -- border = 'single',
             col_offset = -3,
             side_padding = 0,
         },
         documentation = {
-            winhighlight = "Normal:CmpComplitionMenu,FloatBorder:CmpComplitionMenu,Search:None",
+            winhighlight = "Normal:CmpComplitionMenuM,FloatBorder:CmpComplitionMenuM,Search:None",
             -- border = 'single',
         },
     },
@@ -169,7 +169,7 @@ local cmp_opts = {
             end
 
             -- vim_item.menu = "[" .. (source_icon[source] or source) .. "]"
-            vim_item.menu = kind
+            vim_item.menu = string.lower(kind)
 
             -- trims down the extra long suggestions
             local function trim(text)
@@ -310,5 +310,12 @@ cmp.setup.cmdline(':', {
     }, {
         { name = 'cmdline' }
     }),
-    matching = { disallow_symbol_nonprefix_matching = false }
+    matching = {
+        disallow_symbol_nonprefix_matching = false,
+        disallow_fullfuzzy_matching = false,
+        disallow_fuzzy_matching = false,
+        disallow_partial_fuzzy_matching = false,
+        disallow_partial_matching = false,
+        disallow_prefix_unmatching = false
+    }
 })

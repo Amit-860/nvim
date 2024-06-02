@@ -170,17 +170,17 @@ end
 vim.cmd("colorscheme nightfox")
 vim.api.nvim_set_hl(0, "MatchParen", { bg = nil, fg = "#fffd00", underdouble = true, bold = true })
 
-vim.api.nvim_set_hl(0, "CmpItemMenu", { italic = true })
 -- vim.api.nvim_set_hl(0, "CmpSelectedItem", { bg = "#00495c", fg = "#dfdfe0", bold = true, reverse = true })
-vim.api.nvim_set_hl(0, "CmpSelectedItem", { bg = "#00495c", fg = "#dfdfe0", bold = true, })
-vim.api.nvim_set_hl(0, "CmpComplitionMenu", { bg = "#202d3f" })
+vim.api.nvim_set_hl(0, "CmpSelectedItemM", { bg = "#00495c", fg = "#dfdfe0", bold = true, }) -- hilight for selected itme in cmp menu
+vim.api.nvim_set_hl(0, "CmpComplitionMenuM", { bg = "#202d3f", italic = true })              -- hilight for cmp menu
 
 vim.api.nvim_set_hl(0, "CmpItemKindClass", { bg = "#ff5c52", fg = "#131a24" })
 vim.api.nvim_set_hl(0, "CmpItemKindStruct", { bg = "#ff5c52", fg = "#131a24" })
 vim.api.nvim_set_hl(0, "CmpItemKindSnippet", { bg = "#59b9ff", fg = "#131a24" })
 vim.api.nvim_set_hl(0, "CmpItemKindMethod", { bg = "#86abdc", fg = "#131a24" })
 vim.api.nvim_set_hl(0, "CmpItemKindFunction", { bg = "#afafff", fg = "#131a24" })
-vim.api.nvim_set_hl(0, "CmpItemKindField", { bg = "#7ad5d6", fg = "#131a24" })
+vim.api.nvim_set_hl(0, "CmpItemKindField", { bg = "#5ca2a3", fg = "#131a24" })
+vim.api.nvim_set_hl(0, "CmpItemKindEnum", { bg = "#7ad5d6", fg = "#131a24" })
 vim.api.nvim_set_hl(0, "CmpItemKindVariable", { bg = "#dfdfe0", fg = "#131a24" })
 vim.api.nvim_set_hl(0, "CmpItemKindValue", { bg = "#cfa333", fg = "#131a24" })
 vim.api.nvim_set_hl(0, "CmpItemKindText", { bg = "#81b29a", fg = "#131a24" })
