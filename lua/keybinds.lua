@@ -100,7 +100,10 @@ if not vim.g.vscode then
         { desc = "Restart", noremap = true, silent = true })
     vim.keymap.set("n", "<leader>Dc", function() require('dap').clear_breakpoints() end,
         { desc = "Clear Breakpoints", noremap = true, silent = true })
-    vim.keymap.set("n", "<leader>Dl", function() require('dap').list_breakpoints() end,
+    vim.keymap.set("n", "<leader>Dl", function()
+            require('dap').list_breakpoints()
+            vim.cmd([[copen]])
+        end,
         { desc = "List Breakpoints", noremap = true, silent = true })
     vim.keymap.set("n", "<leader>Du", function() require('dap').up() end,
         { desc = "Up", noremap = true, silent = true })

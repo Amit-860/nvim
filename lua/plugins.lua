@@ -108,7 +108,11 @@ M.plugin_list = {
     },
     {
         "neovim/nvim-lspconfig",
-        opts = {},
+        opts = {
+            inlay_hints = { enabled = true },
+            codelens = { enabled = true },
+            document_highlight = { enabled = true }
+        },
         config = function()
             require('pluginSetups.lspConfig')
         end
@@ -177,6 +181,14 @@ M.plugin_list = {
             require('pluginSetups.dapConfig')
         end
     },
+    {
+        "mfussenegger/nvim-dap-python",
+        ft = 'python',
+        event = "LspAttach",
+        config = function()
+            require("dap-python").setup("~/scoop/apps/python/current/python")
+        end,
+    },
 
     -- Debugger user interface
     {
@@ -186,6 +198,11 @@ M.plugin_list = {
         config = function()
             require('pluginSetups.dapUIConfig')
         end
+    },
+    {
+        "theHamsta/nvim-dap-virtual-text",
+        event = "LspAttach",
+        opts = {}
     },
 
     -- Treesitter

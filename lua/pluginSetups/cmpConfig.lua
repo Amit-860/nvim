@@ -7,22 +7,6 @@ local ConfirmBehavior = cmp_types.ConfirmBehavior
 local SelectBehavior = cmp_types.SelectBehavior
 local compare = require('cmp.config.compare')
 
--- vim.api.nvim_set_hl(0, "CmpItemMenuM", { italic = true })
--- -- vim.api.nvim_set_hl(0, "CmpSelectedItemM", { bg = "#00495c", fg = "#dfdfe0", bold = true, reverse = true })
--- vim.api.nvim_set_hl(0, "CmpSelectedItemM", { bg = "#00495c", fg = "#dfdfe0", bold = true, })
--- vim.api.nvim_set_hl(0, "CmpComplitionMenuM", { bg = "#202d3f" })
---
--- vim.api.nvim_set_hl(0, "CmpItemKindClass", { bg = "#ff5c52", fg = "#131a24" })
--- vim.api.nvim_set_hl(0, "CmpItemKindStruct", { bg = "#ff5c52", fg = "#131a24" })
--- vim.api.nvim_set_hl(0, "CmpItemKindSnippet", { bg = "#59b9ff", fg = "#131a24" })
--- vim.api.nvim_set_hl(0, "CmpItemKindMethod", { bg = "#86abdc", fg = "#131a24" })
--- vim.api.nvim_set_hl(0, "CmpItemKindFunction", { bg = "#afafff", fg = "#131a24" })
--- vim.api.nvim_set_hl(0, "CmpItemKindField", { bg = "#7ad5d6", fg = "#131a24" })
--- vim.api.nvim_set_hl(0, "CmpItemKindVariable", { bg = "#dfdfe0", fg = "#131a24" })
--- vim.api.nvim_set_hl(0, "CmpItemKindValue", { bg = "#cfa333", fg = "#131a24" })
--- vim.api.nvim_set_hl(0, "CmpItemKindText", { bg = "#81b29a", fg = "#131a24" })
-
-
 local function jumpable(dir)
     local win_get_cursor = vim.api.nvim_win_get_cursor
     local get_current_buf = vim.api.nvim_get_current_buf
@@ -134,15 +118,14 @@ local cmp_opts = {
 
     window = {
         completion = {
-            -- winhighlight = "Normal:Pmenu,FloatBorder:Pmenu,CursorLine:@comment.note,Search:None",
             winhighlight =
-            "Normal:CmpComplitionMenuM,FloatBorder:CmpComplitionMenuM,CursorLine:CmpSelectedItemM,Search:None",
+            "Normal:CmpComplitionMenu,FloatBorder:CmpComplitionMenu,CursorLine:CmpSelectedItem,Search:None",
             -- border = 'single',
             col_offset = -3,
             side_padding = 0,
         },
         documentation = {
-            winhighlight = "Normal:CmpComplitionMenuM,FloatBorder:CmpComplitionMenuM,Search:None",
+            winhighlight = "Normal:CmpComplitionMenu,FloatBorder:CmpComplitionMenu,Search:None",
             -- border = 'single',
         },
     },
@@ -170,6 +153,18 @@ local cmp_opts = {
 
             -- vim_item.menu = "[" .. (source_icon[source] or source) .. "]"
             vim_item.menu = string.lower(kind)
+            vim_item.menu_hl_group = ({
+                Class = "CmpItemMenuClass",
+                Struct = "CmpItemMenuStruct",
+                Snippet = "CmpItemMenuSnippet",
+                Method = "CmpItemMenuMethod",
+                ["Function"] = "CmpItemMenuFunction",
+                Field = "CmpItemMenuField",
+                Enum = "CmpItemMenuEnum",
+                Variable = "CmpItemMenuVariable",
+                Value = "CmpItemMenuValue",
+                Text = "CmpItemMenuText",
+            })[kind]
 
             -- trims down the extra long suggestions
             local function trim(text)
@@ -185,6 +180,7 @@ local cmp_opts = {
             return vim_item
         end
     },
+
 
     confirm_opts = {
         behavior = ConfirmBehavior.Replace,
@@ -265,9 +261,14 @@ local cmp_opts = {
 
     sorting = {
         comparators = {
+            compare.offset,
             compare.exact,
+            compare.score,
             compare.recently_used,
-            -- compare.length,
+            compare.kind,
+            compare.sort_text,
+            compare.length,
+            compare.order,
         }
     }
 }

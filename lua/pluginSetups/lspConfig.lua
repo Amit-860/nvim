@@ -13,6 +13,8 @@ end
 local on_attach = function(client, bufnr)
     -- lsp keymap
     -- vim.keymap.set("n", "<leader>l", "<nop>", { desc = "+LSP", noremap = true, buffer=bufnr })
+    vim.keymap.set({ "n", "i" }, "<c-K>", "<cmd>lua vim.lsp.buf.signature_help()<CR>",
+        { desc = "Signature Help", noremap = true, buffer = bufnr })
     vim.keymap.set({ "n" }, "<leader>la", "<cmd>lua vim.lsp.buf.code_action()<CR>",
         { desc = "Code Action", noremap = true, buffer = bufnr })
     vim.keymap.set({ "n" }, "<leader>lr", "<cmd>Telescope lsp_references theme=get_ivy<CR>",
@@ -27,6 +29,13 @@ local on_attach = function(client, bufnr)
         { desc = "Document Symbols", noremap = true, buffer = bufnr })
     vim.keymap.set({ "n" }, "<leader>lD", "<cmd>Telescope diagnostics bufnr=0 theme=get_ivy<CR>",
         { desc = "Diagnostics", noremap = true, buffer = bufnr })
+
+    vim.keymap.set({ "n" }, "<leader>lH",
+        function()
+            local hint_flag = not vim.lsp.inlay_hint.is_enabled()
+            vim.lsp.inlay_hint.enable(hint_flag)
+        end,
+        { desc = "Hints", noremap = true, buffer = bufnr })
 
     -- lsp lines
     local lsp_lines_enable = false
@@ -43,6 +52,11 @@ local on_attach = function(client, bufnr)
         end,
         { desc = "Toggle HlChunk", noremap = true }
     )
+
+    -- inlay hint
+    if client.server_capabilities.inlayHintProvider then
+        vim.lsp.inlay_hint.enable(true)
+    end
 end
 
 
@@ -55,5 +69,31 @@ local lspconfig = require('lspconfig')
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
 -- Replace <YOUR_LSP_SERVER> with each lsp server you've enabled.
-lspconfig['lua_ls'].setup { capabilities = capabilities, on_attach = on_attach, inlay_hints = { enabled = true } }
-lspconfig['pyright'].setup { capabilities = capabilities, on_attach = on_attach, inlay_hints = { enabled = true } }
+--
+local lua_ls_settings = {
+    Lua = {
+        workspace = {
+            checkThirdParty = false,
+        },
+        codeLens = {
+            enable = true,
+        },
+        completion = {
+            callSnippet = "Replace",
+        },
+        doc = {
+            privateName = { "^_" },
+        },
+        hint = {
+            enable = true,
+            setType = false,
+            paramType = true,
+            paramName = true,
+            semicolon = "Disable",
+            arrayIndex = "Disable",
+        }
+    }
+}
+lspconfig['lua_ls'].setup { capabilities = capabilities, on_attach = on_attach, settings = lua_ls_settings }
+
+lspconfig['pyright'].setup { capabilities = capabilities, on_attach = on_attach, }
