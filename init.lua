@@ -121,6 +121,9 @@ end
 vim.opt.rtp:prepend(lazypath)
 require('lazy').setup(require("plugins").plugin_list)
 
+-- colorschemes
+vim.cmd("colorscheme nightfox")
+
 -- adding lvim default keybinds
 require('lvimKeyBinds')
 
@@ -168,5 +171,3 @@ if vim.g.neovide then
     vim.o.winblend = 50
     vim.o.pumblend = 50
 end
-
-vim.cmd("colorscheme nightfox")

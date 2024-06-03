@@ -85,7 +85,7 @@ require('gitsigns').setup {
         map('n', '<leader>gu', '<cmd>Gitsigns undo_stage_hunk<CR>', { desc = "Stage Hunk" })
         map('n', '<leader>gR', '<cmd>Gitsigns reset_buffer<CR>', { desc = "Reset Buffer" })
         map('n', '<leader>gp', '<cmd>Gitsigns preview_hunk<CR>', { desc = "Preview Hunk" })
-        map('n', '<leader>gb', '<cmd>lua require"gitsigns".blame_line{full=true}<CR>', { desc = "Blame" })
+        map('n', '<leader>gB', '<cmd>lua require"gitsigns".blame_line{full=true}<CR>', { desc = "Blame" })
         map('n', '<leader>gb', '<cmd>Gitsigns toggle_current_line_blame<CR>', { desc = "Toggle Curr_line Blame" })
         map('n', '<leader>gx', '<cmd>Gitsigns toggle_deleted<CR>', { desc = "Toggle Delete" })
 
