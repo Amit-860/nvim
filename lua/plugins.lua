@@ -2,38 +2,25 @@ M = {}
 M.plugin_list = {
     -- theme
     {
-        "xiyaowong/transparent.nvim",
-        cond = not vim.g.neovide,
-        config = function()
-            require("transparent").setup({
-                groups = { "Normal", "NormalNC", "Comment", "Constant", "Special", "Identifier",
-                    "Statement", "PreProc", "Type", "Underlined", "Todo", "String", "Function",
-                    "Conditional", "Repeat", "Operator", "Structure", "LineNr", "NonText", "SignColumn",
-                    "CursorLineNr", "EndOfBuffer", },
-                extra_groups = { "FloatBorder", --[["NvimTreeWinSeparator",]] "NvimTreeNormal",
-                    "NvimTreeNormalNC", "NvimTreeEndOfBuffer", "TroubleNormal", "TelescopeNormal",
-                    "TelescopeBorder", "WhichKeyFloat", },
-            })
-            vim.g.transparent_enabled = true
-        end,
-    },
-    {
         "EdenEast/nightfox.nvim",
         cond = not vim.g.vscode,
         lazy = false,
         priority = 1000,
-        -- config = function()
-        --     if not vim.g.neovide then
-        --         require('nightfox').setup({
-        --             options = {
-        --                 transparent = true,     -- Disable setting background
-        --                 terminal_colors = true, -- Set terminal colors (vim.g.terminal_color_*) used in `:terminal`
-        --                 dim_inactive = false,   -- Non focused panes set to alternative background
-        --                 module_default = true
-        --             }
-        --         })
-        --     end
-        -- end
+        config = function()
+            --     if not vim.g.neovide then
+            --         require('nightfox').setup({
+            --             options = {
+            --                 transparent = true,     -- Disable setting background
+            --                 terminal_colors = true, -- Set terminal colors (vim.g.terminal_color_*) used in `:terminal`
+            --                 dim_inactive = false,   -- Non focused panes set to alternative background
+            --                 module_default = true
+            --             }
+            --         })
+            --     end
+
+            -- colorschemes
+            vim.cmd("colorscheme nightfox")
+        end
     },
     {
         "nvim-tree/nvim-web-devicons",
@@ -554,6 +541,24 @@ M.plugin_list = {
                 performance_mode = false,    -- Disable "Performance Mode" on all buffers.
             })
         end
+    },
+
+    -- transparency
+    {
+        "xiyaowong/transparent.nvim",
+        cond = not vim.g.neovide,
+        config = function()
+            require("transparent").setup({
+                groups = { "Normal", "NormalNC", "Comment", "Constant", "Special", "Identifier",
+                    "Statement", "PreProc", "Type", "Underlined", "Todo", "String", "Function",
+                    "Conditional", "Repeat", "Operator", "Structure", "LineNr", "NonText", "SignColumn",
+                    "CursorLineNr", "EndOfBuffer", },
+                extra_groups = { "FloatBorder", --[["NvimTreeWinSeparator",]] "NvimTreeNormal",
+                    "NvimTreeNormalNC", "NvimTreeEndOfBuffer", "TroubleNormal", "TelescopeNormal",
+                    "TelescopeBorder", "WhichKeyFloat", },
+            })
+            vim.g.transparent_enabled = true
+        end,
     },
 }
 

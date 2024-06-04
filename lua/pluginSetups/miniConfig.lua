@@ -38,6 +38,7 @@ starter.setup({
         new_section("Ignore current session", "lua require('persistence').stop()", "Session"),
 
         -- Files
+        new_section("New file", "ene | startinsert", "Files"),
         new_section("Find file", utils.smart_find_file, "Files"),
         new_section("Recent files", "Telescope oldfiles", "Files"),
 
@@ -64,8 +65,8 @@ starter.setup({
         new_section("Keybinds", [[edit ~/AppData/Local/nvim/lua/keybinds.lua]], "Nvim"),
 
         -- Built-ins
-        new_section("New file", "ene | startinsert", "Built-in"),
-        new_section("Quit", "qa", "Built-in"),
+        -- new_section("New file", "ene | startinsert", "Built-in"),
+        -- new_section("Quit", "qa", "Built-in"),
     },
     content_hooks = {
         starter.gen_hook.adding_bullet(),
@@ -102,7 +103,9 @@ require('mini.statusline').setup({
     use_icons = true,
     set_vim_settings = true,
 })
-require('mini.tabline').setup()
+require('mini.tabline').setup({
+    tabpage_section = 'right'
+})
 require('mini.basics').setup({
     options = { extra_ui = true, win_borders = 'double', },
     mappings = { windows = true, }

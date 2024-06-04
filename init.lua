@@ -53,6 +53,7 @@ local default_options = {
     tabstop = 4,            -- insert 2 spaces for a tab
     number = true,          -- set numbered lines
     numberwidth = 4,        -- set number column width to 2 {default 4}
+    relativenumber = true,
     signcolumn = "yes",     -- always show the sign column, otherwise it would shift the text each time
     wrap = false,           -- display lines as one long line
     scrolloff = 8,          -- minimal number of screen lines to keep above and below the cursor.
@@ -120,9 +121,6 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 require('lazy').setup(require("plugins").plugin_list)
-
--- colorschemes
-vim.cmd("colorscheme nightfox")
 
 -- adding lvim default keybinds
 require('lvimKeyBinds')
