@@ -11,7 +11,11 @@ end
 
 M.zoxide = function()
     vim.ui.input({ prompt = "Pattern : " }, function(input)
-        vim.cmd("Z " .. input)
+        if input then
+            vim.cmd("Z " .. input)
+        else
+            return
+        end
     end)
 end
 
@@ -24,6 +28,8 @@ M.find_and_replace = function()
         vim.ui.input({ prompt = "Replace : " }, function(input)
             vim.cmd(":%s/" .. word .. "/" .. input .. "/gc")
         end)
+    else
+        return
     end
 end
 

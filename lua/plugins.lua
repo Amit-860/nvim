@@ -61,7 +61,19 @@ M.plugin_list = {
         event = "VeryLazy",
         config = function()
             require("nvim-surround").setup({
-                -- Configuration here, or leave empty to use defaults
+                keymaps = {
+                    insert = "<C-g>s",
+                    insert_line = "<C-g>S",
+                    normal = "ys",
+                    normal_cur = "yss",
+                    normal_line = "yS",
+                    normal_cur_line = "ySS",
+                    visual = "S",
+                    visual_line = "gS",
+                    delete = "dS",
+                    change = "cS",
+                    change_line = "cS",
+                },
             })
         end
     },
@@ -284,7 +296,7 @@ M.plugin_list = {
     },
     {
         "folke/flash.nvim",
-        event = "User FileOpened",
+        event = "BufReadPre",
         cond = not vim.g.vscode,
         opts = {
             modes = {
