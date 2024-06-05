@@ -84,7 +84,9 @@ if not vim.g.vscode then
     -- are in ./pluginSetups/lspConfig.lua
 
     -- DAP keymappings
-    vim.keymap.set("n", "<F5>", function() require('dap').continue() end,
+    -- vim.keymap.set("n", "<F5>", function() require('dap').continue() end,
+    --     { desc = "Continue", noremap = true, silent = true })
+    vim.keymap.set("n", "<F5>", "<CMD>DapContinue<CR>",
         { desc = "Continue", noremap = true, silent = true })
     vim.keymap.set("n", "<F9>", function() require('dap').toggle_breakpoint() end,
         { desc = "Breakpoints", noremap = true, silent = true })

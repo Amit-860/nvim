@@ -101,12 +101,18 @@ M.plugin_list = {
     },
     {
         "williamboman/mason.nvim",
+        lazy = true,
+        cmd = { "Mason" },
     },
     {
         "williamboman/mason-lspconfig.nvim",
+        lazy = true
     },
     {
         "neovim/nvim-lspconfig",
+        dependencies = {
+            "williamboman/mason-lspconfig.nvim",
+        },
         opts = {
             codelens = { enabled = true },
             document_highlight = { enabled = true }
@@ -123,7 +129,7 @@ M.plugin_list = {
     },
     {
         "stevearc/conform.nvim",
-        event = "LspAttach",
+        event = "BufReadPre",
         config = function()
             local slow_format_filetypes = {}
             require("conform").setup({
@@ -173,7 +179,8 @@ M.plugin_list = {
     -- Debugging
     {
         "mfussenegger/nvim-dap",
-        event = "LspAttach",
+        event = "User FileOpened",
+        cmd = { "DapContinue" },
         dependencies = { "rcarriga/nvim-dap-ui", },
         config = function()
             require('pluginSetups.dapConfig')
@@ -182,7 +189,6 @@ M.plugin_list = {
     {
         "mfussenegger/nvim-dap-python",
         ft = 'python',
-        event = "LspAttach",
         config = function()
             require("dap-python").setup("~/scoop/apps/python/current/python")
         end,
@@ -191,7 +197,7 @@ M.plugin_list = {
     -- Debugger user interface
     {
         "rcarriga/nvim-dap-ui",
-        evert = "VeryLazy",
+        event = "VeryLazy",
         dependencies = { "mfussenegger/nvim-dap", "nvim-neotest/nvim-nio" },
         config = function()
             require('pluginSetups.dapUIConfig')
@@ -215,7 +221,7 @@ M.plugin_list = {
             "TSInstallSync",
             "TSInstallFromGrammar",
         },
-        event = "User FileOpened",
+        lazy = true,
         config = function()
             local ts_opts = require('pluginSetups.treeSitterConfig')
             require 'nvim-treesitter.configs'.setup(ts_opts)
@@ -223,6 +229,7 @@ M.plugin_list = {
     },
     {
         "romgrk/nvim-treesitter-context",
+        event = "VeryLazy",
         config = function()
             require("treesitter-context").setup({
                 enable = true,   -- Enable this plugin (Can be enabled/disabled later via commands)
@@ -234,15 +241,20 @@ M.plugin_list = {
     },
     {
         "chrisgrieser/nvim-various-textobjs",
+        event = "VeryLazy",
         config = function()
             require("various-textobjs").setup({ useDefaultKeymaps = true })
         end,
     },
-    { "nvim-treesitter/nvim-treesitter-textobjects" },
+    {
+        "nvim-treesitter/nvim-treesitter-textobjects",
+        event = "VeryLazy",
+    },
     {
         "ckolkey/ts-node-action",
+        event = "BufReadPre",
         dependencies = { "nvim-treesitter" },
-        Lazy = 'VeryLazy',
+        lazy = true,
         opts = {},
     },
     {
@@ -261,7 +273,7 @@ M.plugin_list = {
     -- { "wellle/targets.vim" },
     {
         "AgusDOLARD/backout.nvim",
-        event = "User FileOpened",
+        event = "BufReadPre",
         opts = {
             chars = "(){}[]`'\"<>" -- default chars
         },
@@ -306,24 +318,10 @@ M.plugin_list = {
 
         },
         keys = {
-            {
-                "s", mode = { "n", "x", "o" }, function() require("flash").jump({}) end, desc = "Flash"
-            },
-            {
-                "<M-s>",
-                mode = { "n", "o", "x" },
-                function() require("flash").treesitter() end,
-                desc = "Flash Treesitter"
-            },
-            {
-                "S",
-                mode = { "n", "o", "x" },
-                function() require("flash").jump({ pattern = vim.fn.expand("<cword>") }) end,
-                desc = "Flash Treesitter"
-            },
-            {
-                "<M-/>", mode = { "n" }, function() require("flash").toggle() end, desc = "Toggle Flash Search"
-            },
+            { "s",     mode = { "n", "x", "o" }, function() require("flash").jump({}) end,                                     desc = "Flash" },
+            { "<M-s>", mode = { "n", "o", "x" }, function() require("flash").treesitter() end,                                 desc = "Flash Treesitter" },
+            { "S",     mode = { "n", "o", "x" }, function() require("flash").jump({ pattern = vim.fn.expand("<cword>") }) end, desc = "Flash Treesitter" },
+            { "<M-/>", mode = { "n" },           function() require("flash").toggle() end,                                     desc = "Toggle Flash Search" },
         },
     },
     {
@@ -504,6 +502,7 @@ M.plugin_list = {
     -- },
     {
         "NeogitOrg/neogit",
+        cmd = { "Neogit" },
         dependencies = {
             "nvim-lua/plenary.nvim",  -- required
             "sindrets/diffview.nvim", -- optional - Diff integration
