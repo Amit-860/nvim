@@ -134,6 +134,10 @@ if not vim.g.vscode then
             require 'telescope'.extensions.project.project { display_type = 'full' }
         end,
         { desc = "Projects", noremap = true, silent = true })
+
+    -- Mason
+    vim.keymap.set("n", "<leader>lM", ":Mason<cr>",
+        { desc = "Mason", noremap = true, silent = true })
 end
 
 -- general

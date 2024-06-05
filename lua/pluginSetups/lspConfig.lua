@@ -97,3 +97,4 @@ local lua_ls_settings = {
 lspconfig['lua_ls'].setup { capabilities = capabilities, on_attach = on_attach, settings = lua_ls_settings }
 
 lspconfig['pyright'].setup { capabilities = capabilities, on_attach = on_attach, }
+lspconfig['jsonls'].setup { capabilities = capabilities, on_attach = on_attach, }
