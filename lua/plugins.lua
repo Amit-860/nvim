@@ -96,7 +96,6 @@ M.plugin_list = {
     {
         "neovim/nvim-lspconfig",
         opts = {
-            inlay_hints = { enabled = true },
             codelens = { enabled = true },
             document_highlight = { enabled = true }
         },
@@ -553,7 +552,7 @@ M.plugin_list = {
                     "Statement", "PreProc", "Type", "Underlined", "Todo", "String", "Function",
                     "Conditional", "Repeat", "Operator", "Structure", "LineNr", "NonText", "SignColumn",
                     "CursorLineNr", "EndOfBuffer", },
-                extra_groups = { "FloatBorder", --[["NvimTreeWinSeparator",]] "NvimTreeNormal",
+                extra_groups = { --[["FloatBorder", "NvimTreeWinSeparator",]] "NvimTreeNormal",
                     "NvimTreeNormalNC", "NvimTreeEndOfBuffer", "TroubleNormal", "TelescopeNormal",
                     "TelescopeBorder", "WhichKeyFloat", },
             })
