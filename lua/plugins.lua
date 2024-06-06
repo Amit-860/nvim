@@ -131,7 +131,7 @@ M.plugin_list = {
     },
     {
         "stevearc/conform.nvim",
-        event = "BufReadPre",
+        event = "LspAttach",
         config = function()
             local slow_format_filetypes = {}
             require("conform").setup({
@@ -440,7 +440,7 @@ M.plugin_list = {
         "L3MON4D3/LuaSnip",
         version = "v2.*", -- Replace <CurrentMajor> by the latest released major (first number of latest release)
         build = "make install_jsregexp",
-        event = "VeryLazy",
+        event = "LspAttach",
         config = function()
             require("luasnip").setup()
             require("luasnip.loaders.from_vscode").lazy_load()
