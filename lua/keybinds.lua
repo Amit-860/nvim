@@ -154,9 +154,16 @@ vim.keymap.set({ 'n', 'i', 'v' }, "<c-s>", "<esc>:w!<cr>", { noremap = true, sil
 
 
 -- Treesitter
-local ts_repeat_move = require "nvim-treesitter.textobjects.repeatable_move"
-vim.keymap.set({ "n", "x", "o" }, ";", ts_repeat_move.repeat_last_move_next)
-vim.keymap.set({ "n", "x", "o" }, ",", ts_repeat_move.repeat_last_move_previous)
+vim.keymap.set({ "n", "x", "o" }, ";",
+    function()
+        require "nvim-treesitter.textobjects.repeatable_move".repeat_last_move_next()
+    end, {}
+)
+vim.keymap.set({ "n", "x", "o" }, ",",
+    function()
+        require "nvim-treesitter.textobjects.repeatable_move".repeat_last_move_previous()
+    end, {}
+)
 vim.keymap.set({ "n" }, "<M-.>", "<cmd>lua require('ts-node-action').node_action()<cr>",
     { desc = "Trigger Node Action" })
 

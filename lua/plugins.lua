@@ -90,7 +90,7 @@ M.plugin_list = {
     -- LSP
     {
         "folke/neodev.nvim",
-        lazy = true,
+        event = "VeryLazy"
     },
     {
         "folke/persistence.nvim",
@@ -110,6 +110,7 @@ M.plugin_list = {
     },
     {
         "neovim/nvim-lspconfig",
+        event = "VeryLazy",
         dependencies = {
             "williamboman/mason-lspconfig.nvim",
         },
@@ -123,6 +124,7 @@ M.plugin_list = {
     },
     {
         "nvim-telescope/telescope.nvim",
+        event = "VeryLazy",
         config = function()
             require('pluginSetups.telescopeConfig')
         end
@@ -248,7 +250,7 @@ M.plugin_list = {
     },
     {
         "nvim-treesitter/nvim-treesitter-textobjects",
-        event = "VeryLazy",
+        event = "VeryLazy"
     },
     {
         "ckolkey/ts-node-action",
@@ -438,7 +440,7 @@ M.plugin_list = {
         "L3MON4D3/LuaSnip",
         version = "v2.*", -- Replace <CurrentMajor> by the latest released major (first number of latest release)
         build = "make install_jsregexp",
-        event = "LspAttach",
+        event = "VeryLazy",
         config = function()
             require("luasnip").setup()
             require("luasnip.loaders.from_vscode").lazy_load()
@@ -455,15 +457,15 @@ M.plugin_list = {
     -- telescope
     {
         "gbrlsnchs/telescope-lsp-handlers.nvim",
-        event = "LspAttach"
+        event = "VeryLazy"
     },
     {
         "nvim-telescope/telescope-ui-select.nvim",
-        event = "UIEnter"
+        event = "VeryLazy"
     },
     {
         "debugloop/telescope-undo.nvim",
-        event = "BufReadPre"
+        cmd = { "Telescope undo" }
     },
     {
         'nvim-telescope/telescope-project.nvim',
