@@ -24,7 +24,7 @@ if not vim.g.vscode then
         { noremap = true, silent = true, desc = 'Recent Files' })
 
     -- close Buffer
-    vim.keymap.set("n", "<leader>c", "<cmd>bd<cr>", { noremap = true, silent = true, desc = 'Close Buffer' })
+    vim.keymap.set("n", "<leader>x", "<cmd>bd<cr>", { noremap = true, silent = true, desc = 'Close Buffer' })
 
 
     -- session
@@ -65,13 +65,6 @@ if not vim.g.vscode then
     -- Home
     vim.keymap.set('n', "<leader>.", ":lua MiniStarter.open()<cr>",
         { noremap = true, silent = true, desc = 'which_key_ignore' })
-
-
-    -- Code Runner
-    -- vim.keymap.set("n", "<leader>r", "<nop>", { desc = "+Run", noremap = true })
-    vim.keymap.set("n", "<leader>rf", "<cmd>RunFile<CR>", { noremap = true, silent = true, desc = "Run File", })
-    vim.keymap.set("n", "<leader>rc", "<cmd>RunCode<CR>", { noremap = true, silent = true, desc = "Run Code", })
-
 
     --lazy
     -- vim.keymap.set("n", "<leader>P", "<nop>", { desc = "+Plugins Mgr", noremap = true })
@@ -117,7 +110,7 @@ if not vim.g.vscode then
         { desc = "Zoxide", noremap = true, silent = true })
 
     -- Find and Replace
-    vim.keymap.set("n", "<leader>x", utils.find_and_replace,
+    vim.keymap.set("n", "<leader>R", utils.find_and_replace,
         { desc = "Replace", noremap = true, silent = true })
 
     -- help
@@ -140,6 +133,14 @@ if not vim.g.vscode then
     -- Mason
     vim.keymap.set("n", "<leader>lM", ":Mason<cr>",
         { desc = "Mason", noremap = true, silent = true })
+
+    -- yanky
+    vim.keymap.set({ "n", "x" }, "p", "<Plug>(YankyPutAfter)",
+        { noremap = true, silent = true, desc = "Yanky Put After" })
+    vim.keymap.set({ "n", "x" }, "P", "<Plug>(YankyPutBefore)",
+        { noremap = true, silent = true, desc = "Yanky Put Before" })
+    vim.keymap.set("n", "<leader>fy", "<CMD>Telescope yank_history<CR>",
+        { noremap = true, silent = true, desc = "Yanky History" })
 end
 
 -- general

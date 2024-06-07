@@ -94,7 +94,7 @@ M.plugin_list = {
     },
     {
         "folke/persistence.nvim",
-        event = "BufReadPre", -- this will only start session saving when an actual file was opened
+        -- event = "BufRead", -- this will only start session saving when an actual file was opened
         opts = {
             -- add any custom options here
         }
@@ -272,7 +272,6 @@ M.plugin_list = {
     },
 
     -- motion
-    -- { "wellle/targets.vim" },
     {
         "AgusDOLARD/backout.nvim",
         event = "BufReadPre",
@@ -571,6 +570,16 @@ M.plugin_list = {
             })
             vim.g.transparent_enabled = true
         end,
+    },
+
+    -- clipboard
+    {
+        "gbprod/yanky.nvim",
+        recommended = true,
+        event = "VeryLazy",
+        opts = {
+            highlight = { timer = 300 },
+        },
     },
 }
 

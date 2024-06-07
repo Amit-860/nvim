@@ -98,14 +98,13 @@ which_key.register({
 
 which_key.register({
     f = { name = "Find" },
-    ['/'] = { name = "which_key_ignore" },
     g = { name = "Git" },
     gd = { name = "Diff", },
     L = { name = "LeetCode" },
     l = { name = "LSP" },
     t = { name = "Trouble" },
     D = { name = "Debug" },
-    r = { name = "Run" },
+    -- r = { name = "Run" },
     S = { name = "Session" },
     P = { name = "Plugins" },
     q = { name = "Quit" },

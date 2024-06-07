@@ -1,6 +1,6 @@
 local utils = require('utils')
 require('mini.ai').setup()
-require('mini.align').setup()
+-- require('mini.align').setup()
 require('mini.comment').setup({
     mappings = {
         -- Toggle comment (like `gcip` - comment inner paragraph) for both

@@ -57,6 +57,11 @@ local on_attach = function(client, bufnr)
     -- if client.server_capabilities.inlayHintProvider then
     --     vim.lsp.inlay_hint.enable(true)
     -- end
+
+    -- Code Runner
+    vim.keymap.set("n", "<leader>r", "<nop>", { desc = "which_key_ignore", noremap = true })
+    vim.keymap.set("n", "<leader>rf", "<cmd>RunFile<CR>", { noremap = true, silent = true, desc = "Run File", })
+    vim.keymap.set("n", "<leader>rc", "<cmd>RunCode<CR>", { noremap = true, silent = true, desc = "Run Code", })
 end
 
 

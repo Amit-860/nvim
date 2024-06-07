@@ -139,7 +139,13 @@ local cmp_opts = {
             -- vim_item.kind = (icons[vim_item.kind] or "?") .. " " .. vim_item.kind             -- for icon without matching color label
             -- vim_item.kind = (icons[vim_item.kind] or "?") .. " "                              -- for icon without label
             -- vim_item.kind = " " .. lspkind.presets.default[kind] .. " " .. kind
-            vim_item.kind = " " .. lspkind.presets.default[kind] .. " "
+
+            if not kind then
+                kind = ""
+                vim_item.kind = " " .. "?" .. " "
+            else
+                vim_item.kind = " " .. lspkind.presets.default[kind] .. " "
+            end
 
             -- vim_item.menu = " (" .. kind .. ")"
 
