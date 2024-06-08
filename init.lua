@@ -167,5 +167,5 @@ if vim.g.neovide then
     vim.g.neovide_fullscreen = false
 
     vim.o.winblend = 50
-    vim.o.pumblend = 50
+    vim.o.pumblend = 20
 end

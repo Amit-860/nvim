@@ -26,9 +26,52 @@ M.plugin_list = {
         "nvim-tree/nvim-web-devicons",
         lazy = true,
     },
+    {
+        "folke/noice.nvim",
+        cond = function()
+            if vim.g.neovide then return true end
+            return false
+        end,
+        event = "VeryLazy",
+        opts = {},
+        dependencies = { "MunifTanjim/nui.nvim" },
+        config = function()
+            require("noice").setup({
+                lsp = {
+                    progress = {
+                        enabled = false,
+                        format = "lsp_progress",
+                        format_done = "lsp_progress_done",
+                        throttle = 1000 / 30, -- frequency to update lsp progress message
+                        view = "mini",
+                    },
+                    override = {
+                        ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
+                        ["vim.lsp.util.stylize_markdown"] = true,
+                        ["cmp.entry.get_documentation"] = true,
+                    },
+                    signature = { enabled = false, },
+                    hover = { enabled = false, },
+                },
+                routes = {
+                    enabled = false,
+                    { view = "cmdline", filter = { event = "msg_showmode" } }
+                },
+                presets = {
+                    bottom_search = false,        -- use a classic bottom cmdline for search
+                    command_palette = false,      -- position the cmdline and popupmenu together
+                    long_message_to_split = true, -- long messages will be sent to a split
+                    inc_rename = true,            -- enables an input dialog for inc-rename.nvim
+                    lsp_doc_border = false,       -- add a border to hover docs and signature help
+                },
+            })
+        end,
+    },
+
     -- faster
     {
         'pteroctopus/faster.nvim',
+        event = "UIEnter",
         opts = {}
     },
 
@@ -94,7 +137,7 @@ M.plugin_list = {
     },
     {
         "folke/persistence.nvim",
-        -- event = "BufRead", -- this will only start session saving when an actual file was opened
+        event = "BufReadPre", -- this will only start session saving when an actual file was opened
         opts = {
             -- add any custom options here
         }
@@ -366,6 +409,7 @@ M.plugin_list = {
     },
     {
         "max397574/better-escape.nvim",
+        event = "UIEnter",
         cond = not vim.g.vscode,
         config = function()
             require("better_escape").setup({
@@ -528,6 +572,7 @@ M.plugin_list = {
     -- scrollings
     {
         "karb94/neoscroll.nvim",
+        event = "VeryLazy",
         mappings = { -- Keys to be mapped to their corresponding default scrolling animation
             '<C-u>', '<C-d>',
             '<C-b>', '<C-f>',

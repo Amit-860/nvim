@@ -62,6 +62,7 @@ local on_attach = function(client, bufnr)
     vim.keymap.set("n", "<leader>r", "<nop>", { desc = "which_key_ignore", noremap = true })
     vim.keymap.set("n", "<leader>rf", "<cmd>RunFile<CR>", { noremap = true, silent = true, desc = "Run File", })
     vim.keymap.set("n", "<leader>rc", "<cmd>RunCode<CR>", { noremap = true, silent = true, desc = "Run Code", })
+    vim.keymap.set("n", "<F4>", "<cmd>RunCode<CR>", { noremap = true, silent = true, desc = "Run Code", })
 end
 
 

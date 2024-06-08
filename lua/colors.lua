@@ -4,7 +4,12 @@ vim.api.nvim_set_hl(0, "MatchParen", { bg = nil, fg = "#fffd00", underline = tru
 -- vim.api.nvim_set_hl(0, "CmpSelectedItem", { bg = "#00495c", fg = "#dfdfe0", bold = true, reverse = true })
 vim.api.nvim_set_hl(0, "CmpSelectedItem", { bg = "#00495c", fg = "#dfdfe0", bold = true, }) -- hilight for selected itme in cmp menu
 vim.api.nvim_set_hl(0, "CmpComplitionMenu", { bg = "#202d3f", })                            -- hilight for cmp menu
-vim.api.nvim_set_hl(0, "NormalFloat", { bg = "#202d3f", })                                  -- hilight for cmp menu
+
+if vim.g.neovide then
+    vim.api.nvim_set_hl(0, "NormalFloat", { bg = "#202d3f", blend = 75 }) -- hilight for cmp menu
+else
+    vim.api.nvim_set_hl(0, "NormalFloat", { bg = "#202d3f", blend = 20 }) -- hilight for cmp menu
+end
 
 -- cmp kind hl
 vim.api.nvim_set_hl(0, "CmpItemKindKeyword", { bg = "#cf3930", fg = "#131a24" })
