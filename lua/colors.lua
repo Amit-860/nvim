@@ -6,9 +6,11 @@ vim.api.nvim_set_hl(0, "CmpSelectedItem", { bg = "#00495c", fg = "#dfdfe0", bold
 vim.api.nvim_set_hl(0, "CmpComplitionMenu", { bg = "#202d3f", })                            -- hilight for cmp menu
 
 if vim.g.neovide then
-    vim.api.nvim_set_hl(0, "NormalFloat", { bg = "#202d3f", blend = 75 }) -- hilight for cmp menu
+    vim.api.nvim_set_hl(0, "NormalFloat", { bg = "#202d3f", blend = 75 })       -- hilight for cmp menu
+    vim.api.nvim_set_hl(0, "NoiceCmdlinePopup", { bg = "#202d3f", blend = 75 }) -- hilight for cmp menu
 else
-    vim.api.nvim_set_hl(0, "NormalFloat", { bg = "#202d3f", blend = 20 }) -- hilight for cmp menu
+    vim.api.nvim_set_hl(0, "NormalFloat", { bg = "#202d3f", blend = 15 })       -- hilight for cmp menu
+    vim.api.nvim_set_hl(0, "NoiceCmdlinePopup", { bg = "#202d3f", blend = 15 }) -- hilight for cmp menu
 end
 
 -- cmp kind hl

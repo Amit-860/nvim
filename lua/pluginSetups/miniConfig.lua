@@ -60,9 +60,9 @@ starter.setup({
         new_section("Leet", "Leet", "LeetCode"),
 
         -- config
-        new_section("Config", [[edit ~/AppData/Local/nvim/init.lua]], "Nvim"),
+        new_section("Init", [[edit ~/AppData/Local/nvim/init.lua]], "Nvim"),
         new_section("Plugins", [[edit ~/AppData/Local/nvim/lua/plugins.lua]], "Nvim"),
-        new_section("Keybinds", [[edit ~/AppData/Local/nvim/lua/keybinds.lua]], "Nvim"),
+        -- new_section("Keybinds", [[edit ~/AppData/Local/nvim/lua/keybinds.lua]], "Nvim"),
 
         -- Built-ins
         -- new_section("New file", "ene | startinsert", "Built-in"),
@@ -106,10 +106,10 @@ require('mini.statusline').setup({
 require('mini.tabline').setup({
     tabpage_section = 'right'
 })
-require('mini.basics').setup({
-    options = { extra_ui = true, win_borders = 'double', },
-    mappings = { windows = true, }
-})
+-- require('mini.basics').setup({
+--     options = { extra_ui = true, win_borders = 'double', },
+--     mappings = { windows = true, }
+-- })
 
 local hipatterns = require('mini.hipatterns')
 hipatterns.setup({

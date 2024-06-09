@@ -104,7 +104,7 @@ which_key.register({
     l = { name = "LSP" },
     t = { name = "Trouble" },
     D = { name = "Debug" },
-    -- r = { name = "Run" },
+    r = { name = "which_key_ignore" },
     S = { name = "Session" },
     P = { name = "Plugins" },
     q = { name = "Quit" },

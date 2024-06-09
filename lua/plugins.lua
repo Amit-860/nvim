@@ -28,10 +28,10 @@ M.plugin_list = {
     },
     {
         "folke/noice.nvim",
-        cond = function()
-            if vim.g.neovide then return true end
-            return false
-        end,
+        -- cond = function()
+        --     if vim.g.neovide then return true end
+        --     return false
+        -- end,
         event = "VeryLazy",
         opts = {},
         dependencies = { "MunifTanjim/nui.nvim" },
@@ -54,7 +54,7 @@ M.plugin_list = {
                     hover = { enabled = false, },
                 },
                 routes = {
-                    enabled = false,
+                    enabled = true,
                     { view = "cmdline", filter = { event = "msg_showmode" } }
                 },
                 presets = {
@@ -605,13 +605,42 @@ M.plugin_list = {
         cond = not vim.g.neovide,
         config = function()
             require("transparent").setup({
-                groups = { "Normal", "NormalNC", "Comment", "Constant", "Special", "Identifier",
-                    "Statement", "PreProc", "Type", "Underlined", "Todo", "String", "Function",
-                    "Conditional", "Repeat", "Operator", "Structure", "LineNr", "NonText", "SignColumn",
-                    "CursorLineNr", "EndOfBuffer", },
-                extra_groups = { --[["FloatBorder", "NvimTreeWinSeparator",]] "NvimTreeNormal",
-                    "NvimTreeNormalNC", "NvimTreeEndOfBuffer", "TroubleNormal", "TelescopeNormal",
-                    "TelescopeBorder", "WhichKeyFloat", },
+                groups = {
+                    "Normal",
+                    "NormalNC",
+                    "Comment",
+                    "Constant",
+                    "Special",
+                    "Identifier",
+                    "Statement",
+                    "PreProc",
+                    "Type",
+                    "Underlined",
+                    "Todo",
+                    "String",
+                    "Function",
+                    "Conditional",
+                    "Repeat",
+                    "Operator",
+                    "Structure",
+                    "LineNr",
+                    "NonText",
+                    "SignColumn",
+                    "CursorLineNr",
+                    "EndOfBuffer",
+                },
+                extra_groups = {
+                    "FloatBorder",
+                    "NvimTreeWinSeparator",
+                    "NvimTreeNormal",
+                    "NvimTreeNormalNC",
+                    "NvimTreeEndOfBuffer",
+                    "TroubleNormal",
+                    "TelescopeNormal",
+                    "TelescopeBorder",
+                    "TelescopeTitle",
+                    "WhichKeyFloat",
+                },
             })
             vim.g.transparent_enabled = true
         end,
