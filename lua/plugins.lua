@@ -514,6 +514,10 @@ M.plugin_list = {
         'nvim-telescope/telescope-project.nvim',
         event = "UIEnter"
     },
+    {
+        "nvim-telescope/telescope-file-browser.nvim",
+        cmd = { 'Telescope file_browser' },
+    },
 
     -- git
     {
@@ -636,9 +640,9 @@ M.plugin_list = {
                     "NvimTreeNormalNC",
                     "NvimTreeEndOfBuffer",
                     "TroubleNormal",
-                    "TelescopeNormal",
-                    "TelescopeBorder",
-                    "TelescopeTitle",
+                    -- "TelescopeNormal",
+                    -- "TelescopeBorder",
+                    -- "TelescopeTitle",
                     "WhichKeyFloat",
                 },
             })

@@ -159,7 +159,21 @@ local telescope_opts = {
                 local project_actions = require("telescope._extensions.project.actions")
                 project_actions.change_working_directory(prompt_bufnr, false)
             end
-        }
+        },
+        file_browser = {
+            theme = "ivy",
+            -- disables netrw and use telescope-file-browser in its place
+            hijack_netrw = true,
+            initial_mode = "normal",
+            mappings = {
+                ["i"] = {
+                    -- your custom insert mode mappings
+                },
+                ["n"] = {
+                    -- your custom normal mode mappings
+                },
+            },
+        },
     }
 }
 
@@ -175,3 +189,4 @@ require("telescope").load_extension("lsp_handlers")
 require("telescope").load_extension("ui-select")
 require("telescope").load_extension("undo")
 require 'telescope'.load_extension('project')
+require("telescope").load_extension "file_browser"

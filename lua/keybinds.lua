@@ -141,6 +141,12 @@ if not vim.g.vscode then
         { noremap = true, silent = true, desc = "Yanky Put Before" })
     vim.keymap.set("n", "<leader>fy", "<CMD>Telescope yank_history<CR>",
         { noremap = true, silent = true, desc = "Yanky History" })
+
+    -- file browser
+    vim.keymap.set({ "n" }, "<leader>fB", "<cmd>Telescope file_browser<CR>",
+        { noremap = true, silent = true, desc = "File Browser" })
+    vim.keymap.set({ "n" }, "<leader>fb", "<cmd>Telescope file_browser path=%:p:h select_buffer=true<CR>",
+        { noremap = true, silent = true, desc = "File Browser ." }) -- open file_browser with the path of the current buffer
 end
 
 -- general

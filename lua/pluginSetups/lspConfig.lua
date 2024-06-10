@@ -66,8 +66,8 @@ local on_attach = function(client, bufnr)
 end
 
 
-
-require("neodev").setup({})
+-- comment below line to disable lsp support for nvim files
+-- require("neodev").setup({})
 
 local lspconfig = require('lspconfig')
 
