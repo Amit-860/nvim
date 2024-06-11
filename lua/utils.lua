@@ -26,6 +26,33 @@ M.find_and_replace = function()
     end)
     if word then
         vim.ui.input({ prompt = "Replace : " }, function(input)
+            if not input then return end
+            vim.cmd(":%s/" .. word .. "/" .. input .. "/gc")
+        end)
+    else
+        return
+    end
+end
+
+function M.getVisualSelection()
+    vim.cmd('noau normal! "vy"')
+    local text = vim.fn.getreg('v')
+    vim.fn.setreg('v', {})
+
+    text = string.gsub(text, "\n", "")
+    if #text > 0 then
+        return text
+    else
+        return ''
+    end
+end
+
+M.replace = function()
+    local word = nil
+    word = M.getVisualSelection()
+    if word then
+        vim.ui.input({ prompt = "Replace : " }, function(input)
+            if not input then return end
             vim.cmd(":%s/" .. word .. "/" .. input .. "/gc")
         end)
     else

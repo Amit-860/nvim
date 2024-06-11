@@ -110,7 +110,9 @@ if not vim.g.vscode then
         { desc = "Zoxide", noremap = true, silent = true })
 
     -- Find and Replace
-    vim.keymap.set("n", "<leader>R", utils.find_and_replace,
+    vim.keymap.set({ "n" }, "<leader>R", utils.find_and_replace,
+        { desc = "Replace", noremap = true, silent = true })
+    vim.keymap.set({ "v" }, "<leader>R", utils.replace,
         { desc = "Replace", noremap = true, silent = true })
 
     -- help

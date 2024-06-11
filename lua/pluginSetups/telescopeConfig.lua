@@ -163,8 +163,15 @@ local telescope_opts = {
         file_browser = {
             theme = "ivy",
             -- disables netrw and use telescope-file-browser in its place
+            -- layout_config = {
+            --     prompt_position = "top",
+            -- },
+            sorting_strategy = "ascending",
+            -- layout_strategy = "horizontal",
             hijack_netrw = true,
             initial_mode = "normal",
+            grouped = true,
+            initial_browser = "tree",
             mappings = {
                 ["i"] = {
                     -- your custom insert mode mappings
