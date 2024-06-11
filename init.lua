@@ -140,6 +140,9 @@ require('keybinds')
 -- hilighters
 require('colors')
 
+-- autocmd
+require('autocmd')
+
 -- vscode specific opts
 if vim.g.vscode then
 end

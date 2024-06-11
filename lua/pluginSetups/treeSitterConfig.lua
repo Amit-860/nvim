@@ -23,7 +23,10 @@ local ts_opts = {
         disable = {},  -- optional, list of language that will be disabled
     },
     highlight = {
-        enable = true, -- false will disable the whole extension
+        enable = true,                  -- false will disable the whole extension
+        disable = function(lang, bufnr) -- Disable in large C++ buffers
+            return vim.b.large_buf
+        end,
     },
     context_commentstring = {
         enable = true,
