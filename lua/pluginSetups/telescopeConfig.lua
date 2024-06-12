@@ -160,27 +160,27 @@ local telescope_opts = {
                 project_actions.change_working_directory(prompt_bufnr, false)
             end
         },
-        file_browser = {
-            theme = "ivy",
-            -- disables netrw and use telescope-file-browser in its place
-            -- layout_config = {
-            --     prompt_position = "top",
-            -- },
-            sorting_strategy = "ascending",
-            -- layout_strategy = "horizontal",
-            hijack_netrw = true,
-            initial_mode = "normal",
-            grouped = true,
-            initial_browser = "tree",
-            mappings = {
-                ["i"] = {
-                    -- your custom insert mode mappings
-                },
-                ["n"] = {
-                    -- your custom normal mode mappings
-                },
-            },
-        },
+        -- file_browser = {
+        --     theme = "ivy",
+        --     -- disables netrw and use telescope-file-browser in its place
+        --     -- layout_config = {
+        --     --     prompt_position = "top",
+        --     -- },
+        --     sorting_strategy = "ascending",
+        --     -- layout_strategy = "horizontal",
+        --     hijack_netrw = true,
+        --     initial_mode = "normal",
+        --     grouped = true,
+        --     initial_browser = "tree",
+        --     mappings = {
+        --         ["i"] = {
+        --             -- your custom insert mode mappings
+        --         },
+        --         ["n"] = {
+        --             -- your custom normal mode mappings
+        --         },
+        --     },
+        -- },
     }
 }
 
@@ -196,4 +196,4 @@ require("telescope").load_extension("lsp_handlers")
 require("telescope").load_extension("ui-select")
 require("telescope").load_extension("undo")
 require 'telescope'.load_extension('project')
-require("telescope").load_extension "file_browser"
+-- require("telescope").load_extension "file_browser"

@@ -502,10 +502,10 @@ M.plugin_list = {
         'nvim-telescope/telescope-project.nvim',
         event = "UIEnter"
     },
-    {
-        "nvim-telescope/telescope-file-browser.nvim",
-        cmd = { 'Telescope file_browser' },
-    },
+    -- {
+    --     "nvim-telescope/telescope-file-browser.nvim",
+    --     cmd = { 'Telescope file_browser' },
+    -- },
 
     -- git
     {
@@ -520,23 +520,30 @@ M.plugin_list = {
         "sindrets/diffview.nvim",
         cmd = { 'DiffviewOpen', 'DiffviewClose', 'FiffviewFileHistory' }
     },
-    -- {
-    --     "kdheepak/lazygit.nvim",
-    --     cmd = {
-    --         "LazyGit",
-    --         "LazyGitConfig",
-    --         "LazyGitCurrentFile",
-    --         "LazyGitFilter",
-    --         "LazyGitFilterCurrentFile",
-    --     },
-    --     -- optional for floating window border decoration
-    --     dependencies = {
-    --         "nvim-lua/plenary.nvim",
-    --     },
-    --     config = function()
-    --      require("telescope").load_extension("lazygit")
-    --     end
-    -- },
+
+    -- file broser
+    {
+        "mikavilpas/yazi.nvim",
+        dependencies = {
+            "nvim-lua/plenary.nvim",
+        },
+        event = "VeryLazy",
+        keys = {
+            {
+                "<leader>fB",
+                function() require("yazi").yazi() end,
+                desc = "File Broser",
+            },
+            {
+                "<leader>fb",
+                function() require("yazi").yazi(nil, vim.fn.getcwd()) end,
+                desc = "File Broser .",
+            },
+        },
+        opts = {
+            open_for_directories = false,
+        },
+    },
     {
         "NeogitOrg/neogit",
         cmd = { "Neogit" },
