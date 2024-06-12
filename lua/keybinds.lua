@@ -63,7 +63,14 @@ if not vim.g.vscode then
 
 
     -- Home
-    vim.keymap.set('n', "<leader>.", ":lua MiniStarter.open()<cr>",
+    vim.keymap.set('n', "<leader>.", function()
+            if vim.g.starter_opened then
+                MiniStarter.close()
+                vim.g.starter_opened = false
+            else
+                MiniStarter.open()
+            end
+        end,
         { noremap = true, silent = true, desc = 'which_key_ignore' })
 
     --lazy
