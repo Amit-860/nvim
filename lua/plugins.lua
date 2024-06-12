@@ -7,18 +7,6 @@ M.plugin_list = {
         lazy = false,
         priority = 1000,
         config = function()
-            --     if not vim.g.neovide then
-            --         require('nightfox').setup({
-            --             options = {
-            --                 transparent = true,     -- Disable setting background
-            --                 terminal_colors = true, -- Set terminal colors (vim.g.terminal_color_*) used in `:terminal`
-            --                 dim_inactive = false,   -- Non focused panes set to alternative background
-            --                 module_default = true
-            --             }
-            --         })
-            --     end
-
-            -- colorschemes
             vim.cmd("colorscheme nightfox")
         end
     },
@@ -153,7 +141,7 @@ M.plugin_list = {
     },
     {
         "neovim/nvim-lspconfig",
-        event = "VeryLazy",
+        event = "BufReadPre",
         dependencies = {
             "williamboman/mason-lspconfig.nvim",
         },
@@ -274,12 +262,12 @@ M.plugin_list = {
     },
     {
         "romgrk/nvim-treesitter-context",
-        event = "VeryLazy",
+        event = "BufReadPre",
         config = function()
             require("treesitter-context").setup({
                 enable = true,   -- Enable this plugin (Can be enabled/disabled later via commands)
                 throttle = true, -- Throttles plugin updates (may improve performance)
-                max_lines = 0,   -- How many lines the window should span. Values <= 0 mean no limit.
+                max_lines = 4,   -- How many lines the window should span. Values <= 0 mean no limit.
                 patterns = { default = { "class", "function", "method" } },
             })
         end,

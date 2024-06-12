@@ -14,6 +14,7 @@ for type, icon in pairs(signs) do
 end
 
 local function setup_lsp(server, opts)
+    -- lspconfig[server].setup(opts)
     local conf = lspconfig[server]
     conf.setup(opts)
     local try_add = conf.manager.try_add
