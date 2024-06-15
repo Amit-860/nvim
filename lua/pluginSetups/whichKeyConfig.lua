@@ -42,7 +42,7 @@ local which_key_opts = {
 
     },
     window = {
-        border = "single",         -- none, single, double, shadow
+        border = "rounded",        -- none, single, double, shadow
         position = "bottom",       -- bottom, top
         -- margin = { 0, 10, 1, 8 }, -- extra window margin [top, right, bottom, left]
         margin = { 0, 19, 1, 17 }, -- extra window margin [top, right, bottom, left]

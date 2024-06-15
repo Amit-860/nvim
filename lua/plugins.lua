@@ -7,6 +7,11 @@ M.plugin_list = {
         lazy = false,
         priority = 1000,
         config = function()
+            require('nightfox').setup({
+                options = {
+                    transparent = true,
+                }
+            })
             vim.cmd("colorscheme nightfox")
         end
     },
@@ -133,16 +138,24 @@ M.plugin_list = {
     {
         "neovim/nvim-lspconfig",
         event = "BufReadPre",
+        ft = { "lua", "python", "json" },
         dependencies = {
             "williamboman/mason-lspconfig.nvim",
         },
         opts = {
-            codelens = { enabled = true },
-            document_highlight = { enabled = true }
+            setup = {
+                codelens = { enabled = true },
+                document_highlight = { enabled = true },
+                jdtls = function() return true end,
+            }
         },
         config = function()
             require('pluginSetups.lspConfig')
         end
+    },
+    {
+        "mfussenegger/nvim-jdtls",
+        event = "VeryLazy"
     },
     {
         "nvim-telescope/telescope.nvim",
@@ -540,7 +553,7 @@ M.plugin_list = {
         cmd = { 'DiffviewOpen', 'DiffviewClose', 'FiffviewFileHistory' }
     },
 
-    -- file broser
+    -- file browsers
     {
         "mikavilpas/yazi.nvim",
         dependencies = {
@@ -625,51 +638,6 @@ M.plugin_list = {
     },
 
     -- transparency
-    {
-        "xiyaowong/transparent.nvim",
-        cond = not vim.g.neovide,
-        config = function()
-            require("transparent").setup({
-                groups = {
-                    "Normal",
-                    "NormalNC",
-                    "Comment",
-                    "Constant",
-                    "Special",
-                    "Identifier",
-                    "Statement",
-                    "PreProc",
-                    "Type",
-                    "Underlined",
-                    "Todo",
-                    "String",
-                    "Function",
-                    "Conditional",
-                    "Repeat",
-                    "Operator",
-                    "Structure",
-                    "LineNr",
-                    "NonText",
-                    "SignColumn",
-                    "CursorLineNr",
-                    "EndOfBuffer",
-                },
-                extra_groups = {
-                    -- "FloatBorder",
-                    "NvimTreeWinSeparator",
-                    "NvimTreeNormal",
-                    "NvimTreeNormalNC",
-                    "NvimTreeEndOfBuffer",
-                    "TroubleNormal",
-                    -- "TelescopeNormal",
-                    -- "TelescopeBorder",
-                    -- "TelescopeTitle",
-                    "WhichKeyFloat",
-                },
-            })
-            vim.g.transparent_enabled = true
-        end,
-    },
 
     -- clipboard
     {
@@ -681,89 +649,14 @@ M.plugin_list = {
         },
     },
 
-    -- java
-    {
-        'nvim-java/nvim-java',
-        ft = { 'java' },
-        dependencies = {
-            'nvim-java/lua-async-await',
-            'nvim-java/nvim-java-refactor',
-            'nvim-java/nvim-java-core',
-            'nvim-java/nvim-java-test',
-            'nvim-java/nvim-java-dap',
-            'MunifTanjim/nui.nvim',
-            'neovim/nvim-lspconfig',
-            'mfussenegger/nvim-dap',
-            {
-                'williamboman/mason.nvim',
-                opts = {
-                    registries = {
-                        'github:nvim-java/mason-registry',
-                        'github:mason-org/mason-registry',
-                    },
-                },
-            }
-        },
-    },
-
     -- marks/bookmarks
     {
-        "cbochs/grapple.nvim",
-        event = "VeryLazy",
-        dependencies = {
-            { "nvim-tree/nvim-web-devicons" }
-        },
+        "otavioschwanck/arrow.nvim",
         opts = {
-            scope = "git_branch",
-            icons = true,
-            quick_select = "123456789",
-            scopes = {
-                {
-                    name = "anchor",
-                    fallback = "cwd",
-                    cache = { event = "DirChanged" },
-                    resolver = function()
-                        local path = vim.env.HOME
-                        local id = path
-                        return id, path
-                    end
-                }
-            },
-            win_opts = {
-                border = "rounded",
-            },
-        },
-        keys = {
-            { "ma",         function() require('grapple').tag({ scope = "git_branch" }) end,         desc = "Toggle tag" },
-            { "mm",         "<cmd>Telescope grapple tags scope=git_branch theme=get_ivy<cr>",        desc = "Telescope marks" },
-            { "<leader>fm", function() require('grapple').toggle_tags({ scope = "git_branch" }) end, desc = "Grapple mark" },
-            { "mg",         function() require('grapple').toggle_tags() end,                         desc = "Grapple mark" },
-            { "<leader>fM", function() require('grapple').toggle_tags({ scope = "anchor" }) end,     desc = "Grapple global mark" },
-        },
-    },
-    {
-        'tomasky/bookmarks.nvim',
-        event = "VeryLazy",
-        config = function()
-            require('bookmarks').setup {
-                save_file = vim.fn.expand "$HOME/.bookmarks", -- bookmarks save file path
-                keywords = {
-                    ["@t"] = "☑️ ", -- mark annotation startswith @t ,signs this icon as `Todo`
-                    ["@w"] = "⚠️ ", -- mark annotation startswith @w ,signs this icon as `Warn`
-                    ["@f"] = "⛏ ", -- mark annotation startswith @f ,signs this icon as `Fix`
-                    ["@n"] = " ", -- mark annotation startswith @n ,signs this icon as `Note`
-                },
-                on_attach = function(bufnr)
-                    local bm = require "bookmarks"
-                    local map = vim.keymap.set
-                    map("n", "mA", bm.bookmark_toggle, { desc = "Toogle global bookmark" })                              -- add or remove bookmark at current line
-                    map("n", "mi", bm.bookmark_ann, { desc = "Golbal Bookmarks anotation" })                             -- add or edit mark annotation at current line
-                    map("n", "mc", bm.bookmark_clean, { desc = "Clean Bookmarks" })                                      -- clean all marks in local buffer
-                    map("n", "mM", "<cmd>Telescope bookmarks list theme=get_ivy<cr>", { desc = "Global bookmark list" }) -- show marked file list in quickfix window
-                    map("n", "mx", bm.bookmark_clear_all, { desc = "Clear all Global bookmarks" })                       -- removes all bookmarks
-                end
-            }
-        end
+            show_icons = true,
+            leader_key = 'M',        -- Recommended to be a single key
+            buffer_leader_key = 'm', -- Per Buffer Mappings
+        }
     }
 }
 

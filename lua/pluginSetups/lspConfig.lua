@@ -4,6 +4,19 @@ require("mason-lspconfig").setup({
     automatic_installation = false,
 })
 
+vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(
+    vim.lsp.handlers.hover, {
+        -- Use a sharp border with `FloatBorder` highlights
+        border = "none",
+        -- add the title in hover float window
+        -- title = "hover"
+        relative = 'win',
+        max_height = math.floor(vim.o.lines * 0.6),
+        max_width = math.floor(vim.o.columns * 0.5),
+        -- [ "╔", "═" ,"╗", "║", "╝", "═", "╚", "║" ].
+    }
+)
+
 -- Set up lspconfig.
 local lspconfig = require('lspconfig')
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
@@ -29,6 +42,8 @@ local on_attach = function(client, bufnr)
     -- lsp keymap
     -- vim.keymap.set("n", "<leader>l", "<nop>", { desc = "+LSP", noremap = true, buffer=bufnr })
     vim.keymap.set({ "n", "i" }, "<c-K>", "<cmd>lua vim.lsp.buf.signature_help()<CR>",
+        { desc = "Signature Help", noremap = true, buffer = bufnr })
+    vim.keymap.set({ "n" }, "K", "<cmd>lua vim.lsp.buf.hover()<CR>",
         { desc = "Signature Help", noremap = true, buffer = bufnr })
     vim.keymap.set({ "n" }, "<leader>la", "<cmd>lua vim.lsp.buf.code_action()<CR>",
         { desc = "Code Action", noremap = true, buffer = bufnr })
@@ -100,10 +115,6 @@ local on_attach = function(client, bufnr)
     vim.keymap.set("n", "<F4>", "<cmd>RunCode<CR>", { noremap = true, silent = true, desc = "Run Code", })
 end
 
-
--- comment below line to disable lsp support for nvim files
-require("neodev").setup({})
-
 local lua_ls_settings = {
     Lua = {
         workspace = { checkThirdParty = false, },
@@ -121,6 +132,25 @@ local lua_ls_settings = {
     }
 }
 
-setup_lsp("lua_ls", { on_attach = on_attach, capabilities = capabilities, settings = lua_ls_settings })
+-- comment below line to disable lsp support for nvim files
+require("neodev").setup({})
+setup_lsp("lua_ls", { on_attach = on_attach, capabilities = capabilities, settings = lua_ls_settings, })
 setup_lsp("pyright", { on_attach = on_attach, capabilities = capabilities, })
 setup_lsp("jsonls", { on_attach = on_attach, capabilities = capabilities, })
+
+local lsp_attach = vim.api.nvim_create_augroup("lsp_attach", { clear = true })
+vim.api.nvim_create_autocmd({ "FileType" }, {
+    callback = function()
+        require("jdtls").start_or_attach(require("pluginSetups.jdtlsConfig"))
+    end,
+    group = lsp_attach,
+    pattern = { "java", }
+})
+
+vim.api.nvim_create_autocmd({ "LspAttach" }, {
+    callback = function(args)
+        local client = vim.lsp.get_client_by_id(args.data.client_id)
+        on_attach(client, 0)
+    end,
+    group = lsp_attach,
+})

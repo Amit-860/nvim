@@ -193,3 +193,7 @@ vim.keymap.set({ "n", "o", "x" }, "b", "<cmd>lua require('spider').motion('b')<C
     { desc = "Spider-b", noremap = true })
 vim.keymap.set({ "n", "o", "x" }, "ge", "<cmd>lua require('spider').motion('ge')<CR>",
     { desc = "Spider-ge", noremap = true })
+
+-- disabling key
+
+vim.keymap.set({ "n" }, "K", "<nop>", { noremap = true })

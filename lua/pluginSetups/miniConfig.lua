@@ -74,11 +74,10 @@ starter.setup({
     },
 })
 
-local grapple = require('grapple')
-local get_grapple_status = function(bufnr)
-    if grapple.exists() then
-        -- return grapple.statusline()
-        return "󰛢 " .. grapple.name_or_index()
+local statusline = require('arrow.statusline')
+local get_arrow_status = function(bufnr)
+    if statusline.is_on_arrow_file() then
+        return statusline.text_for_statusline_with_icons()
     end
     return ""
 end
@@ -95,7 +94,7 @@ require('mini.statusline').setup({
             local fileinfo       = MiniStatusline.section_fileinfo({ trunc_width = 120 })
             local location       = MiniStatusline.section_location({ trunc_width = 75 })
             local search         = MiniStatusline.section_searchcount({ trunc_width = 75 })
-            local grapple_status = get_grapple_status(bufnr)
+            local grapple_status = get_arrow_status(bufnr)
 
             return MiniStatusline.combine_groups({
                 { hl = mode_hl,                 strings = { mode } },
