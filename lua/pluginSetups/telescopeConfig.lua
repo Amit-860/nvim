@@ -196,4 +196,5 @@ require("telescope").load_extension("lsp_handlers")
 require("telescope").load_extension("ui-select")
 require("telescope").load_extension("undo")
 require 'telescope'.load_extension('project')
--- require("telescope").load_extension "file_browser"
+require("telescope").load_extension("grapple")
+require('telescope').load_extension('bookmarks')

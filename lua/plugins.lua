@@ -108,15 +108,6 @@ M.plugin_list = {
             })
         end
     },
-    {
-        "utilyre/sentiment.nvim",
-        version = "*",
-        event = "VeryLazy", -- keep for lazy loading
-        opts = {},
-        init = function()
-            vim.g.loaded_matchparen = 1
-        end,
-    },
 
     -- LSP
     {
@@ -208,6 +199,18 @@ M.plugin_list = {
             require("lsp_lines").setup()
         end,
     },
+    {
+        "hedyhli/outline.nvim",
+        event = "VeryLazy",
+        cmd = { "Outline", "OutlineOpen" },
+        keys = {
+            vim.keymap.set({ "n" }, "<leader>ls", "<cmd>Outline<CR>",
+                { desc = "Document Symbols", noremap = true, })
+        },
+        opts = {
+            -- Your setup opts here
+        },
+    },
 
     -- Debugging
     {
@@ -254,7 +257,7 @@ M.plugin_list = {
             "TSInstallSync",
             "TSInstallFromGrammar",
         },
-        lazy = true,
+        event = "BufReadPre",
         config = function()
             local ts_opts = require('pluginSetups.treeSitterConfig')
             require 'nvim-treesitter.configs'.setup(ts_opts)
@@ -274,18 +277,18 @@ M.plugin_list = {
     },
     {
         "chrisgrieser/nvim-various-textobjs",
-        event = "VeryLazy",
+        event = "BufReadPre",
         config = function()
             require("various-textobjs").setup({ useDefaultKeymaps = true })
         end,
     },
     {
         "nvim-treesitter/nvim-treesitter-textobjects",
-        event = "VeryLazy"
+        event = "BufReadPre"
     },
     {
         "ckolkey/ts-node-action",
-        event = "BufReadPre",
+        event = "VeryLazy",
         dependencies = { "nvim-treesitter" },
         lazy = true,
         opts = {},
@@ -295,12 +298,28 @@ M.plugin_list = {
         event = "BufReadPre",
         config = function()
             require('rainbow-delimiters.setup').setup {
-                strategy = {},
+                strategy = {
+                    [""] = function(bufnr)
+                        local line_count = vim.api.nvim_buf_line_count(bufnr)
+                        if vim.b.large_buf then
+                            return nil
+                        end
+                        return require('rainbow-delimiters').strategy['global']
+                    end
+                },
                 query = {},
                 highlight = {},
             }
         end
     },
+    {
+        "andymass/vim-matchup",
+        event = "BufReadPre",
+        config = function()
+            vim.g.matchup_matchparen_offscreen = { method = "popup" }
+        end,
+    },
+
 
     -- motion
     {
@@ -434,7 +453,11 @@ M.plugin_list = {
         },
         opts = {
             -- configuration goes here
-            lang = "python3"
+            lang = "python3",
+            storage = {
+                home = "D:/neetcode/leetcode",
+                cache = vim.fn.stdpath("cache") .. "/leetcode",
+            },
         },
     },
     {
@@ -502,10 +525,6 @@ M.plugin_list = {
         'nvim-telescope/telescope-project.nvim',
         event = "UIEnter"
     },
-    -- {
-    --     "nvim-telescope/telescope-file-browser.nvim",
-    --     cmd = { 'Telescope file_browser' },
-    -- },
 
     -- git
     {
@@ -636,7 +655,7 @@ M.plugin_list = {
                     "EndOfBuffer",
                 },
                 extra_groups = {
-                    "FloatBorder",
+                    -- "FloatBorder",
                     "NvimTreeWinSeparator",
                     "NvimTreeNormal",
                     "NvimTreeNormalNC",
@@ -661,6 +680,91 @@ M.plugin_list = {
             highlight = { timer = 300 },
         },
     },
+
+    -- java
+    {
+        'nvim-java/nvim-java',
+        ft = { 'java' },
+        dependencies = {
+            'nvim-java/lua-async-await',
+            'nvim-java/nvim-java-refactor',
+            'nvim-java/nvim-java-core',
+            'nvim-java/nvim-java-test',
+            'nvim-java/nvim-java-dap',
+            'MunifTanjim/nui.nvim',
+            'neovim/nvim-lspconfig',
+            'mfussenegger/nvim-dap',
+            {
+                'williamboman/mason.nvim',
+                opts = {
+                    registries = {
+                        'github:nvim-java/mason-registry',
+                        'github:mason-org/mason-registry',
+                    },
+                },
+            }
+        },
+    },
+
+    -- marks/bookmarks
+    {
+        "cbochs/grapple.nvim",
+        event = "VeryLazy",
+        dependencies = {
+            { "nvim-tree/nvim-web-devicons" }
+        },
+        opts = {
+            scope = "git_branch",
+            icons = true,
+            quick_select = "123456789",
+            scopes = {
+                {
+                    name = "anchor",
+                    fallback = "cwd",
+                    cache = { event = "DirChanged" },
+                    resolver = function()
+                        local path = vim.env.HOME
+                        local id = path
+                        return id, path
+                    end
+                }
+            },
+            win_opts = {
+                border = "rounded",
+            },
+        },
+        keys = {
+            { "ma",         function() require('grapple').tag({ scope = "git_branch" }) end,         desc = "Toggle tag" },
+            { "mm",         "<cmd>Telescope grapple tags scope=git_branch theme=get_ivy<cr>",        desc = "Telescope marks" },
+            { "<leader>fm", function() require('grapple').toggle_tags({ scope = "git_branch" }) end, desc = "Grapple mark" },
+            { "mg",         function() require('grapple').toggle_tags() end,                         desc = "Grapple mark" },
+            { "<leader>fM", function() require('grapple').toggle_tags({ scope = "anchor" }) end,     desc = "Grapple global mark" },
+        },
+    },
+    {
+        'tomasky/bookmarks.nvim',
+        event = "VeryLazy",
+        config = function()
+            require('bookmarks').setup {
+                save_file = vim.fn.expand "$HOME/.bookmarks", -- bookmarks save file path
+                keywords = {
+                    ["@t"] = "☑️ ", -- mark annotation startswith @t ,signs this icon as `Todo`
+                    ["@w"] = "⚠️ ", -- mark annotation startswith @w ,signs this icon as `Warn`
+                    ["@f"] = "⛏ ", -- mark annotation startswith @f ,signs this icon as `Fix`
+                    ["@n"] = " ", -- mark annotation startswith @n ,signs this icon as `Note`
+                },
+                on_attach = function(bufnr)
+                    local bm = require "bookmarks"
+                    local map = vim.keymap.set
+                    map("n", "mA", bm.bookmark_toggle, { desc = "Toogle global bookmark" })                              -- add or remove bookmark at current line
+                    map("n", "mi", bm.bookmark_ann, { desc = "Golbal Bookmarks anotation" })                             -- add or edit mark annotation at current line
+                    map("n", "mc", bm.bookmark_clean, { desc = "Clean Bookmarks" })                                      -- clean all marks in local buffer
+                    map("n", "mM", "<cmd>Telescope bookmarks list theme=get_ivy<cr>", { desc = "Global bookmark list" }) -- show marked file list in quickfix window
+                    map("n", "mx", bm.bookmark_clear_all, { desc = "Clear all Global bookmarks" })                       -- removes all bookmarks
+                end
+            }
+        end
+    }
 }
 
 M.opts = { checker = { frequency = 604800, } }

@@ -40,8 +40,8 @@ local on_attach = function(client, bufnr)
         { desc = "Definitions", noremap = true, buffer = bufnr })
     vim.keymap.set({ "n" }, "<leader>li", "<cmd>Telescope lsp_implementations theme=get_ivy<CR>",
         { desc = "Implementations", noremap = true, buffer = bufnr })
-    vim.keymap.set({ "n" }, "<leader>ls", "<cmd>Telescope lsp_document_symbols theme=get_ivy<CR>",
-        { desc = "Document Symbols", noremap = true, buffer = bufnr })
+    vim.keymap.set({ "n" }, "<leader>lS", "<cmd>Telescope lsp_workspace_symbols<CR>",
+        { desc = "Workspace Symbols", noremap = true, buffer = bufnr })
     vim.keymap.set({ "n" }, "<leader>lD", "<cmd>Telescope diagnostics bufnr=0 theme=get_ivy<CR>",
         { desc = "Diagnostics", noremap = true, buffer = bufnr })
     vim.keymap.set({ "n" }, "<leader>lf", function() vim.lsp.buf.format() end,
@@ -102,7 +102,7 @@ end
 
 
 -- comment below line to disable lsp support for nvim files
--- require("neodev").setup({})
+require("neodev").setup({})
 
 local lua_ls_settings = {
     Lua = {
