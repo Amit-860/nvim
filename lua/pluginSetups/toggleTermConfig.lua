@@ -7,7 +7,7 @@ M.toggle_term_opts = {
     open_mapping = [[<c-\>]],
     hide_numbers = true, -- hide the number column in toggleterm buffers
     shade_filetypes = {},
-    shade_terminals = true,
+    shade_terminals = false,
     shading_factor = 2,     -- the degree by which to darken to terminal colour, default: 1 for dark backgrounds, 3 for light
     start_in_insert = true,
     insert_mappings = true, -- whether or not the open mapping applies in insert mode
@@ -39,6 +39,9 @@ M.toggle_term_opts = {
     },
 }
 
+if vim.g.neovide then
+    M.toggle_term_opts.float_opts.winblend = 75
+end
 
 local function get_buf_size()
     local cbuf = vim.api.nvim_get_current_buf()
