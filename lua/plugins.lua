@@ -7,11 +7,11 @@ M.plugin_list = {
         lazy = false,
         priority = 1000,
         config = function()
-            require('nightfox').setup({
-                options = {
-                    transparent = true,
-                }
-            })
+            if not vim.g.neovide then
+                require('nightfox').setup({
+                    options = { transparent = true, }
+                })
+            end
             vim.cmd("colorscheme nightfox")
         end
     },
@@ -476,7 +476,20 @@ M.plugin_list = {
     {
         "CRAG666/code_runner.nvim",
         cmd = { 'RunFile', 'RunCode', 'RunProject', 'RunClose' },
-        config = true,
+        config = function()
+            local opts = {
+                mode = "float",
+                float = {
+                    border_hl = "FloatBorder",
+                    float_hl = "NormalFloat",
+                    blend = 15,
+                },
+            }
+            if vim.g.neovide then
+                opts.float.blend = 75
+            end
+            require('code_runner').setup(opts)
+        end,
     },
 
     -- completion
@@ -576,6 +589,7 @@ M.plugin_list = {
             local yazi_opts = {
                 open_for_directories = true,
                 floating_window_scaling_factor = 0.85,
+                yazi_floating_window_border = 'rounded',
             }
             if vim.g.neovide then
                 yazi_opts.yazi_floating_window_winblend = 50
@@ -656,7 +670,21 @@ M.plugin_list = {
             show_icons = true,
             leader_key = 'M',        -- Recommended to be a single key
             buffer_leader_key = 'm', -- Per Buffer Mappings
+            window = {               -- controls the appearance and position of an arrow window (see nvim_open_win() for all options)
+                border = "rounded",
+            },
+            global_bookmarks = true
         }
+    },
+
+    -- terminal
+    {
+        'akinsho//toggleterm.nvim',
+        event = "VeryLazy",
+        version = "*",
+        config = function()
+            require('pluginSetups.toggleTermConfig')
+        end
     }
 }
 

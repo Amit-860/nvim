@@ -17,6 +17,8 @@ else
     vim.api.nvim_set_hl(0, "NoiceCmdlinePopup", { bg = "#202d3f", blend = 15 }) -- hilight for cmp menu
 end
 
+vim.api.nvim_set_hl(0, "YaziFloat", { link = "NormalFloat" })
+
 -- cmp kind hl
 vim.api.nvim_set_hl(0, "CmpItemKindKeyword", { bg = "#cf3930", fg = "#131a24" })
 vim.api.nvim_set_hl(0, "CmpItemKindClass", { bg = "#dbc874", fg = "#131a24" })

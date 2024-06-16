@@ -127,10 +127,18 @@ if not vim.g.vscode then
         { desc = "Search Keymaps", noremap = true, silent = true })
     vim.keymap.set("n", "<leader>?c", ":Telescope commands<cr>",
         { desc = "Search Commands", noremap = true, silent = true })
-    vim.keymap.set("n", "<leader>?h", ":Telescope help_tags<cr>",
+    vim.keymap.set("n", "<leader>?d", ":Telescope help_tags<cr>",
+        { desc = "Search Docs", noremap = true, silent = true })
+    vim.keymap.set("n", "<leader>?h", ":Telescope highlights<cr>",
         { desc = "Search Docs", noremap = true, silent = true })
     vim.keymap.set("n", "<leader>?t", ":Telescope colorscheme<cr>",
         { desc = "Preview Theme", noremap = true, silent = true })
+    vim.keymap.set("n", "<leader>?b", function()
+        require('pluginSetups.toggleTermConfig').broot_toggle()
+    end, { desc = "Broot", noremap = true, silent = true })
+    vim.keymap.set("n", "<leader>?l", function()
+        require('pluginSetups.toggleTermConfig').lazygit_toggle()
+    end, { desc = "Broot", noremap = true, silent = true })
 
     -- Project
     vim.keymap.set("n", "<leader>p",
