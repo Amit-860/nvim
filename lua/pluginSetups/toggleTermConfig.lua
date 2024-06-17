@@ -24,8 +24,12 @@ M.toggle_term_opts = {
         -- not natively supported but implemented in this plugin.
         -- border = 'single' | 'double' | 'shadow' | 'curved' | ... other options supported by win open
         border = "single",
-        -- width = <value>,
-        -- height = <value>,
+        width = function()
+            return math.ceil(vim.o.columns * 0.80)
+        end,
+        height = function()
+            return math.ceil(vim.o.lines * 0.85)
+        end,
         winblend = 0,
         highlights = {
             border = "FloatBorder",

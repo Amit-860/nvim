@@ -12,7 +12,7 @@ M.plugin_list = {
                     options = { transparent = true, }
                 })
             end
-            vim.cmd("colorscheme nightfox")
+            vim.cmd("colorscheme terafox")
         end
     },
     {
@@ -536,10 +536,6 @@ M.plugin_list = {
 
     -- telescope
     {
-        "gbrlsnchs/telescope-lsp-handlers.nvim",
-        event = "VeryLazy"
-    },
-    {
         "nvim-telescope/telescope-ui-select.nvim",
         event = "VeryLazy"
     },
@@ -673,7 +669,7 @@ M.plugin_list = {
             window = {               -- controls the appearance and position of an arrow window (see nvim_open_win() for all options)
                 border = "rounded",
             },
-            global_bookmarks = true
+            global_bookmarks = false
         }
     },
 
@@ -685,6 +681,26 @@ M.plugin_list = {
         config = function()
             require('pluginSetups.toggleTermConfig')
         end
+    },
+
+    -- replace
+    {
+        'AckslD/muren.nvim',
+        cmd = { 'MurenToggle', 'MurenOpen', 'MurenFresh', 'MurenUnique' },
+        config = true,
+        opts = {
+            keys = {
+                close = '<C-q>',
+                toggle_side = '<Tab>',
+                toggle_options_focus = '<S-tab>',
+                toggle_option_under_cursor = '<CR>',
+                scroll_preview_up = '<Up>',
+                scroll_preview_down = '<Down>',
+                do_replace = '<CR>',
+                do_undo = '<localleader>u',
+                do_redo = '<localleader>U',
+            },
+        }
     }
 }
 

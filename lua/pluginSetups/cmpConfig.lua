@@ -267,8 +267,8 @@ local cmp_opts = {
 
     sorting = {
         comparators = {
-            compare.offset,
-            compare.exact,
+            -- compare.offset,
+            -- compare.exact,
             compare.score,
             compare.recently_used,
             compare.kind,
@@ -279,13 +279,6 @@ local cmp_opts = {
     }
 }
 
-
-if vim.g.neovide then
-    cmp_opts.window = {
-        completion = nil,
-        documentation = nil
-    }
-end
 
 cmp.setup(cmp_opts)
 

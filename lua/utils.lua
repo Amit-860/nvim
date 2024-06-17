@@ -1,8 +1,7 @@
 M = {}
 
-M.smart_find_file = function()
+M.smart_find_file = function(opts)
     local builtin = require('telescope.builtin')
-    local opts = {}
     local ok = pcall(builtin.git_files, opts)
     if not ok then
         builtin.find_files(opts)

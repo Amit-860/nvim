@@ -22,13 +22,14 @@ require("statuscol").setup({
         { text = { builtin.lnumfunc, " " }, click = "v:lua.ScLa", },
         {
             sign = { namespace = { 'gitsigns' }, maxwidth = 1, colwidth = 1, auto = true, },
-            click = 'v:lua.ScSa'
+            click = 'v:lua.ScFa'
         },
         {
             text = {
                 function(args)
-                    args.fold.close = ""
-                    args.fold.open = ""
+                    local icons = require('icons')
+                    args.fold.close = icons.ui.Right
+                    args.fold.open = icons.ui.Down
                     args.fold.sep = " "
                     return builtin.foldfunc(args)
                 end,

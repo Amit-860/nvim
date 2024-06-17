@@ -14,9 +14,11 @@ if not vim.g.vscode then
 
     -- find
     -- vim.keymap.set("n", "<leader>f", "<nop>", { desc = "+Find", noremap = true, silent = true })
-    vim.keymap.set("n", "<leader>ff", utils.smart_find_file,
+    vim.keymap.set("n", "<leader>ff", function()
+            utils.smart_find_file({ initial_mode = 'insert' })
+        end,
         { noremap = true, silent = true, desc = 'Find Git File' })
-    vim.keymap.set("n", "<leader>fF", "<cmd>Telescope find_files<cr>",
+    vim.keymap.set("n", "<leader>fF", "<cmd>Telescope find_files initial_mode=insert<cr>",
         { noremap = true, silent = true, desc = 'All File' })
     vim.keymap.set("n", "<leader>fs", "<cmd>Telescope live_grep<cr>",
         { noremap = true, silent = true, desc = 'String' })
@@ -118,9 +120,17 @@ if not vim.g.vscode then
 
     -- Find and Replace
     vim.keymap.set({ "n" }, "<leader>R", utils.find_and_replace,
-        { desc = "Replace", noremap = true, silent = true })
+        { desc = "which_key_ignore", noremap = true, silent = true })
     vim.keymap.set({ "v" }, "<leader>R", utils.replace,
         { desc = "Replace", noremap = true, silent = true })
+    vim.keymap.set({ "n" }, "<leader>mm", "<cmd>MurenToggle<cr>",
+        { desc = "Toggle", noremap = true, silent = true })
+    vim.keymap.set({ "n" }, "<leader>mf", "<cmd>MurenFresh<cr>",
+        { desc = "Fresh", noremap = true, silent = true })
+    vim.keymap.set({ "n" }, "<leader>mc", "<cmd>MurenClose<cr>",
+        { desc = "Close", noremap = true, silent = true })
+    vim.keymap.set({ "n" }, "<leader>mu", "<cmd>MurenUnique<cr>",
+        { desc = "Unique", noremap = true, silent = true })
 
     -- help
     vim.keymap.set("n", "<leader>?k", ":Telescope keymaps<cr>",
@@ -167,26 +177,27 @@ if not vim.g.vscode then
 end
 
 -- general
-vim.keymap.set("v", "<BS>", '"_d')
-vim.keymap.set('n', 'U', '<C-r>')
+vim.keymap.set("v", "<BS>", '"_d', { noremap = true, silent = true })
+vim.keymap.set('n', 'U', '<C-r>', { noremap = true, silent = true })
 vim.keymap.set('n', '<leader>h', "<cmd>noh<cr>", { desc = "which_key_ignore", noremap = true })
-vim.keymap.set({ "n", "o", "x" }, "gs", '_',
-    { noremap = true, silent = true, desc = "Goto first Non-whitespace char" })
+vim.keymap.set({ "n", "o", "x" }, "gs", '_', { noremap = true, silent = true, desc = "Goto first Non-whitespace char" })
 vim.keymap.set({ "n", "o", "x" }, "gh", '0', { noremap = true, silent = true, desc = "Goto BOL" })
 vim.keymap.set({ "n", "o", "x" }, "gl", '$', { noremap = true, silent = true, desc = "Goto EOL" })
 vim.keymap.set({ 'n', 'i', 'v' }, "<c-s>", "<esc>:w!<cr>", { noremap = true, silent = true, desc = 'Save' })
+vim.keymap.set({ 'n', 'i', 'v' }, "<M-i>", "<C-6>", { noremap = true, silent = true, desc = 'Edit the alternate file' })
+vim.keymap.set({ 'n', 'i', 'v' }, "<M-o>", "<C-^>", { noremap = true, silent = true, desc = 'Edit the alternate file' })
 
 
 -- Treesitter
 vim.keymap.set({ "n", "x", "o" }, ";",
     function()
         require "nvim-treesitter.textobjects.repeatable_move".repeat_last_move_next()
-    end, {}
+    end, { noremap = true, silent = true }
 )
 vim.keymap.set({ "n", "x", "o" }, ",",
     function()
         require "nvim-treesitter.textobjects.repeatable_move".repeat_last_move_previous()
-    end, {}
+    end, { noremap = true, silent = true }
 )
 vim.keymap.set({ "n" }, "<M-.>", "<cmd>lua require('ts-node-action').node_action()<cr>",
     { desc = "Trigger Node Action" })

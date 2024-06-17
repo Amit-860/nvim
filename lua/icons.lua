@@ -113,6 +113,7 @@ return {
         Pencil = "󰏫",
         Plus = "",
         Project = "",
+        RightTriangle = "󰍟",
         Search = "",
         SignIn = "",
         SignOut = "",
@@ -127,6 +128,8 @@ return {
         TriangleShortArrowLeft = "",
         TriangleShortArrowRight = "",
         TriangleShortArrowUp = "",
+        Down = "",
+        Right = ""
     },
     diagnostics = {
         BoldError = "",

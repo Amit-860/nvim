@@ -27,36 +27,42 @@ local default_options = {
     cmdheight      = 1,             -- more space in the neovim command line for displaying messages
     cmdwinheight   = 1,
     completeopt    = { "menuone", "noselect" },
-    conceallevel   = 0,        -- so that `` is visible in markdown files
-    fileencoding   = "utf-8",  -- the encoding written to a file
-    foldmethod     = "manual", -- folding, set to "expr" for treesitter based folding
-    foldexpr       = "",       -- set to "nvim_treesitter#foldexpr()" for treesitter based folding
-    hidden         = true,     -- required to keep multiple buffers and open multiple buffers
-    hlsearch       = true,     -- highlight all matches on previous search pattern
-    ignorecase     = true,     -- ignore case in search patterns
-    mouse          = "a",      -- allow the mouse to be used in neovim
-    showmode       = false,    -- we don't need to see things like -- INSERT -- anymore
-    smartcase      = true,     -- smart case
-    splitbelow     = true,     -- force all horizontal splits to go below current window
-    splitright     = true,     -- force all vertical splits to go to the right of current window
-    swapfile       = false,    -- creates a swapfile
-    termguicolors  = true,     -- set term gui colors (most terminals support this)
+    conceallevel   = 0,       -- so that `` is visible in markdown files
+    fileencoding   = "utf-8", -- the encoding written to a file
+    foldcolumn     = "auto:1",
+    foldmethod     = "expr",  -- folding, set to "expr" for treesitter based folding / "manual"
+    foldlevel      = 2,
+    foldlevelstart = 2,
+    foldnestmax    = 3,
+    foldminlines   = 12,
+    foldenable     = true,
+    foldexpr       = "nvim_treesitter#foldexpr()", -- set to "nvim_treesitter#foldexpr()" for treesitter based folding
+    hidden         = true,                         -- required to keep multiple buffers and open multiple buffers
+    hlsearch       = true,                         -- highlight all matches on previous search pattern
+    ignorecase     = true,                         -- ignore case in search patterns
+    mouse          = "a",                          -- allow the mouse to be used in neovim
+    showmode       = false,                        -- we don't need to see things like -- INSERT -- anymore
+    smartcase      = true,                         -- smart case
+    splitbelow     = true,                         -- force all horizontal splits to go below current window
+    splitright     = true,                         -- force all vertical splits to go to the right of current window
+    swapfile       = false,                        -- creates a swapfile
+    termguicolors  = true,                         -- set term gui colors (most terminals support this)
     timeout        = true,
-    timeoutlen     = 300,      -- time to wait for a mapped sequence to complete (in milliseconds)
-    title          = true,     -- set the title of window to the value of the titlestring
+    timeoutlen     = 300,                          -- time to wait for a mapped sequence to complete (in milliseconds)
+    title          = true,                         -- set the title of window to the value of the titlestring
     -- opt.titlestring = "%<%F%=%l/%L - nvim" -- what the title of the window will be set to
-    undofile       = true,     -- enable persistent undo
-    updatetime     = 100,      -- faster completion
-    writebackup    = false,    -- if a file is being edited by another program (or was written to file while editing with another program), it is not allowed to be edited
-    expandtab      = true,     -- convert tabs to spaces
-    shiftwidth     = 4,        -- the number of spaces inserted for each indentation
-    tabstop        = 4,        -- insert 2 spaces for a tab
-    number         = true,     -- set numbered lines
-    numberwidth    = 4,        -- set number column width to 2 {default 4}
+    undofile       = true,                         -- enable persistent undo
+    updatetime     = 100,                          -- faster completion
+    writebackup    = false,                        -- if a file is being edited by another program (or was written to file while editing with another program), it is not allowed to be edited
+    expandtab      = true,                         -- convert tabs to spaces
+    shiftwidth     = 4,                            -- the number of spaces inserted for each indentation
+    tabstop        = 4,                            -- insert 2 spaces for a tab
+    number         = true,                         -- set numbered lines
+    numberwidth    = 4,                            -- set number column width to 2 {default 4}
     relativenumber = true,
-    signcolumn     = "yes",    -- always show the sign column, otherwise it would shift the text each time
-    scrolloff      = 8,        -- minimal number of screen lines to keep above and below the cursor.
-    sidescrolloff  = 8,        -- minimal number of screen lines to keep left and right of the cursor.
+    signcolumn     = "yes",                        -- always show the sign column, otherwise it would shift the text each time
+    scrolloff      = 8,                            -- minimal number of screen lines to keep above and below the cursor.
+    sidescrolloff  = 8,                            -- minimal number of screen lines to keep left and right of the cursor.
     showcmd        = false,
     ruler          = false,
     laststatus     = 3,
@@ -89,33 +95,6 @@ vim.filetype.add {
     pattern = { ["[jt]sconfig.*.json"] = "jsonc", },
 }
 
-local icons = require('icons')
-local default_diagnostic_config = {
-    signs = {
-        active = true,
-        values = {
-            { name = "DiagnosticSignError", text = icons.diagnostics.Error },
-            { name = "DiagnosticSignWarn",  text = icons.diagnostics.Warning },
-            { name = "DiagnosticSignHint",  text = icons.diagnostics.Hint },
-            { name = "DiagnosticSignInfo",  text = icons.diagnostics.Information },
-        },
-    },
-    virtual_text = true,
-    update_in_insert = false,
-    underline = true,
-    severity_sort = true,
-    float = {
-        focusable = true,
-        style = "minimal",
-        border = "rounded",
-        source = "always",
-        header = "",
-        prefix = "",
-    },
-}
-
-vim.diagnostic.config(default_diagnostic_config)
-
 -- plugins
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
@@ -144,8 +123,8 @@ require('colors')
 require('autocmd')
 
 -- vscode specific opts
-if vim.g.vscode then
-end
+-- if vim.g.vscode then
+-- end
 
 
 -- setting specific to NEOVIDE
@@ -171,9 +150,9 @@ if vim.g.neovide then
     vim.g.neovide_cursor_vfx_particle_density = 10
     vim.g.neovide_hide_mouse_when_typing = true
     vim.g.neovide_underline_automatic_scaling = true
-    vim.g.neovide_no_idle = false
+    vim.g.neovide_no_idle = true
     vim.g.neovide_cursor_unfocused_outline_width = 0.05
-    vim.g.neovide_confirm_quit = true
+    vim.g.neovide_confirm_quit = false
 
     vim.g.neovide_transparency = 0.75
     vim.g.neovide_fullscreen = false

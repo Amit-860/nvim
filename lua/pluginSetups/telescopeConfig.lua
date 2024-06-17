@@ -8,9 +8,9 @@ local telescope_opts = {
     -- theme = "dropdown", ---@type telescope_themes
     defaults = {
         prompt_prefix = icons.ui.Telescope .. " ",
-        selection_caret = icons.ui.Forward .. " ",
+        selection_caret = icons.ui.Triangle .. " ",
         entry_prefix = "  ",
-        initial_mode = "insert",
+        initial_mode = "normal",
         selection_strategy = "reset",
         sorting_strategy = nil,
         layout_strategy = nil,
@@ -52,15 +52,18 @@ local telescope_opts = {
     },
     pickers = {
         find_files = {
+            initial_mode = "insert",
             hidden = true,
-            previewer = true
+            previewer = true,
         },
         live_grep = {
             -- @usage don't include the filename in the search results
+            initial_mode = "insert",
             only_sort_text = true,
             previewer = true
         },
         grep_string = {
+            initial_mode = "insert",
             only_sort_text = true,
             previewer = true
         },
@@ -95,26 +98,6 @@ local telescope_opts = {
         },
     },
     extensions = {
-        lsp_handlers = {
-            disable = {},
-            location = {
-                telescope = require('telescope.themes').get_ivy({}),
-                no_results_message = 'No references found'
-            },
-            symbol = {
-                telescope = require('telescope.themes').get_ivy({}),
-                no_results_message = 'No symbols found'
-            },
-            call_hierarchy = {
-                telescope = require('telescope.themes').get_ivy({}),
-                no_results_message = 'No calls found'
-            },
-            -- code_action = {
-            --     telescope = require('telescope.themes').get_cursor({}),
-            --     no_results_message = 'No code actions available',
-            --     prefix = ''
-            -- }
-        },
         ["ui-select"] = {
             -- require("telescope.themes").get_dropdown { }
             require("telescope.themes").get_cursor {
@@ -152,6 +135,7 @@ local telescope_opts = {
             theme = "dropdown",
             order_by = "recent",
             search_by = { "title", "path" },
+            initial_mode = "insert",
             sync_with_nvim_tree = true, -- default false
             -- default for on_project_selected = find project files
             on_project_selected = function(prompt_bufnr)
@@ -192,7 +176,6 @@ end
 require('telescope').setup(telescope_opts)
 
 -- This will load fzy_native and have it override the default file sorter
-require("telescope").load_extension("lsp_handlers")
 require("telescope").load_extension("ui-select")
 require("telescope").load_extension("undo")
 require 'telescope'.load_extension('project')

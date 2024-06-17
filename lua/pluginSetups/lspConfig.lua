@@ -4,6 +4,32 @@ require("mason-lspconfig").setup({
     automatic_installation = false,
 })
 
+local icons = require('icons')
+local default_diagnostic_config = {
+    signs = {
+        active = true,
+        values = {
+            { name = "DiagnosticSignError", text = icons.diagnostics.Error },
+            { name = "DiagnosticSignWarn",  text = icons.diagnostics.Warning },
+            { name = "DiagnosticSignHint",  text = icons.diagnostics.Hint },
+            { name = "DiagnosticSignInfo",  text = icons.diagnostics.Information },
+        },
+    },
+    virtual_text = true,
+    update_in_insert = false,
+    underline = true,
+    severity_sort = true,
+    float = {
+        focusable = true,
+        style = "minimal",
+        border = "rounded",
+        source = "always",
+        header = "",
+        prefix = "",
+    },
+}
+vim.diagnostic.config(default_diagnostic_config)
+
 vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(
     vim.lsp.handlers.hover, {
         -- Use a sharp border with `FloatBorder` highlights
@@ -133,7 +159,7 @@ local lua_ls_settings = {
 }
 
 -- comment below line to disable lsp support for nvim files
-require("neodev").setup({})
+-- require("neodev").setup({})
 setup_lsp("lua_ls", { on_attach = on_attach, capabilities = capabilities, settings = lua_ls_settings, })
 setup_lsp("pyright", { on_attach = on_attach, capabilities = capabilities, })
 setup_lsp("jsonls", { on_attach = on_attach, capabilities = capabilities, })
