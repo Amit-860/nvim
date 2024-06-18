@@ -214,7 +214,6 @@ M.plugin_list = {
     },
     {
         "hedyhli/outline.nvim",
-        event = "VeryLazy",
         cmd = { "Outline", "OutlineOpen" },
         keys = {
             vim.keymap.set({ "n" }, "<leader>ls", "<cmd>Outline<CR>",
@@ -330,7 +329,6 @@ M.plugin_list = {
         event = "BufReadPost",
         config = function()
             vim.g.matchup_matchparen_offscreen = { method = "popup" }
-            require('pluginSetups.miniConfig')
         end,
     },
 
@@ -430,7 +428,7 @@ M.plugin_list = {
     },
     {
         "max397574/better-escape.nvim",
-        event = "UIEnter",
+        event = "VeryLazy",
         cond = not vim.g.vscode,
         config = function()
             require("better_escape").setup({
@@ -448,8 +446,6 @@ M.plugin_list = {
         cond = not vim.g.vscode,
         config = function()
             require('pluginSetups.miniStarterConfig')
-            require('pluginSetups.miniStatuslineConfig')
-            require('pluginSetups.miniTablineConfig')
         end
     },
 
@@ -611,7 +607,7 @@ M.plugin_list = {
     },
     {
         "luukvbaal/statuscol.nvim",
-        event = "UIEnter",
+        event = "BufReadPost",
         dependencies = {
             "lewis6991/gitsigns.nvim",
         },
@@ -665,6 +661,7 @@ M.plugin_list = {
     -- marks/bookmarks
     {
         "otavioschwanck/arrow.nvim",
+        event = "VeryLazy",
         opts = {
             show_icons = true,
             leader_key = 'M',        -- Recommended to be a single key
