@@ -65,3 +65,11 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
     group = starter_aug,
     pattern = { "python", "lua", "text", "json", "java", "toml", }
 })
+
+local mini_lazyloading = vim.api.nvim_create_augroup("lazy", { clear = true })
+vim.api.nvim_create_autocmd({ "UIEnter" }, {
+    callback = function()
+        require('pluginSetups.miniConfig')
+    end,
+    group = mini_lazyloading,
+})

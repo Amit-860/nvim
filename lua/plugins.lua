@@ -137,7 +137,7 @@ M.plugin_list = {
     },
     {
         "neovim/nvim-lspconfig",
-        event = "BufReadPre",
+        event = "BufReadPost",
         ft = { "lua", "python", "json" },
         dependencies = {
             "williamboman/mason-lspconfig.nvim",
@@ -270,7 +270,7 @@ M.plugin_list = {
             "TSInstallSync",
             "TSInstallFromGrammar",
         },
-        event = "BufReadPre",
+        event = "BufReadPost",
         config = function()
             local ts_opts = require('pluginSetups.treeSitterConfig')
             require 'nvim-treesitter.configs'.setup(ts_opts)
@@ -278,7 +278,7 @@ M.plugin_list = {
     },
     {
         "romgrk/nvim-treesitter-context",
-        event = "BufReadPre",
+        event = "BufReadPost",
         config = function()
             require("treesitter-context").setup({
                 enable = true,   -- Enable this plugin (Can be enabled/disabled later via commands)
@@ -290,14 +290,14 @@ M.plugin_list = {
     },
     {
         "chrisgrieser/nvim-various-textobjs",
-        event = "BufReadPre",
+        event = "BufReadPost",
         config = function()
             require("various-textobjs").setup({ useDefaultKeymaps = true })
         end,
     },
     {
         "nvim-treesitter/nvim-treesitter-textobjects",
-        event = "BufReadPre"
+        event = "BufReadPost"
     },
     {
         "ckolkey/ts-node-action",
@@ -308,7 +308,7 @@ M.plugin_list = {
     },
     {
         'HiPhish/rainbow-delimiters.nvim',
-        event = "BufReadPre",
+        event = "BufReadPost",
         config = function()
             require('rainbow-delimiters.setup').setup {
                 strategy = {
@@ -327,9 +327,10 @@ M.plugin_list = {
     },
     {
         "andymass/vim-matchup",
-        event = "BufReadPre",
+        event = "BufReadPost",
         config = function()
             vim.g.matchup_matchparen_offscreen = { method = "popup" }
+            require('pluginSetups.miniConfig')
         end,
     },
 
@@ -337,7 +338,7 @@ M.plugin_list = {
     -- motion
     {
         "AgusDOLARD/backout.nvim",
-        event = "BufReadPre",
+        event = "BufReadPost",
         opts = {
             chars = "(){}[]`'\"<>" -- default chars
         },
@@ -350,7 +351,7 @@ M.plugin_list = {
     { "tpope/vim-repeat" },
     {
         "drybalka/tree-climber.nvim",
-        event = "BufReadPre",
+        event = "BufReadPost",
         config = function()
             vim.keymap.set({ "n", "v", "o" }, "r",
                 require("tree-climber").goto_next,
@@ -372,7 +373,7 @@ M.plugin_list = {
     },
     {
         "folke/flash.nvim",
-        event = "BufReadPre",
+        event = "BufReadPost",
         cond = not vim.g.vscode,
         opts = {
             modes = {
@@ -446,7 +447,9 @@ M.plugin_list = {
         'echasnovski/mini.nvim',
         cond = not vim.g.vscode,
         config = function()
-            require('pluginSetups.miniConfig')
+            require('pluginSetups.miniStarterConfig')
+            require('pluginSetups.miniStatuslineConfig')
+            require('pluginSetups.miniTablineConfig')
         end
     },
 
@@ -683,25 +686,6 @@ M.plugin_list = {
         end
     },
 
-    -- replace
-    {
-        'AckslD/muren.nvim',
-        cmd = { 'MurenToggle', 'MurenOpen', 'MurenFresh', 'MurenUnique' },
-        config = true,
-        opts = {
-            keys = {
-                close = '<C-q>',
-                toggle_side = '<Tab>',
-                toggle_options_focus = '<S-tab>',
-                toggle_option_under_cursor = '<CR>',
-                scroll_preview_up = '<Up>',
-                scroll_preview_down = '<Down>',
-                do_replace = '<CR>',
-                do_undo = '<localleader>u',
-                do_redo = '<localleader>U',
-            },
-        }
-    }
 }
 
 M.opts = { checker = { frequency = 604800, } }

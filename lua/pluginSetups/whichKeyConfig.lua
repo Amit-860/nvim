@@ -101,7 +101,6 @@ which_key.register({
     g = { name = "Git" },
     gd = { name = "Diff", },
     L = { name = "LeetCode" },
-    m = { name = "Muren" },
     l = { name = "LSP" },
     t = { name = "Trouble" },
     D = { name = "Debug" },

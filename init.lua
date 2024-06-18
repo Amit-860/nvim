@@ -31,9 +31,9 @@ local default_options = {
     fileencoding   = "utf-8", -- the encoding written to a file
     foldcolumn     = "auto:1",
     foldmethod     = "expr",  -- folding, set to "expr" for treesitter based folding / "manual"
-    foldlevel      = 2,
-    foldlevelstart = 2,
-    foldnestmax    = 3,
+    foldlevel      = 3,
+    foldlevelstart = 3,
+    foldnestmax    = 5,
     foldminlines   = 12,
     foldenable     = true,
     foldexpr       = "nvim_treesitter#foldexpr()", -- set to "nvim_treesitter#foldexpr()" for treesitter based folding
@@ -154,7 +154,7 @@ if vim.g.neovide then
     vim.g.neovide_cursor_unfocused_outline_width = 0.05
     vim.g.neovide_confirm_quit = false
 
-    vim.g.neovide_transparency = 0.75
+    vim.g.neovide_transparency = 0.70
     vim.g.neovide_fullscreen = false
 
     vim.o.winblend = 50

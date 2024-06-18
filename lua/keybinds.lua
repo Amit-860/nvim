@@ -120,17 +120,9 @@ if not vim.g.vscode then
 
     -- Find and Replace
     vim.keymap.set({ "n" }, "<leader>R", utils.find_and_replace,
-        { desc = "which_key_ignore", noremap = true, silent = true })
+        { desc = "Replace", noremap = true, silent = true })
     vim.keymap.set({ "v" }, "<leader>R", utils.replace,
         { desc = "Replace", noremap = true, silent = true })
-    vim.keymap.set({ "n" }, "<leader>mm", "<cmd>MurenToggle<cr>",
-        { desc = "Toggle", noremap = true, silent = true })
-    vim.keymap.set({ "n" }, "<leader>mf", "<cmd>MurenFresh<cr>",
-        { desc = "Fresh", noremap = true, silent = true })
-    vim.keymap.set({ "n" }, "<leader>mc", "<cmd>MurenClose<cr>",
-        { desc = "Close", noremap = true, silent = true })
-    vim.keymap.set({ "n" }, "<leader>mu", "<cmd>MurenUnique<cr>",
-        { desc = "Unique", noremap = true, silent = true })
 
     -- help
     vim.keymap.set("n", "<leader>?k", ":Telescope keymaps<cr>",

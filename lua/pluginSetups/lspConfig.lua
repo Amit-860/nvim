@@ -73,17 +73,17 @@ local on_attach = function(client, bufnr)
         { desc = "Signature Help", noremap = true, buffer = bufnr })
     vim.keymap.set({ "n" }, "<leader>la", "<cmd>lua vim.lsp.buf.code_action()<CR>",
         { desc = "Code Action", noremap = true, buffer = bufnr })
-    vim.keymap.set({ "n" }, "<leader>lr", "<cmd>Telescope lsp_references theme=get_ivy<CR>",
+    vim.keymap.set({ "n" }, "<leader>lr", "<cmd>Telescope lsp_references theme=get_ivy initial_mode=normal<CR>",
         { desc = "References", noremap = true, buffer = bufnr })
     vim.keymap.set({ "n" }, "<leader>lR", "<cmd>lua vim.lsp.buf.rename()<CR>",
         { desc = "Rename Symbol", noremap = true, buffer = bufnr })
-    vim.keymap.set({ "n" }, "<leader>ld", "<cmd>Telescope lsp_definitions theme=get_ivy<CR>",
+    vim.keymap.set({ "n" }, "<leader>ld", "<cmd>Telescope lsp_definitions theme=get_ivy initial_mode=normal<CR>",
         { desc = "Definitions", noremap = true, buffer = bufnr })
-    vim.keymap.set({ "n" }, "<leader>li", "<cmd>Telescope lsp_implementations theme=get_ivy<CR>",
+    vim.keymap.set({ "n" }, "<leader>li", "<cmd>Telescope lsp_implementations theme=get_ivy initial_mode=normal<CR>",
         { desc = "Implementations", noremap = true, buffer = bufnr })
     vim.keymap.set({ "n" }, "<leader>lS", "<cmd>Telescope lsp_workspace_symbols<CR>",
         { desc = "Workspace Symbols", noremap = true, buffer = bufnr })
-    vim.keymap.set({ "n" }, "<leader>lD", "<cmd>Telescope diagnostics bufnr=0 theme=get_ivy<CR>",
+    vim.keymap.set({ "n" }, "<leader>lD", "<cmd>Telescope diagnostics bufnr=0 theme=get_ivy initial_mode=normal<CR>",
         { desc = "Diagnostics", noremap = true, buffer = bufnr })
     vim.keymap.set({ "n" }, "<leader>lf", function() vim.lsp.buf.format() end,
         { desc = "Format", noremap = true, buffer = bufnr })
@@ -140,6 +140,8 @@ local on_attach = function(client, bufnr)
     vim.keymap.set("n", "<leader>rc", "<cmd>RunCode<CR>", { noremap = true, silent = true, desc = "Run Code", })
     vim.keymap.set("n", "<F4>", "<cmd>RunCode<CR>", { noremap = true, silent = true, desc = "Run Code", })
 end
+
+vim.keymap.set("n", "<leader>lI", "<cmd>LspInfo<CR>", { noremap = true, silent = true, desc = "LSP Info", })
 
 local lua_ls_settings = {
     Lua = {
