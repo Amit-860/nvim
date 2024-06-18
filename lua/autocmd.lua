@@ -67,7 +67,7 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
 })
 
 local mini_lazyloading = vim.api.nvim_create_augroup("lazy", { clear = true })
-vim.api.nvim_create_autocmd({ "BufReadPost" }, {
+vim.api.nvim_create_autocmd({ "UIEnter" }, {
     callback = function()
         require('pluginSetups.miniConfig')
         require('pluginSetups.miniStatuslineConfig')

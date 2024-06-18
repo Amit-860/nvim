@@ -446,6 +446,12 @@ M.plugin_list = {
         cond = not vim.g.vscode,
         config = function()
             require('pluginSetups.miniStarterConfig')
+            vim.b.ministatusline_disable = true
+            vim.b.minitabline_disable = true
+            vim.g.starter_opened = true
+            vim.api.nvim_set_hl(0, "StatusLineNC", { bg = nil })
+            vim.api.nvim_set_hl(0, "StatusLine", { bg = nil })
+            vim.api.nvim_set_hl(0, "TabLineFill", { bg = nil })
         end
     },
 

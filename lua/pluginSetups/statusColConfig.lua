@@ -13,16 +13,19 @@ require("statuscol").setup({
     segments = {
         {
             sign = { name = { ".*" }, text = { ".*" }, },
+            click = "v:lua.ScLa",
+        },
+        {
+            sign = { namespace = { "diagnostic/signs" }, maxwidth = 1, colwidth = 1, auto = false },
+            click = "v:lua.ScSa"
+        },
+        {
+            text = { " ", builtin.lnumfunc, " " },
             click = "v:lua.ScSa",
         },
         {
-            sign = { name = { "Diagnostic" }, maxwidth = 1, colwidth = 1, auto = false },
-            click = "v:lua.ScSa"
-        },
-        { text = { builtin.lnumfunc, " " }, click = "v:lua.ScLa", },
-        {
-            sign = { namespace = { 'gitsigns' }, maxwidth = 1, colwidth = 1, auto = true, },
-            click = 'v:lua.ScFa'
+            sign = { namespace = { 'gitsigns' }, maxwidth = 1, colwidth = 1, auto = false, },
+            click = 'v:lua.ScSa'
         },
         {
             text = {
@@ -39,11 +42,12 @@ require("statuscol").setup({
                     return vim.o.foldcolumn ~= "0"
                 end,
             },
+            auto = false,
             click = "v:lua.ScFa",
         },
         {
             sign = { name = { ".*" }, maxwidth = 1, colwidth = 1 },
-            click = "v:lua.ScSa"
+            click = "v:lua.ScFa"
         },
     }
 })
