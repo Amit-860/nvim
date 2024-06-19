@@ -44,7 +44,7 @@ vim.api.nvim_create_autocmd("User", {
         -- local buf_name = string.lower(vim.api.nvim_buf_get_name(vim.api.nvim_get_current_buf()))
         -- if buf_name:find('start') then
         vim.b.ministatusline_disable = true
-        vim.b.minitabline_disable = true
+        -- vim.b.minitabline_disable = true
         vim.g.starter_opened = true
         vim.api.nvim_set_hl(0, "StatusLineNC", { bg = nil })
         vim.api.nvim_set_hl(0, "StatusLine", { bg = nil })
@@ -55,23 +55,27 @@ vim.api.nvim_create_autocmd("User", {
     pattern = "MiniStarterOpened",
 })
 
-vim.api.nvim_create_autocmd({ "FileType" }, {
+local hilight = require('colors').line_hilight
+vim.api.nvim_create_autocmd({ "BufEnter" }, {
     callback = function()
         vim.g.starter_opened = false
-        vim.api.nvim_set_hl(0, "StatusLineNC", { bg = "#131a24", fg = "#aeafb0" })
-        vim.api.nvim_set_hl(0, "StatusLine", { bg = "#131a24", fg = "#71839b" })
-        vim.api.nvim_set_hl(0, "TabLineFill", { bg = "#131a24" })
+        vim.api.nvim_set_hl(0, "StatusLineNC", { bg = hilight, fg = "#aeafb0" })
+        vim.api.nvim_set_hl(0, "StatusLine", { bg = hilight, fg = "#71839b" })
+        vim.api.nvim_set_hl(0, "TabLineFill", { bg = hilight })
     end,
     group = starter_aug,
-    pattern = { "python", "lua", "text", "json", "java", "toml", }
 })
 
 local mini_lazyloading = vim.api.nvim_create_augroup("lazy", { clear = true })
-vim.api.nvim_create_autocmd({ "UIEnter" }, {
+vim.api.nvim_create_autocmd({ "BufRead" }, {
     callback = function()
-        require('pluginSetups.miniConfig')
-        require('pluginSetups.miniStatuslineConfig')
-        require('pluginSetups.miniTablineConfig')
+        vim.g.miniInitialized = false
+        if not vim.g.miniInitialized then
+            require('pluginSetups.miniConfig')
+            require('pluginSetups.miniStatuslineConfig')
+            require('pluginSetups.miniTablineConfig')
+            vim.g.miniInitialized = true
+        end
     end,
     group = mini_lazyloading,
 })

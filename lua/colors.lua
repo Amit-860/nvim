@@ -1,24 +1,31 @@
+M = {}
 -- vim.api.nvim_set_hl(0, "MatchParen", { bg = nil, fg = "#fffd00", underline = true, bold = true })
 -- vim.api.nvim_set_hl(0, "MatchParen", { bg = "#4d5969", fg = "#ffffff", underline = false, bold = true })
 
--- local float_color = "#202d3f"
-local float_color = "#112631"
-local neovide_float_winblend = 40
-local float_winblend = 15
+-- nightfox
+-- M.float_color = "#202d3f"
+-- M.line_hilight = "#08161a"
+
+-- terafox
+M.float_color = "#112631"
+M.line_hilight = "#08161a"
+
+M.neovide_float_winblend = 40
+M.float_winblend = 15
 
 vim.api.nvim_set_hl(0, "MarkStatusLine", { bg = "#354965", fg = "#aeafb0", bold = true })
-vim.api.nvim_set_hl(0, "FloatBorder", { bg = float_color, blend = float_winblend })
-vim.api.nvim_set_hl(0, "FloatTitle", { bg = float_color, blend = float_winblend })
+vim.api.nvim_set_hl(0, "FloatBorder", { bg = M.float_color, blend = M.float_winblend })
+vim.api.nvim_set_hl(0, "FloatTitle", { bg = M.float_color, blend = M.float_winblend })
 
 vim.api.nvim_set_hl(0, "CmpSelectedItem", { bg = "#00495c", fg = "#dfdfe0", bold = true, }) -- hilight for selected itme in cmp menu
-vim.api.nvim_set_hl(0, "CmpComplitionMenu", { bg = float_color, })                          -- hilight for cmp menu
+vim.api.nvim_set_hl(0, "CmpComplitionMenu", { bg = M.float_color, })                        -- hilight for cmp menu
 
 if vim.g.neovide then
-    vim.api.nvim_set_hl(0, "NormalFloat", { bg = float_color, blend = neovide_float_winblend })       -- hilight for cmp menu
-    vim.api.nvim_set_hl(0, "NoiceCmdlinePopup", { bg = float_color, blend = neovide_float_winblend }) -- hilight for cmp menu
+    vim.api.nvim_set_hl(0, "NormalFloat", { bg = M.float_color, blend = M.neovide_float_winblend })       -- hilight for cmp menu
+    vim.api.nvim_set_hl(0, "NoiceCmdlinePopup", { bg = M.float_color, blend = M.neovide_float_winblend }) -- hilight for cmp menu
 else
-    vim.api.nvim_set_hl(0, "NormalFloat", { bg = float_color, blend = float_winblend })               -- hilight for cmp menu
-    vim.api.nvim_set_hl(0, "NoiceCmdlinePopup", { bg = float_color, blend = float_winblend })         -- hilight for cmp menu
+    vim.api.nvim_set_hl(0, "NormalFloat", { bg = M.float_color, blend = M.float_winblend })               -- hilight for cmp menu
+    vim.api.nvim_set_hl(0, "NoiceCmdlinePopup", { bg = M.float_color, blend = M.float_winblend })         -- hilight for cmp menu
 end
 
 vim.api.nvim_set_hl(0, "YaziFloat", { link = "NormalFloat" })
@@ -57,3 +64,5 @@ vim.api.nvim_set_hl(0, "MiniCursorwordCurrent", {})
 
 -- visual
 vim.api.nvim_set_hl(0, "Visual", { bg = "#3a4f6d", bold = true, })
+
+return M

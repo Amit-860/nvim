@@ -432,6 +432,8 @@ M.plugin_list = {
     {
         'echasnovski/mini.nvim',
         cond = not vim.g.vscode,
+        lazy = false,
+        priority = 1000,
         config = function()
             require('pluginSetups.miniStarterConfig')
             vim.b.ministatusline_disable = true
