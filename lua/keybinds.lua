@@ -140,7 +140,7 @@ if not vim.g.vscode then
     end, { desc = "Broot", noremap = true, silent = true })
     vim.keymap.set("n", "<leader>?l", function()
         require('pluginSetups.toggleTermConfig').lazygit_toggle()
-    end, { desc = "Broot", noremap = true, silent = true })
+    end, { desc = "Lazygit", noremap = true, silent = true })
 
     -- Project
     vim.keymap.set("n", "<leader>p",

@@ -227,7 +227,7 @@ M.plugin_list = {
     -- Debugging
     {
         "mfussenegger/nvim-dap",
-        event = "User FileOpened",
+        ft = { 'python', 'java' },
         cmd = { "DapContinue" },
         dependencies = { "rcarriga/nvim-dap-ui", },
         config = function()
@@ -253,7 +253,7 @@ M.plugin_list = {
     },
     {
         "theHamsta/nvim-dap-virtual-text",
-        event = "LspAttach",
+        event = "VeryLazy",
         opts = {}
     },
 
@@ -334,18 +334,6 @@ M.plugin_list = {
 
 
     -- motion
-    {
-        "AgusDOLARD/backout.nvim",
-        event = "BufReadPost",
-        opts = {
-            chars = "(){}[]`'\"<>" -- default chars
-        },
-        keys = {
-            -- Define your keybinds
-            { "<M-h>", "<cmd>lua require('backout').back()<cr>", mode = { "i", "n" } },
-            { "<M-l>", "<cmd>lua require('backout').out()<cr>",  mode = { "i", "n" } },
-        },
-    },
     { "tpope/vim-repeat" },
     {
         "drybalka/tree-climber.nvim",
@@ -478,24 +466,6 @@ M.plugin_list = {
             },
         },
     },
-    {
-        "CRAG666/code_runner.nvim",
-        cmd = { 'RunFile', 'RunCode', 'RunProject', 'RunClose' },
-        config = function()
-            local opts = {
-                mode = "float",
-                float = {
-                    border_hl = "FloatBorder",
-                    float_hl = "NormalFloat",
-                    blend = 15,
-                },
-            }
-            if vim.g.neovide then
-                opts.float.blend = 75
-            end
-            require('code_runner').setup(opts)
-        end,
-    },
 
     -- completion
     {
@@ -556,7 +526,7 @@ M.plugin_list = {
     -- git
     {
         "lewis6991/gitsigns.nvim",
-        event = "User FileOpened",
+        event = "VeryLazy",
         cmd = "Gitsigns",
         config = function()
             require("pluginSetups.gitSignConfig")
@@ -613,7 +583,7 @@ M.plugin_list = {
     },
     {
         "luukvbaal/statuscol.nvim",
-        event = "BufReadPost",
+        event = "UIEnter",
         dependencies = {
             "lewis6991/gitsigns.nvim",
         },

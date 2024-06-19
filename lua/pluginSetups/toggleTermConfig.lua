@@ -25,10 +25,10 @@ M.toggle_term_opts = {
         -- border = 'single' | 'double' | 'shadow' | 'curved' | ... other options supported by win open
         border = "single",
         width = function()
-            return math.ceil(vim.o.columns * 0.80)
+            return math.ceil(vim.o.columns * 0.84)
         end,
         height = function()
-            return math.ceil(vim.o.lines * 0.85)
+            return math.ceil(vim.o.lines * 0.80)
         end,
         winblend = 0,
         highlights = {
@@ -44,7 +44,8 @@ M.toggle_term_opts = {
 }
 
 if vim.g.neovide then
-    M.toggle_term_opts.float_opts.winblend = 75
+    M.toggle_term_opts.float_opts.winblend = 70
+    M.toggle_term_opts.float_opts.border = "none"
 end
 
 local function get_buf_size()
@@ -110,18 +111,16 @@ end
 
 M.lazygit_toggle = function()
     local Terminal = require("toggleterm.terminal").Terminal
+    local float_opts = {
+        border = "none",
+        height = math.floor(vim.o.lines * 1),
+        width = math.floor(vim.o.columns * 1),
+    }
     local lazygit = Terminal:new {
         cmd = "lazygit",
         hidden = true,
         direction = "float",
-        float_opts = {
-            border = "none",
-            width = 100000,
-            height = 100000,
-            -- height = math.floor(vim.o.lines * 0.85),
-            -- width = math.floor(vim.o.columns * 0.85),
-            -- size = 40,
-        },
+        float_opts = float_opts,
         on_open = function(_)
             vim.cmd "startinsert!"
         end,
@@ -130,62 +129,53 @@ M.lazygit_toggle = function()
     }
     -- condition for neovide
     if vim.g.neovide then
-        lazygit = Terminal:new {
-            cmd = "lazygit",
-            hidden = true,
-            direction = "float",
-            float_opts = {
-                -- border = "none",
-                border = "single",
-                size = 24,
-            },
-            on_open = function(_)
-                vim.cmd "startinsert!"
-            end,
-            on_close = function(_) end,
-            count = 99,
-        }
+        float_opts.height = math.floor(vim.o.lines * 0.98)
+        float_opts.width = math.floor(vim.o.columns * 0.98)
     end
     lazygit:toggle()
 end
 
 M.broot_toggle = function()
     local Terminal = require("toggleterm.terminal").Terminal
+    local float_opts = {
+        -- height = math.floor(vim.o.lines * 1),
+        -- width = math.floor(vim.o.columns * 1),
+    }
     local broot = Terminal:new {
         cmd = "broot",
         hidden = true,
         direction = "float",
-        float_opts = {
-            border = "single",
-            width = 100000,
-            height = 100000,
-            -- height = math.floor(vim.o.lines * 0.85),
-            -- width = math.floor(vim.o.columns * 0.8),
-        },
+        float_opts = float_opts,
         on_open = function(_)
             vim.cmd "startinsert!"
         end,
         on_close = function(_) end,
         count = 99,
     }
-
+    -- condition for neovide
     if vim.g.neovide then
-        broot = Terminal:new {
-            cmd = "broot",
-            hidden = true,
-            direction = "float",
-            float_opts = {
-                border = "single",
-                size = 28,
-            },
-            on_open = function(_)
-                vim.cmd "startinsert!"
-            end,
-            on_close = function(_) end,
-            count = 99,
-        }
+        -- float_opts.height = math.floor(vim.o.lines * 1.0)
+        -- float_opts.width = math.floor(vim.o.columns * 1.0)
     end
     broot:toggle()
+end
+
+M.py_runner = function()
+    local Terminal = require("toggleterm.terminal").Terminal
+    local file_name = vim.api.nvim_buf_get_name(0)
+    local py_runner = Terminal:new {
+        cmd = "python " .. file_name,
+        hidden = true,
+        direction = "float",
+        close_on_exit = false, -- close the terminal window when the process exits
+        -- float_opts = {},
+        on_open = function(_)
+            vim.cmd "startinsert!"
+        end,
+        on_close = function(_) end,
+        count = 99,
+    }
+    py_runner:toggle()
 end
 
 M.init()
