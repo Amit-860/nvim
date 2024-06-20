@@ -230,6 +230,7 @@ M.plugin_list = {
             "theHamsta/nvim-dap-virtual-text",
             {
                 "rcarriga/nvim-dap-ui",
+                dependencies = { "nvim-neotest/nvim-nio" },
                 config = function() require('pluginSetups.dapUIConfig') end
             }
         },

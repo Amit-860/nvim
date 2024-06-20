@@ -76,7 +76,9 @@ local on_attach = function(client, bufnr)
         { desc = "Code Action", noremap = true, buffer = bufnr })
     vim.keymap.set({ "n" }, "<leader>lr", "<cmd>Telescope lsp_references theme=get_ivy initial_mode=normal<CR>",
         { desc = "References", noremap = true, buffer = bufnr })
-    vim.keymap.set({ "n" }, "<leader>lR", "<cmd>lua vim.lsp.buf.rename()<CR>",
+    vim.keymap.set({ "n" }, "<leader>lR", function()
+            require('utils').lsp_rename()
+        end,
         { desc = "Rename Symbol", noremap = true, buffer = bufnr })
     vim.keymap.set({ "n" }, "<leader>ld", "<cmd>Telescope lsp_definitions theme=get_ivy initial_mode=normal<CR>",
         { desc = "Definitions", noremap = true, buffer = bufnr })
