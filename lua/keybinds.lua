@@ -26,7 +26,7 @@ if not vim.g.vscode then
         { noremap = true, silent = true, desc = 'Recent Files' })
 
     -- close Buffer
-    vim.keymap.set("n", "<leader>x", "<cmd>bd<cr>", { noremap = true, silent = true, desc = 'Close Buffer' })
+    vim.keymap.set("n", "<leader>c", "<cmd>bd<cr>", { noremap = true, silent = true, desc = 'Close Buffer' })
 
 
     -- session

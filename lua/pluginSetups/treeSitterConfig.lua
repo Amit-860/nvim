@@ -94,10 +94,12 @@ local ts_opts = {
                 [']d'] = '@conditional.outer',
                 [']sd'] = '@conditional.inner',
 
-                -- [']]'] = { query = { '@parameter.inner', '@attribute.inner', '@assignment.outer', '@call.inner',
-                --     '@statement.outer', '@function.inner', '@loop.inner', '@return.inner', '@scopename.inner',
-                --     '@conditional.inner', } },
-                [']]'] = { query = { '@parameter.inner', '@attribute.inner', '@assignment.lhs', '@assignment.rhs' } },
+                -- ['r'] = {
+                --     query = { '@parameter.inner', '@attribute.inner', '@assignment.outer', '@call.inner',
+                --         '@statement.outer', '@function.inner', '@loop.inner', '@return.inner', '@scopename.inner',
+                --         '@conditional.inner', }
+                -- },
+                ['r'] = { query = { '@parameter.inner', '@attribute.inner', '@assignment.lhs', '@assignment.rhs' } },
             },
             goto_next_end = {
                 [']ec'] = '@class.inner',
@@ -118,10 +120,12 @@ local ts_opts = {
                 ['[d'] = '@conditional.outer',
                 ['[sd'] = '@conditional.inner',
 
-                -- ['[['] = { query = { '@parameter.inner', '@attribute.inner', '@assignment.outer', '@call.inner',
-                --     '@statement.outer', '@function.inner', '@loop.inner', '@return.inner', '@scopename.inner',
-                --     '@conditional.inner', } },
-                ['[['] = { query = { '@parameter.inner', '@attribute.inner', '@assignment.lhs', '@assignment.rhs' } },
+                -- ['R'] = {
+                --     query = { '@parameter.inner', '@attribute.inner', '@assignment.outer', '@call.inner',
+                --         '@statement.outer', '@function.inner', '@loop.inner', '@return.inner', '@scopename.inner',
+                --         '@conditional.inner', }
+                -- },
+                ['R'] = { query = { '@parameter.inner', '@attribute.inner', '@assignment.lhs', '@assignment.rhs' } },
             },
             goto_previous_end = {
                 ['[ec'] = '@class.inner',

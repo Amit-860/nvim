@@ -3,11 +3,14 @@ require("statuscol").setup({
     ft_ignore = {
         'NvimTree',
         'toggleterm',
-        'NeogitStatus'
+        'NeogitStatus',
+        'help',
+        'lazy'
     },
     bt_ignore = {
         'nofile',
         'terminal',
+        'Neogit',
     },
     relculright = true,
     segments = {
@@ -16,10 +19,15 @@ require("statuscol").setup({
             click = "v:lua.ScLa"
         },
         {
-            text = { " ", builtin.lnumfunc, " " },
+            text = { " ", builtin.lnumfunc, },
             condition = { true, builtin.non_empty },
-            click = "v:lua.ScSa",
-            auto = true
+            click = "v:lua.ScLa",
+            auto = false
+        },
+        {
+            text = { " " },
+            click = 'v:lua.ScSa',
+            auto = false
         },
         {
             sign = { namespace = { 'gitsigns' }, maxwidth = 1, colwidth = 1, auto = false, },

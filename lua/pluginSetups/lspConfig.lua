@@ -30,18 +30,19 @@ local default_diagnostic_config = {
 }
 vim.diagnostic.config(default_diagnostic_config)
 
-vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(
-    vim.lsp.handlers.hover, {
-        -- Use a sharp border with `FloatBorder` highlights
-        border = "none",
-        -- add the title in hover float window
-        -- title = "hover"
-        relative = 'win',
-        max_height = math.floor(vim.o.lines * 0.6),
-        max_width = math.floor(vim.o.columns * 0.5),
-        -- [ "╔", "═" ,"╗", "║", "╝", "═", "╚", "║" ].
-    }
-)
+-- Disabled as using Noice for this
+-- vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(
+--     vim.lsp.handlers.hover, {
+--         -- Use a sharp border with `FloatBorder` highlights
+--         border = "none",
+--         -- add the title in hover float window
+--         -- title = "hover"
+--         relative = 'win',
+--         max_height = math.floor(vim.o.lines * 0.6),
+--         max_width = math.floor(vim.o.columns * 0.5),
+--         -- [ "╔", "═" ,"╗", "║", "╝", "═", "╚", "║" ].
+--     }
+-- )
 
 -- Set up lspconfig.
 local lspconfig = require('lspconfig')

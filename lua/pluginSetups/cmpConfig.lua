@@ -97,16 +97,20 @@ local function has_words_before()
     return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match "%s" == nil
 end
 
-local source_icon = {
-    luasnip = "snip",
-    nvim_lsp = "lsp",
-    nvim_lua = 'lsp',
-    nvim_lsp_signature_help = 'lsp',
-    nvim_lsp_document_symbol = 'lsp',
-    path = 'path',
-    treesitter = 'TS',
-    buffer = 'buff'
-}
+local cmp_confirm = cmp.mapping.confirm({
+    behavior = cmp.ConfirmBehavior.Replace,
+    select = false,
+})
+
+-- don't confirm for signature help to allow new line without selecting argument name
+local confirm = cmp.sync(function(fallback)
+    local e = cmp.core.view:get_selected_entry()
+    if e and e.source.name == "nvim_lsp_signature_help" then
+        fallback()
+    else
+        cmp_confirm(fallback)
+    end
+end)
 
 local cmp_opts = {
     snippet = {
@@ -217,7 +221,8 @@ local cmp_opts = {
                 end
             end,
         },
-        ['<CR>'] = cmp.mapping.confirm({ select = true }),
+        -- ['<CR>'] = cmp.mapping.confirm({ select = true }),
+        ['<CR>'] = confirm,
         ["<tab>"] = cmp.mapping(function(fallback)
             if cmp.visible() then
                 cmp.select_next_item()
@@ -247,9 +252,8 @@ local cmp_opts = {
     sources = cmp.config.sources({
             { name = 'luasnip' }, -- For luasnip users.
             { name = 'nvim_lsp' },
-            { name = 'nvim_lua' },
             { name = 'nvim_lsp_signature_help' },
-            { name = 'nvim_lsp_document_symbol' },
+            { name = 'nvim_lua' },
             { name = 'path' },
             { name = 'treesitter' },
         },
@@ -267,7 +271,7 @@ local cmp_opts = {
 
     sorting = {
         comparators = {
-            -- compare.offset,
+            compare.offset,
             -- compare.exact,
             compare.score,
             compare.recently_used,
@@ -291,7 +295,7 @@ cmp.setup.filetype('gitcommit', {
         { name = 'buffer' },
     })
 })
-require("cmp_git").setup()
+-- require("cmp_git").setup()
 
 
 -- Use buffer source for `/` and `?` (if you enabled `native_menu`, this won't work anymore).

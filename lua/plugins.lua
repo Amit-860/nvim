@@ -31,20 +31,15 @@ M.plugin_list = {
         config = function()
             require("noice").setup({
                 lsp = {
-                    progress = {
-                        enabled = false,
-                        format = "lsp_progress",
-                        format_done = "lsp_progress_done",
-                        throttle = 1000 / 30, -- frequency to update lsp progress message
-                        view = "mini",
-                    },
+                    progress = { enabled = true, },
                     override = {
                         ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
                         ["vim.lsp.util.stylize_markdown"] = true,
                         ["cmp.entry.get_documentation"] = true,
                     },
-                    signature = { enabled = false, },
-                    hover = { enabled = false, },
+                    signature = { enabled = true, },
+                    hover = { enabled = true, },
+                    message = { enabled = true, },
                 },
                 routes = {
                     enabled = true,
@@ -57,6 +52,7 @@ M.plugin_list = {
                     inc_rename = true,            -- enables an input dialog for inc-rename.nvim
                     lsp_doc_border = false,       -- add a border to hover docs and signature help
                 },
+                notify = { enabled = true, },
             })
         end,
     },
@@ -155,7 +151,7 @@ M.plugin_list = {
     },
     {
         "mfussenegger/nvim-jdtls",
-        event = "VeryLazy"
+        ft = "java",
     },
     {
         "nvim-telescope/telescope.nvim",
@@ -229,7 +225,14 @@ M.plugin_list = {
         "mfussenegger/nvim-dap",
         ft = { 'python', 'java' },
         cmd = { "DapContinue" },
-        dependencies = { "rcarriga/nvim-dap-ui", },
+        dependencies = {
+            -- Debugger user interface
+            "theHamsta/nvim-dap-virtual-text",
+            {
+                "rcarriga/nvim-dap-ui",
+                config = function() require('pluginSetups.dapUIConfig') end
+            }
+        },
         config = function()
             require('pluginSetups.dapConfig')
         end
@@ -240,21 +243,6 @@ M.plugin_list = {
         config = function()
             require("dap-python").setup("~/scoop/apps/python/current/python")
         end,
-    },
-
-    -- Debugger user interface
-    {
-        "rcarriga/nvim-dap-ui",
-        event = "VeryLazy",
-        dependencies = { "mfussenegger/nvim-dap", "nvim-neotest/nvim-nio" },
-        config = function()
-            require('pluginSetups.dapUIConfig')
-        end
-    },
-    {
-        "theHamsta/nvim-dap-virtual-text",
-        event = "VeryLazy",
-        opts = {}
     },
 
     -- Treesitter
@@ -300,7 +288,7 @@ M.plugin_list = {
     },
     {
         "ckolkey/ts-node-action",
-        event = "VeryLazy",
+        event = "BufReadPost",
         dependencies = { "nvim-treesitter" },
         lazy = true,
         opts = {},
@@ -336,28 +324,6 @@ M.plugin_list = {
     -- motion
     { "tpope/vim-repeat" },
     {
-        "drybalka/tree-climber.nvim",
-        event = "BufReadPost",
-        config = function()
-            vim.keymap.set({ "n", "v", "o" }, "r",
-                require("tree-climber").goto_next,
-                { noremap = true, silent = true, desc = "Next Block" }
-            )
-            vim.keymap.set({ "n", "v", "o" }, "R",
-                require("tree-climber").goto_prev,
-                { noremap = true, silent = true, desc = "Prev Block" }
-            )
-            vim.keymap.set({ "n", "v", "o" }, "]r",
-                require("tree-climber").goto_child,
-                { noremap = true, silent = true, desc = "Goto Child Block" }
-            )
-            vim.keymap.set({ "n", "v", "o" }, "[R",
-                require("tree-climber").goto_parent,
-                { noremap = true, silent = true, desc = "Goto Parent Block" }
-            )
-        end,
-    },
-    {
         "folke/flash.nvim",
         event = "BufReadPost",
         cond = not vim.g.vscode,
@@ -383,7 +349,7 @@ M.plugin_list = {
     },
     {
         "monaqa/dial.nvim",
-        event = "BufRead",
+        event = "BufReadPost",
         keys = {
             { "<C-a>",  "<Plug>(dial-increment)",  mode = { "n", "v" }, remap = true },
             { "<C-x>",  "<Plug>(dial-decrement)",  mode = { "n", "v" }, remap = true },
@@ -432,8 +398,6 @@ M.plugin_list = {
     {
         'echasnovski/mini.nvim',
         cond = not vim.g.vscode,
-        lazy = false,
-        priority = 1000,
         config = function()
             require('pluginSetups.miniStarterConfig')
             vim.b.ministatusline_disable = true
@@ -477,22 +441,18 @@ M.plugin_list = {
             'hrsh7th/cmp-nvim-lsp',
             'hrsh7th/cmp-buffer',
             'hrsh7th/cmp-path',
-            "hrsh7th/cmp-nvim-lsp-document-symbol",
-            "hrsh7th/cmp-nvim-lsp-signature-help",
             'hrsh7th/cmp-cmdline',
-            'petertriho/cmp-git'
+            'L3MON4D3/LuaSnip'
         },
         config = function()
             require('pluginSetups.cmpConfig')
         end
     },
-    { 'petertriho/cmp-git',                   lazy = true },
-    { 'hrsh7th/cmp-nvim-lsp',                 lazy = true, },
-    { 'hrsh7th/cmp-buffer',                   lazy = true },
-    { 'hrsh7th/cmp-path',                     lazy = true },
-    { "hrsh7th/cmp-nvim-lsp-document-symbol", lazy = true },
-    { "hrsh7th/cmp-nvim-lsp-signature-help",  lazy = true },
-    { 'hrsh7th/cmp-cmdline',                  lazy = true },
+    -- { 'petertriho/cmp-git',   lazy = true },
+    { 'hrsh7th/cmp-nvim-lsp', lazy = true, },
+    { 'hrsh7th/cmp-buffer',   lazy = true },
+    { 'hrsh7th/cmp-path',     lazy = true },
+    { 'hrsh7th/cmp-cmdline',  lazy = true },
     {
         "L3MON4D3/LuaSnip",
         version = "v2.*", -- Replace <CurrentMajor> by the latest released major (first number of latest release)
@@ -630,7 +590,7 @@ M.plugin_list = {
     {
         "gbprod/yanky.nvim",
         recommended = true,
-        event = "VeryLazy",
+        event = "BufReadPost",
         opts = {
             highlight = { timer = 300 },
         },
