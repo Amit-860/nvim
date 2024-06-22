@@ -9,7 +9,8 @@ local prompt_input_cursor_pos = function(opts, on_submit)
             col = 0,
         },
         size = {
-            width = '25%',
+            min_width = 18,
+            width = '20%',
         },
         border = {
             style = 'single',
@@ -147,7 +148,7 @@ end
 M.lsp_rename = function()
     local cursor_word = vim.fn.expand("<cword>")
     if not cursor_word then return end
-    prompt_input_cursor_pos({ prompt = cursor_word .. " 󰞘 ", default_value = nil }, function(input)
+    prompt_input_cursor_pos({ prompt = cursor_word .. " 󰞘 ", default_value = cursor_word }, function(input)
         if not input then return end
         vim.lsp.buf.rename(input)
     end)

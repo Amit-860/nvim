@@ -326,19 +326,14 @@ M.plugin_list = {
         event = "BufReadPost",
         cond = not vim.g.vscode,
         opts = {
-            modes = {
-                char = { jump_labels = true },
-                search = { enabled = false }
-            },
+            modes = { char = { jump_labels = true }, search = { enabled = false } },
             exclude = {
-                "notify",
-                "cmp_menu",
-                "noice",
-                "flash_prompt",
-                "neogit",
-                "NeogitStatus",
+                "notify", "cmp_menu", "noice", "flash_prompt", "neogit", "NeogitStatus",
                 function(win) return not vim.api.nvim_win_get_config(win).focusable end,
             },
+            graph_style = "unicode",
+            telescope_sorter = function() return require("telescope").extensions.fzy_native.native_fzy_sorter() end,
+            integrations = { telescope = true, diffview = true, }
         },
         keys = {
             { "s",     mode = { "n", "x", "o" }, function() require("flash").jump({}) end,                                     desc = "Flash" },
@@ -393,7 +388,7 @@ M.plugin_list = {
         config = function()
             require("better_escape").setup({
                 mapping = { "jk" },        -- a table with mappings to use
-                timeout = 500,             -- the time in which the keys must be hit in ms. Use option timeoutlen by default
+                timeout = 300,             -- the time in which the keys must be hit in ms. Use option timeoutlen by default
                 clear_empty_lines = false, -- clear line after escaping if there is only whitespace
                 keys = "<Esc>",            -- keys used for escaping, if it is a function will use the result everytime
             })

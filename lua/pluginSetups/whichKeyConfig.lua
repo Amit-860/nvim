@@ -78,7 +78,6 @@ local which_key_opts = {
 
 if vim.g.neovide then
     which_key_opts.window.winblend = 75
-    which_key_opts.window.border = 'none'
 end
 
 which_key.setup(which_key_opts)

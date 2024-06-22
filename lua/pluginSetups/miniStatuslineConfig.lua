@@ -6,11 +6,19 @@
 --     return ""
 -- end
 
-local grapple = require('grapple')
+local grapple            = require('grapple')
 local get_grapple_status = function(bufnr)
     if grapple.exists(bufnr) then
         -- return grapple.statusline()
         return "󰛢 " .. grapple.name_or_index(bufnr)
+    end
+    return ""
+end
+
+local noice              = require("noice")
+local get_marco_status   = function()
+    if noice.api.statusline.mode.has then
+        return noice.api.statusline.mode.get()
     end
     return ""
 end
@@ -28,9 +36,11 @@ require('mini.statusline').setup({
             local location       = MiniStatusline.section_location({ trunc_width = 75 })
             local search         = MiniStatusline.section_searchcount({ trunc_width = 75 })
             local grapple_status = get_grapple_status(bufnr)
+            local macro          = get_marco_status()
 
             return MiniStatusline.combine_groups({
                 { hl = mode_hl,                 strings = { mode } },
+                { hl = "MacroRecording",        strings = { macro } },
                 { hl = "MarkStatusLine",        strings = { grapple_status } },
                 { hl = 'MiniStatuslineDevinfo', strings = { git, diff, diagnostics, lsp } },
                 '%<', -- Mark general truncate point

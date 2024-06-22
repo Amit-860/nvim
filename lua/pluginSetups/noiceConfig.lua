@@ -10,13 +10,13 @@ require("noice").setup({
         hover = { enabled = true, },
         message = { enabled = true, },
     },
-    routes = {
-        enabled = true,
-        { view = "cmdline", filter = { event = "msg_showmode" } }
-    },
+    -- routes = {
+    --     enabled = true,
+    --     { view = "cmdline", filter = { event = "msg_showmode" } }
+    -- },
     presets = {
         bottom_search = false,        -- use a classic bottom cmdline for search
-        command_palette = false,      -- position the cmdline and popupmenu together
+        command_palette = true,       -- position the cmdline and popupmenu together
         long_message_to_split = true, -- long messages will be sent to a split
         lsp_doc_border = false,       -- add a border to hover docs and signature help
     },
@@ -31,10 +31,18 @@ require("noice").setup({
             win_options = {
                 winhighlight = "NormalFloat:NormalFloat,FloatBorder:FloatBorder",
             },
-            relative = "win",
+            -- relative = "win",
             position = {
-                row = math.floor(vim.o.lines * 0.82),
-                col = math.floor(vim.o.columns * 0.38),
+                row = math.floor(vim.o.lines * 0.80),
+                -- col = math.floor(vim.o.columns * 0.35),
+                col = '50%'
+            },
+            -- position = {
+            --     row = 10,
+            --     col = "50%"
+            -- },
+            size = {
+                width = '30%',
             },
         },
     },
