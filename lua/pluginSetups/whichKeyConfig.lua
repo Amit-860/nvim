@@ -42,11 +42,11 @@ local which_key_opts = {
 
     },
     window = {
-        border = "rounded",        -- none, single, double, shadow
+        border = "single",         -- none, single, double, shadow
         position = "bottom",       -- bottom, top
         -- margin = { 0, 10, 1, 8 }, -- extra window margin [top, right, bottom, left]
         margin = { 0, 19, 1, 17 }, -- extra window margin [top, right, bottom, left]
-        padding = { 1, 1, 1, 1 },  -- extra window padding [top, right, bottom, left]
+        padding = { 1, 0, 0, 0 },  -- extra window padding [top, right, bottom, left]
         winblend = 0,
     },
     layout = {
@@ -78,6 +78,7 @@ local which_key_opts = {
 
 if vim.g.neovide then
     which_key_opts.window.winblend = 75
+    which_key_opts.window.border = 'none'
 end
 
 which_key.setup(which_key_opts)

@@ -1,14 +1,29 @@
 M = {}
 -- vim.api.nvim_set_hl(0, "MatchParen", { bg = nil, fg = "#fffd00", underline = true, bold = true })
 -- vim.api.nvim_set_hl(0, "MatchParen", { bg = "#4d5969", fg = "#ffffff", underline = false, bold = true })
+vim.api.nvim_set_hl(0, "FindAndReplace", { bg = "#ff5c52", fg = "#131a24" })
+
+-- GitSings hilights
+vim.api.nvim_set_hl(0, "GitSignsAddNr", { fg = "#7aa4a1" })
+vim.api.nvim_set_hl(0, "GitSignsAddLn", { fg = "#7aa4a1" })
+vim.api.nvim_set_hl(0, "GitSignsChangeNr", { fg = "#fda47f" })
+vim.api.nvim_set_hl(0, "GitSignsChangeLn", { fg = "#fda47f" })
+vim.api.nvim_set_hl(0, "GitSignsDeleteNr", { fg = "#e85c51" })
+vim.api.nvim_set_hl(0, "GitSignsDeleteLn", { fg = "#e85c51" })
 
 -- nightfox
--- M.float_color = "#202d3f"
--- M.line_hilight = "#08161a"
+M.float_color = "#202d3f"
+M.line_hilight = "#0a161e"
 
 -- terafox
-M.float_color = "#112631"
-M.line_hilight = "#08161a"
+-- M.float_color = "#112631"
+-- M.line_hilight = "#07161a"
+
+if vim.g.neovide then
+    -- M.line_hilight = "#030a0c"
+    M.line_hilight = "#011425"
+end
+
 
 M.neovide_float_winblend = 40
 M.float_winblend = 15

@@ -27,6 +27,7 @@ if not vim.g.vscode then
 
     -- close Buffer
     vim.keymap.set("n", "<leader>c", "<cmd>bd<cr>", { noremap = true, silent = true, desc = 'Close Buffer' })
+    vim.keymap.set("n", "<leader>C", "<cmd>bd!<cr>", { noremap = true, silent = true, desc = 'which_key_ignore' })
 
 
     -- session

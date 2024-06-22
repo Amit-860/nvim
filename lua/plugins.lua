@@ -7,11 +7,18 @@ M.plugin_list = {
         lazy = false,
         priority = 1000,
         config = function()
-            if not vim.g.neovide then
-                require('nightfox').setup({
-                    options = { transparent = true, }
-                })
+            local opts = {
+                options = {
+                    styles = { comments = "italic", keywords = "bold", types = "italic,bold", },
+                    transparent = true,
+                },
+                palettes = { terafox = { bg0 = "#021e34", bg1 = "#111c29", bg2 = "#192837" }, },
+                groups = { terafox = { CursorLine = { bg = "#263749" }, } }
+            }
+            if vim.g.neovide then
+                opts.options.transparent = false
             end
+            require('nightfox').setup(opts)
             vim.cmd("colorscheme terafox")
         end
     },
@@ -29,31 +36,7 @@ M.plugin_list = {
         opts = {},
         dependencies = { "MunifTanjim/nui.nvim" },
         config = function()
-            require("noice").setup({
-                lsp = {
-                    progress = { enabled = true, },
-                    override = {
-                        ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
-                        ["vim.lsp.util.stylize_markdown"] = true,
-                        ["cmp.entry.get_documentation"] = true,
-                    },
-                    signature = { enabled = true, },
-                    hover = { enabled = true, },
-                    message = { enabled = true, },
-                },
-                routes = {
-                    enabled = true,
-                    { view = "cmdline", filter = { event = "msg_showmode" } }
-                },
-                presets = {
-                    bottom_search = false,        -- use a classic bottom cmdline for search
-                    command_palette = false,      -- position the cmdline and popupmenu together
-                    long_message_to_split = true, -- long messages will be sent to a split
-                    inc_rename = true,            -- enables an input dialog for inc-rename.nvim
-                    lsp_doc_border = false,       -- add a border to hover docs and signature help
-                },
-                notify = { enabled = true, },
-            })
+            require('pluginSetups.noiceConfig')
         end,
     },
 
@@ -154,13 +137,6 @@ M.plugin_list = {
         ft = "java",
     },
     {
-        "nvim-telescope/telescope.nvim",
-        event = "VeryLazy",
-        config = function()
-            require('pluginSetups.telescopeConfig')
-        end
-    },
-    {
         "stevearc/conform.nvim",
         event = "LspAttach",
         config = function()
@@ -244,6 +220,27 @@ M.plugin_list = {
         config = function()
             require("dap-python").setup("~/scoop/apps/python/current/python")
         end,
+    },
+
+    -- telescope
+    {
+        "nvim-telescope/telescope.nvim",
+        event = "VeryLazy",
+        dependencies = {
+            "nvim-telescope/telescope-ui-select.nvim",
+            'nvim-telescope/telescope-fzy-native.nvim'
+        },
+        config = function()
+            require('pluginSetups.telescopeConfig')
+        end
+    },
+    {
+        'nvim-telescope/telescope-project.nvim',
+        event = "UIEnter"
+    },
+    {
+        "debugloop/telescope-undo.nvim",
+        cmd = { "Telescope undo" }
     },
 
     -- Treesitter
@@ -333,7 +330,15 @@ M.plugin_list = {
                 char = { jump_labels = true },
                 search = { enabled = false }
             },
-
+            exclude = {
+                "notify",
+                "cmp_menu",
+                "noice",
+                "flash_prompt",
+                "neogit",
+                "NeogitStatus",
+                function(win) return not vim.api.nvim_win_get_config(win).focusable end,
+            },
         },
         keys = {
             { "s",     mode = { "n", "x", "o" }, function() require("flash").jump({}) end,                                     desc = "Flash" },
@@ -401,6 +406,7 @@ M.plugin_list = {
         cond = not vim.g.vscode,
         config = function()
             require('pluginSetups.miniStarterConfig')
+            require('pluginSetups.miniCommentConfig')
             vim.b.ministatusline_disable = true
             vim.b.minitabline_disable = true
             vim.g.starter_opened = true
@@ -472,20 +478,6 @@ M.plugin_list = {
         cmd = { "Z" }
     },
 
-    -- telescope
-    {
-        "nvim-telescope/telescope-ui-select.nvim",
-        event = "VeryLazy"
-    },
-    {
-        "debugloop/telescope-undo.nvim",
-        cmd = { "Telescope undo" }
-    },
-    {
-        'nvim-telescope/telescope-project.nvim',
-        event = "UIEnter"
-    },
-
     -- git
     {
         "lewis6991/gitsigns.nvim",
@@ -497,7 +489,7 @@ M.plugin_list = {
     },
     {
         "sindrets/diffview.nvim",
-        cmd = { 'DiffviewOpen', 'DiffviewClose', 'FiffviewFileHistory' }
+        cmd = { 'DiffviewOpen', 'DiffviewClose', 'DiffviewFileHistory' }
     },
 
     -- file browsers
@@ -558,6 +550,7 @@ M.plugin_list = {
     -- scrollings
     {
         "karb94/neoscroll.nvim",
+        cond = not vim.g.neovide,
         event = "VeryLazy",
         mappings = { -- Keys to be mapped to their corresponding default scrolling animation
             '<C-u>', '<C-d>',
@@ -598,18 +591,39 @@ M.plugin_list = {
     },
 
     -- marks/bookmarks
+    -- {
+    --     "otavioschwanck/arrow.nvim",
+    --     event = "VeryLazy",
+    --     opts = {
+    --         show_icons = true,
+    --         leader_key = 'M',        -- Recommended to be a single key
+    --         buffer_leader_key = 'm', -- Per Buffer Mappings
+    --         window = {               -- controls the appearance and position of an arrow window (see nvim_open_win() for all options)
+    --             border = "rounded",
+    --         },
+    --         global_bookmarks = false
+    --     }
+    -- },
     {
-        "otavioschwanck/arrow.nvim",
-        event = "VeryLazy",
+        "cbochs/grapple.nvim",
+        event = "UIEnter",
+        dependencies = {
+            { "nvim-tree/nvim-web-devicons" }
+        },
         opts = {
-            show_icons = true,
-            leader_key = 'M',        -- Recommended to be a single key
-            buffer_leader_key = 'm', -- Per Buffer Mappings
-            window = {               -- controls the appearance and position of an arrow window (see nvim_open_win() for all options)
+            scope = "git_branch",
+            icons = true,
+            quick_select = "123456789",
+            scopes = {},
+            win_opts = {
                 border = "rounded",
             },
-            global_bookmarks = false
-        }
+        },
+        keys = {
+            { "ma",         function() require('grapple').tag({ scope = "git_branch" }) end,         desc = "Toggle tag" },
+            { "<leader>fm", "<cmd>Telescope grapple tags scope=git_branch theme=get_ivy<cr>",        desc = "Telescope marks" },
+            { "mm",         function() require('grapple').toggle_tags({ scope = "git_branch" }) end, desc = "Grapple mark" },
+        },
     },
 
     -- terminal

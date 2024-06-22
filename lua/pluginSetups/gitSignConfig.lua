@@ -2,41 +2,41 @@ local icons = require('icons')
 require('gitsigns').setup {
     signs = {
         add = {
-            hl = "GitSignsAdd",
             text = icons.ui.BoldLineLeft,
-            numhl = "GitSignsAddNr",
-            linehl = "GitSignsAddLn",
+            -- hl = "GitSignsAdd",
+            -- numhl = "GitSignsAddNr",
+            -- linehl = "GitSignsAddLn",
         },
         change = {
-            hl = "GitSignsChange",
             text = icons.ui.BoldLineLeft,
-            numhl = "GitSignsChangeNr",
-            linehl = "GitSignsChangeLn",
+            -- hl = "GitSignsChange",
+            -- numhl = "GitSignsChangeNr",
+            -- linehl = "GitSignsChangeLn",
         },
         delete = {
-            hl = "GitSignsDelete",
             text = icons.ui.Triangle,
             -- text = icons.ui.BoldLineLeft,
-            numhl = "GitSignsDeleteNr",
-            linehl = "GitSignsDeleteLn",
+            -- hl = "GitSignsDelete",
+            -- numhl = "GitSignsDeleteNr",
+            -- linehl = "GitSignsDeleteLn",
         },
         topdelete = {
-            hl = "GitSignsDelete",
             text = icons.ui.UpperRightTriangel,
-            numhl = "GitSignsDeleteNr",
-            linehl = "GitSignsDeleteLn",
+            -- hl = "GitSignsDelete",
+            -- numhl = "GitSignsDeleteNr",
+            -- linehl = "GitSignsDeleteLn",
         },
         changedelete = {
-            hl = "GitSignsDelete",
             text = icons.ui.Tilde,
-            numhl = "GitSignsDeleteNr",
-            linehl = "GitSignsDeleteLn",
+            -- hl = "GitSignsDelete",
+            -- numhl = "GitSignsDeleteNr",
+            -- linehl = "GitSignsDeleteLn",
         },
         untracked = {
-            hl = "GitSignsAdd",
             text = icons.ui.ThinLineLeft,
-            numhl = "GitSignsAddNr",
-            linehl = "GitSignsAddLn",
+            -- hl = "GitSignsAdd",
+            -- numhl = "GitSignsAddNr",
+            -- linehl = "GitSignsAddLn",
         },
     },
     signcolumn = true,
@@ -68,7 +68,6 @@ require('gitsigns').setup {
         row = 0,
         col = 1,
     },
-    yadm = { enable = false },
     on_attach = function(bufnr)
         local function map(mode, lhs, rhs, opts)
             opts = vim.tbl_extend('force', { noremap = true, silent = true }, opts or {})

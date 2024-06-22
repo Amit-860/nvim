@@ -15,7 +15,7 @@ require("statuscol").setup({
     relculright = true,
     segments = {
         {
-            sign = { namespace = { "diagnostic/signs" }, name = { 'Dap' }, maxwidth = 1, colwidth = 1, auto = false },
+            sign = { namespace = { "diagnostic/signs" }, name = { 'Dap' }, text = { ".*" }, maxwidth = 1, colwidth = 1, auto = false },
             click = "v:lua.ScLa"
         },
         {

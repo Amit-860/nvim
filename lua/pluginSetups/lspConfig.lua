@@ -142,7 +142,7 @@ local on_attach = function(client, bufnr)
     vim.keymap.set("n", "<leader>rc", function() require('pluginSetups.toggleTermConfig').py_runner() end,
         { noremap = true, silent = true, desc = "Run Code", })
     vim.keymap.set("n", "<F4>", function()
-        require('pluginSetups.toggleTermConfig').py_runner()
+        require('pluginSetups.toggleTermConfig').code_runner("python")
     end, { noremap = true, silent = true, desc = "Run Code", })
 end
 

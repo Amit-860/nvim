@@ -176,8 +176,9 @@ end
 
 require('telescope').setup(telescope_opts)
 
--- This will load fzy_native and have it override the default file sorter
+require("telescope").load_extension("fzy_native")
 require("telescope").load_extension("ui-select")
 require("telescope").load_extension("undo")
 require 'telescope'.load_extension('project')
 require 'telescope'.load_extension('noice')
+require 'telescope'.load_extension('grapple')

@@ -25,7 +25,7 @@ local default_options = {
     backup         = false,         -- creates a backup file
     clipboard      = "unnamedplus", -- allows neovim to access the system clipboard
     cmdheight      = 1,             -- more space in the neovim command line for displaying messages
-    cmdwinheight   = 1,
+    cmdwinheight   = 5,
     completeopt    = { "menuone", "noselect" },
     conceallevel   = 0,       -- so that `` is visible in markdown files
     fileencoding   = "utf-8", -- the encoding written to a file
@@ -69,7 +69,8 @@ local default_options = {
     pumblend       = 10, -- Make builtin completion menus slightly transparent
     pumheight      = 10, -- Make popup menu smaller
     winblend       = 10, -- Make floating windows slightly transparent
-    listchars      = 'tab:> ,extends:…,precedes:…,nbsp:␣,space:⋅,eol:󱞥', -- Define which helper symbols to show 󱞥
+    listchars      = 'tab:> ,extends:…,precedes:…,nbsp:␣,space:⋅', -- Define which helper symbols to show 󱞥
+    -- listchars      = 'tab:> ,extends:…,precedes:…,nbsp:␣,space:⋅,eol:󱞥', -- Define which helper symbols to show 󱞥
     -- listchars      = 'tab:> ,extends:…,precedes:…,nbsp:␣', -- Define which helper symbols to show
     list           = true, -- Show some helper symbols
     cursorcolumn   = false,
@@ -155,7 +156,7 @@ if vim.g.neovide then
     vim.g.neovide_cursor_unfocused_outline_width = 0.05
     vim.g.neovide_confirm_quit = false
 
-    vim.g.neovide_transparency = 0.70
+    vim.g.neovide_transparency = 0.80
     vim.g.neovide_fullscreen = false
 
     vim.o.winblend = 50
