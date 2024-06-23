@@ -173,9 +173,9 @@ end
 vim.keymap.set("v", "<BS>", '"_d', { noremap = true, silent = true })
 vim.keymap.set('n', 'U', '<C-r>', { noremap = true, silent = true })
 vim.keymap.set('n', '<leader>h', "<cmd>noh<cr>", { desc = "which_key_ignore", noremap = true })
-vim.keymap.set({ "n", "o", "x" }, "gs", '_', { noremap = true, silent = true, desc = "Goto first Non-whitespace char" })
-vim.keymap.set({ "n", "o", "x" }, "gh", '0', { noremap = true, silent = true, desc = "Goto BOL" })
-vim.keymap.set({ "n", "o", "x" }, "gl", '$', { noremap = true, silent = true, desc = "Goto EOL" })
+-- vim.keymap.set({ "n", "o", "x" }, "gs", '_', { noremap = true, silent = true, desc = "Goto first char" })
+-- vim.keymap.set({ "n", "o", "x" }, "gh", '0', { noremap = true, silent = true, desc = "Goto BOL" })
+-- vim.keymap.set({ "n", "o", "x" }, "gl", '$', { noremap = true, silent = true, desc = "Goto EOL" })
 vim.keymap.set({ 'n', 'i', 'v' }, "<c-s>", "<esc>:w!<cr>", { noremap = true, silent = true, desc = 'Save' })
 vim.keymap.set({ 'n', 'i', 'v' }, "<M-i>", "<C-6>", { noremap = true, silent = true, desc = 'Edit the alternate file' })
 vim.keymap.set({ 'n', 'i', 'v' }, "<M-o>", "<C-^>", { noremap = true, silent = true, desc = 'Edit the alternate file' })
@@ -183,14 +183,12 @@ vim.keymap.set({ 'n', 'i', 'v' }, "<M-o>", "<C-^>", { noremap = true, silent = t
 
 -- Treesitter
 vim.keymap.set({ "n", "x", "o" }, ";",
-    function()
-        require "nvim-treesitter.textobjects.repeatable_move".repeat_last_move_next()
-    end, { noremap = true, silent = true }
+    function() require "nvim-treesitter.textobjects.repeatable_move".repeat_last_move_next() end,
+    { noremap = true, silent = true }
 )
 vim.keymap.set({ "n", "x", "o" }, ",",
-    function()
-        require "nvim-treesitter.textobjects.repeatable_move".repeat_last_move_previous()
-    end, { noremap = true, silent = true }
+    function() require "nvim-treesitter.textobjects.repeatable_move".repeat_last_move_previous() end,
+    { noremap = true, silent = true }
 )
 vim.keymap.set({ "n" }, "<M-.>", "<cmd>lua require('ts-node-action').node_action()<cr>",
     { desc = "Trigger Node Action" })

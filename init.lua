@@ -128,6 +128,7 @@ require('autocmd')
 -- if vim.g.vscode then
 -- end
 
+-- NOTE: Use vim.fn.expand($HOME/path/to/file.exe)
 
 -- setting specific to NEOVIDE
 if vim.g.neovide then

@@ -3,40 +3,21 @@ require('gitsigns').setup {
     signs = {
         add = {
             text = icons.ui.BoldLineLeft,
-            -- hl = "GitSignsAdd",
-            -- numhl = "GitSignsAddNr",
-            -- linehl = "GitSignsAddLn",
         },
         change = {
             text = icons.ui.BoldLineLeft,
-            -- hl = "GitSignsChange",
-            -- numhl = "GitSignsChangeNr",
-            -- linehl = "GitSignsChangeLn",
         },
         delete = {
             text = icons.ui.Triangle,
-            -- text = icons.ui.BoldLineLeft,
-            -- hl = "GitSignsDelete",
-            -- numhl = "GitSignsDeleteNr",
-            -- linehl = "GitSignsDeleteLn",
         },
         topdelete = {
             text = icons.ui.UpperRightTriangel,
-            -- hl = "GitSignsDelete",
-            -- numhl = "GitSignsDeleteNr",
-            -- linehl = "GitSignsDeleteLn",
         },
         changedelete = {
             text = icons.ui.Tilde,
-            -- hl = "GitSignsDelete",
-            -- numhl = "GitSignsDeleteNr",
-            -- linehl = "GitSignsDeleteLn",
         },
         untracked = {
             text = icons.ui.ThinLineLeft,
-            -- hl = "GitSignsAdd",
-            -- numhl = "GitSignsAddNr",
-            -- linehl = "GitSignsAddLn",
         },
     },
     signcolumn = true,
@@ -65,7 +46,7 @@ require('gitsigns').setup {
         border = "single",
         style = "minimal",
         relative = "cursor",
-        row = 0,
+        row = 1,
         col = 1,
     },
     on_attach = function(bufnr)

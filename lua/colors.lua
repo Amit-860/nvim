@@ -2,15 +2,13 @@ M = {}
 -- vim.api.nvim_set_hl(0, "MatchParen", { bg = nil, fg = "#fffd00", underline = true, bold = true })
 -- vim.api.nvim_set_hl(0, "MatchParen", { bg = "#4d5969", fg = "#ffffff", underline = false, bold = true })
 vim.api.nvim_set_hl(0, "FindAndReplace", { bg = "#ff5c52", fg = "#131a24" })
-vim.api.nvim_set_hl(0, "MacroRecording", { bg = "#cfa333", fg = "#131a24" })
+vim.api.nvim_set_hl(0, "MacroRecording", { bg = "#dbc874", fg = "#131a24", bold = true })
 
 -- GitSings hilights
-vim.api.nvim_set_hl(0, "GitSignsAddNr", { fg = "#7aa4a1" })
-vim.api.nvim_set_hl(0, "GitSignsAddLn", { fg = "#7aa4a1" })
-vim.api.nvim_set_hl(0, "GitSignsChangeNr", { fg = "#fda47f" })
-vim.api.nvim_set_hl(0, "GitSignsChangeLn", { fg = "#fda47f" })
-vim.api.nvim_set_hl(0, "GitSignsDeleteNr", { fg = "#e85c51" })
-vim.api.nvim_set_hl(0, "GitSignsDeleteLn", { fg = "#e85c51" })
+vim.api.nvim_set_hl(0, "GitSignsAdd", { fg = "#7aa4a1" })
+vim.api.nvim_set_hl(0, "GitSignsChange", { fg = "#fda47f" })
+vim.api.nvim_set_hl(0, "GitSignsDelete", { fg = "#e85c51" })
+vim.api.nvim_set_hl(0, "GitSignsChangeDelete", { fg = "#e85c51" })
 
 -- nightfox
 M.float_color = "#202d3f"
@@ -26,7 +24,6 @@ if vim.g.neovide then
     -- M.line_hilight = "#030a0c"
     M.line_hilight = "#011425"
 end
-
 
 M.neovide_float_winblend = 40
 M.float_winblend = 15

@@ -1,11 +1,3 @@
--- local statusline = require('arrow.statusline')
--- local get_arrow_status = function(bufnr)
---     if statusline.is_on_arrow_file(bufnr) then
---         return statusline.text_for_statusline_with_icons(bufnr)
---     end
---     return ""
--- end
-
 local grapple            = require('grapple')
 local get_grapple_status = function(bufnr)
     if grapple.exists(bufnr) then
