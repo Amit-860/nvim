@@ -39,6 +39,9 @@ starter.setup({
         -- config
         new_section("Init", [[edit ~/AppData/Local/nvim/init.lua]], "Nvim"),
         new_section("Plugins", [[edit ~/AppData/Local/nvim/lua/plugins.lua]], "Nvim"),
+        new_section("Config Files", function()
+            utils.smart_find_file({ find_command = { 'fd', '-H', '-E', '.git', '.', vim.fn.expand("$HOME/AppData/Local/nvim/") } })
+        end, "Nvim")
         -- new_section("Keybinds", [[edit ~/AppData/Local/nvim/lua/keybinds.lua]], "Nvim"),
 
         -- Built-ins

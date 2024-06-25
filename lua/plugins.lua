@@ -70,6 +70,19 @@ M.plugin_list = {
             require('pluginSetups.autoPairConfig')
         end
     },
+    -- {
+    --     'altermo/ultimate-autopair.nvim',
+    --     event = { 'InsertEnter', 'CmdlineEnter' },
+    --     branch = 'v0.6', --recommended as each new version will have breaking changes
+    --     opts = {
+    --         fastwarp = { hopout = true },
+    --         tabout = {
+    --             enable = true,
+    --             map = '<S-tab>',  --string or table
+    --             cmap = '<S-tab>', --string or table
+    --         },
+    --     },
+    -- },
     {
         "kylechui/nvim-surround",
         version = "*", -- Use for stability; omit to use `main` branch for the latest features
@@ -384,10 +397,10 @@ M.plugin_list = {
         config = function()
             require("better_escape").setup({
                 mapping = { "jk" }, -- a table with mappings to use
-                keys = "<Esc>",     -- keys used for escaping, if it is a function will use the result everytime
-                -- keys = function()
-                --     return vim.api.nvim_win_get_cursor(0)[2] > 1 and '<esc>l' or '<esc>'
-                -- end,
+                -- keys = "<Esc>",     -- keys used for escaping, if it is a function will use the result everytime
+                keys = function()
+                    return vim.api.nvim_win_get_cursor(0)[2] > 1 and '<esc>l' or '<esc>'
+                end,
             })
         end,
     },
@@ -525,12 +538,10 @@ M.plugin_list = {
             disable_line_numbers = true,
         },
         dependencies = {
-            "nvim-lua/plenary.nvim",  -- required
-            "sindrets/diffview.nvim", -- optional - Diff integration
-
-            -- Only one of these is needed, not both.
+            "nvim-lua/plenary.nvim",
+            "sindrets/diffview.nvim",
             "nvim-telescope/telescope.nvim", -- optional
-            "ibhagwan/fzf-lua",              -- optional
+            "ibhagwan/fzf-lua",
         },
         config = true
     },
@@ -634,6 +645,61 @@ M.plugin_list = {
             require('pluginSetups.toggleTermConfig')
         end
     },
+
+    -- Find and Replace
+    {
+        'MagicDuck/grug-far.nvim',
+        event = "VeryLazy",
+        keys = {
+            vim.keymap.set({ 'n' }, "gr",
+                "<cmd>lua require('grug-far').grug_far({ prefills = { flags = vim.fn.expand('%') } })<cr>",
+                { noremap = true, silent = true, desc = 'Grug FAR .' }),
+            vim.keymap.set({ 'n' }, "gR",
+                "lua require('grug-far').grug_far()<cr>",
+                { noremap = true, silent = true, desc = 'Grug FAR' }),
+        },
+        config = function()
+            require('grug-far').setup({
+            });
+        end
+    },
+
+    -- Code-Snapshot
+    {
+        "SergioRibera/codeshot.nvim",
+        cmd = { "SSSelected", "SSFocused" },
+        keys = {
+            vim.keymap.set('v', '<Leader>?s', ":SSSelected<cr>", { desc = "Codeshot", noremap = true, silent = true }),
+            vim.keymap.set('v', '<Leader>?S', ":SSFocused<cr>", { desc = "Codeshot", noremap = true, silent = true })
+        },
+        config = function()
+            require('codeshot').setup({
+                use_current_theme = false,
+                output = vim.fn.expand("$HOME") .. "/codeshot/CodeShot_${year}-${month}-${date}_${time}.png",
+            })
+        end
+    },
+
+    -- notes
+    {
+        "nvim-neorg/neorg",
+        ft = "norg",
+        cmd = { "Neorg" },
+        dependencies = {
+            {
+                -- Install lua from here first before install luarocksj.nvim and neorg
+                -- https://github.com/rjpcomputing/luaforwindows
+                "vhyrro/luarocks.nvim",
+                priority = 1000,
+                config = true,
+            },
+            "nvim-neorg/lua-utils.nvim"
+        },
+        version = "*",
+        config = function()
+            require('pluginSetups.neorgConfig')
+        end
+    }
 
 }
 

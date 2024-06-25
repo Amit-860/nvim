@@ -85,6 +85,7 @@ for k, v in pairs(default_options) do
 end
 
 vim.g.mapleader = " "
+vim.g.maplocalleader = "\\"
 
 ---  SETTINGS  ---
 vim.opt.spelllang:append "cjk" -- disable spellchecking for asian characters (VIM algorithm does not support it)

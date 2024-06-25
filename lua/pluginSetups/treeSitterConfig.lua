@@ -1,11 +1,21 @@
+local parser_config = require "nvim-treesitter.parsers".get_parser_configs()
+parser_config.org = {
+    install_info = {
+        url = 'https://github.com/milisims/tree-sitter-org',
+        revision = 'main',
+        files = { 'src/parser.c', 'src/scanner.c' },
+    },
+    filetype = 'org',
+}
+
 local ts_opts = {
     on_config_done = nil,
 
     -- A list of parser names, or "all"
-    ensure_installed = { "comment", "markdown_inline", "regex", "python", "javascript", "typescript", "lua" },
+    ensure_installed = { "comment", "markdown_inline", "regex", "python", "javascript", "typescript", "lua", },
 
     -- List of parsers to ignore installing (for "all")
-    ignore_install = {},
+    ignore_install = { "org" },
 
     -- A directory to install the parsers into.
     -- By default parsers are installed to either the package dir, or the "site" dir.
@@ -13,10 +23,10 @@ local ts_opts = {
     parser_install_dir = nil,
 
     -- Install parsers synchronously (only applied to `ensure_installed`)
-    sync_install = false,
+    sync_install = true,
 
     -- Automatically install missing parsers when entering buffer
-    auto_install = true,
+    auto_install = false,
 
     matchup = {
         enable = true, -- mandatory, false will disable the whole extension

@@ -14,9 +14,8 @@ if not vim.g.vscode then
 
     -- find
     -- vim.keymap.set("n", "<leader>f", "<nop>", { desc = "+Find", noremap = true, silent = true })
-    vim.keymap.set("n", "<leader>ff", function()
-            utils.smart_find_file({ initial_mode = 'insert' })
-        end,
+    vim.keymap.set("n", "<leader>ff",
+        function() utils.smart_find_file({ initial_mode = 'insert' }) end,
         { noremap = true, silent = true, desc = 'Find Git File' })
     vim.keymap.set("n", "<leader>fF", "<cmd>Telescope find_files initial_mode=insert<cr>",
         { noremap = true, silent = true, desc = 'All File' })
@@ -24,9 +23,13 @@ if not vim.g.vscode then
         { noremap = true, silent = true, desc = 'String' })
     vim.keymap.set("n", "<leader>fr", "<cmd>Telescope oldfiles<cr>",
         { noremap = true, silent = true, desc = 'Recent Files' })
+    vim.keymap.set('n', "<leader>fn",
+        "<cmd>Telescope find_files find_command={'fd','-H','-E','.git','.','D:/notes'}<cr>"
+        , { noremap = true, silent = true, desc = 'find notes' })
 
+    --
     -- close Buffer
-    vim.keymap.set("n", "<leader>c", "<cmd>bd<cr>", { noremap = true, silent = true, desc = 'Close Buffer' })
+    vim.keymap.set("n", "<leader>c", "<cmd>bd<cr>", { noremap = true, silent = true, desc = 'which_key_ignore' })
     vim.keymap.set("n", "<leader>C", "<cmd>bd!<cr>", { noremap = true, silent = true, desc = 'which_key_ignore' })
 
 
@@ -47,22 +50,27 @@ if not vim.g.vscode then
     -- Quit
     -- vim.keymap.set("n", "<leader>q", "<nop>", { desc = "+Quit", noremap = true })
     vim.keymap.set("n", "<leader>qq", "<cmd>q!<cr>", { noremap = true, silent = true, desc = "Quit", })
-    vim.keymap.set('n', "<leader>qw", ":wq<cr>", { noremap = true, silent = true, desc = 'Write & Exit' })
-    vim.keymap.set('n', "<leader>qQ", ":q!<cr>", { noremap = true, silent = true, desc = 'Force Exit' })
-    vim.keymap.set('n', "<C-q>", ":q<cr>", { noremap = true, silent = true, desc = 'Exit' })
-    vim.keymap.set('n', "<C-Q>", ":q!<cr>", { noremap = true, silent = true, desc = 'Force Exit' })
+    vim.keymap.set('n', "<leader>qw", "<cmd>wq<cr>", { noremap = true, silent = true, desc = 'Write & Exit' })
+    vim.keymap.set('n', "<leader>qQ", "<cmd>q!<cr>", { noremap = true, silent = true, desc = 'Force Exit' })
+    vim.keymap.set({ 'n', 'i' }, "<C-q>", "<cmd>q<cr>", { noremap = true, silent = true, desc = 'Exit' })
+    vim.keymap.set('n', "<C-Q>", "<cmd>q!<cr>", { noremap = true, silent = true, desc = 'Force Exit' })
 
 
     -- tab
-    vim.keymap.set('n', "<M-q>", ":tabclose<cr>", { noremap = true, silent = true, desc = 'Tab close' })
-    vim.keymap.set('n', "<M-n>", ":tabnew<cr>", { noremap = true, silent = true, desc = 'Tab new' })
-    vim.keymap.set('n', "<M-l>", ":tabnext<cr>", { noremap = true, silent = true, desc = 'Tab next' })
-    vim.keymap.set('n', "<M-h>", ":tabprevious<cr>", { noremap = true, silent = true, desc = 'Tab prev' })
+    vim.keymap.set('n', "<M-q>", "<cmd>tabclose<cr>", { noremap = true, silent = true, desc = 'Tab close' })
+    vim.keymap.set('n', "<M-n>", "<cmd>tabnew<cr>", { noremap = true, silent = true, desc = 'Tab new' })
+    vim.keymap.set('n', "<M-l>", "<cmd>tabnext<cr>", { noremap = true, silent = true, desc = 'Tab next' })
+    vim.keymap.set('n', "<M-h>", "<cmd>tabprevious<cr>", { noremap = true, silent = true, desc = 'Tab prev' })
 
     -- LeetCode
     -- vim.keymap.set('n', "<leader>L", "<nop>", { noremap = true, silent = true, desc = '+LeetCode' })
-    vim.keymap.set('n', "<leader>Lt", ":Leet test<cr>", { noremap = true, silent = true, desc = 'Test' })
-    vim.keymap.set('n', "<leader>Ls", ":Leet submit<cr>", { noremap = true, silent = true, desc = 'Submit' })
+    vim.keymap.set('n', "<leader>Lt", "<cmd>Leet test<cr>", { noremap = true, silent = true, desc = 'Test' })
+    vim.keymap.set('n', "<leader>Ls", "<cmd>Leet submit<cr>", { noremap = true, silent = true, desc = 'Submit' })
+
+    -- Neorg
+    vim.keymap.set("n", "<leader>n", "<npp>", { desc = "Notes", noremap = true, silent = true })
+    vim.keymap.set('n', "<leader>ni", "<cmd>Neorg index<cr>", { noremap = true, silent = true, desc = 'index' })
+    vim.keymap.set('n', "<leader>nj", "<cmd>Neorg journal<cr>", { noremap = true, silent = true, desc = 'journal' })
 
 
     -- Home
@@ -80,8 +88,8 @@ if not vim.g.vscode then
     -- vim.keymap.set("n", "<leader>P", "<nop>", { desc = "+Plugins Mgr", noremap = true })
     vim.keymap.set("n", "<leader>Pi", "<cmd>Lazy install<CR>", { noremap = true, silent = true, desc = "Install", })
     vim.keymap.set("n", "<leader>Ps", "<cmd>Lazy sync<CR>", { noremap = true, silent = true, desc = "Sync", })
-    vim.keymap.set("n", "<leader>Pc", "<cmd>Lazy clean<CR>", { noremap = true, silent = true, desc = "Clean", })
     vim.keymap.set("n", "<leader>Pm", "<cmd>Lazy<CR>", { noremap = true, silent = true, desc = "Manager", })
+    vim.keymap.set("n", "<leader>Pp", "<cmd>Lazy profile<CR>", { noremap = true, silent = true, desc = "Profile", })
 
     -- lsp keymap
     -- are in ./pluginSetups/lspConfig.lua
@@ -161,12 +169,6 @@ if not vim.g.vscode then
         { noremap = true, silent = true, desc = "Yanky Put Before" })
     vim.keymap.set("n", "<leader>fy", "<CMD>Telescope yank_history<CR>",
         { noremap = true, silent = true, desc = "Yanky History" })
-
-    -- file browser
-    -- vim.keymap.set({ "n" }, "<leader>fB", "<cmd>Telescope file_browser<CR>",
-    --     { noremap = true, silent = true, desc = "File Browser" })
-    -- vim.keymap.set({ "n" }, "<leader>fb", "<cmd>Telescope file_browser path=%:p:h select_buffer=true<CR>",
-    --     { noremap = true, silent = true, desc = "File Browser ." }) -- open file_browser with the path of the current buffer
 end
 
 -- general

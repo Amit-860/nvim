@@ -255,6 +255,7 @@ local cmp_opts = {
             { name = 'nvim_lsp_signature_help' },
             { name = 'nvim_lua' },
             { name = 'path' },
+            { name = 'neorg' },
             { name = 'treesitter' },
         },
         {

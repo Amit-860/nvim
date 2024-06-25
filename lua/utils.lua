@@ -80,10 +80,12 @@ end
 M.unhighlight = unhighlight
 
 M.smart_find_file = function(opts)
+    if not opts.find_command then
+        opts.find_command = { 'fd', '-H', '-E', '.git' }
+    end
     local builtin = require('telescope.builtin')
     local ok = pcall(builtin.git_files, opts)
     if not ok then
-        opts.find_command = { 'fd', '-H', '-E', '.git' }
         builtin.find_files(opts)
     end
 end
