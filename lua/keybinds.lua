@@ -135,9 +135,11 @@ if not vim.g.vscode then
 
     -- Find and Replace
     vim.keymap.set({ "n" }, "<leader>R", utils.find_and_replace,
-        { desc = "Replace", noremap = true, silent = true })
-    vim.keymap.set({ "v" }, "<leader>R", utils.replace,
-        { desc = "Replace", noremap = true, silent = true })
+        { desc = "Find&Replace", noremap = true, silent = true })
+    vim.keymap.set({ "v" }, "<leader>R", utils.find_and_replace_in_selected,
+        { desc = "Find&Replace", noremap = true, silent = true })
+    vim.keymap.set({ "v" }, "<leader>X", utils.replace_selected,
+        { desc = "Replace Selected", noremap = true, silent = true })
 
     -- help
     vim.keymap.set("n", "<leader>xk", ":Telescope keymaps<cr>",

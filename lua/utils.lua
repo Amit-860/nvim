@@ -109,15 +109,37 @@ M.find_and_replace = function()
         highlight(word)
         vim.ui.input({ prompt = "Replace : " }, function(input)
             if not input then
-                unhighlight()
                 return
             end
             vim.cmd(":%s/" .. word .. "/" .. input .. "/gc")
-            unhighlight()
         end)
     else
         return
     end
+    unhighlight()
+    vim.cmd("noh")
+end
+
+M.find_and_replace_in_selected = function()
+    local word = nil
+    vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<esc>", true, false, true), 'x', true) -- changing to normal mode
+    local line1 = vim.api.nvim_buf_get_mark(0, "<")[1]
+    local line2 = vim.api.nvim_buf_get_mark(0, ">")[1]
+    print(line1, line2)
+    vim.ui.input({ prompt = 'Find : ' }, function(input)
+        word = input
+    end)
+    if word then
+        vim.ui.input({ prompt = "Replace : " }, function(input)
+            if not input then
+                return
+            end
+            vim.cmd(":" .. line1 .. ',' .. line2 .. "s/" .. word .. "/" .. input .. "/gc")
+        end)
+    else
+        return
+    end
+    vim.cmd("noh")
 end
 
 local get_visual_selection = function()
@@ -134,7 +156,7 @@ local get_visual_selection = function()
 end
 M.get_visual_selection = get_visual_selection
 
-M.replace = function()
+M.replace_selected = function()
     local word = nil
     word = get_visual_selection()
     if word then

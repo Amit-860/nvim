@@ -1,7 +1,8 @@
 M = {}
 -- vim.api.nvim_set_hl(0, "MatchParen", { bg = nil, fg = "#fffd00", underline = true, bold = true })
 -- vim.api.nvim_set_hl(0, "MatchParen", { bg = "#4d5969", fg = "#ffffff", underline = false, bold = true })
-vim.api.nvim_set_hl(0, "FindAndReplace", { bg = "#ff5c52", fg = "#131a24" })
+vim.api.nvim_set_hl(0, "FindAndReplace", { bg = "#e95d5d", fg = "#131a24", bold = true })
+vim.api.nvim_set_hl(0, "IncSearch", { bg = "#e95d5d", fg = "#131a24", bold = true })
 vim.api.nvim_set_hl(0, "MacroRecording", { bg = "#dbc874", fg = "#131a24", bold = true })
 
 -- GitSings hilights
