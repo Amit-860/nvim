@@ -52,7 +52,13 @@ if not vim.g.vscode then
     vim.keymap.set("n", "<leader>qq", "<cmd>q!<cr>", { noremap = true, silent = true, desc = "Quit", })
     vim.keymap.set('n', "<leader>qw", "<cmd>wq<cr>", { noremap = true, silent = true, desc = 'Write & Exit' })
     vim.keymap.set('n', "<leader>qQ", "<cmd>q!<cr>", { noremap = true, silent = true, desc = 'Force Exit' })
-    vim.keymap.set({ 'n', 'i' }, "<C-q>", "<cmd>q<cr>", { noremap = true, silent = true, desc = 'Exit' })
+    vim.keymap.set({ 'n', 'i' }, "<C-q>",
+        function()
+            vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<esc>", true, false, true), 'x', true) -- changing to normal mode
+            local r = pcall(vim.cmd, "bd")
+            if not r then vim.cmd("q!") end
+        end
+        , { noremap = true, silent = true, desc = 'Exit' })
     vim.keymap.set('n', "<C-Q>", "<cmd>q!<cr>", { noremap = true, silent = true, desc = 'Force Exit' })
 
 
@@ -134,20 +140,20 @@ if not vim.g.vscode then
         { desc = "Replace", noremap = true, silent = true })
 
     -- help
-    vim.keymap.set("n", "<leader>?k", ":Telescope keymaps<cr>",
+    vim.keymap.set("n", "<leader>xk", ":Telescope keymaps<cr>",
         { desc = "Search Keymaps", noremap = true, silent = true })
-    vim.keymap.set("n", "<leader>?c", ":Telescope commands<cr>",
+    vim.keymap.set("n", "<leader>xc", ":Telescope commands<cr>",
         { desc = "Search Commands", noremap = true, silent = true })
-    vim.keymap.set("n", "<leader>?d", ":Telescope help_tags<cr>",
+    vim.keymap.set("n", "<leader>xd", ":Telescope help_tags<cr>",
         { desc = "Search Docs", noremap = true, silent = true })
-    vim.keymap.set("n", "<leader>?h", ":Telescope highlights<cr>",
+    vim.keymap.set("n", "<leader>xh", ":Telescope highlights<cr>",
         { desc = "Search Docs", noremap = true, silent = true })
-    vim.keymap.set("n", "<leader>?t", ":Telescope colorscheme<cr>",
+    vim.keymap.set("n", "<leader>xt", ":Telescope colorscheme<cr>",
         { desc = "Preview Theme", noremap = true, silent = true })
-    vim.keymap.set("n", "<leader>?b", function()
+    vim.keymap.set("n", "<leader>xb", function()
         require('pluginSetups.toggleTermConfig').broot_toggle()
     end, { desc = "Broot", noremap = true, silent = true })
-    vim.keymap.set("n", "<leader>?l", function()
+    vim.keymap.set("n", "<leader>xl", function()
         require('pluginSetups.toggleTermConfig').lazygit_toggle()
     end, { desc = "Lazygit", noremap = true, silent = true })
 

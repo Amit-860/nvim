@@ -397,10 +397,7 @@ M.plugin_list = {
         config = function()
             require("better_escape").setup({
                 mapping = { "jk" }, -- a table with mappings to use
-                -- keys = "<Esc>",     -- keys used for escaping, if it is a function will use the result everytime
-                keys = function()
-                    return vim.api.nvim_win_get_cursor(0)[2] > 1 and '<esc>l' or '<esc>'
-                end,
+                keys = "<Esc>",     -- keys used for escaping, if it is a function will use the result everytime
             })
         end,
     },
@@ -651,10 +648,10 @@ M.plugin_list = {
         'MagicDuck/grug-far.nvim',
         event = "VeryLazy",
         keys = {
-            vim.keymap.set({ 'n' }, "gr",
+            vim.keymap.set({ 'n' }, "<leader>xr",
                 "<cmd>lua require('grug-far').grug_far({ prefills = { flags = vim.fn.expand('%') } })<cr>",
                 { noremap = true, silent = true, desc = 'Grug FAR .' }),
-            vim.keymap.set({ 'n' }, "gR",
+            vim.keymap.set({ 'n' }, "<leader>xR",
                 "lua require('grug-far').grug_far()<cr>",
                 { noremap = true, silent = true, desc = 'Grug FAR' }),
         },
@@ -669,8 +666,10 @@ M.plugin_list = {
         "SergioRibera/codeshot.nvim",
         cmd = { "SSSelected", "SSFocused" },
         keys = {
-            vim.keymap.set('v', '<Leader>?s', ":SSSelected<cr>", { desc = "Codeshot", noremap = true, silent = true }),
-            vim.keymap.set('v', '<Leader>?S', ":SSFocused<cr>", { desc = "Codeshot", noremap = true, silent = true })
+            vim.keymap.set('v', '<Leader>s', "<nop>", { desc = "Codeshot", noremap = true, silent = true }),
+            vim.keymap.set('v', '<Leader>ss', ":SSSelected<cr>", { desc = "Selected", noremap = true, silent = true }),
+            vim.keymap.set('n', '<Leader>xs', ":SSFocused<cr>",
+                { desc = "Codeshot focused", noremap = true, silent = true })
         },
         config = function()
             require('codeshot').setup({
