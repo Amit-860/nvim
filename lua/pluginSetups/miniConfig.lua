@@ -1,6 +1,10 @@
 require('mini.ai').setup()
 require('mini.cursorword').setup()
-require('mini.files').setup()
+require('mini.files').setup({
+    options = {
+        use_as_default_explorer = true,
+    },
+})
 require('mini.indentscope').setup()
 
 -- require('mini.basics').setup({

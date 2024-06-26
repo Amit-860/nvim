@@ -11,6 +11,8 @@ vim.api.nvim_set_hl(0, "GitSignsChange", { fg = "#fda47f" })
 vim.api.nvim_set_hl(0, "GitSignsDelete", { fg = "#e85c51" })
 vim.api.nvim_set_hl(0, "GitSignsChangeDelete", { fg = "#e85c51" })
 
+vim.api.nvim_set_hl(0, 'Cursor', { bg = "#d7d8dc", reverse = true, bold = true })
+
 -- nightfox
 M.float_color = "#202d3f"
 M.float_border_bg_color = "#1d293a"

@@ -1,13 +1,3 @@
-local parser_config = require "nvim-treesitter.parsers".get_parser_configs()
-parser_config.org = {
-    install_info = {
-        url = 'https://github.com/milisims/tree-sitter-org',
-        revision = 'main',
-        files = { 'src/parser.c', 'src/scanner.c' },
-    },
-    filetype = 'org',
-}
-
 local ts_opts = {
     on_config_done = nil,
 
@@ -52,7 +42,7 @@ local ts_opts = {
             json = "",
         },
     },
-    indent = { enable = true, disable = { "yaml", "python" } },
+    indent = { enable = true, disable = { "yaml", } },
     textobjects = {
         swap = {
             enable = true,
@@ -66,7 +56,7 @@ local ts_opts = {
         select = {
             enable = true,
             -- Automatically jump forward to textobj, similar to targets.vim
-            lookahead = true,
+            lookahead = false,
             including_surrounding_whitespace = true,
             keymaps = {
                 -- You can use the capture groups defined in textobjects.scm
@@ -84,8 +74,8 @@ local ts_opts = {
             },
             selection_modes = {
                 ['@parameter.outer'] = 'v', -- charwise
-                ['@function.outer'] = 'V',  -- linewise
-                ['@class.outer'] = '<c-v>', -- blockwise
+                ['@function.outer'] = 'v',  -- linewise
+                ['@class.outer'] = 'v',     -- blockwise
             },
         },
         move = {

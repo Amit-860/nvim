@@ -256,6 +256,7 @@ local cmp_opts = {
             { name = 'nvim_lua' },
             { name = 'path' },
             { name = 'neorg' },
+            { name = 'cmp-dbee' },
             { name = 'treesitter' },
         },
         {
@@ -297,6 +298,14 @@ cmp.setup.filetype('gitcommit', {
     })
 })
 -- require("cmp_git").setup()
+
+cmp.setup.filetype({ 'sql', 'mysql', 'plsql' }, {
+    sources = cmp.config.sources({
+        { name = 'vim-dadbod-completion' },
+    }, {
+        { name = 'buffer' },
+    })
+})
 
 
 -- Use buffer source for `/` and `?` (if you enabled `native_menu`, this won't work anymore).

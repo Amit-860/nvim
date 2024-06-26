@@ -68,10 +68,10 @@ end
 local on_attach = function(client, bufnr)
     -- lsp keymap
     -- vim.keymap.set("n", "<leader>l", "<nop>", { desc = "+LSP", noremap = true, buffer=bufnr })
-    vim.keymap.set({ "n", "i" }, "<c-K>", "<cmd>lua vim.lsp.buf.signature_help()<CR>",
+    vim.keymap.set({ "n", "i" }, "<M-k>", "<cmd>lua vim.lsp.buf.signature_help()<CR>",
         { desc = "Signature Help", noremap = true, buffer = bufnr })
     vim.keymap.set({ "n" }, "K", "<cmd>lua vim.lsp.buf.hover()<CR>",
-        { desc = "Signature Help", noremap = true, buffer = bufnr })
+        { desc = "Hover", noremap = true, buffer = bufnr })
     vim.keymap.set({ "n" }, "<leader>la", "<cmd>lua vim.lsp.buf.code_action()<CR>",
         { desc = "Code Action", noremap = true, buffer = bufnr })
     vim.keymap.set({ "n" }, "<leader>lr", "<cmd>Telescope lsp_references theme=get_ivy initial_mode=normal<CR>",

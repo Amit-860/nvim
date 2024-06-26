@@ -48,7 +48,7 @@ local default_options = {
     swapfile       = false,                        -- creates a swapfile
     termguicolors  = true,                         -- set term gui colors (most terminals support this)
     timeout        = true,
-    timeoutlen     = 300,                          -- time to wait for a mapped sequence to complete (in milliseconds)
+    timeoutlen     = 500,                          -- time to wait for a mapped sequence to complete (in milliseconds)
     title          = true,                         -- set the title of window to the value of the titlestring
     -- opt.titlestring = "%<%F%=%l/%L - nvim" -- what the title of the window will be set to
     undofile       = true,                         -- enable persistent undo
@@ -86,6 +86,9 @@ end
 
 vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
+
 
 ---  SETTINGS  ---
 vim.opt.spelllang:append "cjk" -- disable spellchecking for asian characters (VIM algorithm does not support it)
@@ -129,7 +132,7 @@ require('autocmd')
 -- if vim.g.vscode then
 -- end
 
--- NOTE: Use vim.fn.expand($HOME/path/to/file.exe)
+-- NOTE: Use vim.fn.expand($HOME/path/to/file.exe) for providing path
 
 -- setting specific to NEOVIDE
 if vim.g.neovide then
@@ -164,3 +167,11 @@ if vim.g.neovide then
     vim.o.winblend = 50
     vim.o.pumblend = 20
 end
+
+
+vim.g.dbs = {
+    {
+        name = "large",
+        url = "jq:" .. vim.fn.expand("$HOME/Downloads/large-file.json")
+    }
+}

@@ -6,6 +6,7 @@ local new_section = function(name, action, section)
 end
 starter.setup({
     evaluate_single = false,
+    query_updaters = 'abcdefghijklnopqrstuvwxyz0123456789_-.',
     header =
     "███╗  ██╗██╗   ██╗██╗███╗   ███╗\n████╗ ██║██║   ██║██║████╗ ████║\n██╔██╗██║██║   ██║██║██╔████╔██║\n██║╚████║╚██╗ ██╔╝██║██║╚██╔╝██║\n██║ ╚███║ ╚████╔╝ ██║██║ ╚═╝ ██║\n╚═╝   ╚═╝  ╚═══╝  ╚═╝╚═╝     ╚═╝\n                                ",
     items = {

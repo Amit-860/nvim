@@ -128,8 +128,7 @@ M.plugin_list = {
     },
     {
         "neovim/nvim-lspconfig",
-        event = "BufReadPost",
-        ft = { "lua", "python", "json" },
+        event = "UIEnter",
         dependencies = {
             "williamboman/mason-lspconfig.nvim",
         },
@@ -267,7 +266,7 @@ M.plugin_list = {
             "TSInstallSync",
             "TSInstallFromGrammar",
         },
-        event = "BufReadPost",
+        event = "UIEnter",
         config = function()
             local ts_opts = require('pluginSetups.treeSitterConfig')
             require 'nvim-treesitter.configs'.setup(ts_opts)
@@ -457,16 +456,16 @@ M.plugin_list = {
             require('pluginSetups.cmpConfig')
         end
     },
-    -- { 'petertriho/cmp-git',   lazy = true },
+    { 'petertriho/cmp-git',   lazy = true },
     { 'hrsh7th/cmp-nvim-lsp', lazy = true, },
     { 'hrsh7th/cmp-buffer',   lazy = true },
     { 'hrsh7th/cmp-path',     lazy = true },
     { 'hrsh7th/cmp-cmdline',  lazy = true },
     {
         "L3MON4D3/LuaSnip",
-        version = "v2.*", -- Replace <CurrentMajor> by the latest released major (first number of latest release)
+        version = "*", -- Replace <CurrentMajor> by the latest released major (first number of latest release)
         build = "make install_jsregexp",
-        event = "LspAttach",
+        event = "BufReadPost",
         config = function()
             require("luasnip").setup()
             require("luasnip.loaders.from_vscode").lazy_load()
@@ -495,6 +494,18 @@ M.plugin_list = {
     },
 
     -- file browsers
+    {
+        "nvim-neo-tree/neo-tree.nvim",
+        cmd = { "Neotree" },
+        dependencies = {
+            "nvim-lua/plenary.nvim",
+            "nvim-tree/nvim-web-devicons",
+            "MunifTanjim/nui.nvim",
+        },
+        config = function()
+            require('pluginSetups.neoTreeConfig')
+        end
+    },
     {
         "mikavilpas/yazi.nvim",
         dependencies = {
@@ -590,9 +601,9 @@ M.plugin_list = {
     {
         "gbprod/yanky.nvim",
         recommended = true,
-        event = "BufReadPost",
+        event = "UIEnter",
         opts = {
-            highlight = { timer = 300 },
+            highlight = { timer = 500 },
         },
     },
 
@@ -635,7 +646,7 @@ M.plugin_list = {
 
     -- terminal
     {
-        'akinsho//toggleterm.nvim',
+        'akinsho/toggleterm.nvim',
         event = "VeryLazy",
         version = "*",
         config = function()
@@ -698,7 +709,45 @@ M.plugin_list = {
         config = function()
             require('pluginSetups.neorgConfig')
         end
-    }
+    },
+
+    -- DataBase
+    -- {
+    --     "kndndrj/nvim-dbee",
+    --     dependencies = {
+    --         "MunifTanjim/nui.nvim",
+    --         "MattiasMTS/cmp-dbee",
+    --     },
+    --     build = function()
+    --         -- Install tries to automatically detect the install method.
+    --         -- if it fails, try calling it with one of these parameters:
+    --         --    "curl", "wget", "bitsadmin", "go"
+    --         require("dbee").install()
+    --     end,
+    --     config = function()
+    --         require("dbee").setup({
+    --             sources = {
+    --                 require("dbee.sources").MemorySource:new({
+    --                     {
+    --                         id = "large",
+    --                         name = "large file",
+    --                         type = "jq",
+    --                         url = vim.fn.expand("$HOME/Downloads/large-file.json")
+    --                     }
+    --                 })
+    --             }
+    --         })
+    --     end,
+    -- },
+    {
+        "kristijanhusak/vim-dadbod-ui",
+        cmd = { "DB", "DBUI", 'DBUIToggle', 'DBUIAddConnection', 'DBUIFindBuffer' },
+        dependencies = { "kristijanhusak/vim-dadbod-completion", "tpope/vim-dadbod", },
+        init = function()
+            vim.g.db_ui_use_nerd_fonts = 1
+            vim.g.db_ui_disable_progress_bar = 1
+        end
+    },
 
 }
 

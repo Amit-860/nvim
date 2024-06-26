@@ -105,12 +105,12 @@ local telescope_opts = {
             },
         },
         undo = {
-            use_delta = true,
+            use_delta = false,
             use_custom_command = nil, -- setting this implies `use_delta = false`. Accepted format is: { "bash", "-c", "echo '$DIFF' | delta" }
-            layout_strategy = "vertical",
-            layout_config = {
-                preview_height = 0.6,
-            },
+            -- layout_strategy = "vertical",
+            -- layout_config = {
+            --     preview_height = 0.6,
+            -- },
             side_by_side = false,
             diff_context_lines = vim.o.scrolloff,
             entry_format = "state #$ID, $STAT, $TIME",
@@ -120,12 +120,12 @@ local telescope_opts = {
                 i = {
                     ["<c-Y>"] = require("telescope-undo.actions").yank_additions,
                     ["<c-y>"] = require("telescope-undo.actions").yank_deletions,
-                    ["<c-u>"] = require("telescope-undo.actions").restore
+                    ["<c-cr>"] = require("telescope-undo.actions").restore
                 },
                 n = {
                     ["Y"] = require("telescope-undo.actions").yank_additions,
                     ["y"] = require("telescope-undo.actions").yank_deletions,
-                    ["u"] = require("telescope-undo.actions").restore
+                    ["<cr>"] = require("telescope-undo.actions").restore
                 },
             },
         },
@@ -144,27 +144,6 @@ local telescope_opts = {
                 project_actions.change_working_directory(prompt_bufnr, false)
             end
         },
-        -- file_browser = {
-        --     theme = "ivy",
-        --     -- disables netrw and use telescope-file-browser in its place
-        --     -- layout_config = {
-        --     --     prompt_position = "top",
-        --     -- },
-        --     sorting_strategy = "ascending",
-        --     -- layout_strategy = "horizontal",
-        --     hijack_netrw = true,
-        --     initial_mode = "normal",
-        --     grouped = true,
-        --     initial_browser = "tree",
-        --     mappings = {
-        --         ["i"] = {
-        --             -- your custom insert mode mappings
-        --         },
-        --         ["n"] = {
-        --             -- your custom normal mode mappings
-        --         },
-        --     },
-        -- },
     }
 }
 

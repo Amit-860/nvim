@@ -99,6 +99,7 @@ which_key.register({
 which_key.register({
     f = { name = "Find" },
     g = { name = "Git" },
+    e = { name = "Explorer" },
     gd = { name = "Diff", },
     L = { name = "LeetCode" },
     l = { name = "LSP" },
@@ -109,4 +110,5 @@ which_key.register({
     P = { name = "Plugins" },
     q = { name = "Quit" },
     ['x'] = { name = "Extra" },
+    n = { name = "Notes" },
 }, { prefix = "<space>" })

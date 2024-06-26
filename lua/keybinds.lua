@@ -3,9 +3,10 @@ local utils = require('utils')
 -- settings for neovim
 if not vim.g.vscode then
     -- explorer
-    vim.keymap.set("n", "<leader>e", "<cmd>lua MiniFiles.open()<cr>",
-        { noremap = true, silent = true, desc = 'Explorer' })
-
+    vim.keymap.set("n", "<leader>eE", "<cmd>lua MiniFiles.open()<cr>",
+        { noremap = true, silent = true, desc = 'Mini' })
+    vim.keymap.set("n", "<leader>ee", "<cmd>Neotree<cr>",
+        { noremap = true, silent = true, desc = 'Sidebar' })
 
     -- list buffers
     vim.keymap.set("n", "<leader><leader>", "<cmd>Telescope buffers theme=dropdown<cr>",
@@ -29,7 +30,12 @@ if not vim.g.vscode then
 
     --
     -- close Buffer
-    vim.keymap.set("n", "<leader>c", "<cmd>bd<cr>", { noremap = true, silent = true, desc = 'which_key_ignore' })
+    vim.keymap.set("n", "<leader>c",
+        function()
+            vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<esc>", true, false, true), 'x', true) -- changing to normal mode
+            local r = pcall(vim.cmd, "close")
+            if not r then vim.cmd("bd") end
+        end, { noremap = true, silent = true, desc = 'which_key_ignore' })
     vim.keymap.set("n", "<leader>C", "<cmd>bd!<cr>", { noremap = true, silent = true, desc = 'which_key_ignore' })
 
 
@@ -57,16 +63,15 @@ if not vim.g.vscode then
             vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<esc>", true, false, true), 'x', true) -- changing to normal mode
             local r = pcall(vim.cmd, "bd")
             if not r then vim.cmd("q!") end
-        end
-        , { noremap = true, silent = true, desc = 'Exit' })
+        end, { noremap = true, silent = true, desc = 'Exit' })
     vim.keymap.set('n', "<C-Q>", "<cmd>q!<cr>", { noremap = true, silent = true, desc = 'Force Exit' })
 
 
     -- tab
-    vim.keymap.set('n', "<M-q>", "<cmd>tabclose<cr>", { noremap = true, silent = true, desc = 'Tab close' })
-    vim.keymap.set('n', "<M-n>", "<cmd>tabnew<cr>", { noremap = true, silent = true, desc = 'Tab new' })
-    vim.keymap.set('n', "<M-l>", "<cmd>tabnext<cr>", { noremap = true, silent = true, desc = 'Tab next' })
-    vim.keymap.set('n', "<M-h>", "<cmd>tabprevious<cr>", { noremap = true, silent = true, desc = 'Tab prev' })
+    vim.keymap.set('n', "<TAB>q", "<cmd>tabclose<cr>", { noremap = true, silent = true, desc = 'Tab close' })
+    vim.keymap.set('n', "<TAB>n", "<cmd>tabnew<cr>", { noremap = true, silent = true, desc = 'Tab new' })
+    vim.keymap.set('n', "<TAB>l", "<cmd>tabnext<cr>", { noremap = true, silent = true, desc = 'Tab next' })
+    vim.keymap.set('n', "<TAB>h", "<cmd>tabprevious<cr>", { noremap = true, silent = true, desc = 'Tab prev' })
 
     -- LeetCode
     -- vim.keymap.set('n', "<leader>L", "<nop>", { noremap = true, silent = true, desc = '+LeetCode' })
@@ -74,7 +79,7 @@ if not vim.g.vscode then
     vim.keymap.set('n', "<leader>Ls", "<cmd>Leet submit<cr>", { noremap = true, silent = true, desc = 'Submit' })
 
     -- Neorg
-    vim.keymap.set("n", "<leader>n", "<npp>", { desc = "Notes", noremap = true, silent = true })
+    -- vim.keymap.set("n", "<leader>n", "<npp>", { desc = "Notes", noremap = true, silent = true })
     vim.keymap.set('n', "<leader>ni", "<cmd>Neorg index<cr>", { noremap = true, silent = true, desc = 'index' })
     vim.keymap.set('n', "<leader>nj", "<cmd>Neorg journal<cr>", { noremap = true, silent = true, desc = 'journal' })
 
@@ -95,7 +100,7 @@ if not vim.g.vscode then
     vim.keymap.set("n", "<leader>Pi", "<cmd>Lazy install<CR>", { noremap = true, silent = true, desc = "Install", })
     vim.keymap.set("n", "<leader>Ps", "<cmd>Lazy sync<CR>", { noremap = true, silent = true, desc = "Sync", })
     vim.keymap.set("n", "<leader>Pm", "<cmd>Lazy<CR>", { noremap = true, silent = true, desc = "Manager", })
-    vim.keymap.set("n", "<leader>Pp", "<cmd>Lazy profile<CR>", { noremap = true, silent = true, desc = "Profile", })
+    vim.keymap.set("n", "<leader>PP", "<cmd>Lazy profile<CR>", { noremap = true, silent = true, desc = "Profile", })
 
     -- lsp keymap
     -- are in ./pluginSetups/lspConfig.lua

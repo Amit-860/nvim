@@ -81,3 +81,16 @@ vim.api.nvim_create_autocmd({ "BufReadPost" }, {
     end,
     group = mini_lazyloading_aug,
 })
+
+local disable_statusline_aug = vim.api.nvim_create_augroup("disable_statusline", { clear = true })
+vim.api.nvim_create_autocmd({ "BufEnter" }, {
+    callback = function()
+        if not vim.g.miniInitialized then
+            require('pluginSetups.miniConfig')
+            require('pluginSetups.miniStatuslineConfig')
+            require('pluginSetups.miniTablineConfig')
+            vim.g.miniInitialized = true
+        end
+    end,
+    group = mini_lazyloading_aug,
+})
