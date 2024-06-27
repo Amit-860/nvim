@@ -298,7 +298,6 @@ cmp.setup.filetype({ 'gitcommit', 'NeogitCommitMessage' }, {
 })
 -- local cmp_git = pcall(require, "cmp_git")
 -- if cmp_git then require("cmp_git").setup() end
-require("cmp_git").setup()
 
 cmp.setup.filetype({ 'sql', 'mysql', 'plsql' }, {
     sources = {
