@@ -290,14 +290,15 @@ cmp.setup(cmp_opts)
 
 -- To use git you need to install the plugin petertriho/cmp-git and uncomment lines below
 -- Set configuration for specific filetype.
-cmp.setup.filetype('gitcommit', {
+cmp.setup.filetype({ 'gitcommit', 'NeogitCommitMessage' }, {
     sources = {
         { name = 'git' },
         { name = 'buffer' },
     }
 })
-local cmp_git = pcall(require, "cmp_git")
-if cmp_git then require("cmp_git").setup() end
+-- local cmp_git = pcall(require, "cmp_git")
+-- if cmp_git then require("cmp_git").setup() end
+require("cmp_git").setup()
 
 cmp.setup.filetype({ 'sql', 'mysql', 'plsql' }, {
     sources = {
