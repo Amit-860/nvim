@@ -291,20 +291,19 @@ cmp.setup(cmp_opts)
 -- To use git you need to install the plugin petertriho/cmp-git and uncomment lines below
 -- Set configuration for specific filetype.
 cmp.setup.filetype('gitcommit', {
-    sources = cmp.config.sources({
+    sources = {
         { name = 'git' },
-    }, {
         { name = 'buffer' },
-    })
+    }
 })
--- require("cmp_git").setup()
+local cmp_git = pcall(require, "cmp_git")
+if cmp_git then require("cmp_git").setup() end
 
 cmp.setup.filetype({ 'sql', 'mysql', 'plsql' }, {
-    sources = cmp.config.sources({
+    sources = {
         { name = 'vim-dadbod-completion' },
-    }, {
         { name = 'buffer' },
-    })
+    }
 })
 
 

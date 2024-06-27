@@ -43,14 +43,14 @@ M.plugin_list = {
     -- faster
     {
         'pteroctopus/faster.nvim',
-        event = "UIEnter",
+        event = "VeryLazy",
         opts = {}
     },
 
     -- notifier
     {
         "j-hui/fidget.nvim",
-        event = "UIEnter",
+        event = "VeryLazy",
         opts = {},
     },
 
@@ -70,19 +70,6 @@ M.plugin_list = {
             require('pluginSetups.autoPairConfig')
         end
     },
-    -- {
-    --     'altermo/ultimate-autopair.nvim',
-    --     event = { 'InsertEnter', 'CmdlineEnter' },
-    --     branch = 'v0.6', --recommended as each new version will have breaking changes
-    --     opts = {
-    --         fastwarp = { hopout = true },
-    --         tabout = {
-    --             enable = true,
-    --             map = '<S-tab>',  --string or table
-    --             cmap = '<S-tab>', --string or table
-    --         },
-    --     },
-    -- },
     {
         "kylechui/nvim-surround",
         version = "*", -- Use for stability; omit to use `main` branch for the latest features
@@ -124,14 +111,12 @@ M.plugin_list = {
     },
     {
         "williamboman/mason-lspconfig.nvim",
-        lazy = true
+        event = "VeryLazy"
     },
     {
         "neovim/nvim-lspconfig",
-        event = "UIEnter",
-        dependencies = {
-            "williamboman/mason-lspconfig.nvim",
-        },
+        event = { "BufReadPre", "BufNewFile" },
+        dependencies = { "williamboman/mason-lspconfig.nvim" },
         opts = {
             setup = {
                 codelens = { enabled = true },
@@ -197,6 +182,7 @@ M.plugin_list = {
     },
     {
         "hedyhli/outline.nvim",
+        event = "LspAttach",
         cmd = { "Outline", "OutlineOpen" },
         keys = {
             vim.keymap.set({ "n" }, "<leader>ls", "<cmd>Outline<CR>",
@@ -210,20 +196,15 @@ M.plugin_list = {
     -- Debugging
     {
         "mfussenegger/nvim-dap",
-        ft = { 'python', 'java' },
-        cmd = { "DapContinue" },
-        dependencies = {
-            -- Debugger user interface
-            "theHamsta/nvim-dap-virtual-text",
-            {
-                "rcarriga/nvim-dap-ui",
-                dependencies = { "nvim-neotest/nvim-nio" },
-                config = function() require('pluginSetups.dapUIConfig') end
-            }
-        },
-        config = function()
-            require('pluginSetups.dapConfig')
-        end
+        dependencies = { "rcarriga/nvim-dap-ui" },
+        event = "LspAttach",
+        config = function() require('pluginSetups.dapConfig') end
+    },
+    {
+        "rcarriga/nvim-dap-ui",
+        event = "VeryLazy",
+        dependencies = { "nvim-neotest/nvim-nio", { "theHamsta/nvim-dap-virtual-text", opts = {} } },
+        config = function() require('pluginSetups.dapUIConfig') end
     },
     {
         "mfussenegger/nvim-dap-python",
@@ -360,10 +341,8 @@ M.plugin_list = {
         "monaqa/dial.nvim",
         event = "BufReadPost",
         keys = {
-            { "<C-a>",  "<Plug>(dial-increment)",  mode = { "n", "v" }, remap = true },
-            { "<C-x>",  "<Plug>(dial-decrement)",  mode = { "n", "v" }, remap = true },
-            { "g<C-a>", "g<Plug>(dial-increment)", mode = { "n", "v" }, remap = true },
-            { "g<C-x>", "g<Plug>(dial-decrement)", mode = { "n", "v" }, remap = true },
+            { "<C-a>", "<Plug>(dial-increment)", mode = { "n", "v" }, remap = true },
+            { "<C-x>", "<Plug>(dial-decrement)", mode = { "n", "v" }, remap = true },
         },
         config = function()
             local augend = require("dial.augend")
@@ -482,7 +461,7 @@ M.plugin_list = {
     -- git
     {
         "lewis6991/gitsigns.nvim",
-        event = "VeryLazy",
+        event = "BufReadPost",
         cmd = "Gitsigns",
         config = function()
             require("pluginSetups.gitSignConfig")
@@ -555,7 +534,7 @@ M.plugin_list = {
     },
     {
         "luukvbaal/statuscol.nvim",
-        event = "UIEnter",
+        event = "BufReadPre",
         dependencies = {
             "lewis6991/gitsigns.nvim",
         },
@@ -601,7 +580,7 @@ M.plugin_list = {
     {
         "gbprod/yanky.nvim",
         recommended = true,
-        event = "UIEnter",
+        event = "BufReadPost",
         opts = {
             highlight = { timer = 500 },
         },
@@ -657,7 +636,7 @@ M.plugin_list = {
     -- Find and Replace
     {
         'MagicDuck/grug-far.nvim',
-        event = "VeryLazy",
+        -- event = "VeryLazy",
         keys = {
             vim.keymap.set({ 'n' }, "<leader>xr",
                 "<cmd>lua require('grug-far').grug_far({ prefills = { flags = vim.fn.expand('%') } })<cr>",
@@ -667,8 +646,7 @@ M.plugin_list = {
                 { noremap = true, silent = true, desc = 'Grug FAR' }),
         },
         config = function()
-            require('grug-far').setup({
-            });
+            require('grug-far').setup({});
         end
     },
 
@@ -744,8 +722,9 @@ M.plugin_list = {
         cmd = { "DB", "DBUI", 'DBUIToggle', 'DBUIAddConnection', 'DBUIFindBuffer' },
         dependencies = { "kristijanhusak/vim-dadbod-completion", "tpope/vim-dadbod", },
         init = function()
+            vim.g.dbs = { { name = "large", url = "jq:" .. vim.fn.expand("$HOME/Downloads/large-file.json") } }
             vim.g.db_ui_use_nerd_fonts = 1
-            vim.g.db_ui_disable_progress_bar = 1
+            vim.g.db_ui_use_nvim_notify = 1
         end
     },
 

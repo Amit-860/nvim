@@ -17,7 +17,8 @@ require('gitsigns').setup {
             text = icons.ui.Tilde,
         },
         untracked = {
-            text = icons.ui.ThinLineLeft,
+            -- text = icons.ui.ThinLineLeft,
+            text = icons.ui.BoldLineLeft,
         },
     },
     signcolumn = true,

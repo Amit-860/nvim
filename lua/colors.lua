@@ -6,6 +6,7 @@ vim.api.nvim_set_hl(0, "IncSearch", { bg = "#e95d5d", fg = "#131a24", bold = tru
 vim.api.nvim_set_hl(0, "MacroRecording", { bg = "#dbc874", fg = "#131a24", bold = true })
 
 -- GitSings hilights
+vim.api.nvim_set_hl(0, "GitSignsUntracked", { fg = "#428bc0" })
 vim.api.nvim_set_hl(0, "GitSignsAdd", { fg = "#7aa4a1" })
 vim.api.nvim_set_hl(0, "GitSignsChange", { fg = "#fda47f" })
 vim.api.nvim_set_hl(0, "GitSignsDelete", { fg = "#e85c51" })

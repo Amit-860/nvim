@@ -20,6 +20,7 @@ vim.g.clipboard = {
         ["*"] = "win32yank.exe -o --lf",
     },
 }
+
 -- NOTE: Neovim Options
 local default_options = {
     backup         = false,         -- creates a backup file
@@ -89,7 +90,6 @@ vim.g.maplocalleader = "\\"
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 
-
 ---  SETTINGS  ---
 vim.opt.spelllang:append "cjk" -- disable spellchecking for asian characters (VIM algorithm does not support it)
 vim.opt.shortmess:append "c"   -- don't show redundant messages from ins-completion-menu
@@ -128,10 +128,6 @@ require('colors')
 -- autocmd
 require('autocmd')
 
--- vscode specific opts
--- if vim.g.vscode then
--- end
-
 -- NOTE: Use vim.fn.expand($HOME/path/to/file.exe) for providing path
 
 -- setting specific to NEOVIDE
@@ -167,11 +163,3 @@ if vim.g.neovide then
     vim.o.winblend = 50
     vim.o.pumblend = 20
 end
-
-
-vim.g.dbs = {
-    {
-        name = "large",
-        url = "jq:" .. vim.fn.expand("$HOME/Downloads/large-file.json")
-    }
-}

@@ -33,8 +33,7 @@ if not vim.g.vscode then
     vim.keymap.set("n", "<leader>c",
         function()
             vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<esc>", true, false, true), 'x', true) -- changing to normal mode
-            local r = pcall(vim.cmd, "close")
-            if not r then vim.cmd("bd") end
+            vim.cmd("bd")
         end, { noremap = true, silent = true, desc = 'which_key_ignore' })
     vim.keymap.set("n", "<leader>C", "<cmd>bd!<cr>", { noremap = true, silent = true, desc = 'which_key_ignore' })
 
@@ -110,11 +109,11 @@ if not vim.g.vscode then
     --     { desc = "Continue", noremap = true, silent = true })
     vim.keymap.set("n", "<F5>", "<CMD>DapContinue<CR>",
         { desc = "Continue", noremap = true, silent = true })
-    vim.keymap.set("n", "<F9>", function() require('dap').toggle_breakpoint() end,
+    vim.keymap.set("n", "<F9>", "<CMD>DapToggleBreakpoint<CR>",
         { desc = "Breakpoints", noremap = true, silent = true })
-    vim.keymap.set("n", "<F11>", function() require('dap').step_into() end,
+    vim.keymap.set("n", "<F7>", function() require('dap').step_into() end,
         { desc = "Step Into", noremap = true, silent = true })
-    vim.keymap.set("n", "<S-F11>", function() require('dap').step_out() end,
+    vim.keymap.set("n", "<F8>", function() require('dap').step_out() end,
         { desc = "Step Out", noremap = true, silent = true })
     vim.keymap.set("n", "<F10>", function() require('dap').step_over() end,
         { desc = "Step Over", noremap = true, silent = true })
@@ -174,6 +173,10 @@ if not vim.g.vscode then
     -- Mason
     vim.keymap.set("n", "<leader>lM", ":Mason<cr>",
         { desc = "Mason", noremap = true, silent = true })
+    vim.keymap.set("n", "<leader>l0", ":LspStop<cr>",
+        { desc = "LSP Stop", noremap = true, silent = true })
+    vim.keymap.set("n", "<leader>l1", ":LspStart<cr>",
+        { desc = "LSP Start", noremap = true, silent = true })
 
     -- yanky
     vim.keymap.set({ "n", "x" }, "p", "<Plug>(YankyPutAfter)",
