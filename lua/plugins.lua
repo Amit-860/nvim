@@ -651,10 +651,10 @@ M.plugin_list = {
         'MagicDuck/grug-far.nvim',
         -- event = "VeryLazy",
         keys = {
-            vim.keymap.set({ 'n' }, "<leader>xr",
+            vim.keymap.set({ 'n' }, "<leader>or",
                 "<cmd>lua require('grug-far').grug_far({ prefills = { flags = vim.fn.expand('%') } })<cr>",
                 { noremap = true, silent = true, desc = 'Grug FAR .' }),
-            vim.keymap.set({ 'n' }, "<leader>xR",
+            vim.keymap.set({ 'n' }, "<leader>oR",
                 "lua require('grug-far').grug_far()<cr>",
                 { noremap = true, silent = true, desc = 'Grug FAR' }),
         },
@@ -670,7 +670,7 @@ M.plugin_list = {
         keys = {
             vim.keymap.set('v', '<Leader>s', "<nop>", { desc = "Codeshot", noremap = true, silent = true }),
             vim.keymap.set('v', '<Leader>ss', ":SSSelected<cr>", { desc = "Selected", noremap = true, silent = true }),
-            vim.keymap.set('n', '<Leader>xs', ":SSFocused<cr>",
+            vim.keymap.set('n', '<Leader>os', ":SSFocused<cr>",
                 { desc = "Codeshot focused", noremap = true, silent = true })
         },
         config = function()
@@ -703,35 +703,12 @@ M.plugin_list = {
     },
 
     -- DataBase
-    -- {
-    --     "kndndrj/nvim-dbee",
-    --     dependencies = {
-    --         "MunifTanjim/nui.nvim",
-    --         "MattiasMTS/cmp-dbee",
-    --     },
-    --     build = function()
-    --         require("dbee").install()
-    --     end,
-    --     config = function()
-    --         require("dbee").setup({
-    --             sources = {
-    --                 require("dbee.sources").MemorySource:new({
-    --                     {
-    --                         id = "large",
-    --                         name = "large",
-    --                         type = "jq",
-    --                         url = vim.fn.expand("$HOME/Downloads/large-file.json")
-    --                     }
-    --                 }),
-    --                 require("dbee.sources").EnvSource:new("DBEE_CONNECTIONS"),
-    --                 require("dbee.sources").FileSource:new(vim.fn.stdpath("cache") .. "/dbee/persistence.json"),
-    --             }
-    --         })
-    --     end,
-    -- },
     {
         "kristijanhusak/vim-dadbod-ui",
         cmd = { "DB", "DBUI", 'DBUIToggle', 'DBUIAddConnection', 'DBUIFindBuffer' },
+        keys = {
+            vim.keymap.set('n', '<Leader>D', "<cmd>DBUIToggle<cr>", { desc = "DadBod", noremap = true, silent = true }),
+        },
         dependencies = { "kristijanhusak/vim-dadbod-completion", "tpope/vim-dadbod", },
         init = function()
             vim.g.dbs = { { name = "large", url = "jq:" .. vim.fn.expand("$HOME/Downloads/large-file.json") } }
@@ -740,13 +717,13 @@ M.plugin_list = {
         end
     },
     {
-        'nvimdev/dashboard-nvim',
-        event = 'VimEnter',
+        'goolord/alpha-nvim',
+        event = "VimEnter",
+        dependencies = { 'nvim-tree/nvim-web-devicons' },
         config = function()
-            require('pluginSetups.dashboardConfig')
-        end,
-        dependencies = { { 'nvim-tree/nvim-web-devicons' } }
-    }
+            require("pluginSetups.dashboardConfig")
+        end
+    },
 
 }
 

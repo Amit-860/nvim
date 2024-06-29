@@ -5,6 +5,7 @@ vim.api.nvim_set_hl(0, "FindAndReplace", { bg = "#e95d5d", fg = "#131a24", bold 
 vim.api.nvim_set_hl(0, "IncSearch", { bg = "#e95d5d", fg = "#131a24", bold = true })
 vim.api.nvim_set_hl(0, "MacroRecording", { bg = "#dbc874", fg = "#131a24", bold = true })
 
+
 -- GitSings hilights
 vim.api.nvim_set_hl(0, "GitSignsUntracked", { fg = "#428bc0" })
 vim.api.nvim_set_hl(0, "GitSignsAdd", { fg = "#7aa4a1" })
@@ -23,6 +24,13 @@ M.line_hilight = "#0a161e"
 -- terafox
 -- M.float_color = "#112631"
 -- M.line_hilight = "#07161a"
+
+
+-- Statusline and Tabline
+vim.api.nvim_set_hl(0, "StatusLineNC", { bg = M.line_hilight, fg = "#aeafb0", blend = 0 })
+vim.api.nvim_set_hl(0, "StatusLine", { bg = M.line_hilight, fg = "#71839b", blend = 0 })
+vim.api.nvim_set_hl(0, "TabLineFill", { bg = M.line_hilight })
+
 
 if vim.g.neovide then
     -- M.line_hilight = "#030a0c"

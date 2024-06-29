@@ -109,6 +109,6 @@ which_key.register({
     S = { name = "Session" },
     P = { name = "Plugins" },
     q = { name = "Quit" },
-    ['x'] = { name = "Extra" },
+    ['o'] = { name = "Others" },
     n = { name = "Notes" },
 }, { prefix = "<space>" })
