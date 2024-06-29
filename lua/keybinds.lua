@@ -40,10 +40,15 @@ if not vim.g.vscode then
 
     -- session
     -- vim.keymap.set("n", "<leader>S", "<nop>", { desc = "+Session", noremap = true })
-    vim.keymap.set("n", "<leader>Ss", "<cmd>lua MiniSessions.select()<cr>",
-        { noremap = true, silent = true, desc = 'Switch Session' })
-    vim.keymap.set("n", "<leader>Sm", "<cmd>lua MiniSessions.write('Home.vim',{force=true})<cr>",
-        { noremap = true, silent = true, desc = 'Make Session' })
+    vim.keymap.set("n", "<leader>Sf",
+        function() require('persistence').load() end,
+        { noremap = true, silent = true, desc = 'Find Session' })
+    vim.keymap.set("n", "<leader>Sl",
+        function() require('persistence').load({ last = true }) end,
+        { noremap = true, silent = true, desc = 'Last Session' })
+    vim.keymap.set("n", "<leader>Ss",
+        function() require('persistence').stop() end,
+        { noremap = true, silent = true, desc = 'Stop Session' })
 
 
     -- Undo
@@ -85,12 +90,7 @@ if not vim.g.vscode then
 
     -- Home
     vim.keymap.set('n', "<leader>.", function()
-            if vim.g.starter_opened then
-                MiniStarter.close()
-                vim.g.starter_opened = false
-            else
-                MiniStarter.open()
-            end
+            vim.cmd("Dashboard")
         end,
         { noremap = true, silent = true, desc = 'which_key_ignore' })
 
@@ -185,6 +185,10 @@ if not vim.g.vscode then
         { noremap = true, silent = true, desc = "Yanky Put Before" })
     vim.keymap.set("n", "<leader>fy", "<CMD>Telescope yank_history<CR>",
         { noremap = true, silent = true, desc = "Yanky History" })
+
+
+    -- Neogit
+    vim.keymap.set('n', '<leader>gn', ':Neogit<CR>', { desc = "Lazygit", silent = true, noremap = true })
 end
 
 -- general

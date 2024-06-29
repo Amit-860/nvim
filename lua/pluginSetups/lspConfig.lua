@@ -141,7 +141,7 @@ local on_attach = function(client, bufnr)
     vim.keymap.set("n", "<leader>r", "<nop>", { desc = "which_key_ignore", noremap = true })
     vim.keymap.set("n", "<leader>rc", function()
         local file_type = vim.bo.filetype
-        require('pluginSetups.toggleTermConfig').code_runner(file_type)
+        require('pluginSetups.toggleTermConfig').code_runner(file_type, "horizontal") -- float, window, horizontal, vertical
     end, { noremap = true, silent = true, desc = "Run Code", })
     vim.keymap.set("n", "<F4>", function()
         local file_type = vim.bo.filetype

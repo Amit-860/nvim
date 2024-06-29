@@ -32,7 +32,7 @@ M.plugin_list = {
         --     if vim.g.neovide then return true end
         --     return false
         -- end,
-        event = "VeryLazy",
+        event = "UIEnter",
         opts = {},
         dependencies = { "MunifTanjim/nui.nvim" },
         config = function()
@@ -381,19 +381,33 @@ M.plugin_list = {
     },
 
     -- mini
+    { 'echasnovski/mini.ai',          event = { 'BufReadPost' }, version = '*', opts = {} },
+    { 'echasnovski/mini.cursorword',  event = { 'BufReadPost' }, version = '*', opts = {} },
+    { 'echasnovski/mini.files',       event = { 'UIEnter' },     version = '*', opts = {} },
+    { 'echasnovski/mini.indentscope', event = { 'BufReadPost' }, version = '*', opts = {} },
     {
-        'echasnovski/mini.nvim',
-        cond = not vim.g.vscode,
-        config = function()
-            require('pluginSetups.miniStarterConfig')
-            require('pluginSetups.miniCommentConfig')
-            vim.b.ministatusline_disable = true
-            vim.b.minitabline_disable = true
-            vim.g.starter_opened = true
-            vim.api.nvim_set_hl(0, "StatusLineNC", { bg = nil })
-            vim.api.nvim_set_hl(0, "StatusLine", { bg = nil })
-            vim.api.nvim_set_hl(0, "TabLineFill", { bg = nil })
-        end
+        'echasnovski/mini.hipatterns',
+        event = { 'BufReadPost' },
+        version = '*',
+        config = function() require('pluginSetups.miniHipatternConfig') end
+    },
+    {
+        'echasnovski/mini.statusline',
+        event = { 'UIEnter' },
+        version = '*',
+        config = function() require('pluginSetups.miniStatuslineConfig') end
+    },
+    {
+        'echasnovski/mini.tabline',
+        event = { 'UIEnter' },
+        version = '*',
+        config = function() require('pluginSetups.miniTablineConfig') end
+    },
+    {
+        'echasnovski/mini.comment',
+        event = { 'UIEnter' },
+        version = '*',
+        config = function() require('pluginSetups.miniCommentConfig') end
     },
 
     -- leetcode
@@ -696,9 +710,6 @@ M.plugin_list = {
     --         "MattiasMTS/cmp-dbee",
     --     },
     --     build = function()
-    --         -- Install tries to automatically detect the install method.
-    --         -- if it fails, try calling it with one of these parameters:
-    --         --    "curl", "wget", "bitsadmin", "go"
     --         require("dbee").install()
     --     end,
     --     config = function()
@@ -707,11 +718,13 @@ M.plugin_list = {
     --                 require("dbee.sources").MemorySource:new({
     --                     {
     --                         id = "large",
-    --                         name = "large file",
+    --                         name = "large",
     --                         type = "jq",
     --                         url = vim.fn.expand("$HOME/Downloads/large-file.json")
     --                     }
-    --                 })
+    --                 }),
+    --                 require("dbee.sources").EnvSource:new("DBEE_CONNECTIONS"),
+    --                 require("dbee.sources").FileSource:new(vim.fn.stdpath("cache") .. "/dbee/persistence.json"),
     --             }
     --         })
     --     end,
@@ -726,6 +739,14 @@ M.plugin_list = {
             vim.g.db_ui_use_nvim_notify = 1
         end
     },
+    {
+        'nvimdev/dashboard-nvim',
+        event = 'VimEnter',
+        config = function()
+            require('pluginSetups.dashboardConfig')
+        end,
+        dependencies = { { 'nvim-tree/nvim-web-devicons' } }
+    }
 
 }
 

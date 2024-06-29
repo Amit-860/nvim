@@ -62,7 +62,6 @@ require('gitsigns').setup {
 
         -- Actions
         map('n', '<leader>gs', ':Gitsigns stage_hunk<CR>', { desc = "Stage Hunk" })
-        map('n', '<leader>gn', ':Neogit<CR>', { desc = "Lazygit" })
         -- map('n', '<leader>gn', ':LazyGit<CR>', { desc = "Lazygit" })
         map('v', '<leader>gs', ':Gitsigns stage_hunk<CR>', { desc = "Stage Hunk" })
         map('n', '<leader>gr', ':Gitsigns reset_hunk<CR>', { desc = "Reset Hunk" })

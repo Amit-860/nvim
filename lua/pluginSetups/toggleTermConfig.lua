@@ -160,13 +160,13 @@ M.broot_toggle = function()
     broot:toggle()
 end
 
-M.code_runner = function(run_cmd)
+M.code_runner = function(run_cmd, direction)
     local Terminal = require("toggleterm.terminal").Terminal
     local file_name = vim.api.nvim_buf_get_name(0)
     local py_runner = Terminal:new {
         cmd = run_cmd .. " " .. file_name,
         hidden = true,
-        direction = "float",
+        direction = direction,
         close_on_exit = false, -- close the terminal window when the process exits
         -- float_opts = {},
         on_open = function(_)
