@@ -228,7 +228,7 @@ M.plugin_list = {
     },
     {
         'nvim-telescope/telescope-project.nvim',
-        event = "UIEnter"
+        event = "VeryLazy"
     },
     {
         "debugloop/telescope-undo.nvim",
@@ -381,13 +381,13 @@ M.plugin_list = {
     },
 
     -- mini
-    { 'echasnovski/mini.ai',          event = { 'BufReadPost' }, version = '*', opts = {} },
-    { 'echasnovski/mini.cursorword',  event = { 'BufReadPost' }, version = '*', opts = {} },
-    { 'echasnovski/mini.files',       event = { 'UIEnter' },     version = '*', opts = {} },
-    { 'echasnovski/mini.indentscope', event = { 'BufReadPost' }, version = '*', opts = {} },
+    { 'echasnovski/mini.ai',          event = { 'BufReadPost', 'BufNewFile' }, version = '*', opts = {} },
+    { 'echasnovski/mini.cursorword',  event = { 'BufReadPost', 'BufNewFile' }, version = '*', opts = {} },
+    { 'echasnovski/mini.files',       event = { 'UIEnter' },                   version = '*', opts = {} },
+    { 'echasnovski/mini.indentscope', event = { 'BufReadPost', 'BufNewFile' }, version = '*', opts = {} },
     {
         'echasnovski/mini.hipatterns',
-        event = { 'BufReadPost' },
+        event = { 'BufReadPost', 'BufNewFile' },
         version = '*',
         config = function() require('pluginSetups.miniHipatternConfig') end
     },

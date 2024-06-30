@@ -39,15 +39,3 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
         vim.opt_local.conceallevel = 0
     end,
 })
-
-local hide = vim.api.nvim_create_augroup("hide", { clear = true })
-vim.api.nvim_create_autocmd({ "UIEnter" }, {
-    group = hide,
-    callback = function()
-        vim.go.laststatus = 0
-        vim.opt.showtabline = 0
-        vim.b.miniindentscope_disable = true
-        vim.b.minitabline_disable = true
-        vim.b.ministatusline_disable = true
-    end,
-})

@@ -178,4 +178,12 @@ M.lsp_rename = function()
     end)
 end
 
+
+M.save_as = function()
+    vim.ui.input({ prompt = "Save as : " }, function(input)
+        if not input then return end
+        vim.cmd("w " .. input)
+    end)
+end
+
 return M

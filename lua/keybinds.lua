@@ -96,11 +96,10 @@ if not vim.g.vscode then
 
     --lazy
     -- vim.keymap.set("n", "<leader>P", "<nop>", { desc = "+Plugins Mgr", noremap = true })
-    vim.keymap.set("n", "<leader>Pi", "<cmd>Lazy install<CR>", { noremap = true, silent = true, desc = "Install", })
+    vim.keymap.set("n", "<leader>Pc", "<cmd>Lazy clean<CR>", { noremap = true, silent = true, desc = "Clean", })
     vim.keymap.set("n", "<leader>Ps", "<cmd>Lazy sync<CR>", { noremap = true, silent = true, desc = "Sync", })
     vim.keymap.set("n", "<leader>Pm", "<cmd>Lazy<CR>", { noremap = true, silent = true, desc = "Manager", })
     vim.keymap.set("n", "<leader>PP", "<cmd>Lazy profile<CR>", { noremap = true, silent = true, desc = "Profile", })
-    vim.keymap.set("n", "<leader>Pc", "<cmd>Lazy clean<CR>", { noremap = true, silent = true, desc = "Clean", })
 
     -- lsp keymap
     -- are in ./pluginSetups/lspConfig.lua
@@ -203,6 +202,9 @@ vim.keymap.set('n', '<leader>h', "<cmd>noh<cr>", { desc = "which_key_ignore", no
 -- vim.keymap.set({ "n", "o", "x" }, "gh", '0', { noremap = true, silent = true, desc = "Goto BOL" })
 -- vim.keymap.set({ "n", "o", "x" }, "gl", '$', { noremap = true, silent = true, desc = "Goto EOL" })
 vim.keymap.set({ 'n', 'i', 'v' }, "<c-s>", "<esc>:w!<cr>", { noremap = true, silent = true, desc = 'Save' })
+vim.keymap.set({ 'n', 'i', 'v' }, "<M-s>",
+    function() utils.save_as() end
+    , { noremap = true, silent = true, desc = 'Save' })
 vim.keymap.set({ 'n', 'i', 'v' }, "<M-i>", "<C-6>", { noremap = true, silent = true, desc = 'Edit the alternate file' })
 vim.keymap.set({ 'n', 'i', 'v' }, "<M-o>", "<C-^>", { noremap = true, silent = true, desc = 'Edit the alternate file' })
 

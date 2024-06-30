@@ -134,7 +134,7 @@ local function layout()
     lazycache.info = function()
         local plugins = #vim.tbl_keys(require("lazy").plugins())
         local v = vim.version()
-        local datetime = os.date "  %d-%m-%Y   🕑%H:%M:%S"
+        local datetime = os.date "  %d-%m-%Y   🕑 %H:%M:%S"
         local platform = vim.fn.has "win32" == 1 and "" or ""
         return string.format(" %d's   %s v%d.%d.%d   ⎸ %s", plugins, platform, v.major, v.minor, v.patch, datetime)
     end
@@ -144,35 +144,31 @@ local function layout()
         local hl = "AlphaIconColor"
         return {
             button("N", "  New file", "<cmd>enew<cr>", nil, { hl = { { hl, 0, 3 } } }),
-            button("R", "󰈢  Recently files", "<cmd>Telescope oldfiles<cr>", nil, { hl = { { hl, 0, 3 } } }),
-            button("F", "  Find file",
-                function()
-                    utils.smart_find_file({})
-                end, nil,
+            button("R", "󱋢  Recently files", "<cmd>Telescope oldfiles<cr>", nil, { hl = { { hl, 0, 3 } } }),
+            button("F", "󰮗  Find file",
+                [[<cmd>lua require("utils").smart_find_file({})<cr>]]
+                , nil,
                 { hl = { { hl, 0, 3 } } }),
-            button("E", "  File browser",
-                function()
-                    require("yazi").yazi(nil, vim.fn.getcwd())
-                end, nil,
-                { hl = { { hl, 0, 3 } } }),
-            button("P", "  Projects",
-                function()
-                    require 'telescope'.extensions.project.project { display_type = 'full' }
-                end, nil,
+            button("E", "  File explorer",
+                [[<cmd>lua require("yazi").yazi(nil, vim.fn.getcwd())<cr>]]
+                , nil,
                 { hl = { { hl, 0, 3 } } }),
             button("L", "  Last session",
-                function()
-                    require('persistence').load({ last = true })
-                end, nil,
+                [[<cmd>lua require('persistence').load({ last = true })<cr>]]
+                , nil,
                 { hl = { { hl, 0, 3 } } }),
+            button("T", "  LeetCode", "<cmd>Leet<cr>", nil, { hl = { { hl, 0, 3 } } }),
+            button("P", "  Projects",
+                [[<cmd>lua require'telescope'.extensions.project.project { display_type = 'full' }<cr>]]
+                , nil,
+                { hl = { { hl, 0, 3 } } }),
+            button("G", "  NeoGit", "<cmd>Neogit<cr>", nil, { hl = { { hl, 0, 3 } } }),
             button("C", "  Configs",
-                function()
-                    utils.smart_find_file({ find_command = { 'fd', '-H', '-E', '.git', '.', vim.fn.expand("$HOME/AppData/Local/nvim/") } })
-                end, nil,
+                [[<cmd>lua require'telescope.builtin'.find_files({ find_command = { 'fd', '-H', '-E', '.git', '.', vim.fn.expand("$HOME/AppData/Local/nvim") } })<cr>]]
+                , nil,
                 { hl = { { hl, 0, 3 } } }
             ),
-            button("G", "  Neogit", "<cmd>Neogit<cr>", nil, { hl = { { hl, 0, 3 } } }),
-            button("Q", "󰿅  Quit", "<Cmd>q<CR>", nil, { hl = { { hl, 0, 3 } } }),
+            -- button("Q", "󰿅  Quit", "<Cmd>q<CR>", nil, { hl = { { hl, 0, 3 } } }),
         }
     end
 
@@ -182,6 +178,8 @@ local function layout()
         for _, filename in ipairs(vim.v.oldfiles) do
             if vim.loop.fs_stat(filename) ~= nil then
                 local icon, hl = require("nvim-web-devicons").get_icon(filename, vim.fn.fnamemodify(filename, ":e"))
+                if not icon then icon = '󱀶' end
+                if not hl then hl = "AlphaHeaderColor" end
                 local filename_short = string.sub(vim.fn.fnamemodify(filename, ":t"), 1, 30)
                 table.insert(
                     result,
@@ -210,12 +208,6 @@ local function layout()
     -- local AlphaHeaderColor = "AlphaCol" .. math.random(11)
 
     M.sections = {
-        {
-            type = "padding",
-            val = function()
-                return math.floor(vim.o.lines * 0.1)
-            end
-        },
         -- {
         --     type = "text",
         --     val = {
@@ -235,8 +227,7 @@ local function layout()
             val = week_header(),
             opts = { hl = "AlphaHeaderColor", position = "center" },
         },
-
-        { type = "padding", val = 1 },
+        -- { type = "padding", val = 1 },
         {
             type = "text",
             val = lazycache "info",
@@ -275,12 +266,16 @@ require("alpha").setup {
     layout = layout(),
     opts = {
         setup = function()
+            local line_hilight = require('colors').line_hilight
             vim.api.nvim_create_autocmd("User", {
                 pattern = "AlphaReady",
                 desc = "Disable status and tabline for alpha",
                 callback = function()
                     vim.go.laststatus = 0
                     vim.opt.showtabline = 0
+                    vim.api.nvim_set_hl(0, "StatusLineNC", { bg = nil })
+                    vim.api.nvim_set_hl(0, "StatusLine", { bg = nil })
+                    vim.api.nvim_set_hl(0, "TabLineFill", { bg = nil })
                     vim.b.miniindentscope_disable = true
                     vim.b.minitabline_disable = true
                     vim.b.ministatusline_disable = true
@@ -292,6 +287,9 @@ require("alpha").setup {
                 callback = function()
                     vim.go.laststatus = 3
                     vim.opt.showtabline = 2
+                    vim.api.nvim_set_hl(0, "StatusLineNC", { bg = line_hilight, fg = "#aeafb0", blend = 0 })
+                    vim.api.nvim_set_hl(0, "StatusLine", { bg = line_hilight, fg = "#71839b", blend = 0 })
+                    vim.api.nvim_set_hl(0, "TabLineFill", { bg = line_hilight })
                 end,
             })
         end,
@@ -307,15 +305,23 @@ end
 vim.api.nvim_create_autocmd("User", {
     pattern = "LazyVimStarted",
     callback = function()
+        local top_padding = {
+            type = "padding",
+            val = function()
+                return math.floor(vim.o.lines * 0.15)
+            end
+        }
         local startuptimeSections = {
             type = "text",
             val = get_lazy_stats(),
             opts = { hl = "AlphaButtonShortcut", position = "center" },
         }
+        table.insert(M.sections, 0, top_padding)
         table.insert(M.sections, startuptimeSections)
         vim.cmd("AlphaRedraw")
     end,
 })
+
 
 vim.api.nvim_set_hl(0, "AlphaButtonShortcut", { fg = "#e95d5d", bold = true })
 vim.api.nvim_set_hl(0, "AlphaHeaderColor", { fg = "#006782", bold = true })
