@@ -37,7 +37,8 @@ local telescope_opts = {
                 ["<C-q>"] = function(...)
                     actions.smart_send_to_qflist(...)
                     actions.open_qflist(...)
-                end
+                end,
+                ["q"] = actions.close,
             }
         },
         file_ignore_patterns = {},

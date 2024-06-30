@@ -5,7 +5,7 @@ if not vim.g.vscode then
     -- explorer
     vim.keymap.set("n", "<leader>eE", "<cmd>lua MiniFiles.open()<cr>",
         { noremap = true, silent = true, desc = 'Mini' })
-    vim.keymap.set("n", "<leader>ee", "<cmd>Neotree<cr>",
+    vim.keymap.set("n", "<leader>ee", "<cmd>Neotree toggle<cr>",
         { noremap = true, silent = true, desc = 'Sidebar' })
 
     -- list buffers
@@ -17,7 +17,7 @@ if not vim.g.vscode then
     -- vim.keymap.set("n", "<leader>f", "<nop>", { desc = "+Find", noremap = true, silent = true })
     vim.keymap.set("n", "<leader>ff",
         function() utils.smart_find_file({ initial_mode = 'insert' }) end,
-        { noremap = true, silent = true, desc = 'Find Git File' })
+        { noremap = true, silent = true, desc = 'Find Git Files' })
     vim.keymap.set("n", "<leader>fF", "<cmd>Telescope find_files initial_mode=insert<cr>",
         { noremap = true, silent = true, desc = 'All File' })
     vim.keymap.set("n", "<leader>fs", "<cmd>Telescope live_grep<cr>",
@@ -91,9 +91,7 @@ if not vim.g.vscode then
 
 
     -- Home
-    vim.keymap.set('n', "<leader>.", function()
-            vim.cmd("Alpha")
-        end,
+    vim.keymap.set('n', "<leader>.", function() vim.cmd("Alpha") end,
         { noremap = true, silent = true, desc = 'which_key_ignore' })
 
     --lazy
@@ -102,6 +100,7 @@ if not vim.g.vscode then
     vim.keymap.set("n", "<leader>Ps", "<cmd>Lazy sync<CR>", { noremap = true, silent = true, desc = "Sync", })
     vim.keymap.set("n", "<leader>Pm", "<cmd>Lazy<CR>", { noremap = true, silent = true, desc = "Manager", })
     vim.keymap.set("n", "<leader>PP", "<cmd>Lazy profile<CR>", { noremap = true, silent = true, desc = "Profile", })
+    vim.keymap.set("n", "<leader>Pc", "<cmd>Lazy clean<CR>", { noremap = true, silent = true, desc = "Clean", })
 
     -- lsp keymap
     -- are in ./pluginSetups/lspConfig.lua

@@ -2,7 +2,7 @@ require("neo-tree").setup({
     close_if_last_window = false,
     popup_border_style = "single",
     window = {
-        width = "25%",
+        width = "20%",
         position = "right",
     },
     buffers = {
