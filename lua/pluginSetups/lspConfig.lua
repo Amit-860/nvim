@@ -143,11 +143,17 @@ local on_attach = function(client, bufnr)
         local file_type = vim.bo.filetype
         require('pluginSetups.toggleTermConfig').code_runner(file_type, "horizontal") -- float, window, horizontal, vertical
     end, { noremap = true, silent = true, desc = "Run Code", })
+
     vim.keymap.set("n", "<F4>", function()
         local file_type = vim.bo.filetype
         require('pluginSetups.toggleTermConfig').code_runner(file_type)
     end, { noremap = true, silent = true, desc = "Run Code", })
 end
+
+vim.keymap.set({ "n", }, "<leader>rt", function() require('utils').exec_selected_query(true) end,
+    { noremap = true, silent = true, desc = "Run Test", })
+vim.keymap.set({ "v", }, "<leader>rt", function() require('utils').exec_selected_query(false) end,
+    { noremap = true, silent = true, desc = "Run Test", })
 
 vim.keymap.set("n", "<leader>lI", "<cmd>LspInfo<CR>", { noremap = true, silent = true, desc = "LSP Info", })
 

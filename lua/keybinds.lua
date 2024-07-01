@@ -25,8 +25,11 @@ if not vim.g.vscode then
     vim.keymap.set("n", "<leader>fr", "<cmd>Telescope oldfiles<cr>",
         { noremap = true, silent = true, desc = 'Recent Files' })
     vim.keymap.set('n', "<leader>fn",
-        "<cmd>Telescope find_files find_command={'fd','-H','-E','.git','.','D:/notes'}<cr>"
+        [[<cmd>Telescope find_files find_command={'fd','-H','-E','.git','.','D:/notes'}<cr>]]
         , { noremap = true, silent = true, desc = 'find notes' })
+    vim.keymap.set('n', "<leader>fc",
+        [[<cmd>lua require'telescope.builtin'.find_files({ find_command = { 'fd', '-H', '-E', '.git', '.', vim.fn.expand("$HOME/AppData/Local/nvim") } })<cr>]]
+        , { noremap = true, silent = true, desc = 'find config_files' })
 
     --
     -- close Buffer
