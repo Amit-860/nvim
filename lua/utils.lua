@@ -185,22 +185,4 @@ M.save_as = function()
     end)
 end
 
-M.exec_selected_query = function(global)
-    local on_global = global
-    if not on_global then
-        vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<esc>", true, false, true), 'x', true) -- changing to normal mode
-        local line1 = vim.api.nvim_buf_get_mark(0, "<")[1]
-        local line2 = vim.api.nvim_buf_get_mark(0, ">")[1]
-        vim.cmd(":" .. line1 .. "," .. line2 .. "DB")
-    else
-        vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<esc>", true, false, true), 'x', true) -- changing to normal mode
-        vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("ggVG", true, false, true), 'x', true)  -- changing to normal mode
-        vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<esc>", true, false, true), 'x', true) -- changing to normal mode
-        local line1 = vim.api.nvim_buf_get_mark(0, "<")[1]
-        local line2 = vim.api.nvim_buf_get_mark(0, ">")[1]
-        print(line1, line2)
-        vim.cmd(":" .. line1 .. "," .. line2 .. "DB")
-    end
-end
-
 return M

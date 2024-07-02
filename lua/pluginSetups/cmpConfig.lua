@@ -144,6 +144,7 @@ local cmp_opts = {
             -- vim_item.kind = (icons[vim_item.kind] or "?") .. " "                              -- for icon without label
             -- vim_item.kind = " " .. lspkind.presets.default[kind] .. " " .. kind
 
+            --setting cmp menu kind icons
             if not kind then
                 kind = ""
                 vim_item.kind = " " .. "?" .. " "
@@ -151,18 +152,46 @@ local cmp_opts = {
                 vim_item.kind = " " .. lspkind.presets.default[kind] .. " "
             end
 
-            -- vim_item.menu = " (" .. kind .. ")"
-
-            local source = entry.source.name
-
-
             --removing dubplicates
+            local source = entry.source.name
             if source == "luasnip" or source == "nvim_lsp" then
                 vim_item.dup = 0
             end
 
+            -- trims down the extra long suggestions
+            local function trim(text)
+                local max = 40
+                if text and text:len() > max then
+                    text = text:sub(1, max) .. ellipses_char
+                end
+                return text
+            end
+
+            -- setting abbr
+            vim_item.abbr = trim(vim_item.abbr) .. " "
+
+            local source_symbol = {
+                nvim_lsp = "lsp",
+                buffer = 'buff',
+                luasnip = 'snip',
+                nvim_lsp_signature_help = "sign",
+                nvim_lua = "lsp"
+            }
+
+            -- setting cmp menu
+            -- vim_item.menu = " (" .. kind .. ")"
+            -- vim_item.menu = string.lower(kind)
             -- vim_item.menu = "[" .. (source_icon[source] or source) .. "]"
-            vim_item.menu = string.lower(kind)
+            -- vim_item.menu = string.lower(kind) .. " ⟨" .. (source_symbol[source] or source) .. "⟩"
+            local padding = function()
+                local rep = 10 - #kind
+                if rep < 1 then
+                    return " "
+                end
+                return string.rep(" ", rep)
+            end
+            vim_item.menu = string.lower(kind) .. padding() .. (source_symbol[source] or source)
+
             vim_item.menu_hl_group = ({
                 Class = "CmpItemMenuClass",
                 Struct = "CmpItemMenuStruct",
@@ -175,17 +204,6 @@ local cmp_opts = {
                 Value = "CmpItemMenuValue",
                 Text = "CmpItemMenuText",
             })[kind]
-
-            -- trims down the extra long suggestions
-            local function trim(text)
-                local max = 40
-                if text and text:len() > max then
-                    text = text:sub(1, max) .. ellipses_char
-                end
-                return text
-            end
-
-            vim_item.abbr = trim(vim_item.abbr) .. " "
 
             return vim_item
         end
@@ -207,7 +225,7 @@ local cmp_opts = {
         ["<Down>"] = cmp_mapping(cmp_mapping.select_next_item { behavior = SelectBehavior.Select }, { "i" }),
         ["<Up>"] = cmp_mapping(cmp_mapping.select_prev_item { behavior = SelectBehavior.Select }, { "i" }),
         ["<C-d>"] = cmp_mapping.scroll_docs(-4),
-        ["<C-f>"] = cmp_mapping.scroll_docs(4),
+        ["<C-u>"] = cmp_mapping.scroll_docs(4),
         ["<C-l>"] = cmp_mapping(function()
             cmp.complete()
         end, { "i" }),

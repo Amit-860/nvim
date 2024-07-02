@@ -12,11 +12,12 @@ M.plugin_list = {
                     styles = { comments = "italic", keywords = "bold", types = "italic,bold", },
                     transparent = true,
                 },
-                palettes = { terafox = { bg0 = "#021e34", bg1 = "#111c29", bg2 = "#192837" }, },
-                groups = { terafox = { CursorLine = { bg = "#263749" }, } }
+                groups = { terafox = { CursorLine = { bg = "#1d3337" }, } },
             }
             if vim.g.neovide then
                 opts.options.transparent = false
+                opts.palettes = { terafox = { bg0 = "#021e34", bg1 = "#04131e", bg2 = "#192837" }, }
+                opts.groups = { terafox = { CursorLine = { bg = "#092437" }, } }
             end
             require('nightfox').setup(opts)
             vim.cmd("colorscheme terafox")
@@ -134,43 +135,9 @@ M.plugin_list = {
     },
     {
         "stevearc/conform.nvim",
-        event = "LspAttach",
+        event = { "BufReadPost", "BufNewFile" },
         config = function()
-            local slow_format_filetypes = {}
-            require("conform").setup({
-                formatters_by_ft = {
-                    python = { "isort", "black", },
-                    scss = { "prettier" },
-                    css = { "prettier" },
-                    html = { "prettier" },
-                    yaml = { "prettier" },
-                    json = { "prettier" },
-                    toml = { "prettier" },
-                    javascript = { "biome" },
-                    javascriptreact = { "biome" },
-                    typescript = { "biome" },
-                    typescriptreact = { "biome" },
-                    -- ["*"] = { "codespell" },
-                    ["_"] = { "trim_whitespace", "trim_newlines" },
-                },
-                format_on_save = function(bufnr)
-                    if slow_format_filetypes[vim.bo[bufnr].filetype] then
-                        return
-                    end
-                    local function on_format(err)
-                        if err and err:match("timeout$") then
-                            slow_format_filetypes[vim.bo[bufnr].filetype] = true
-                        end
-                    end
-                    return { timeout_ms = 1000, lsp_fallback = true }, on_format
-                end,
-                format_after_save = function(bufnr)
-                    if not slow_format_filetypes[vim.bo[bufnr].filetype] then
-                        return
-                    end
-                    return { lsp_fallback = true }
-                end,
-            })
+            require('pluginSetups.conformConfig')
         end,
     },
     {
@@ -326,7 +293,7 @@ M.plugin_list = {
         },
         keys = {
             { "s",     mode = { "n", "x", "o" }, function() require("flash").jump({}) end,                                     desc = "Flash" },
-            { "<M-s>", mode = { "n", "o", "x" }, function() require("flash").treesitter() end,                                 desc = "Flash Treesitter" },
+            { "<M-t>", mode = { "n", "o", "x" }, function() require("flash").treesitter() end,                                 desc = "Flash Treesitter" },
             { "S",     mode = { "n", "o", "x" }, function() require("flash").jump({ pattern = vim.fn.expand("<cword>") }) end, desc = "Flash Treesitter" },
             { "<M-/>", mode = { "n" },           function() require("flash").toggle() end,                                     desc = "Toggle Flash Search" },
         },
@@ -381,10 +348,37 @@ M.plugin_list = {
     },
 
     -- mini
-    { 'echasnovski/mini.ai',          event = { 'BufReadPost', 'BufNewFile' }, version = '*', opts = {} },
-    { 'echasnovski/mini.cursorword',  event = { 'BufReadPost', 'BufNewFile' }, version = '*', opts = {} },
-    { 'echasnovski/mini.files',       event = { 'UIEnter' },                   version = '*', opts = {} },
-    { 'echasnovski/mini.indentscope', event = { 'BufReadPost', 'BufNewFile' }, version = '*', opts = {} },
+    { 'echasnovski/mini.ai',         event = { 'BufReadPost', 'BufNewFile' }, version = '*', opts = {} },
+    { 'echasnovski/mini.cursorword', event = { 'BufReadPost', 'BufNewFile' }, version = '*', opts = {} },
+    { 'echasnovski/mini.files',      event = { 'UIEnter' },                   version = '*', opts = {} },
+    {
+        "shellRaining/hlchunk.nvim",
+        event = { "BufReadPost", "BufNewFile" },
+        config = function()
+            local opts = {
+                chunk = {
+                    enable = true,
+                    duration = 50,
+                    delay = 80,
+                    exclude_filetypes = { aerial = true, dashboard = true, Outline = true },
+                },
+                line_num = {
+                    enable = false,
+                    use_treesitter = false,
+                    style = "#806d9c",
+                },
+                blank = {
+                    enable = false,
+                    chars = { "․", "⁚", "⁖", "⁘", "⁙", },
+                },
+                indent = {
+                    enable = true,
+                    chars = { "", "¦", "┆", "¦", "┆", "¦", "┆", "¦", "┆", "¦", "┆", "¦", "┆", }
+                }
+            }
+            require("hlchunk").setup(opts)
+        end
+    },
     {
         'echasnovski/mini.hipatterns',
         event = { 'BufReadPost', 'BufNewFile' },
@@ -711,7 +705,11 @@ M.plugin_list = {
         },
         dependencies = { "kristijanhusak/vim-dadbod-completion", "tpope/vim-dadbod", },
         init = function()
-            vim.g.dbs = { { name = "large", url = "jq:" .. vim.fn.expand("$HOME/Downloads/large-file.json") } }
+            vim.g.dbs = {
+                { name = "large",      url = "jq:" .. vim.fn.expand("$HOME/Downloads/large-file.json") },
+                { name = "sql_lite_1", url = "sqlite:" .. vim.fn.expand("$HOME/db/sakila-sqlite3/sakila_master.db") },
+
+            }
             local data_path = vim.fn.stdpath("data")
             vim.g.db_ui_auto_execute_table_helpers = 1
             vim.g.db_ui_save_location = data_path .. "/dadbod_ui"
@@ -725,7 +723,27 @@ M.plugin_list = {
             -- you save the file running those queries can crash neovim to run use the
             -- default keymap: <leader>S
             vim.g.db_ui_execute_on_save = false
-        end
+            vim.g.db_ui_disable_mappings = false
+
+            local augroup = vim.api.nvim_create_augroup
+            local au_dbui = augroup("dbui", { clear = true })
+            vim.api.nvim_create_autocmd("FileType", {
+                group = augroup("del_key", { clear = true }),
+                pattern = { 'sql' },
+                callback = function(event)
+                    local del = vim.keymap.del
+                    pcall(del, { "n" }, "<leader>E", { buffer = event.buf })
+                    pcall(del, { "n" }, "<leader>W", { buffer = event.buf })
+                    pcall(del, { "n", 'v' }, "<leader>S", { buffer = event.buf })
+                    vim.keymap.set({ 'n' }, "<leader>r", "<nop>",
+                        { desc = "which_key_ignore", buffer = event.buf, noremap = false })
+                    vim.keymap.set({ 'n', 'v' }, "<leader>rc", "<Plug>(DBUI_ExecuteQuery)",
+                        { desc = "Run Query", buffer = event.buf, noremap = false })
+                    vim.keymap.set({ 'n', 'v' }, "<leader>re", "<Plug>(DBUI_EditBindParameters)",
+                        { desc = "Edit Query Params", buffer = event.buf, noremap = false })
+                end,
+            })
+        end,
     },
     {
         'goolord/alpha-nvim',

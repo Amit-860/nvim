@@ -30,6 +30,21 @@ local default_diagnostic_config = {
 }
 vim.diagnostic.config(default_diagnostic_config)
 
+function open_diagnostics()
+    vim.diagnostic.open_float(0, {
+        scope = "cursor",
+        focusable = false,
+        border = "none",
+        close_events = {
+            "CursorMoved",
+            "CursorMovedI",
+            "BufHidden",
+            "InsertCharPre",
+            "WinLeave",
+        },
+    })
+end
+
 -- Disabled as using Noice for this
 -- vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(
 --     vim.lsp.handlers.hover, {
@@ -68,7 +83,9 @@ end
 local on_attach = function(client, bufnr)
     -- lsp keymap
     -- vim.keymap.set("n", "<leader>l", "<nop>", { desc = "+LSP", noremap = true, buffer=bufnr })
-    vim.keymap.set({ "n", "i" }, "<M-k>", "<cmd>lua vim.lsp.buf.signature_help()<CR>",
+    vim.keymap.set({ "n", "i" }, "<M-k>", open_diagnostics,
+        { desc = "Signature Help", noremap = true, buffer = bufnr })
+    vim.keymap.set({ "n", "i" }, "<M-i>", "<cmd>lua vim.lsp.buf.signature_help()<CR>",
         { desc = "Signature Help", noremap = true, buffer = bufnr })
     vim.keymap.set({ "n" }, "K", "<cmd>lua vim.lsp.buf.hover()<CR>",
         { desc = "Hover", noremap = true, buffer = bufnr })
@@ -142,21 +159,17 @@ local on_attach = function(client, bufnr)
     vim.keymap.set("n", "<leader>rc", function()
         local file_type = vim.bo.filetype
         require('pluginSetups.toggleTermConfig').code_runner(file_type, "horizontal") -- float, window, horizontal, vertical
-    end, { noremap = true, silent = true, desc = "Run Code", })
+    end, { silent = true, desc = "Run Code", })
 
     vim.keymap.set("n", "<F4>", function()
         local file_type = vim.bo.filetype
         require('pluginSetups.toggleTermConfig').code_runner(file_type)
     end, { noremap = true, silent = true, desc = "Run Code", })
 end
-
-vim.keymap.set({ "n", }, "<leader>rt", function() require('utils').exec_selected_query(true) end,
-    { noremap = true, silent = true, desc = "Run Test", })
-vim.keymap.set({ "v", }, "<leader>rt", function() require('utils').exec_selected_query(false) end,
-    { noremap = true, silent = true, desc = "Run Test", })
-
 vim.keymap.set("n", "<leader>lI", "<cmd>LspInfo<CR>", { noremap = true, silent = true, desc = "LSP Info", })
 
+-- comment below line to disable lsp support for nvim files
+-- require("neodev").setup({})
 local lua_ls_settings = {
     Lua = {
         workspace = { checkThirdParty = false, },
@@ -173,11 +186,21 @@ local lua_ls_settings = {
         }
     }
 }
-
--- comment below line to disable lsp support for nvim files
--- require("neodev").setup({})
 setup_lsp("lua_ls", { on_attach = on_attach, capabilities = capabilities, settings = lua_ls_settings, })
-setup_lsp("pyright", { on_attach = on_attach, capabilities = capabilities, })
+
+local basedpyright_settings = {
+    basedpyright = {
+        analysis = {
+            autoSearchPaths = true,
+            diagnosticMode = "openFilesOnly",
+            useLibraryCodeForTypes = true,
+            typeCheckingMode = 'basic' -- ["off", "basic", "standard", "strict", "all"]
+        }
+    }
+}
+setup_lsp("basedpyright", { on_attach = on_attach, capabilities = capabilities, settings = basedpyright_settings })
+setup_lsp("ruff", { on_attach = on_attach, capabilities = capabilities, })
+
 setup_lsp("jsonls", { on_attach = on_attach, capabilities = capabilities, })
 
 local lsp_attach = vim.api.nvim_create_augroup("lsp_attach", { clear = true })

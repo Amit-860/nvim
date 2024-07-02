@@ -5,6 +5,9 @@ vim.api.nvim_set_hl(0, "FindAndReplace", { bg = "#e95d5d", fg = "#131a24", bold 
 vim.api.nvim_set_hl(0, "IncSearch", { bg = "#e95d5d", fg = "#131a24", bold = true })
 vim.api.nvim_set_hl(0, "MacroRecording", { bg = "#dbc874", fg = "#131a24", bold = true })
 
+-- visual
+-- vim.api.nvim_set_hl(0, "Visual", { bg = "#3a4f6d", bold = true, })
+vim.api.nvim_set_hl(0, "Visual", { bg = "#194c65", bold = true, })
 
 -- GitSings hilights
 vim.api.nvim_set_hl(0, "GitSignsUntracked", { fg = "#428bc0" })
@@ -16,14 +19,15 @@ vim.api.nvim_set_hl(0, "GitSignsChangeDelete", { fg = "#e85c51" })
 vim.api.nvim_set_hl(0, 'Cursor', { bg = "#d7d8dc", reverse = true, bold = true })
 
 -- nightfox
-M.float_color = "#202d3f"
+-- M.float_color = "#202d3f"
 M.float_border_bg_color = "#1d293a"
 M.float_border_fg_color = "#578ea5"
-M.line_hilight = "#0a161e"
+-- M.line_hilight = "#0a161e"
 
 -- terafox
--- M.float_color = "#112631"
--- M.line_hilight = "#07161a"
+M.float_color = "#112631"
+M.float_border_bg_color = "#112631"
+M.line_hilight = "#07161a"
 
 
 -- Statusline and Tabline
@@ -37,7 +41,7 @@ if vim.g.neovide then
     M.line_hilight = "#011425"
 end
 
-M.neovide_float_winblend = 40
+M.neovide_float_winblend = 30
 M.float_winblend = 15
 
 vim.api.nvim_set_hl(0, "MarkStatusLine", { bg = "#354965", fg = "#aeafb0", bold = true })
@@ -91,8 +95,5 @@ vim.api.nvim_set_hl(0, "CmpItemMenuText", { fg = "#81b29a", italic = true })
 -- Cursorword
 vim.api.nvim_set_hl(0, "MiniCursorword", { bg = "#30425b", underline = false, bold = false })
 vim.api.nvim_set_hl(0, "MiniCursorwordCurrent", {})
-
--- visual
-vim.api.nvim_set_hl(0, "Visual", { bg = "#3a4f6d", bold = true, })
 
 return M

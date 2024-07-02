@@ -285,7 +285,7 @@ require("alpha").setup {
                 buffer = 0,
                 desc = "Enable status and tabline after alpha",
                 callback = function()
-                    vim.go.laststatus = 3
+                    -- vim.go.laststatus = 3
                     vim.opt.showtabline = 2
                     vim.api.nvim_set_hl(0, "StatusLineNC", { bg = line_hilight, fg = "#aeafb0", blend = 0 })
                     vim.api.nvim_set_hl(0, "StatusLine", { bg = line_hilight, fg = "#71839b", blend = 0 })

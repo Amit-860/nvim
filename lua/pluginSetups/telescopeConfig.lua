@@ -113,7 +113,7 @@ local telescope_opts = {
             --     preview_height = 0.6,
             -- },
             side_by_side = false,
-            diff_context_lines = vim.o.scrolloff,
+            vim_diff_opts = { ctxlen = 8 },
             entry_format = "state #$ID, $STAT, $TIME",
             time_format = "",
             initial_mode = "normal",

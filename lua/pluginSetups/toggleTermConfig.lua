@@ -32,9 +32,14 @@ M.toggle_term_opts = {
         end,
         winblend = 0,
         highlights = {
-            border = "FloatBorder",
-            background = "NormalFloat",
+            NormalFloat = {
+                link = 'NormalFloat'
+            },
+            FloatBorder = {
+                link = "FloatBorder"
+            },
         },
+
     },
     execs = {
         { nil, "<M-1>", "Horizontal Terminal", "horizontal", 0.3 },
@@ -44,7 +49,7 @@ M.toggle_term_opts = {
 }
 
 if vim.g.neovide then
-    M.toggle_term_opts.float_opts.winblend = 70
+    M.toggle_term_opts.float_opts.winblend = 30
     M.toggle_term_opts.float_opts.border = "none"
 end
 

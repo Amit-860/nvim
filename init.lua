@@ -157,7 +157,7 @@ if vim.g.neovide then
     vim.g.neovide_cursor_unfocused_outline_width = 0.05
     vim.g.neovide_confirm_quit = false
 
-    vim.g.neovide_transparency = 0.80
+    vim.g.neovide_transparency = 0.85
     vim.g.neovide_fullscreen = false
 
     vim.o.winblend = 50
