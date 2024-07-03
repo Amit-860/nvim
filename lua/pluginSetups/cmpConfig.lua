@@ -209,6 +209,9 @@ local cmp_opts = {
         end
     },
 
+    completion = {
+        keyword_length = 1,
+    },
 
     confirm_opts = {
         behavior = ConfirmBehavior.Replace,
@@ -268,7 +271,7 @@ local cmp_opts = {
 
 
     sources = cmp.config.sources({
-            { name = 'luasnip' }, -- For luasnip users.
+            { name = 'luasnip' },
             { name = 'nvim_lsp' },
             { name = 'nvim_lsp_signature_help' },
             { name = 'nvim_lua' },
@@ -284,7 +287,8 @@ local cmp_opts = {
                     get_bufnrs = function()
                         return vim.api.nvim_list_bufs()
                     end
-                }
+                },
+                keyword_length = 3,
             },
         }
     ),

@@ -443,10 +443,10 @@ M.plugin_list = {
             require('pluginSetups.cmpConfig')
         end
     },
-    { 'hrsh7th/cmp-nvim-lsp', lazy = true, },
-    { 'hrsh7th/cmp-buffer',   lazy = true },
-    { 'hrsh7th/cmp-path',     lazy = true },
-    { 'hrsh7th/cmp-cmdline',  lazy = true },
+    { 'hrsh7th/cmp-nvim-lsp', event = { "VeryLazy" } },
+    { 'hrsh7th/cmp-buffer',   event = { "VeryLazy" } },
+    { 'hrsh7th/cmp-path',     event = { "VeryLazy" } },
+    { 'hrsh7th/cmp-cmdline',  event = { "VeryLazy" } },
     {
         "L3MON4D3/LuaSnip",
         version = "*", -- Replace <CurrentMajor> by the latest released major (first number of latest release)

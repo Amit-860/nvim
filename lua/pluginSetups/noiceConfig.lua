@@ -7,7 +7,10 @@ require("noice").setup({
             ["cmp.entry.get_documentation"] = true,
         },
         signature = { enabled = true, },
-        hover = { enabled = true, },
+        hover = {
+            enabled = true,
+            opts = {}
+        },
         message = { enabled = true, },
     },
     -- routes = {
@@ -20,7 +23,7 @@ require("noice").setup({
         long_message_to_split = true, -- long messages will be sent to a split
         lsp_doc_border = false,       -- add a border to hover docs and signature help
     },
-    notify = { enabled = true, },
+    notify = { enabled = false, },
     win_options = {
         winhighlight = { Normal = "NormalFloat", FloatBorder = "FloatBorder" },
     },
@@ -33,7 +36,7 @@ require("noice").setup({
             },
             -- relative = "win",
             position = {
-                row = math.floor(vim.o.lines * 0.80),
+                row = math.floor(vim.o.lines * 0.75),
                 -- col = math.floor(vim.o.columns * 0.35),
                 col = '50%'
             },
@@ -44,6 +47,29 @@ require("noice").setup({
             size = {
                 width = '40%',
             },
+        },
+        hover = {
+            relative = "cursor",
+            border = { style = "single", padding = { 0, 1 } },
+            position = {
+                row = 2,
+                col = 0,
+            },
+            close = {
+                events = {
+                    "CursorMoved",
+                    "BufHidden",
+                    "InsertCharPre",
+                    "WinLeave",
+                    "InsertEnter",
+                    "InsertLeave"
+                },
+                keys = { "<ESC>", "q" },
+            },
+        },
+        mini = {
+            backend = "mini",
+            zindex = 900,
         },
     },
 })

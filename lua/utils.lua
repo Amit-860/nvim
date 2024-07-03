@@ -10,7 +10,7 @@ local prompt_input_cursor_pos = function(opts, on_submit)
         },
         size = {
             min_width = 18,
-            width = '20%',
+            width = '25%',
         },
         border = {
             style = 'single',

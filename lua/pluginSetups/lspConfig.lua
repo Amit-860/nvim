@@ -30,17 +30,19 @@ local default_diagnostic_config = {
 }
 vim.diagnostic.config(default_diagnostic_config)
 
-function open_diagnostics()
-    vim.diagnostic.open_float(0, {
+local open_diagnostics = function()
+    vim.diagnostic.open_float({
         scope = "cursor",
         focusable = false,
-        border = "none",
+        border = "single",
         close_events = {
             "CursorMoved",
             "CursorMovedI",
             "BufHidden",
             "InsertCharPre",
             "WinLeave",
+            "InsertEnter",
+            "InsertLeave"
         },
     })
 end
@@ -109,17 +111,17 @@ local on_attach = function(client, bufnr)
         { desc = "Format", noremap = true, buffer = bufnr })
 
     -- toggle inlay_hint
-    vim.keymap.set({ "n" }, "<leader>lH",
+    vim.keymap.set({ "n" }, "<leader>lL",
         function()
             local hint_flag = not vim.lsp.inlay_hint.is_enabled()
             vim.lsp.inlay_hint.enable(hint_flag)
         end,
-        { desc = "Hints", noremap = true, buffer = bufnr })
+        { desc = "Hints", noremap = true, silent = false, buffer = bufnr })
 
-    -- lsp lines
+    -- lsp lines globally
     local lsp_lines_enable = false
     vim.diagnostic.config({ virtual_lines = lsp_lines_enable })
-    vim.keymap.set("n", "<leader>lh",
+    vim.keymap.set("n", "<leader>lH",
         function()
             vim.diagnostic.config({
                 virtual_text = lsp_lines_enable,
@@ -131,6 +133,41 @@ local on_attach = function(client, bufnr)
         end,
         { desc = "Toggle HlChunk", noremap = true }
     )
+
+    -- enable lsplines for curr line
+    local lsp_lines_curr_line_enabled = false
+    vim.keymap.set("n", "<leader>lh",
+        function()
+            local opts = {
+                signs = true,
+                underline = true,
+                virtual_text = true,
+            }
+            if not lsp_lines_curr_line_enabled then
+                opts.virtual_lines = { only_current_line = true }
+            else
+                opts.virtual_lines = false
+            end
+            vim.diagnostic.config(opts)
+            lsp_lines_curr_line_enabled = not lsp_lines_curr_line_enabled
+        end,
+        { desc = "HlChunk .", noremap = true }
+    )
+    -- autocmd to disable per line HlChunk
+    vim.api.nvim_create_autocmd({ "InsertEnter", "InsertLeave", "CursorMoved", "CursorMovedI" }, {
+        group = vim.api.nvim_create_augroup("Diaable_hlchunk", { clear = true }),
+        callback = function()
+            if lsp_lines_curr_line_enabled then
+                vim.diagnostic.config({
+                    virtual_text = true,
+                    signs = true,
+                    underline = true,
+                    virtual_lines = false
+                })
+                lsp_lines_curr_line_enabled = not lsp_lines_curr_line_enabled
+            end
+        end,
+    })
 
     -- toggle LSP
     local lsp_enable = true
@@ -150,9 +187,9 @@ local on_attach = function(client, bufnr)
     )
 
     -- inlay hint
-    -- if client.server_capabilities.inlayHintProvider then
-    --     vim.lsp.inlay_hint.enable(true)
-    -- end
+    if client.server_capabilities.inlayHintProvider then
+        vim.lsp.inlay_hint.enable(false)
+    end
 
     -- Code Runner
     vim.keymap.set("n", "<leader>r", "<nop>", { desc = "which_key_ignore", noremap = true })
