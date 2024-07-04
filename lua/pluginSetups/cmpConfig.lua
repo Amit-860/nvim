@@ -175,7 +175,10 @@ local cmp_opts = {
                 buffer = 'buff',
                 luasnip = 'snip',
                 nvim_lsp_signature_help = "sign",
-                nvim_lua = "lsp"
+                nvim_lua = "lsp",
+                ['vim-dadbod-completion'] = "db",
+                treesitter = "ts",
+                spell = 'en'
             }
 
             -- setting cmp menu
@@ -190,7 +193,7 @@ local cmp_opts = {
                 end
                 return string.rep(" ", rep)
             end
-            vim_item.menu = string.lower(kind) .. padding() .. (source_symbol[source] or source)
+            vim_item.menu = string.lower(kind) .. padding() .. string.lower(source_symbol[source] or source)
 
             vim_item.menu_hl_group = ({
                 Class = "CmpItemMenuClass",
@@ -352,5 +355,22 @@ cmp.setup.cmdline(':', {
         disallow_partial_fuzzy_matching = false,
         disallow_partial_matching = false,
         disallow_prefix_unmatching = false
+    }
+})
+
+
+cmp.setup.filetype({ "*.txt", "*.tex", "*.typ", "gitcommit", "markdown", "norg" }, {
+    sources = {
+        {
+            name = "spell",
+            option = {
+                keep_all_entries = false,
+                enable_in_context = function()
+                    return true
+                end,
+                preselect_correct_word = true,
+            },
+        },
+        { name = 'buffer' },
     }
 })

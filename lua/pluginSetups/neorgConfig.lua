@@ -15,7 +15,7 @@ local opts = {
                 default_workspace = "notes",
             },
         },
-        ["core.completion"] = { config = { engine = "nvim-cmp", name = "[Norg]" } },
+        ["core.completion"] = { config = { engine = "nvim-cmp", name = "[Neorg]" } },
         ["core.esupports.metagen"] = { config = { type = "auto", update_date = true } },
         ["core.integrations.nvim-cmp"] = {},
         ["core.qol.toc"] = {},

@@ -240,6 +240,10 @@ setup_lsp("ruff", { on_attach = on_attach, capabilities = capabilities, })
 
 setup_lsp("jsonls", { on_attach = on_attach, capabilities = capabilities, })
 
+setup_lsp("ltex",
+    { on_attach = on_attach, capabilities = capabilities, filetypes = { 'gitcommit', 'markdown', 'org', 'norg', 'xhtml', 'text', } }
+)
+
 local lsp_attach = vim.api.nvim_create_augroup("lsp_attach", { clear = true })
 vim.api.nvim_create_autocmd({ "FileType" }, {
     callback = function()

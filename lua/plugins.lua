@@ -10,7 +10,6 @@ M.plugin_list = {
             local opts = {
                 options = {
                     styles = { comments = "italic", keywords = "bold", types = "italic,bold", },
-                    transparent = true,
                 },
                 groups = { terafox = { CursorLine = { bg = "#1d3337" }, } },
             }
@@ -21,6 +20,19 @@ M.plugin_list = {
             end
             require('nightfox').setup(opts)
             vim.cmd("colorscheme terafox")
+
+            vim.api.nvim_create_autocmd("UIEnter", {
+                group = vim.api.nvim_create_augroup("transparent", { clear = true }),
+                callback = function(event)
+                    -- transparent
+                    if not vim.g.neovide then
+                        vim.api.nvim_set_hl(0, "Normal", { bg = "NONE" })
+                        vim.api.nvim_set_hl(0, "NormalNC", { bg = "NONE" })
+                        vim.api.nvim_set_hl(0, "WinBar", { bg = "NONE" })
+                        vim.api.nvim_set_hl(0, "WinBarNC", { bg = "NONE" })
+                    end
+                end,
+            })
         end
     },
     {
@@ -387,12 +399,14 @@ M.plugin_list = {
     },
     {
         'echasnovski/mini.statusline',
+        cond = false,
         event = { 'UIEnter' },
         version = '*',
         config = function() require('pluginSetups.miniStatuslineConfig') end
     },
     {
         'echasnovski/mini.tabline',
+        cond = false,
         event = { 'UIEnter' },
         version = '*',
         config = function() require('pluginSetups.miniTablineConfig') end
@@ -447,6 +461,7 @@ M.plugin_list = {
     { 'hrsh7th/cmp-buffer',   event = { "VeryLazy" } },
     { 'hrsh7th/cmp-path',     event = { "VeryLazy" } },
     { 'hrsh7th/cmp-cmdline',  event = { "VeryLazy" } },
+    { 'f3fora/cmp-spell',     event = { "VeryLazy" } },
     {
         "L3MON4D3/LuaSnip",
         version = "*", -- Replace <CurrentMajor> by the latest released major (first number of latest release)
@@ -705,44 +720,7 @@ M.plugin_list = {
         },
         dependencies = { "kristijanhusak/vim-dadbod-completion", "tpope/vim-dadbod", },
         init = function()
-            vim.g.dbs = {
-                { name = "large",      url = "jq:" .. vim.fn.expand("$HOME/Downloads/large-file.json") },
-                { name = "sql_lite_1", url = "sqlite:" .. vim.fn.expand("$HOME/db/sakila-sqlite3/sakila_master.db") },
-
-            }
-            local data_path = vim.fn.stdpath("data")
-            vim.g.db_ui_auto_execute_table_helpers = 1
-            vim.g.db_ui_save_location = data_path .. "/dadbod_ui"
-            vim.g.db_ui_show_database_icon = true
-            vim.g.db_ui_tmp_query_location = data_path .. "/dadbod_ui/tmp"
-            vim.g.db_ui_use_nerd_fonts = true
-            vim.g.db_ui_use_nvim_notify = true
-
-            -- NOTE: The default behavior of auto-execution of queries on save is disabled
-            -- this is useful when you have a big query that you don't want to run every time
-            -- you save the file running those queries can crash neovim to run use the
-            -- default keymap: <leader>S
-            vim.g.db_ui_execute_on_save = false
-            vim.g.db_ui_disable_mappings = false
-
-            local augroup = vim.api.nvim_create_augroup
-            local au_dbui = augroup("dbui", { clear = true })
-            vim.api.nvim_create_autocmd("FileType", {
-                group = augroup("del_key", { clear = true }),
-                pattern = { 'sql' },
-                callback = function(event)
-                    local del = vim.keymap.del
-                    pcall(del, { "n" }, "<leader>E", { buffer = event.buf })
-                    pcall(del, { "n" }, "<leader>W", { buffer = event.buf })
-                    pcall(del, { "n", 'v' }, "<leader>S", { buffer = event.buf })
-                    vim.keymap.set({ 'n' }, "<leader>r", "<nop>",
-                        { desc = "which_key_ignore", buffer = event.buf, noremap = false })
-                    vim.keymap.set({ 'n', 'v' }, "<leader>rc", "<Plug>(DBUI_ExecuteQuery)",
-                        { desc = "Run Query", buffer = event.buf, noremap = false })
-                    vim.keymap.set({ 'n', 'v' }, "<leader>re", "<Plug>(DBUI_EditBindParameters)",
-                        { desc = "Edit Query Params", buffer = event.buf, noremap = false })
-                end,
-            })
+            require('pluginSetups.dbConfig')
         end,
     },
     {
@@ -753,6 +731,23 @@ M.plugin_list = {
             require("pluginSetups.dashboardConfig")
         end
     },
+    {
+        'akinsho/bufferline.nvim',
+        event = { "VimEnter" },
+        version = "*",
+        dependencies = 'nvim-tree/nvim-web-devicons',
+        config = function()
+            require("pluginSetups.bufferlineConfig")
+        end
+    },
+    {
+        'nvim-lualine/lualine.nvim',
+        event = { "BufNewFile", "BufReadPost" },
+        dependencies = { 'nvim-tree/nvim-web-devicons' },
+        config = function()
+            require("pluginSetups.lualineConfig")
+        end
+    }
 
 }
 

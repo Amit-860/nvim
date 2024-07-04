@@ -31,9 +31,9 @@ M.line_hilight = "#07161a"
 
 
 -- Statusline and Tabline
-vim.api.nvim_set_hl(0, "StatusLineNC", { bg = M.line_hilight, fg = "#aeafb0", blend = 0 })
-vim.api.nvim_set_hl(0, "StatusLine", { bg = M.line_hilight, fg = "#71839b", blend = 0 })
-vim.api.nvim_set_hl(0, "TabLineFill", { bg = M.line_hilight })
+-- vim.api.nvim_set_hl(0, "StatusLineNC", { bg = M.line_hilight, fg = "#aeafb0", blend = 0 })
+-- vim.api.nvim_set_hl(0, "StatusLine", { bg = M.line_hilight, fg = "#71839b", blend = 0 })
+-- vim.api.nvim_set_hl(0, "TabLineFill", { bg = M.line_hilight })
 
 
 if vim.g.neovide then

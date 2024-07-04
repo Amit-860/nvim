@@ -79,6 +79,7 @@ local default_options = {
 
     spell          = false,
     wrap           = true, -- display lines as one long line
+    spelllang      = { "en_us" }
 }
 
 for k, v in pairs(default_options) do
