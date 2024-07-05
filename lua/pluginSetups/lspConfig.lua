@@ -169,22 +169,22 @@ local on_attach = function(client, bufnr)
         end,
     })
 
-    -- toggle LSP
-    local lsp_enable = true
-    vim.keymap.set("n", "<leader>lT",
-        function()
-            if lsp_enable then
-                vim.cmd("LspStop")
-                lsp_enable = not lsp_enable
-            else
-                vim.cmd("LspStart")
-                lsp_enable = not lsp_enable
-            end
-            local msg = "LSP Enable : " .. string.upper(tostring(lsp_enable))
-            vim.api.nvim_notify(msg, 0, {})
-        end,
-        { desc = "Toggle LSP", noremap = true }
-    )
+    -- toggle LSP (not required as created seprated for starting and stoping)
+    -- local lsp_enable = true
+    -- vim.keymap.set("n", "<leader>lT",
+    --     function()
+    --         if lsp_enable then
+    --             vim.cmd("LspStop")
+    --             lsp_enable = not lsp_enable
+    --         else
+    --             vim.cmd("LspStart")
+    --             lsp_enable = not lsp_enable
+    --         end
+    --         local msg = "LSP Enable : " .. string.upper(tostring(lsp_enable))
+    --         vim.api.nvim_notify(msg, 0, {})
+    --     end,
+    --     { desc = "Toggle LSP", noremap = true }
+    -- )
 
     -- inlay hint
     if client.server_capabilities.inlayHintProvider then
@@ -244,19 +244,18 @@ setup_lsp("ltex",
     { on_attach = on_attach, capabilities = capabilities, filetypes = { 'gitcommit', 'markdown', 'org', 'norg', 'xhtml', 'text', } }
 )
 
-local lsp_attach = vim.api.nvim_create_augroup("lsp_attach", { clear = true })
-vim.api.nvim_create_autocmd({ "FileType" }, {
-    callback = function()
-        require("jdtls").start_or_attach(require("pluginSetups.jdtlsConfig"))
-    end,
-    group = lsp_attach,
-    pattern = { "java", }
-})
-
+local lsp_attach_aug = vim.api.nvim_create_augroup("lsp_attach_aug", { clear = true })
 vim.api.nvim_create_autocmd({ "LspAttach" }, {
     callback = function(args)
         local client = vim.lsp.get_client_by_id(args.data.client_id)
         on_attach(client, 0)
     end,
-    group = lsp_attach,
+    group = lsp_attach_aug,
+})
+vim.api.nvim_create_autocmd({ "BufWritePost" }, {
+    group = lsp_attach_aug,
+    pattern = { "*.java" },
+    callback = function()
+        local _, _ = pcall(vim.lsp.codelens.refresh)
+    end,
 })

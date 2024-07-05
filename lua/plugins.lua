@@ -11,28 +11,15 @@ M.plugin_list = {
                 options = {
                     styles = { comments = "italic", keywords = "bold", types = "italic,bold", },
                 },
+                palettes = { terafox = { bg1 = "#002f44" }, },
                 groups = { terafox = { CursorLine = { bg = "#1d3337" }, } },
             }
             if vim.g.neovide then
-                opts.options.transparent = false
-                opts.palettes = { terafox = { bg0 = "#021e34", bg1 = "#04131e", bg2 = "#192837" }, }
+                opts.palettes = { terafox = { bg1 = "#04131e", bg2 = "#192837" }, }
                 opts.groups = { terafox = { CursorLine = { bg = "#092437" }, } }
             end
             require('nightfox').setup(opts)
             vim.cmd("colorscheme terafox")
-
-            vim.api.nvim_create_autocmd("UIEnter", {
-                group = vim.api.nvim_create_augroup("transparent", { clear = true }),
-                callback = function(event)
-                    -- transparent
-                    if not vim.g.neovide then
-                        vim.api.nvim_set_hl(0, "Normal", { bg = "NONE" })
-                        vim.api.nvim_set_hl(0, "NormalNC", { bg = "NONE" })
-                        vim.api.nvim_set_hl(0, "WinBar", { bg = "NONE" })
-                        vim.api.nvim_set_hl(0, "WinBarNC", { bg = "NONE" })
-                    end
-                end,
-            })
         end
     },
     {
@@ -41,10 +28,6 @@ M.plugin_list = {
     },
     {
         "folke/noice.nvim",
-        -- cond = function()
-        --     if vim.g.neovide then return true end
-        --     return false
-        -- end,
         event = "UIEnter",
         opts = {},
         dependencies = { "MunifTanjim/nui.nvim" },
@@ -61,11 +44,11 @@ M.plugin_list = {
     },
 
     -- notifier
-    {
-        "j-hui/fidget.nvim",
-        event = "VeryLazy",
-        opts = {},
-    },
+    -- {
+    --     "j-hui/fidget.nvim",
+    --     event = "VeryLazy",
+    --     opts = {},
+    -- },
 
     -- keymappings
     {
@@ -134,7 +117,6 @@ M.plugin_list = {
             setup = {
                 codelens = { enabled = true },
                 document_highlight = { enabled = true },
-                jdtls = function() return true end,
             }
         },
         config = function()
@@ -144,6 +126,9 @@ M.plugin_list = {
     {
         "mfussenegger/nvim-jdtls",
         ft = "java",
+        config = function()
+            require('pluginSetups.jdtlsConfig')
+        end
     },
     {
         "stevearc/conform.nvim",

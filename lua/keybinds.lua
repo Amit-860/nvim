@@ -120,7 +120,7 @@ if not vim.g.vscode then
         { desc = "Step Out", noremap = true, silent = true })
     vim.keymap.set("n", "<F10>", function() require('dap').step_over() end,
         { desc = "Step Over", noremap = true, silent = true })
-    vim.keymap.set("n", "<leader>Dt", function() require('dap').terminate() end,
+    vim.keymap.set("n", "<leader>DT", function() require('dap').terminate() end,
         { desc = "Terminate", noremap = true, silent = true })
     vim.keymap.set("n", "<leader>Dr", function() require('dap').restart() end,
         { desc = "Restart", noremap = true, silent = true })
@@ -135,6 +135,10 @@ if not vim.g.vscode then
         { desc = "Up", noremap = true, silent = true })
     vim.keymap.set("n", "<leader>Dd", function() require('dap').down() end,
         { desc = "Down", noremap = true, silent = true })
+
+    -- DAP UI
+    vim.keymap.set("n", "<leader>Dt", function() require('dapui').toggle() end,
+        { desc = "DapUI toggle", noremap = true, silent = true })
 
     -- zoxide
     vim.keymap.set("n", "<leader>z", utils.zoxide,

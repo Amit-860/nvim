@@ -1,9 +1,10 @@
 local bufferline = require('bufferline')
-
-bufferline.setup {
+local opts = {
     options = {
-        style_preset = bufferline.style_preset.no_italic,
+        -- style_preset = bufferline.style_preset.no_italic,
         separator_style = "slope",
+        max_name_length = 24,
+        always_show_bufferline = false,
         offsets = {
             {
                 filetype = "undotree",
@@ -37,3 +38,11 @@ bufferline.setup {
         },
     }
 }
+
+if vim.g.neovide then
+    opts.options.separator_style = "thick"
+    opts.options.style_preset = bufferline.style_preset.no_italic
+    vim.api.nvim_set_hl(0, "BufferLineFill", { fg = "#001925", bg = "#001925" })
+end
+
+bufferline.setup(opts)

@@ -3,7 +3,7 @@ local colors = {
     grey        = '#a0a1a7',
     light_green = '#83a598',
     black       = "#2F3239",
-    red         = "#c54e45",
+    red         = "#e85c51",
     green       = "#688b89",
     yellow      = "#fda47f",
     blue        = "#5a93aa",
@@ -13,9 +13,9 @@ local colors = {
     orange      = "#fda47f",
     pink        = "#cb7985",
 
-    bg0         = "#0b1416", -- Dark bg (status line and float)
-    bg1         = "#101e21", -- Default bg
-    bg2         = "#1d3337", -- Lighter bg (colorcolm folds)
+    bg0         = "#001925", -- Dark bg (status line and float)
+    bg1         = "#002333", -- Default bg
+    bg2         = "#002f44", -- Lighter bg (colorcolm folds)
     bg3         = "#254147", -- Lighter bg (cursor line)
     bg4         = "#2d4f56", -- Conceal, border fg
     fg0         = "#eaeeee", -- Lighter fg
@@ -28,15 +28,15 @@ local colors = {
 
 local theme = {
     normal = {
-        a = { fg = colors.white, bg = colors.bg1, bold = true },
+        a = { fg = colors.white, bg = colors.bg1, gui = "bold" },
         b = { fg = colors.white, bg = colors.bg2, },
         c = { fg = colors.black, bg = colors.bg0, },
-        z = { fg = colors.white, bg = colors.bg1 },
+        z = { fg = colors.white, bg = colors.bg1, },
     },
-    insert = { a = { fg = colors.black, bg = colors.green, bold = true } },
-    visual = { a = { fg = colors.black, bg = colors.yellow, bold = true } },
-    replace = { a = { fg = colors.black, bg = colors.red, bold = true } },
-    command = { a = { fg = colors.black, bg = colors.blue, bold = true } },
+    insert = { a = { fg = colors.black, bg = colors.light_green, gui = "bold" } },
+    visual = { a = { fg = colors.black, bg = colors.yellow, gui = "bold" } },
+    replace = { a = { fg = colors.black, bg = colors.red, gui = "bold" } },
+    command = { a = { fg = colors.black, bg = colors.blue, gui = "bold" } },
 }
 
 
@@ -113,7 +113,7 @@ local macro = {
             return ""
         end
     end,
-    color = { gui = "bold" },
+    color = { bg = "#dbc874", fg = "#131a24", gui = "bold" }
 }
 
 local lsp = {
@@ -134,7 +134,6 @@ local lsp = {
         local language_servers = table.concat(unique_client_names, ", ")
         return language_servers
     end,
-    color = { gui = "bold" },
     cond = conditions.hide_in_width,
 }
 
@@ -149,31 +148,38 @@ require('lualine').setup {
     sections = process_sections {
         lualine_a = {
             { 'mode', color = { gui = "bold" } },
-            macro
+            macro,
         },
         lualine_b = {
             {
                 "b:gitsigns_head",
                 icon = icons.git.Branch,
-                color = { gui = "bold" },
+                color = { gui = "bold", bg = colors.bg1 },
             },
-            { 'diff',     color = { gui = "bold" } },
+            { 'diff', color = { gui = "bold", bg = colors.bg1 } },
             {
                 'diagnostics',
                 source = { 'nvim' },
                 sections = { 'error' },
-                diagnostics_color = { error = { bg = colors.red, fg = colors.black } },
+                diagnostics_color = { error = { bg = colors.red, fg = colors.black, gui = "bold" } },
                 color = { gui = "bold" },
             },
             {
                 'diagnostics',
                 source = { 'nvim' },
                 sections = { 'warn' },
-                diagnostics_color = { warn = { bg = colors.orange, fg = colors.black } },
+                diagnostics_color = { warn = { bg = colors.orange, fg = colors.black, gui = "bold" } },
                 color = { gui = "bold" },
             },
-            { 'filename', file_status = false,                                   path = 1 },
-            { modified,   color = { bg = colors.light_green, fg = colors.black } },
+            {
+                'filename',
+                file_status = false,
+                path = 1 -- 0 shows noly fileaname, 1 shows relative filepath, 2 shows absolute filepath
+            },
+            {
+                modified,
+                color = { bg = colors.light_green, fg = colors.black, gui = 'bold' }
+            },
             {
                 '%w',
                 cond = function()

@@ -1,38 +1,69 @@
-local M = {
-    -- How to find the root dir for a given filename. The default comes from
-    -- lspconfig which provides a function specifically for java projects.
-    root_dir = require("lspconfig.server_configurations.jdtls").default_config.root_dir(),
+local jdtls = require('jdtls')
+local mason_registry = require("mason-registry")
+local jdtls_path = mason_registry.get_package("jdtls"):get_install_path()
+-- local lombok_path = vim.fn.stdpath('data') .. "mason/packages/lombok-nightly/lombok.jar"
+local lombok_path = jdtls_path .. "/lombok.jar"
 
-    -- How to find the project name for a given root dir.
-    project_name = function(root_dir)
-        return root_dir and vim.fs.basename(root_dir)
-    end,
+-- Setup Workspace
+local home = vim.fn.expand("$HOME")
+local workspace_path = home .. "/jdtls_workspace/"
+local project_name = vim.fn.fnamemodify(vim.fn.getcwd(), ":p:h:t")
+local workspace_dir = workspace_path .. project_name
+local os_config = 'win'
+local bundles = {
+    vim.fn.glob(mason_registry.get_package('java-debug-adapter'):get_install_path() ..
+        "/extension/server/com.microsoft.java.debug.plugin-*.jar"),
+}
 
-    -- Where are the config and workspace dirs for a project?
-    jdtls_config_dir = function(project_name)
-        return vim.fn.stdpath("cache") .. "/jdtls/" .. project_name .. "/config"
-    end,
-    jdtls_workspace_dir = function(project_name)
-        return vim.fn.stdpath("cache") .. "/jdtls/" .. project_name .. "/workspace"
-    end,
-
-    -- How to run jdtls. This can be overridden to a full java command-line
-    -- if the Python wrapper script doesn't suffice.
-    cmd = { vim.fn.exepath("jdtls") },
-    full_cmd = function(opts)
-        local fname = vim.api.nvim_buf_get_name(0)
-        local root_dir = opts.root_dir(fname)
-        local project_name = opts.project_name(root_dir)
-        local cmd = vim.deepcopy(opts.cmd)
-        if project_name then
-            vim.list_extend(cmd, {
-                "-configuration",
-                opts.jdtls_config_dir(project_name),
-                "-data",
-                opts.jdtls_workspace_dir(project_name),
-            })
+local config = {
+    root_dir = jdtls.setup.find_root({ ".metadata", ".git", "pom.xml", 'build.gradle', 'mvnw' }),
+    cmd = {
+        "java",
+        "-Declipse.application=org.eclipse.jdt.ls.core.id1",
+        "-Dosgi.bundles.defaultStartLevel=4",
+        "-Declipse.product=org.eclipse.jdt.ls.core.product",
+        "-Dlog.protocol=true",
+        "-Dlog.level=ALL",
+        "-Xms1g",
+        "--add-modules=ALL-SYSTEM",
+        "--add-opens",
+        "java.base/java.util=ALL-UNNAMED",
+        "--add-opens",
+        "java.base/java.lang=ALL-UNNAMED",
+        -- '--jvm-arg=-javaagent:' .. lombok_path .. ' --jvm-arg=-Xbootclasspath/a:' .. lombok_path, -- uncomment for lombok support
+        "-jar",
+        vim.fn.glob(jdtls_path .. "/plugins/org.eclipse.equinox.launcher_*.jar"),
+        "-configuration",
+        jdtls_path .. "/config_" .. os_config,
+        "-data",
+        workspace_dir
+    },
+    flags = {
+        debounce_text_changes = 150,
+        allow_incremental_sync = true,
+    },
+    on_init = function(client)
+        if client.config.settings then
+            client.notify("workspace/didChangeConfiguration", { settings = client.config.settings })
         end
-        return cmd
+    end,
+    init_options = {
+        bundles = bundles,
+    },
+    on_attach = function(client, bufnr)
+        if client.name == "jdtls" then
+            jdtls = require("jdtls")
+            jdtls.setup_dap({ hotcodereplace = "auto" })
+            jdtls.setup.add_commands()
+            -- Auto-detect main and setup dap config
+            -- require("jdtls.dap").setup_dap_main_class_configs({
+            -- config_overrides = { vmArgs = "-Dspring.profiles.active=local", },
+            -- })
+            require("jdtls.dap").setup_dap_main_class_configs({})
+            --
+            -- Add specific keys for jdtls
+            --
+        end
     end,
 
     -- These depend on nvim-dap, but can additionally be disabled by setting false here.
@@ -41,14 +72,58 @@ local M = {
     test = true,
     settings = {
         java = {
+            eclipse = { downloadSources = true, },
+            maven = { downloadSources = true, },
+            implementationsCodeLens = { enabled = true, },
+            referencesCodeLens = { enabled = true, },
+            references = { includeDecompiledSources = true, },
+            signatureHelp = { enabled = true },
             inlayHints = {
                 parameterNames = {
                     enabled = "all",
                 },
+            },
+            saveActions = { organizeImports = true },
+            completion = {
+                maxResults = 20,
+                favoriteStaticMembers = {
+                    "org.hamcrest.MatcherAssert.assertThat",
+                    "org.hamcrest.Matchers.*",
+                    "org.hamcrest.CoreMatchers.*",
+                    "org.junit.jupiter.api.Assertions.*",
+                    "java.util.Objects.requireNonNull",
+                    "java.util.Objects.requireNonNullElse",
+                    "org.mockito.Mockito.*",
+                },
+                importOrder = {
+                    "java", "javax", "com", "org"
+                },
+            },
+            extendedClientCapabilities = jdtls.extendedClientCapabilities,
+            sources = {
+                organizeImports = {
+                    starThreshold = 9999,
+                    staticStarThreshold = 9999,
+                },
+            },
+            codeGeneration = {
+                toString = {
+                    template = "${object.className}{${member.name()}=${member.value}, ${otherMembers}}",
+                },
+                useBlocks = true,
             },
         },
     },
     capabilities = require('cmp_nvim_lsp').default_capabilities()
 }
 
-return M
+
+local jdtls_aug = vim.api.nvim_create_augroup("jdtls_aug", { clear = true })
+vim.api.nvim_create_autocmd({ "FileType" }, {
+    callback = function()
+        jdtls.start_or_attach(config)
+        local _, _ = pcall(vim.lsp.codelens.refresh)
+    end,
+    pattern = "java",
+    group = jdtls_aug,
+})

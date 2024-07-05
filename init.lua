@@ -138,7 +138,7 @@ if vim.g.neovide then
         \,a:blinkwait1000-blinkoff500-blinkon500-Cursor/lCursor]]
     )
     -- vim.o.guifont = "JetBrainsMono Nerd Font Mono:h9.5"
-    vim.o.guifont = "Iosevka Nerd Font Mono:h10.5"
+    vim.o.guifont = "Iosevka Nerd Font Mono:h10.3"
     vim.g.neovide_padding_top = 0
     vim.g.neovide_padding_bottom = 0
     vim.g.neovide_padding_right = 0
