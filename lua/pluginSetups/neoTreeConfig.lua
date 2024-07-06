@@ -27,3 +27,6 @@ require("neo-tree").setup({
         },
     },
 })
+
+
+vim.api.nvim_set_hl(0, "NeoTreeNormal", { link = "Normal" })

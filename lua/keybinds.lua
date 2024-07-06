@@ -56,7 +56,7 @@ if not vim.g.vscode then
 
     -- Undo
     vim.keymap.set({ "n" }, "<leader>u",
-        "<cmd>:lua require('telescope').extensions.undo.undo({ side_by_side = true })<CR>",
+        "<cmd>:lua require('telescope').extensions.undo.undo({ side_by_side = false })<CR>",
         { desc = "Undo", noremap = true })
 
 

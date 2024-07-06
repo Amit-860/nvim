@@ -9,14 +9,16 @@ M.plugin_list = {
         config = function()
             local opts = {
                 options = {
+                    transparent = true,
                     styles = { comments = "italic", keywords = "bold", types = "italic,bold", },
                 },
                 palettes = { terafox = { bg1 = "#002f44" }, },
-                groups = { terafox = { CursorLine = { bg = "#1d3337" }, } },
+                -- groups = { terafox = { CursorLine = { bg = "#092437" }, } },
             }
             if vim.g.neovide then
                 opts.palettes = { terafox = { bg1 = "#04131e", bg2 = "#192837" }, }
                 opts.groups = { terafox = { CursorLine = { bg = "#092437" }, } }
+                opts.options.transparent = false
             end
             require('nightfox').setup(opts)
             vim.cmd("colorscheme terafox")
@@ -96,7 +98,7 @@ M.plugin_list = {
     },
     {
         "folke/persistence.nvim",
-        event = "BufReadPre", -- this will only start session saving when an actual file was opened
+        event = { "BufReadPre" },
         opts = {
             -- add any custom options here
         }
@@ -111,7 +113,7 @@ M.plugin_list = {
     },
     {
         "neovim/nvim-lspconfig",
-        event = { "BufReadPre", "BufNewFile" },
+        event = { "BufNewFile", "BufReadPre" },
         dependencies = { "williamboman/mason-lspconfig.nvim" },
         opts = {
             setup = {
@@ -132,7 +134,7 @@ M.plugin_list = {
     },
     {
         "stevearc/conform.nvim",
-        event = { "BufReadPost", "BufNewFile" },
+        event = { "BufNewFile", "BufReadPost" },
         config = function()
             require('pluginSetups.conformConfig')
         end,
@@ -219,7 +221,7 @@ M.plugin_list = {
     },
     {
         "romgrk/nvim-treesitter-context",
-        event = "BufReadPost",
+        event = { "BufNewFile", "BufReadPost" },
         config = function()
             require("treesitter-context").setup({
                 enable = true,   -- Enable this plugin (Can be enabled/disabled later via commands)
@@ -231,25 +233,25 @@ M.plugin_list = {
     },
     {
         "chrisgrieser/nvim-various-textobjs",
-        event = "BufReadPost",
+        event = { "BufNewFile", "BufReadPost" },
         config = function()
             require("various-textobjs").setup({ useDefaultKeymaps = true })
         end,
     },
     {
         "nvim-treesitter/nvim-treesitter-textobjects",
-        event = "BufReadPost"
+        event = { "BufNewFile", "BufReadPost" },
     },
     {
         "ckolkey/ts-node-action",
-        event = "BufReadPost",
+        event = { "BufNewFile", "BufReadPost" },
         dependencies = { "nvim-treesitter" },
         lazy = true,
         opts = {},
     },
     {
         'HiPhish/rainbow-delimiters.nvim',
-        event = "BufReadPost",
+        event = { "BufNewFile", "BufReadPost" },
         config = function()
             require('rainbow-delimiters.setup').setup {
                 strategy = {
@@ -268,7 +270,7 @@ M.plugin_list = {
     },
     {
         "andymass/vim-matchup",
-        event = "BufReadPost",
+        event = { "BufNewFile", "BufReadPost" },
         config = function()
             vim.g.matchup_matchparen_offscreen = { method = "popup" }
         end,
@@ -279,7 +281,6 @@ M.plugin_list = {
     { "tpope/vim-repeat" },
     {
         "folke/flash.nvim",
-        event = "BufReadPost",
         cond = not vim.g.vscode,
         opts = {
             modes = { char = { jump_labels = true }, search = { enabled = false } },
@@ -297,13 +298,12 @@ M.plugin_list = {
     },
     {
         "chrisgrieser/nvim-spider",
-        event = "User FileOpened",
+        event = { "BufNewFile", "BufReadPost" },
         lazy = true,
         opts = { skipInsignificantPunctuation = true }
     },
     {
         "monaqa/dial.nvim",
-        event = "BufReadPost",
         keys = {
             { "<C-a>", "<Plug>(dial-increment)", mode = { "n", "v" }, remap = true },
             { "<C-x>", "<Plug>(dial-decrement)", mode = { "n", "v" }, remap = true },
@@ -338,8 +338,14 @@ M.plugin_list = {
         cond = not vim.g.vscode,
         config = function()
             require("better_escape").setup({
-                mapping = { "jk" }, -- a table with mappings to use
-                keys = "<Esc>",     -- keys used for escaping, if it is a function will use the result everytime
+                timeout = vim.o.timeoutlen,
+                mappings = {
+                    i = { j = { k = "<Esc>", }, },
+                    c = { j = { k = "<Esc>", }, },
+                    t = { j = { k = "<Esc>", }, },
+                    v = { j = { k = "<Esc>", }, },
+                    s = { j = { k = "<Esc>", }, },
+                },
             })
         end,
     },
@@ -350,27 +356,21 @@ M.plugin_list = {
     { 'echasnovski/mini.files',      event = { 'UIEnter' },                   version = '*', opts = {} },
     {
         "shellRaining/hlchunk.nvim",
-        event = { "BufReadPost", "BufNewFile" },
+        event = { "BufNewFile", "BufReadPost" },
         config = function()
             local opts = {
                 chunk = {
                     enable = true,
                     duration = 50,
                     delay = 80,
-                    exclude_filetypes = { aerial = true, dashboard = true, Outline = true },
+                    exclude_filetypes = { alpha = true, TelescopePrompt = true, Outline = true, ['neo-tree'] = true, ['neo-tree-popup'] = true, },
                 },
-                line_num = {
-                    enable = false,
-                    use_treesitter = false,
-                    style = "#806d9c",
-                },
-                blank = {
-                    enable = false,
-                    chars = { "․", "⁚", "⁖", "⁘", "⁙", },
-                },
+                line_num = { enable = false },
+                blank = { enable = false },
                 indent = {
                     enable = true,
-                    chars = { "", "¦", "┆", "¦", "┆", "¦", "┆", "¦", "┆", "¦", "┆", "¦", "┆", }
+                    chars = { "", "¦", "┆", "¦", "┆", "¦", "┆", "¦", "┆", "¦", "┆", "¦", "┆", },
+                    exclude_filetypes = { alpha = true, TelescopePrompt = true, Outline = true, ['neo-tree'] = true, ['neo-tree-popup'] = true, },
                 }
             }
             require("hlchunk").setup(opts)
@@ -432,11 +432,8 @@ M.plugin_list = {
         'hrsh7th/nvim-cmp',
         event = { "InsertEnter", "CmdlineEnter" },
         dependencies = {
-            'hrsh7th/cmp-nvim-lsp',
-            'hrsh7th/cmp-buffer',
             'hrsh7th/cmp-path',
             'hrsh7th/cmp-cmdline',
-            'L3MON4D3/LuaSnip'
         },
         config = function()
             require('pluginSetups.cmpConfig')
@@ -541,7 +538,7 @@ M.plugin_list = {
     },
     {
         "luukvbaal/statuscol.nvim",
-        event = "BufReadPre",
+        event = { "BufNewFile", "BufReadPre" },
         dependencies = {
             "lewis6991/gitsigns.nvim",
         },
@@ -587,26 +584,13 @@ M.plugin_list = {
     {
         "gbprod/yanky.nvim",
         recommended = true,
-        event = "BufReadPost",
+        event = { "BufNewFile", "BufReadPost" },
         opts = {
             highlight = { timer = 500 },
         },
     },
 
     -- marks/bookmarks
-    -- {
-    --     "otavioschwanck/arrow.nvim",
-    --     event = "VeryLazy",
-    --     opts = {
-    --         show_icons = true,
-    --         leader_key = 'M',        -- Recommended to be a single key
-    --         buffer_leader_key = 'm', -- Per Buffer Mappings
-    --         window = {               -- controls the appearance and position of an arrow window (see nvim_open_win() for all options)
-    --             border = "rounded",
-    --         },
-    --         global_bookmarks = false
-    --     }
-    -- },
     {
         "cbochs/grapple.nvim",
         event = "UIEnter",
@@ -708,6 +692,8 @@ M.plugin_list = {
             require('pluginSetups.dbConfig')
         end,
     },
+
+    -- startup/dashboard
     {
         'goolord/alpha-nvim',
         event = "VimEnter",
@@ -716,15 +702,19 @@ M.plugin_list = {
             require("pluginSetups.dashboardConfig")
         end
     },
+
+    -- tabline
     {
         'akinsho/bufferline.nvim',
-        event = { "VimEnter" },
+        event = { "BufNewFile", "BufReadPost" },
         version = "*",
         dependencies = 'nvim-tree/nvim-web-devicons',
         config = function()
             require("pluginSetups.bufferlineConfig")
         end
     },
+
+    -- statusline
     {
         'nvim-lualine/lualine.nvim',
         event = { "BufNewFile", "BufReadPost" },

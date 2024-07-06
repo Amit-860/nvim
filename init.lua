@@ -1,4 +1,4 @@
--- Enable powershell as your default shell
+-- Enable powershell as your default shellini
 vim.loader.enabled = true
 vim.opt.shell = "pwsh.exe -NoLogo"
 vim.opt.shellcmdflag =
@@ -50,20 +50,20 @@ local default_options = {
     termguicolors  = true,                         -- set term gui colors (most terminals support this)
     timeout        = true,
     timeoutlen     = 500,                          -- time to wait for a mapped sequence to complete (in milliseconds)
-    title          = true,                         -- set the title of window to the value of the titlestring
+    -- title          = true,                         -- set the title of window to the value of the titlestring
     -- opt.titlestring = "%<%F%=%l/%L - nvim" -- what the title of the window will be set to
-    undofile       = true,                         -- enable persistent undo
-    updatetime     = 100,                          -- faster completion
-    writebackup    = false,                        -- if a file is being edited by another program (or was written to file while editing with another program), it is not allowed to be edited
-    expandtab      = true,                         -- convert tabs to spaces
-    shiftwidth     = 4,                            -- the number of spaces inserted for each indentation
-    tabstop        = 4,                            -- insert 2 spaces for a tab
-    number         = true,                         -- set numbered lines
-    numberwidth    = 4,                            -- set number column width to 2 {default 4}
+    undofile       = true,  -- enable persistent undo
+    updatetime     = 100,   -- faster completion
+    writebackup    = false, -- if a file is being edited by another program (or was written to file while editing with another program), it is not allowed to be edited
+    expandtab      = true,  -- convert tabs to spaces
+    shiftwidth     = 4,     -- the number of spaces inserted for each indentation
+    tabstop        = 4,     -- insert 2 spaces for a tab
+    number         = true,  -- set numbered lines
+    numberwidth    = 4,     -- set number column width to 2 {default 4}
     relativenumber = true,
-    signcolumn     = "yes",                        -- always show the sign column, otherwise it would shift the text each time
-    scrolloff      = 8,                            -- minimal number of screen lines to keep above and below the cursor.
-    sidescrolloff  = 8,                            -- minimal number of screen lines to keep left and right of the cursor.
+    signcolumn     = "yes", -- always show the sign column, otherwise it would shift the text each time
+    scrolloff      = 8,     -- minimal number of screen lines to keep above and below the cursor.
+    sidescrolloff  = 8,     -- minimal number of screen lines to keep left and right of the cursor.
     showcmd        = false,
     ruler          = false,
     laststatus     = 0,

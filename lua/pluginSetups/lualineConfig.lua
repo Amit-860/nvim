@@ -4,6 +4,7 @@ local colors = {
     light_green = '#83a598',
     black       = "#2F3239",
     red         = "#e85c51",
+    light_red   = "#ff7059",
     green       = "#688b89",
     yellow      = "#fda47f",
     blue        = "#5a93aa",
@@ -95,23 +96,14 @@ local function search_result()
     return last_search .. '(' .. searchcount.current .. '/' .. searchcount.total .. ')'
 end
 
-local function modified()
-    if vim.bo.modified then
-        return '+'
-    elseif vim.bo.modifiable == false or vim.bo.readonly == true then
-        return '-'
-    end
-    return ''
-end
 
 local noice = require("noice")
 local macro = {
     function()
         if noice.api.statusline.mode.has then
             return noice.api.statusline.mode.get() or ""
-        else
-            return ""
         end
+        return ""
     end,
     color = { bg = "#dbc874", fg = "#131a24", gui = "bold" }
 }
@@ -144,6 +136,12 @@ require('lualine').setup {
         component_separators = { left = "", right = "" },
         section_separators = { left = '', right = '' },
         disabled_filetypes = { "alpha" },
+        refresh = {                        -- sets how often lualine should refresh it's contents (in ms)
+            statusline = vim.o.timeoutlen, -- The refresh option sets minimum time that lualine tries
+            -- statusline = 1000,
+            tabline = 1000,                -- to maintain between refresh. It's not guarantied if situation
+            winbar = 1000                  -- arises that lualine needs to refresh itself before this time
+        },
     },
     sections = process_sections {
         lualine_a = {
@@ -177,8 +175,18 @@ require('lualine').setup {
                 path = 1 -- 0 shows noly fileaname, 1 shows relative filepath, 2 shows absolute filepath
             },
             {
-                modified,
-                color = { bg = colors.light_green, fg = colors.black, gui = 'bold' }
+                function()
+                    if vim.bo.modified then return '' end
+                    return ''
+                end,
+                color = { bg = colors.light_green, fg = colors.black, gui = 'bold' },
+            },
+            {
+                function()
+                    if vim.bo.modifiable == false or vim.bo.readonly == true then return '' end
+                    return ''
+                end,
+                color = { bg = colors.light_red, fg = colors.black, gui = 'bold' },
             },
             {
                 '%w',
@@ -186,12 +194,12 @@ require('lualine').setup {
                     return vim.wo.previewwindow
                 end,
             },
-            {
-                '%r',
-                cond = function()
-                    return vim.bo.readonly
-                end,
-            },
+            -- {
+            --     '%r',
+            --     cond = function()
+            --         return vim.bo.readonly
+            --     end,
+            -- },
             {
                 '%q',
                 cond = function()

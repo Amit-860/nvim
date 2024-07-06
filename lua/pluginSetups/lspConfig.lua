@@ -85,7 +85,7 @@ end
 local on_attach = function(client, bufnr)
     -- lsp keymap
     -- vim.keymap.set("n", "<leader>l", "<nop>", { desc = "+LSP", noremap = true, buffer=bufnr })
-    vim.keymap.set({ "n", "i" }, "<M-k>", open_diagnostics,
+    vim.keymap.set({ "n", "i" }, "<F13>k", open_diagnostics,
         { desc = "Signature Help", noremap = true, buffer = bufnr })
     vim.keymap.set({ "n", "i" }, "<M-i>", "<cmd>lua vim.lsp.buf.signature_help()<CR>",
         { desc = "Signature Help", noremap = true, buffer = bufnr })
@@ -111,17 +111,17 @@ local on_attach = function(client, bufnr)
         { desc = "Format", noremap = true, buffer = bufnr })
 
     -- toggle inlay_hint
-    vim.keymap.set({ "n" }, "<leader>lL",
+    vim.keymap.set({ "n" }, "<leader>lH",
         function()
             local hint_flag = not vim.lsp.inlay_hint.is_enabled()
             vim.lsp.inlay_hint.enable(hint_flag)
         end,
-        { desc = "Hints", noremap = true, silent = false, buffer = bufnr })
+        { desc = "Virtual Hints", noremap = true, silent = false, buffer = bufnr })
 
     -- lsp lines globally
     local lsp_lines_enable = false
     vim.diagnostic.config({ virtual_lines = lsp_lines_enable })
-    vim.keymap.set("n", "<leader>lH",
+    vim.keymap.set("n", "<leader>lh",
         function()
             vim.diagnostic.config({
                 virtual_text = lsp_lines_enable,
@@ -136,7 +136,7 @@ local on_attach = function(client, bufnr)
 
     -- enable lsplines for curr line
     local lsp_lines_curr_line_enabled = false
-    vim.keymap.set("n", "<leader>lh",
+    vim.keymap.set("n", "<F13>l",
         function()
             local opts = {
                 signs = true,
@@ -168,23 +168,6 @@ local on_attach = function(client, bufnr)
             end
         end,
     })
-
-    -- toggle LSP (not required as created seprated for starting and stoping)
-    -- local lsp_enable = true
-    -- vim.keymap.set("n", "<leader>lT",
-    --     function()
-    --         if lsp_enable then
-    --             vim.cmd("LspStop")
-    --             lsp_enable = not lsp_enable
-    --         else
-    --             vim.cmd("LspStart")
-    --             lsp_enable = not lsp_enable
-    --         end
-    --         local msg = "LSP Enable : " .. string.upper(tostring(lsp_enable))
-    --         vim.api.nvim_notify(msg, 0, {})
-    --     end,
-    --     { desc = "Toggle LSP", noremap = true }
-    -- )
 
     -- inlay hint
     if client.server_capabilities.inlayHintProvider then
