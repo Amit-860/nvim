@@ -355,10 +355,10 @@ M.plugin_list = {
                 timeout = vim.o.timeoutlen,
                 mappings = {
                     i = { j = { k = "<Esc>", }, },
-                    c = { j = { k = "<Esc>", }, },
-                    t = { j = { k = "<Esc>", }, },
+                    c = { j = { k = false }, },
+                    t = { j = { k = false }, },
                     v = { j = { k = false, }, },
-                    s = { j = { k = "<Esc>", }, },
+                    s = { j = { k = false }, },
                 },
             })
         end,
@@ -395,20 +395,6 @@ M.plugin_list = {
         event = { 'BufReadPost', 'BufNewFile' },
         version = '*',
         config = function() require('pluginSetups.miniHipatternConfig') end
-    },
-    {
-        'echasnovski/mini.statusline',
-        cond = false,
-        event = { 'UIEnter' },
-        version = '*',
-        config = function() require('pluginSetups.miniStatuslineConfig') end
-    },
-    {
-        'echasnovski/mini.tabline',
-        cond = false,
-        event = { 'UIEnter' },
-        version = '*',
-        config = function() require('pluginSetups.miniTablineConfig') end
     },
     {
         'echasnovski/mini.comment',
