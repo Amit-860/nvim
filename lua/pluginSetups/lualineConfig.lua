@@ -17,7 +17,7 @@ local colors = {
     bg0         = "#001925", -- Dark bg (status line and float)
     bg1         = "#002333", -- Default bg
     bg2         = "#002f44", -- Lighter bg (colorcolm folds)
-    bg3         = "#254147", -- Lighter bg (cursor line)
+    bg3         = "#003d58", -- Lighter bg (cursor line)
     bg4         = "#2d4f56", -- Conceal, border fg
     fg0         = "#eaeeee", -- Lighter fg
     fg1         = "#e6eaea", -- Default fg
@@ -78,7 +78,11 @@ local function process_sections(sections)
                 comp = { comp }
                 section[id] = comp
             end
-            comp.separator = left and { right = '' } or { left = '' }
+            if vim.g.neovide then
+                comp.separator = left and { right = '' } or { left = '' }
+            else
+                comp.separator = left and { right = '' } or { left = '' }
+            end
         end
     end
     return sections
@@ -152,27 +156,26 @@ require('lualine').setup {
             {
                 "b:gitsigns_head",
                 icon = icons.git.Branch,
-                color = { gui = "bold", bg = colors.bg1 },
+                color = { gui = "bold", bg = colors.bg2 },
             },
-            { 'diff', color = { gui = "bold", bg = colors.bg1 } },
+            { 'diff', color = { gui = "bold", bg = colors.bg2 } },
             {
                 'diagnostics',
                 source = { 'nvim' },
                 sections = { 'error' },
                 diagnostics_color = { error = { bg = colors.red, fg = colors.black, gui = "bold" } },
-                color = { gui = "bold" },
             },
             {
                 'diagnostics',
                 source = { 'nvim' },
                 sections = { 'warn' },
-                diagnostics_color = { warn = { bg = colors.orange, fg = colors.black, gui = "bold" } },
-                color = { gui = "bold" },
+                diagnostics_color = { warn = { bg = colors.orange, fg = colors.black } },
             },
             {
                 'filename',
                 file_status = false,
-                path = 1 -- 0 shows noly fileaname, 1 shows relative filepath, 2 shows absolute filepath
+                path = 1, -- 0 shows noly fileaname, 1 shows relative filepath, 2 shows absolute filepath
+                color = { bg = colors.bg3 },
             },
             {
                 function()
@@ -209,7 +212,7 @@ require('lualine').setup {
         },
         lualine_c = {},
         lualine_x = {},
-        lualine_y = { search_result, 'filetype', lsp },
+        lualine_y = { search_result, { 'filetype', color = { bg = colors.bg3 } }, lsp },
         lualine_z = { '%l:%c', '%p%%/%L' },
     },
     inactive_sections = {

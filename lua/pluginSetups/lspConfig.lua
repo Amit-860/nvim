@@ -1,6 +1,6 @@
 require("mason").setup()
 require("mason-lspconfig").setup({
-    ensure_installed = { "lua_ls", "pyright" },
+    ensure_installed = { "lua_ls", "basedpyright", "ruff", "jsonls", "ltex", "denols", "html", "cssls", "cssmodules_ls", "emmet_language_server" },
     automatic_installation = false,
 })
 
@@ -226,6 +226,13 @@ setup_lsp("jsonls", { on_attach = on_attach, capabilities = capabilities, })
 setup_lsp("ltex",
     { on_attach = on_attach, capabilities = capabilities, filetypes = { 'gitcommit', 'markdown', 'org', 'norg', 'xhtml', 'text', } }
 )
+
+vim.g.markdown_fenced_languages = { "ts=typescript" }
+setup_lsp("denols", { on_attach = on_attach, capabilities = capabilities, })
+setup_lsp("html", { on_attach = on_attach, capabilities = capabilities, })
+setup_lsp("cssls", { on_attach = on_attach, capabilities = capabilities, })
+setup_lsp("cssmodules_ls", { on_attach = on_attach, capabilities = capabilities, })
+setup_lsp("emmet_language_server", { on_attach = on_attach, capabilities = capabilities, })
 
 local lsp_attach_aug = vim.api.nvim_create_augroup("lsp_attach_aug", { clear = true })
 vim.api.nvim_create_autocmd({ "LspAttach" }, {

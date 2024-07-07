@@ -9,16 +9,14 @@ M.plugin_list = {
         config = function()
             local opts = {
                 options = {
-                    transparent = true,
                     styles = { comments = "italic", keywords = "bold", types = "italic,bold", },
                 },
                 palettes = { terafox = { bg1 = "#002f44" }, },
-                -- groups = { terafox = { CursorLine = { bg = "#092437" }, } },
+                groups = { terafox = { CursorLine = { bg = "#092437" }, } },
             }
             if vim.g.neovide then
                 opts.palettes = { terafox = { bg1 = "#04131e", bg2 = "#192837" }, }
                 opts.groups = { terafox = { CursorLine = { bg = "#092437" }, } }
-                opts.options.transparent = false
             end
             require('nightfox').setup(opts)
             vim.cmd("colorscheme terafox")
@@ -131,6 +129,22 @@ M.plugin_list = {
         config = function()
             require('pluginSetups.jdtlsConfig')
         end
+    },
+    {
+        "pmizio/typescript-tools.nvim",
+        cond = false,
+        ft = { 'javascript', 'javascriptreact', 'typescript', 'typescriptreact' },
+        dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
+        opts = {
+            settings = {
+                tsserver_file_preferences = {
+                    quotePreference = "single",
+                },
+                tsserver_format_options = {
+                    semicolons = "insert",
+                },
+            },
+        },
     },
     {
         "stevearc/conform.nvim",
@@ -343,7 +357,7 @@ M.plugin_list = {
                     i = { j = { k = "<Esc>", }, },
                     c = { j = { k = "<Esc>", }, },
                     t = { j = { k = "<Esc>", }, },
-                    v = { j = { k = "<Esc>", }, },
+                    v = { j = { k = false, }, },
                     s = { j = { k = "<Esc>", }, },
                 },
             })
@@ -369,7 +383,7 @@ M.plugin_list = {
                 blank = { enable = false },
                 indent = {
                     enable = true,
-                    chars = { "", "¦", "┆", "¦", "┆", "¦", "┆", "¦", "┆", "¦", "┆", "¦", "┆", },
+                    chars = { "", "¦", "¦", "¦", "¦", "¦", "¦", "¦", "¦", "¦", "¦", "¦", "¦", "¦", "¦", "¦", "¦", "¦", "¦", },
                     exclude_filetypes = { alpha = true, TelescopePrompt = true, Outline = true, ['neo-tree'] = true, ['neo-tree-popup'] = true, },
                 }
             }
@@ -432,23 +446,25 @@ M.plugin_list = {
         'hrsh7th/nvim-cmp',
         event = { "InsertEnter", "CmdlineEnter" },
         dependencies = {
-            'hrsh7th/cmp-path',
-            'hrsh7th/cmp-cmdline',
+            { url = 'https://codeberg.org/FelipeLema/cmp-async-path', event = { "VeryLazy" } },
+            { 'hrsh7th/cmp-cmdline',                                  event = { "VeryLazy" } },
         },
         config = function()
             require('pluginSetups.cmpConfig')
         end
     },
-    { 'hrsh7th/cmp-nvim-lsp', event = { "VeryLazy" } },
-    { 'hrsh7th/cmp-buffer',   event = { "VeryLazy" } },
-    { 'hrsh7th/cmp-path',     event = { "VeryLazy" } },
-    { 'hrsh7th/cmp-cmdline',  event = { "VeryLazy" } },
-    { 'f3fora/cmp-spell',     event = { "VeryLazy" } },
+    { 'hrsh7th/cmp-nvim-lsp',                                 event = { "VeryLazy" } },
+    { 'ray-x/cmp-treesitter',                                 event = { "VeryLazy" } },
+    { 'hrsh7th/cmp-buffer',                                   event = { "VeryLazy" } },
+    { 'hrsh7th/cmp-cmdline',                                  event = { "VeryLazy" } },
+    { 'f3fora/cmp-spell',                                     event = { "VeryLazy" } },
+    { url = 'https://codeberg.org/FelipeLema/cmp-async-path', event = { "VeryLazy" } },
+    { 'saadparwaiz1/cmp_luasnip',                             event = { "VeryLazy" }, dependencies = "L3MON4D3/LuaSnip" },
     {
         "L3MON4D3/LuaSnip",
-        version = "*", -- Replace <CurrentMajor> by the latest released major (first number of latest release)
         build = "make install_jsregexp",
         event = "BufReadPost",
+        dependencies = { "rafamadriz/friendly-snippets" },
         config = function()
             require("luasnip").setup()
             require("luasnip.loaders.from_vscode").lazy_load()
@@ -706,7 +722,7 @@ M.plugin_list = {
     -- tabline
     {
         'akinsho/bufferline.nvim',
-        event = { "BufNewFile", "BufReadPost" },
+        event = { "UIEnter" },
         version = "*",
         dependencies = 'nvim-tree/nvim-web-devicons',
         config = function()

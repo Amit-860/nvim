@@ -2,7 +2,7 @@ local ts_opts = {
     on_config_done = nil,
 
     -- A list of parser names, or "all"
-    ensure_installed = { "comment", "markdown_inline", "regex", "python", "javascript", "typescript", "lua", },
+    ensure_installed = { "comment", "lua", "json" },
 
     -- List of parsers to ignore installing (for "all")
     ignore_install = { "org" },

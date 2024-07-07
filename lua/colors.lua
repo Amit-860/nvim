@@ -75,6 +75,7 @@ vim.api.nvim_set_hl(0, "CmpItemKindProperty", { bg = "#689dc4", fg = "#131a24" }
 vim.api.nvim_set_hl(0, "CmpItemKindVariable", { bg = "#dfdfe0", fg = "#131a24" })
 vim.api.nvim_set_hl(0, "CmpItemKindValue", { bg = "#cfa333", fg = "#131a24" })
 vim.api.nvim_set_hl(0, "CmpItemKindText", { bg = "#81b29a", fg = "#131a24" })
+vim.api.nvim_set_hl(0, "CmpItemKindUnknown", { bg = "#fda47f", fg = "#131a24" })
 
 -- cmp menu hl
 vim.api.nvim_set_hl(0, "CmpItemMenuKeyword", { fg = "#cf3930", italic = true })
@@ -89,6 +90,7 @@ vim.api.nvim_set_hl(0, "CmpItemMenuProperty", { fg = "#689dc4", italic = true })
 vim.api.nvim_set_hl(0, "CmpItemMenuVariable", { fg = "#dfdfe0", italic = true })
 vim.api.nvim_set_hl(0, "CmpItemMenuValue", { fg = "#cfa333", italic = true })
 vim.api.nvim_set_hl(0, "CmpItemMenuText", { fg = "#81b29a", italic = true })
+vim.api.nvim_set_hl(0, "CmpItemMenuUnknown", { fg = "#fda47f", italic = true })
 
 -- Cursorword
 vim.api.nvim_set_hl(0, "MiniCursorword", { bg = "#30425b", underline = false, bold = false })

@@ -62,7 +62,7 @@ if not vim.g.vscode then
 
     -- Quit
     -- vim.keymap.set("n", "<leader>q", "<nop>", { desc = "+Quit", noremap = true })
-    vim.keymap.set("n", "<leader>qq", "<cmd>q!<cr>", { noremap = true, silent = true, desc = "Quit", })
+    vim.keymap.set("n", "<leader>qq", "<cmd>q<cr>", { noremap = true, silent = true, desc = "Quit", })
     vim.keymap.set('n', "<leader>qw", "<cmd>wq<cr>", { noremap = true, silent = true, desc = 'Write & Exit' })
     vim.keymap.set('n', "<leader>qQ", "<cmd>q!<cr>", { noremap = true, silent = true, desc = 'Force Exit' })
     vim.keymap.set({ 'n', 'i' }, "<C-q>",
@@ -70,7 +70,7 @@ if not vim.g.vscode then
             vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<esc>", true, false, true), 'x', true) -- changing to normal mode
             local r = pcall(vim.cmd, "bd")
             if not r then
-                vim.cmd("q!")
+                vim.cmd("q")
             end
         end, { noremap = true, silent = true, desc = 'Exit' })
     vim.keymap.set('n', "<C-Q>", "<cmd>q!<cr>", { noremap = true, silent = true, desc = 'Force Exit' })

@@ -114,7 +114,6 @@ end)
 
 local cmp_opts = {
     snippet = {
-        -- REQUIRED - you must specify a snippet engine
         expand = function(args)
             require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
         end,
@@ -146,10 +145,10 @@ local cmp_opts = {
 
             --setting cmp menu kind icons
             if not kind then
-                kind = ""
+                kind = "Unknown"
                 vim_item.kind = " " .. "?" .. " "
             else
-                vim_item.kind = " " .. lspkind.presets.default[kind] .. " "
+                vim_item.kind = " " .. (lspkind.presets.default[kind] or "") .. " "
             end
 
             --removing dubplicates
@@ -168,9 +167,9 @@ local cmp_opts = {
             end
 
             -- setting abbr
-            vim_item.abbr = trim(vim_item.abbr) .. " "
+            vim_item.abbr          = trim(vim_item.abbr) .. " "
 
-            local source_symbol = {
+            local source_symbol    = {
                 nvim_lsp = "lsp",
                 buffer = 'buff',
                 luasnip = 'snip',
@@ -178,7 +177,8 @@ local cmp_opts = {
                 nvim_lua = "lsp",
                 ['vim-dadbod-completion'] = "db",
                 treesitter = "ts",
-                spell = 'en'
+                spell = 'en',
+                async_path = 'path'
             }
 
             -- setting cmp menu
@@ -186,27 +186,44 @@ local cmp_opts = {
             -- vim_item.menu = string.lower(kind)
             -- vim_item.menu = "[" .. (source_icon[source] or source) .. "]"
             -- vim_item.menu = string.lower(kind) .. " ⟨" .. (source_symbol[source] or source) .. "⟩"
-            local padding = function()
+            local padding          = function()
                 local rep = 10 - #kind
                 if rep < 1 then
                     return " "
                 end
                 return string.rep(" ", rep)
             end
-            vim_item.menu = string.lower(kind) .. padding() .. string.lower(source_symbol[source] or source)
+            vim_item.menu          = string.lower(kind) .. padding() .. string.lower(source_symbol[source] or source)
 
             vim_item.menu_hl_group = ({
                 Class = "CmpItemMenuClass",
                 Struct = "CmpItemMenuStruct",
                 Snippet = "CmpItemMenuSnippet",
                 Method = "CmpItemMenuMethod",
-                ["Function"] = "CmpItemMenuFunction",
+                Function = "CmpItemMenuFunction",
                 Field = "CmpItemMenuField",
                 Enum = "CmpItemMenuEnum",
                 Variable = "CmpItemMenuVariable",
                 Value = "CmpItemMenuValue",
                 Text = "CmpItemMenuText",
-            })[kind]
+                String = "CmpItemMenuText",
+                Unknown = "CmpItemMenuUnknown"
+            })[kind] or "CmpItemMenuUnknown"
+
+            vim_item.kind_hl_group = ({
+                Class = "CmpItemKindClass",
+                Struct = "CmpItemKindStruct",
+                Snippet = "CmpItemKindSnippet",
+                Method = "CmpItemKindMethod",
+                Function = "CmpItemKindFunction",
+                Field = "CmpItemKindField",
+                Enum = "CmpItemKindEnum",
+                Variable = "CmpItemKindVariable",
+                Value = "CmpItemKindValue",
+                Text = "CmpItemKindText",
+                String = "CmpItemKindText",
+                Unknown = "CmpItemKindUnknown"
+            })[kind] or "CmpItemKindUnknown"
 
             return vim_item
         end
@@ -273,15 +290,16 @@ local cmp_opts = {
     }),
 
 
-    sources = cmp.config.sources({
+    sources = cmp.config.sources(
+        {
             { name = 'luasnip' },
             { name = 'nvim_lsp' },
-            { name = 'nvim_lsp_signature_help' },
+            -- { name = 'nvim_lsp_signature_help' },
             { name = 'nvim_lua' },
-            { name = 'path' },
-            { name = 'neorg' },
-            { name = 'cmp-dbee' },
-            { name = 'treesitter' },
+            -- { name = 'path' },
+            { name = 'async_path' },
+            -- { name = 'cmp-dbee' },
+            { name = 'treesitter', keyword_length = 3 },
         },
         {
             {
@@ -317,27 +335,32 @@ cmp.setup(cmp_opts)
 -- Set configuration for specific filetype.
 cmp.setup.filetype({ 'gitcommit', 'NeogitCommitMessage' }, {
     sources = {
-        { name = 'git' },
+        -- { name = 'git' },
         { name = 'buffer' },
+        { name = 'treesitter' },
     }
 })
 -- local cmp_git = pcall(require, "cmp_git")
 -- if cmp_git then require("cmp_git").setup() end
 
 cmp.setup.filetype({ 'sql', 'mysql', 'plsql' }, {
-    sources = {
-        { name = 'vim-dadbod-completion' },
-        { name = 'buffer' },
-    }
+    sources = cmp.config.sources(
+        {
+            { name = 'luasnip' },
+            { name = 'vim-dadbod-completion' },
+        },
+        {
+            { name = 'buffer', keyword_length = 3 },
+        }
+    ),
 })
-
 
 -- Use buffer source for `/` and `?` (if you enabled `native_menu`, this won't work anymore).
 cmp.setup.cmdline({ '/', '?' }, {
     mapping = cmp.mapping.preset.cmdline(),
-    sources = {
+    sources = cmp.config.sources({
         { name = 'buffer' }
-    }
+    })
 })
 
 -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
@@ -358,9 +381,9 @@ cmp.setup.cmdline(':', {
     }
 })
 
-
-cmp.setup.filetype({ "*.txt", "*.tex", "*.typ", "gitcommit", "markdown", "norg" }, {
+cmp.setup.filetype({ "*.txt", "*.tex", "*.typ", "gitcommit", "markdown" }, {
     sources = {
+        { name = 'buffer' },
         {
             name = "spell",
             option = {
@@ -371,6 +394,24 @@ cmp.setup.filetype({ "*.txt", "*.tex", "*.typ", "gitcommit", "markdown", "norg" 
                 preselect_correct_word = true,
             },
         },
+        { name = 'treesitter' },
+    }
+})
+
+cmp.setup.filetype({ "norg" }, {
+    sources = {
+        { name = 'neorg' },
         { name = 'buffer' },
+        {
+            name = "spell",
+            option = {
+                keep_all_entries = false,
+                enable_in_context = function()
+                    return true
+                end,
+                preselect_correct_word = true,
+            },
+        },
+        { name = 'treesitter' },
     }
 })

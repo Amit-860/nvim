@@ -308,7 +308,7 @@ vim.api.nvim_create_autocmd("User", {
         local top_padding = {
             type = "padding",
             val = function()
-                return math.floor(vim.o.lines * 0.12)
+                return math.floor(vim.o.lines * 0.15)
             end
         }
         local startuptimeSections = {

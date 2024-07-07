@@ -95,15 +95,15 @@ vim.api.nvim_create_autocmd("FileType", {
     end,
 })
 
--- vim.api.nvim_create_autocmd("VimEnter", {
---     group = vim.api.nvim_create_augroup("transparent", { clear = true }),
---     callback = function(event)
---         -- transparent
---         if not vim.g.neovide then
---             vim.api.nvim_set_hl(0, "Normal", { bg = "NONE" })
---             vim.api.nvim_set_hl(0, "NormalNC", { bg = "NONE" })
---             vim.api.nvim_set_hl(0, "WinBar", { bg = "NONE" })
---             vim.api.nvim_set_hl(0, "WinBarNC", { bg = "NONE" })
---         end
---     end,
--- })
+vim.api.nvim_create_autocmd("UIEnter", {
+    group = vim.api.nvim_create_augroup("transparent", { clear = true }),
+    callback = function(event)
+        -- transparent
+        if not vim.g.neovide then
+            vim.api.nvim_set_hl(0, "Normal", { bg = "NONE" })
+            vim.api.nvim_set_hl(0, "NormalNC", { bg = "NONE" })
+            vim.api.nvim_set_hl(0, "WinBar", { bg = "NONE" })
+            vim.api.nvim_set_hl(0, "WinBarNC", { bg = "NONE" })
+        end
+    end,
+})
