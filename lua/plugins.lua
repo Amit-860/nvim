@@ -25,15 +25,6 @@ return {
         "nvim-tree/nvim-web-devicons",
         lazy = true,
     },
-    {
-        "folke/noice.nvim",
-        event = "UIEnter",
-        opts = {},
-        dependencies = { "MunifTanjim/nui.nvim" },
-        config = function()
-            require('pluginSetups.noiceConfig')
-        end,
-    },
 
     -- faster
     {
@@ -42,29 +33,15 @@ return {
         opts = {}
     },
 
-    -- notifier
-    -- {
-    --     "j-hui/fidget.nvim",
-    --     event = "VeryLazy",
-    --     opts = {},
-    -- },
-
     -- keymappings
-    {
-        "folke/which-key.nvim",
-        cmd = "WhichKey",
-        event = "VeryLazy",
-        config = function()
-            require('pluginSetups.whichKeyConfig')
-        end
-    },
-    {
-        'windwp/nvim-autopairs',
-        event = "InsertEnter",
-        config = function()
-            require('pluginSetups.autoPairConfig')
-        end
-    },
+    -- {
+    --     "folke/which-key.nvim",
+    --     cmd = "WhichKey",
+    --     event = "VeryLazy",
+    --     config = function()
+    --         require('pluginSetups.whichKeyConfig')
+    --     end
+    -- },
     {
         "kylechui/nvim-surround",
         version = "*", -- Use for stability; omit to use `main` branch for the latest features
@@ -96,38 +73,7 @@ return {
     {
         "folke/persistence.nvim",
         event = { "BufReadPre" },
-        opts = {
-            -- add any custom options here
-        }
-    },
-    {
-        "williamboman/mason.nvim",
-        cmd = { "Mason" },
-    },
-    {
-        "williamboman/mason-lspconfig.nvim",
-        event = "VeryLazy"
-    },
-    {
-        "neovim/nvim-lspconfig",
-        event = { "BufNewFile", "BufReadPre" },
-        dependencies = { "williamboman/mason-lspconfig.nvim" },
-        opts = {
-            setup = {
-                codelens = { enabled = true },
-                document_highlight = { enabled = true },
-            }
-        },
-        config = function()
-            require('pluginSetups.lspConfig')
-        end
-    },
-    {
-        "mfussenegger/nvim-jdtls",
-        ft = "java",
-        config = function()
-            require('pluginSetups.jdtlsConfig')
-        end
+        opts = {}
     },
     {
         "pmizio/typescript-tools.nvim",
@@ -144,13 +90,6 @@ return {
                 },
             },
         },
-    },
-    {
-        "stevearc/conform.nvim",
-        event = { "BufNewFile", "BufReadPost" },
-        config = function()
-            require('pluginSetups.conformConfig')
-        end,
     },
     {
         url = "https://git.sr.ht/~whynothugo/lsp_lines.nvim",
@@ -170,97 +109,6 @@ return {
         opts = {
             -- Your setup opts here
         },
-    },
-
-    -- Debugging
-    {
-        "mfussenegger/nvim-dap",
-        dependencies = { "rcarriga/nvim-dap-ui" },
-        event = "LspAttach",
-        config = function() require('pluginSetups.dapConfig') end
-    },
-    {
-        "rcarriga/nvim-dap-ui",
-        event = "VeryLazy",
-        dependencies = { "nvim-neotest/nvim-nio", { "theHamsta/nvim-dap-virtual-text", opts = {} } },
-        config = function() require('pluginSetups.dapUIConfig') end
-    },
-    {
-        "mfussenegger/nvim-dap-python",
-        ft = 'python',
-        config = function()
-            require("dap-python").setup("~/scoop/apps/python/current/python")
-        end,
-    },
-
-    -- telescope
-    {
-        "nvim-telescope/telescope.nvim",
-        event = "VeryLazy",
-        dependencies = {
-            "nvim-telescope/telescope-ui-select.nvim",
-            'nvim-telescope/telescope-fzy-native.nvim'
-        },
-        config = function()
-            require('pluginSetups.telescopeConfig')
-        end
-    },
-    {
-        'nvim-telescope/telescope-project.nvim',
-        event = "VeryLazy"
-    },
-    {
-        "debugloop/telescope-undo.nvim",
-        cmd = { "Telescope undo" }
-    },
-
-    -- Treesitter
-    {
-        'nvim-treesitter/nvim-treesitter',
-        cmd = {
-            "TSInstall",
-            "TSUninstall",
-            "TSUpdate",
-            "TSUpdateSync",
-            "TSInstallInfo",
-            "TSInstallSync",
-            "TSInstallFromGrammar",
-        },
-        event = "UIEnter",
-        config = function()
-            local ts_opts = require('pluginSetups.treeSitterConfig')
-            require 'nvim-treesitter.configs'.setup(ts_opts)
-        end
-    },
-    {
-        "romgrk/nvim-treesitter-context",
-        event = { "BufNewFile", "BufReadPost" },
-        config = function()
-            require("treesitter-context").setup({
-                enable = true,   -- Enable this plugin (Can be enabled/disabled later via commands)
-                throttle = true, -- Throttles plugin updates (may improve performance)
-                max_lines = 4,   -- How many lines the window should span. Values <= 0 mean no limit.
-                patterns = { default = { "class", "function", "method" } },
-            })
-        end,
-    },
-    {
-        "chrisgrieser/nvim-various-textobjs",
-        event = { "BufNewFile", "BufReadPost" },
-        config = function()
-            require("various-textobjs").setup({ useDefaultKeymaps = true })
-        end,
-    },
-    {
-        "nvim-treesitter/nvim-treesitter-textobjects",
-        event = { "BufNewFile", "BufReadPost" },
-    },
-    {
-        "ckolkey/ts-node-action",
-        event = { "BufNewFile", "BufReadPost" },
-        dependencies = { "nvim-treesitter" },
-        lazy = true,
-        opts = {},
     },
     {
         'HiPhish/rainbow-delimiters.nvim',
@@ -288,7 +136,6 @@ return {
             vim.g.matchup_matchparen_offscreen = { method = "popup" }
         end,
     },
-
 
     -- motion
     { "tpope/vim-repeat" },
@@ -389,18 +236,6 @@ return {
             require("hlchunk").setup(opts)
         end
     },
-    {
-        'echasnovski/mini.hipatterns',
-        event = { 'BufReadPost', 'BufNewFile' },
-        version = '*',
-        config = function() require('pluginSetups.miniHipatternConfig') end
-    },
-    {
-        'echasnovski/mini.comment',
-        event = { 'UIEnter' },
-        version = '*',
-        config = function() require('pluginSetups.miniCommentConfig') end
-    },
 
     -- leetcode
     {
@@ -427,34 +262,6 @@ return {
     },
 
     -- completion
-    {
-        'hrsh7th/nvim-cmp',
-        event = { "InsertEnter", "CmdlineEnter" },
-        dependencies = {
-            { url = 'https://codeberg.org/FelipeLema/cmp-async-path', event = { "VeryLazy" } },
-            { 'hrsh7th/cmp-cmdline',                                  event = { "VeryLazy" } },
-        },
-        config = function()
-            require('pluginSetups.cmpConfig')
-        end
-    },
-    { 'hrsh7th/cmp-nvim-lsp',                                 event = { "VeryLazy" } },
-    { 'ray-x/cmp-treesitter',                                 event = { "VeryLazy" } },
-    { 'hrsh7th/cmp-buffer',                                   event = { "VeryLazy" } },
-    { 'hrsh7th/cmp-cmdline',                                  event = { "VeryLazy" } },
-    { 'f3fora/cmp-spell',                                     event = { "VeryLazy" } },
-    { url = 'https://codeberg.org/FelipeLema/cmp-async-path', event = { "VeryLazy" } },
-    { 'saadparwaiz1/cmp_luasnip',                             event = { "VeryLazy" }, dependencies = "L3MON4D3/LuaSnip" },
-    {
-        "L3MON4D3/LuaSnip",
-        build = "make install_jsregexp",
-        event = "BufReadPost",
-        dependencies = { "rafamadriz/friendly-snippets" },
-        config = function()
-            require("luasnip").setup()
-            require("luasnip.loaders.from_vscode").lazy_load()
-        end
-    },
     { "onsails/lspkind.nvim" },
 
     -- filtesystem
@@ -465,32 +272,11 @@ return {
 
     -- git
     {
-        "lewis6991/gitsigns.nvim",
-        event = "BufReadPost",
-        cmd = "Gitsigns",
-        config = function()
-            require("pluginSetups.gitSignConfig")
-        end
-    },
-    {
         "sindrets/diffview.nvim",
         cmd = { 'DiffviewOpen', 'DiffviewClose', 'DiffviewFileHistory' }
     },
 
     -- file browsers
-    {
-        "nvim-neo-tree/neo-tree.nvim",
-        cmd = { "Neotree" },
-        dependencies = {
-            "nvim-lua/plenary.nvim",
-            "nvim-tree/nvim-web-devicons",
-            "MunifTanjim/nui.nvim",
-            "mrbjarksen/neo-tree-diagnostics.nvim",
-        },
-        config = function()
-            require('pluginSetups.neoTreeConfig')
-        end
-    },
     {
         "mikavilpas/yazi.nvim",
         dependencies = {
@@ -538,16 +324,6 @@ return {
         },
         config = true
     },
-    {
-        "luukvbaal/statuscol.nvim",
-        event = { "BufNewFile", "BufReadPre" },
-        dependencies = {
-            "lewis6991/gitsigns.nvim",
-        },
-        config = function()
-            require("pluginSetups.statusColConfig")
-        end
-    },
 
     -- scrollings
     {
@@ -579,8 +355,6 @@ return {
             })
         end
     },
-
-    -- transparency
 
     -- clipboard
     {
@@ -614,16 +388,6 @@ return {
             { "<M-m>",      function() require('grapple').toggle_tags({ scope = "git_branch" }) end, desc = "Grapple mark" },
             { "mm",         function() require('grapple').toggle_tags({ scope = "git_branch" }) end, desc = "Grapple mark" },
         },
-    },
-
-    -- terminal
-    {
-        'akinsho/toggleterm.nvim',
-        event = "VeryLazy",
-        version = "*",
-        config = function()
-            require('pluginSetups.toggleTermConfig')
-        end
     },
 
     -- Find and Replace
@@ -660,70 +424,5 @@ return {
             })
         end
     },
-
-    -- notes
-    {
-        "nvim-neorg/neorg",
-        ft = "norg",
-        cmd = { "Neorg" },
-        dependencies = {
-            {
-                -- Install lua from here first before install luarocksj.nvim and neorg
-                -- https://github.com/rjpcomputing/luaforwindows
-                "vhyrro/luarocks.nvim",
-                priority = 1000,
-                config = true,
-            },
-            "nvim-neorg/lua-utils.nvim"
-        },
-        version = "*",
-        config = function()
-            require('pluginSetups.neorgConfig')
-        end
-    },
-
-    -- DataBase
-    {
-        "kristijanhusak/vim-dadbod-ui",
-        cmd = { "DB", "DBUI", 'DBUIToggle', 'DBUIAddConnection', 'DBUIFindBuffer' },
-        keys = {
-            vim.keymap.set('n', '<Leader>oD', "<cmd>DBUIToggle<cr>", { desc = "DadBod", noremap = true, silent = true }),
-        },
-        dependencies = { "kristijanhusak/vim-dadbod-completion", "tpope/vim-dadbod", },
-        init = function()
-            require('pluginSetups.dbConfig')
-        end,
-    },
-
-    -- startup/dashboard
-    {
-        'goolord/alpha-nvim',
-        event = "VimEnter",
-        dependencies = { 'nvim-tree/nvim-web-devicons' },
-        config = function()
-            require("pluginSetups.dashboardConfig")
-        end
-    },
-
-    -- tabline
-    {
-        'akinsho/bufferline.nvim',
-        event = { "UIEnter" },
-        version = "*",
-        dependencies = 'nvim-tree/nvim-web-devicons',
-        config = function()
-            require("pluginSetups.bufferlineConfig")
-        end
-    },
-
-    -- statusline
-    {
-        'nvim-lualine/lualine.nvim',
-        event = { "BufNewFile", "BufReadPost" },
-        dependencies = { 'nvim-tree/nvim-web-devicons' },
-        config = function()
-            require("pluginSetups.lualineConfig")
-        end
-    }
 
 }

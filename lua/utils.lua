@@ -185,4 +185,82 @@ M.save_as = function()
     end)
 end
 
+M.contains = function(list, val)
+    for _, v in ipairs(list) do
+        if v == val then
+            return true
+        end
+    end
+    return false
+end
+
+M.lazygit_toggle = function()
+    local Terminal = require("toggleterm.terminal").Terminal
+    local float_opts = {
+        border = "none",
+        height = math.floor(vim.o.lines * 1),
+        width = math.floor(vim.o.columns * 1),
+    }
+    local lazygit = Terminal:new {
+        cmd = "lazygit",
+        hidden = true,
+        direction = "float",
+        float_opts = float_opts,
+        on_open = function(_)
+            vim.cmd "startinsert!"
+        end,
+        on_close = function(_) end,
+        count = 99,
+    }
+    -- condition for neovide
+    if vim.g.neovide then
+        float_opts.height = math.floor(vim.o.lines * 0.98)
+        float_opts.width = math.floor(vim.o.columns * 0.98)
+    end
+    lazygit:toggle()
+end
+
+M.broot_toggle = function()
+    local Terminal = require("toggleterm.terminal").Terminal
+    local float_opts = {
+        -- height = math.floor(vim.o.lines * 1),
+        -- width = math.floor(vim.o.columns * 1),
+    }
+    local broot = Terminal:new {
+        cmd = "broot",
+        hidden = true,
+        direction = "float",
+        float_opts = float_opts,
+        on_open = function(_)
+            vim.cmd "startinsert!"
+        end,
+        on_close = function(_) end,
+        count = 99,
+    }
+    -- condition for neovide
+    if vim.g.neovide then
+        -- float_opts.height = math.floor(vim.o.lines * 1.0)
+        -- float_opts.width = math.floor(vim.o.columns * 1.0)
+    end
+    broot:toggle()
+end
+
+M.code_runner = function(run_cmd, direction)
+    local Terminal = require("toggleterm.terminal").Terminal
+    local file_name = vim.api.nvim_buf_get_name(0)
+    local py_runner = Terminal:new {
+        cmd = run_cmd .. " " .. file_name,
+        hidden = true,
+        direction = direction,
+        close_on_exit = false, -- close the terminal window when the process exits
+        -- float_opts = {},
+        on_open = function(_)
+            vim.cmd "startinsert!"
+        end,
+        on_close = function(_) end,
+        count = 99,
+    }
+    py_runner:toggle()
+end
+
 return M

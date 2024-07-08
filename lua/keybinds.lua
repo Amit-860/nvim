@@ -62,7 +62,13 @@ if not vim.g.vscode then
 
     -- Quit
     -- vim.keymap.set("n", "<leader>q", "<nop>", { desc = "+Quit", noremap = true })
-    vim.keymap.set("n", "<leader>qq", "<cmd>q<cr>", { noremap = true, silent = true, desc = "Quit", })
+    vim.keymap.set("n", "<leader>qq",
+        function()
+            vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<esc>", true, false, true), 'x', true) -- changing to normal mode
+            pcall(vim.cmd, "Neotree close")
+            vim.cmd("qall")
+        end
+        , { noremap = true, silent = true, desc = "Quit", })
     vim.keymap.set('n', "<leader>qw", "<cmd>wq<cr>", { noremap = true, silent = true, desc = 'Write & Exit' })
     vim.keymap.set('n', "<leader>qQ", "<cmd>q!<cr>", { noremap = true, silent = true, desc = 'Force Exit' })
     vim.keymap.set({ 'n', 'i' }, "<C-q>",
@@ -73,7 +79,6 @@ if not vim.g.vscode then
                 vim.cmd("q")
             end
         end, { noremap = true, silent = true, desc = 'Exit' })
-    vim.keymap.set('n', "<C-Q>", "<cmd>q!<cr>", { noremap = true, silent = true, desc = 'Force Exit' })
 
 
     -- tab
@@ -164,7 +169,7 @@ if not vim.g.vscode then
     vim.keymap.set("n", "<leader>ot", ":Telescope colorscheme<cr>",
         { desc = "Preview Theme", noremap = true, silent = true })
     vim.keymap.set("n", "<leader>ob", function()
-        require('pluginSetups.toggleTermConfig').broot_toggle()
+        utils.broot_toggle()
     end, { desc = "Broot", noremap = true, silent = true })
     vim.keymap.set("n", "<leader>ol", function()
         require('pluginSetups.toggleTermConfig').lazygit_toggle()
@@ -197,7 +202,7 @@ if not vim.g.vscode then
     -- Neogit
     vim.keymap.set('n', '<leader>gg', ':Neogit<CR>', { desc = "Neogit", silent = true, noremap = true })
     vim.keymap.set("n", "<leader>gl", function()
-        require('pluginSetups.toggleTermConfig').lazygit_toggle()
+        utils.lazygit_toggle()
     end, { desc = "Lazygit", noremap = true, silent = true })
 end
 
