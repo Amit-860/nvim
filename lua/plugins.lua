@@ -1,5 +1,4 @@
-M = {}
-M.plugin_list = {
+return {
     -- theme
     {
         "EdenEast/nightfox.nvim",
@@ -354,11 +353,11 @@ M.plugin_list = {
             require("better_escape").setup({
                 timeout = vim.o.timeoutlen,
                 mappings = {
-                    i = { j = { k = "<Esc>", }, },
-                    c = { j = { k = false }, },
-                    t = { j = { k = false }, },
-                    v = { j = { k = false, }, },
-                    s = { j = { k = false }, },
+                    i = { j = { k = "<esc>", j = false } },
+                    c = { j = { k = "<esc>", j = false }, },
+                    t = { j = { k = false, j = false }, },
+                    v = { j = { k = false, j = false } },
+                    s = { j = { k = "<esc>", j = false }, },
                 },
             })
         end,
@@ -486,6 +485,7 @@ M.plugin_list = {
             "nvim-lua/plenary.nvim",
             "nvim-tree/nvim-web-devicons",
             "MunifTanjim/nui.nvim",
+            "mrbjarksen/neo-tree-diagnostics.nvim",
         },
         config = function()
             require('pluginSetups.neoTreeConfig')
@@ -727,7 +727,3 @@ M.plugin_list = {
     }
 
 }
-
-M.opts = { checker = { frequency = 604800, } }
-
-return M
