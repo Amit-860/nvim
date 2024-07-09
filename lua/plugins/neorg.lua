@@ -13,9 +13,9 @@ return {
         "nvim-neorg/lua-utils.nvim"
     },
     version = "*",
-    config = function()
+    opts = function()
         -- NOTE : config opts for neorg
-        local opts = {
+        local neorg_opts = {
             load = {
                 ["core.defaults"] = {},
                 ["core.concealer"] = {
@@ -70,6 +70,6 @@ return {
             },
         }
 
-        require('neorg').setup(opts)
+        return neorg_opts
     end
 }

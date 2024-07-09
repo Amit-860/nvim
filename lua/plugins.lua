@@ -34,35 +34,25 @@ return {
     },
 
     -- keymappings
-    -- {
-    --     "folke/which-key.nvim",
-    --     cmd = "WhichKey",
-    --     event = "VeryLazy",
-    --     config = function()
-    --         require('pluginSetups.whichKeyConfig')
-    --     end
-    -- },
     {
         "kylechui/nvim-surround",
         version = "*", -- Use for stability; omit to use `main` branch for the latest features
         event = "VeryLazy",
-        config = function()
-            require("nvim-surround").setup({
-                keymaps = {
-                    insert = "<C-g>s",
-                    insert_line = "<C-g>S",
-                    normal = "ys",
-                    normal_cur = "yss",
-                    normal_line = "yS",
-                    normal_cur_line = "ySS",
-                    visual = "S",
-                    visual_line = "gS",
-                    delete = "dS",
-                    change = "cS",
-                    change_line = "cS",
-                },
-            })
-        end
+        opts = {
+            keymaps = {
+                insert = "<C-g>s",
+                insert_line = "<C-g>S",
+                normal = "ys",
+                normal_cur = "yss",
+                normal_line = "yS",
+                normal_cur_line = "ySS",
+                visual = "S",
+                visual_line = "gS",
+                delete = "dS",
+                change = "cS",
+                change_line = "cS",
+            },
+        }
     },
 
     -- LSP
@@ -211,7 +201,6 @@ return {
     },
 
     -- mini
-    { 'echasnovski/mini.ai',         event = { 'BufReadPost', 'BufNewFile' }, version = '*', opts = {} },
     { 'echasnovski/mini.cursorword', event = { 'BufReadPost', 'BufNewFile' }, version = '*', opts = {} },
     { 'echasnovski/mini.files',      event = { 'UIEnter' },                   version = '*', opts = {} },
     {
@@ -229,7 +218,7 @@ return {
                 blank = { enable = false },
                 indent = {
                     enable = true,
-                    chars = { "", "¦", "¦", "¦", "¦", "¦", "¦", "¦", "¦", "¦", "¦", "¦", "¦", "¦", "¦", "¦", "¦", "¦", "¦", },
+                    chars = { "", "│", "│", "│", "│", "│", "│", "│", "│", "│", "│", "│", "│", "│", "│", "│", "│", "│", "│", },
                     exclude_filetypes = { alpha = true, TelescopePrompt = true, Outline = true, ['neo-tree'] = true, ['neo-tree-popup'] = true, },
                 }
             }
@@ -282,7 +271,6 @@ return {
         dependencies = {
             "nvim-lua/plenary.nvim",
         },
-        event = "VeryLazy",
         keys = {
             {
                 "<leader>fB",
@@ -329,7 +317,6 @@ return {
     {
         "karb94/neoscroll.nvim",
         cond = not vim.g.neovide,
-        event = "VeryLazy",
         mappings = { -- Keys to be mapped to their corresponding default scrolling animation
             '<C-u>', '<C-d>',
             '<C-b>', '<C-f>',
@@ -369,7 +356,6 @@ return {
     -- marks/bookmarks
     {
         "cbochs/grapple.nvim",
-        event = "UIEnter",
         dependencies = {
             { "nvim-tree/nvim-web-devicons" }
         },

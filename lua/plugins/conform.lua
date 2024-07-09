@@ -2,9 +2,29 @@ return
 {
     "stevearc/conform.nvim",
     event = { "BufNewFile", "BufReadPost" },
-    config = function()
+    opts = function()
         local slow_format_filetypes = { "json", "xml", "toml", 'yml', 'html' }
-        require("conform").setup({
+        local conform_opts = {
+            format = {
+                timeout_ms = 3000,
+                async = false,           -- not recommended to change
+                quiet = false,           -- not recommended to change
+                lsp_format = "fallback", -- not recommended to change
+            },
+            formatters = {
+                injected = { options = { ignore_errors = true } },
+                -- # Example of using dprint only when a dprint.json file is present
+                -- dprint = {
+                --   condition = function(ctx)
+                --     return vim.fs.find({ "dprint.json" }, { path = ctx.filename, upward = true })[1]
+                --   end,
+                -- },
+                --
+                -- # Example of using shfmt with extra args
+                -- shfmt = {
+                --   prepend_args = { "-i", "2", "-ci" },
+                -- },
+            },
             formatters_by_ft = {
                 python = function(bufnr)
                     if require("conform").get_formatter_info("ruff_format", bufnr).available then
@@ -47,6 +67,7 @@ return
                 end
                 return { lsp_fallback = true }
             end,
-        })
+        }
+        return conform_opts
     end,
 }

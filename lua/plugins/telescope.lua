@@ -14,7 +14,7 @@ return {
             "nvim-telescope/telescope-ui-select.nvim",
             'nvim-telescope/telescope-fzy-native.nvim'
         },
-        config = function()
+        opts = function()
             local icons = require('icons')
             local actions = require("telescope.actions")
 
@@ -165,13 +165,14 @@ return {
                 }
             }
 
-
             if vim.g.neovide then
                 telescope_opts.defaults.winblend = 75
             end
 
-            require('telescope').setup(telescope_opts)
-
+            return telescope_opts
+        end,
+        config = function(_, opts)
+            require('telescope').setup(opts)
             require("telescope").load_extension("fzy_native")
             require("telescope").load_extension("ui-select")
             require("telescope").load_extension("undo")

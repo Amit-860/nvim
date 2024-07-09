@@ -104,7 +104,7 @@ return {
             local function has_words_before()
                 local line, col = unpack(vim.api.nvim_win_get_cursor(0))
                 return col ~= 0 and
-                vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match "%s" == nil
+                    vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match "%s" == nil
             end
 
             local cmp_confirm = cmp.mapping.confirm({
@@ -167,19 +167,7 @@ return {
                             vim_item.dup = 0
                         end
 
-                        -- trims down the extra long suggestions
-                        local function trim(text)
-                            local max = 40
-                            if text and text:len() > max then
-                                text = text:sub(1, max) .. ellipses_char
-                            end
-                            return text
-                        end
-
-                        -- setting abbr
-                        vim_item.abbr          = trim(vim_item.abbr) .. " "
-
-                        local source_symbol    = {
+                        local source_symbol = {
                             nvim_lsp = "lsp",
                             buffer = 'buff',
                             luasnip = 'snip',
@@ -196,15 +184,28 @@ return {
                         -- vim_item.menu = string.lower(kind)
                         -- vim_item.menu = "[" .. (source_icon[source] or source) .. "]"
                         -- vim_item.menu = string.lower(kind) .. " ⟨" .. (source_symbol[source] or source) .. "⟩"
-                        local padding          = function()
+                        local padding       = function()
                             local rep = 10 - #kind
                             if rep < 1 then
                                 return " "
                             end
                             return string.rep(" ", rep)
                         end
-                        vim_item.menu          = string.lower(kind) ..
-                        padding() .. string.lower(source_symbol[source] or source)
+                        vim_item.menu       = string.lower(kind) ..
+                            padding() .. string.lower(source_symbol[source] or source)
+
+                        -- trims down the extra long suggestions
+                        -- trmming and setting menu and abbr
+                        local widths        = {
+                            abbr = vim.g.cmp_widths and vim.g.cmp_widths.abbr or 40,
+                            menu = vim.g.cmp_widths and vim.g.cmp_widths.menu or 30,
+                        }
+
+                        for key, width in pairs(widths) do
+                            if vim_item[key] and vim.fn.strdisplaywidth(vim_item[key]) > width then
+                                vim_item[key] = vim.fn.strcharpart(vim_item[key], 0, width - 1) .. ellipses_char
+                            end
+                        end
 
                         vim_item.menu_hl_group = ({
                             Class = "CmpItemMenuClass",
@@ -426,7 +427,7 @@ return {
                     { name = 'treesitter' },
                 }
             })
-        end
+        end,
     },
     { 'hrsh7th/cmp-nvim-lsp',                                 event = { "VeryLazy" } },
     { 'ray-x/cmp-treesitter',                                 event = { "VeryLazy" } },

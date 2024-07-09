@@ -12,9 +12,51 @@ return {
         event = { "BufNewFile", "BufReadPre" },
         dependencies = { "williamboman/mason-lspconfig.nvim" },
         opts = {
-            setup = {
-                codelens = { enabled = true },
-                document_highlight = { enabled = true },
+            diagnostics = {
+                underline = true,
+                update_in_insert = false,
+                virtual_text = {
+                    spacing = 4,
+                    source = "if_many",
+                    prefix = "●",
+                    -- this will set set the prefix to a function that returns the diagnostics icon based on the severity
+                    -- this only works on a recent 0.10.0 build. Will be set to "●" when not supported
+                    -- prefix = "icons",
+                },
+                severity_sort = true,
+                -- Enable this to enable the builtin LSP inlay hints on Neovim >= 0.10.0
+                -- Be aware that you also will need to properly configure your LSP server to
+                -- provide the inlay hints.
+                inlay_hints = {
+                    enabled = true,
+                    exclude = { "vue" }, -- filetypes for which you don't want to enable inlay hints
+                },
+                -- Enable this to enable the builtin LSP code lenses on Neovim >= 0.10.0
+                -- Be aware that you also will need to properly configure your LSP server to
+                -- provide the code lenses.
+                codelens = {
+                    enabled = false,
+                },
+                -- Enable lsp cursor word highlighting
+                document_highlight = {
+                    enabled = true,
+                },
+                -- add any global capabilities here
+                capabilities = {
+                    workspace = {
+                        fileOperations = {
+                            didRename = true,
+                            willRename = true,
+                        },
+                    },
+                },
+                -- options for vim.lsp.buf.format
+                -- `bufnr` and `filter` is handled by the LazyVim formatter,
+                -- but can be also overridden when specified
+                format = {
+                    formatting_options = nil,
+                    timeout_ms = nil,
+                },
             }
         },
         config = function()
@@ -84,6 +126,8 @@ return {
 
             -- Set up lspconfig.
             local lspconfig = require('lspconfig')
+
+            -- setup lsp servers
             local capabilities = require('cmp_nvim_lsp').default_capabilities()
             local signs = { Error = "󰅚 ", Warn = "󰀪 ", Hint = "󰌶 ", Info = " " }
             for type, icon in pairs(signs) do
@@ -102,6 +146,7 @@ return {
                     end
                 end
             end
+
 
             local on_attach = function(client, bufnr)
                 -- lsp keymap
@@ -210,10 +255,6 @@ return {
                     local file_type = vim.bo.filetype
                     require('pluginSetups.toggleTermConfig').code_runner(file_type)
                 end, { noremap = true, silent = true, desc = "Run Code", })
-
-                -- NeoTree diagnostics
-                vim.keymap.set("n", "<leader>lt", ":Neotree diagnostics<cr>",
-                    { desc = "Neotree Diagnostics", noremap = true, silent = true })
             end
 
             vim.keymap.set("n", "<leader>lI", "<cmd>LspInfo<CR>", { noremap = true, silent = true, desc = "LSP Info", })

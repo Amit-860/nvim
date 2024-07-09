@@ -2,9 +2,9 @@ return {
     "lewis6991/gitsigns.nvim",
     event = "BufReadPost",
     cmd = "Gitsigns",
-    config = function()
+    opts = function()
         local icons = require('icons')
-        require('gitsigns').setup {
+        local git_sign_opts = {
             signs = {
                 add = {
                     text = icons.ui.BoldLineLeft,
@@ -91,5 +91,7 @@ return {
                 map('n', '<leader>gdH', "<CMD>DiffviewFileHistory<CR>", { desc = "Open File History" })
             end
         }
+
+        return git_sign_opts
     end
 }

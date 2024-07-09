@@ -52,5 +52,8 @@ return {
         end
 
         bufferline.setup(opts)
+
+        -- Fix bufferline when restoring a session
+        vim.opt.showtabline = 2
     end
 }

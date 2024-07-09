@@ -2,10 +2,7 @@ return {
     "rcarriga/nvim-dap-ui",
     event = "VeryLazy",
     dependencies = { "nvim-neotest/nvim-nio", { "theHamsta/nvim-dap-virtual-text", opts = {} } },
-    config = function()
-        local dapui = require "dapui"
-        local dap = require('dap')
-
+    opts = function()
         local ui_opts = {
             auto_open = true,
             notify = {
@@ -76,9 +73,12 @@ return {
             },
         }
 
-        dapui.setup(ui_opts.config)
-
-        if ui_opts.auto_open then
+        return ui_opts.config
+    end,
+    config = function(_, opts)
+        local dapui = require "dapui"
+        local dap = require('dap')
+        if opts.auto_open then
             dap.listeners.after.event_initialized["dapui_config"] = function()
                 dapui.open()
             end

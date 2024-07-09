@@ -2,7 +2,7 @@ return {
     'nvim-lualine/lualine.nvim',
     event = { "BufNewFile", "BufReadPost" },
     dependencies = { 'nvim-tree/nvim-web-devicons' },
-    config = function()
+    opts = function()
         local icons = require('icons')
         local colors = {
             grey        = '#a0a1a7',
@@ -138,7 +138,7 @@ return {
             cond = conditions.hide_in_width,
         }
 
-        require('lualine').setup {
+        local lualine_opts = {
             options = {
                 theme = theme,
                 -- theme = 'auto',
@@ -225,5 +225,7 @@ return {
                 lualine_x = {},
             },
         }
+
+        return lualine_opts
     end
 }

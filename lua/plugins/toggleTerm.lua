@@ -99,12 +99,11 @@ return {
 
         local init = function()
             local terminal = require "toggleterm"
-            terminal.setup(toggle_term_opts)
             for i, exec in pairs(toggle_term_opts.execs) do
                 local direction = exec[4] or toggle_term_opts.direction
 
                 local opts = {
-                    cmd = exec[1] or toggle_term_optsshell or vim.o.shell,
+                    cmd = exec[1] or toggle_term_opts.shell or vim.o.shell,
                     keymap = exec[2],
                     label = exec[3],
                     -- NOTE: unable to consistently bind id/count <= 9, see #2146
@@ -116,6 +115,7 @@ return {
                 }
                 add_exec(opts)
             end
+            terminal.setup(toggle_term_opts)
         end
 
         init()

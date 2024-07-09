@@ -88,24 +88,9 @@ return {
         which_key.setup(which_key_opts)
 
         which_key.register({
-            [']'] = { name = "Next" },
-            ['['] = { name = "Prev" },
-            s = { name = "Start" },
-            e = { name = "End" },
-        }, { prefix = "]" })
-
-        which_key.register({
-            [']'] = { name = "Next" },
-            ['['] = { name = "Prev" },
-            s = { name = "Start" },
-            e = { name = "End" },
-        }, { prefix = "[" })
-
-        which_key.register({
             f = { name = "Find" },
             g = { name = "Git" },
             e = { name = "Explorer" },
-            gd = { name = "Diff", },
             L = { name = "LeetCode" },
             l = { name = "LSP" },
             t = { name = "Trouble" },
@@ -116,6 +101,6 @@ return {
             q = { name = "Quit" },
             ['o'] = { name = "Others" },
             n = { name = "Notes" },
-        })
+        }, { prefix = "<leader>" })
     end
 }

@@ -5,7 +5,7 @@ if not vim.g.vscode then
     -- explorer
     vim.keymap.set("n", "<leader>eE", "<cmd>lua MiniFiles.open()<cr>",
         { noremap = true, silent = true, desc = 'Mini' })
-    vim.keymap.set("n", "<leader>ee", "<cmd>Neotree toggle<cr>",
+    vim.keymap.set("n", "<leader>ee", "<cmd>NvimTreeToggle<cr>",
         { noremap = true, silent = true, desc = 'Sidebar' })
 
     -- list buffers
@@ -65,7 +65,6 @@ if not vim.g.vscode then
     vim.keymap.set("n", "<leader>qq",
         function()
             vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<esc>", true, false, true), 'x', true) -- changing to normal mode
-            pcall(vim.cmd, "Neotree close")
             vim.cmd("qall")
         end
         , { noremap = true, silent = true, desc = "Quit", })
@@ -99,7 +98,7 @@ if not vim.g.vscode then
 
 
     -- Home
-    vim.keymap.set('n', "<leader>.", function() vim.cmd("Alpha") end,
+    vim.keymap.set('n', "<leader>.", function() vim.cmd("Dashboard") end,
         { noremap = true, silent = true, desc = 'which_key_ignore' })
 
     --lazy

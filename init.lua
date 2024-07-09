@@ -1,5 +1,5 @@
 -- Enable powershell as your default shellini
-vim.loader.enabled = true
+vim.loader.enable()
 vim.opt.shell = "pwsh.exe -NoLogo"
 vim.opt.shellcmdflag =
 "-NoLogo -NoProfile -ExecutionPolicy RemoteSigned -Command [Console]::InputEncoding=[Console]::OutputEncoding=[System.Text.Encoding]::UTF8;"
@@ -33,10 +33,10 @@ local default_options = {
     foldcolumn     = "auto:1",
     foldmethod     = "expr",  -- folding, set to "expr" for treesitter based folding / "manual"
     foldlevel      = 3,
-    foldlevelstart = 3,
+    foldlevelstart = 2,
     foldnestmax    = 5,
     foldminlines   = 12,
-    foldenable     = true,
+    foldenable     = false,
     foldexpr       = "nvim_treesitter#foldexpr()", -- set to "nvim_treesitter#foldexpr()" for treesitter based folding
     hidden         = true,                         -- required to keep multiple buffers and open multiple buffers
     hlsearch       = true,                         -- highlight all matches on previous search pattern
@@ -66,7 +66,7 @@ local default_options = {
     sidescrolloff  = 8,     -- minimal number of screen lines to keep left and right of the cursor.
     showcmd        = false,
     ruler          = false,
-    laststatus     = 0,
+    laststatus     = 3,
     pumblend       = 10, -- Make builtin completion menus slightly transparent
     pumheight      = 10, -- Make popup menu smaller
     winblend       = 10, -- Make floating windows slightly transparent

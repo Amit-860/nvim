@@ -3,8 +3,8 @@ return {
     build = "make install_jsregexp",
     event = "BufReadPost",
     dependencies = { "rafamadriz/friendly-snippets" },
+    opts = {},
     config = function()
-        require("luasnip").setup()
         require("luasnip.loaders.from_vscode").lazy_load()
     end
 }

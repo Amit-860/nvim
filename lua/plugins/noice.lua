@@ -1,10 +1,9 @@
 return {
     "folke/noice.nvim",
     event = "UIEnter",
-    opts = {},
     dependencies = { "MunifTanjim/nui.nvim" },
-    config = function()
-        require("noice").setup({
+    opts = function()
+        local lazy_opts = {
             lsp = {
                 progress = { enabled = true, },
                 override = {
@@ -24,10 +23,10 @@ return {
             --     { view = "cmdline", filter = { event = "msg_showmode" } }
             -- },
             presets = {
-                bottom_search = false, -- use a classic bottom cmdline for search
-                command_palette = true, -- position the cmdline and popupmenu together
+                bottom_search = false,        -- use a classic bottom cmdline for search
+                command_palette = true,       -- position the cmdline and popupmenu together
                 long_message_to_split = true, -- long messages will be sent to a split
-                lsp_doc_border = false, -- add a border to hover docs and signature help
+                lsp_doc_border = false,       -- add a border to hover docs and signature help
             },
             notify = { enabled = false, },
             win_options = {
@@ -78,6 +77,8 @@ return {
                     zindex = 900,
                 },
             },
-        })
+        }
+
+        return lazy_opts
     end,
 }
