@@ -11,61 +11,7 @@ return {
         "neovim/nvim-lspconfig",
         event = { "BufNewFile", "BufReadPre" },
         dependencies = { "williamboman/mason-lspconfig.nvim" },
-        opts = {
-            diagnostics = {
-                underline = true,
-                update_in_insert = false,
-                virtual_text = {
-                    spacing = 4,
-                    source = "if_many",
-                    prefix = "●",
-                    -- this will set set the prefix to a function that returns the diagnostics icon based on the severity
-                    -- this only works on a recent 0.10.0 build. Will be set to "●" when not supported
-                    -- prefix = "icons",
-                },
-                severity_sort = true,
-                -- Enable this to enable the builtin LSP inlay hints on Neovim >= 0.10.0
-                -- Be aware that you also will need to properly configure your LSP server to
-                -- provide the inlay hints.
-                inlay_hints = {
-                    enabled = true,
-                    exclude = { "vue" }, -- filetypes for which you don't want to enable inlay hints
-                },
-                -- Enable this to enable the builtin LSP code lenses on Neovim >= 0.10.0
-                -- Be aware that you also will need to properly configure your LSP server to
-                -- provide the code lenses.
-                codelens = {
-                    enabled = false,
-                },
-                -- Enable lsp cursor word highlighting
-                document_highlight = {
-                    enabled = true,
-                },
-                -- add any global capabilities here
-                capabilities = {
-                    workspace = {
-                        fileOperations = {
-                            didRename = true,
-                            willRename = true,
-                        },
-                    },
-                },
-                -- options for vim.lsp.buf.format
-                -- `bufnr` and `filter` is handled by the LazyVim formatter,
-                -- but can be also overridden when specified
-                format = {
-                    formatting_options = nil,
-                    timeout_ms = nil,
-                },
-            }
-        },
         config = function()
-            require("mason").setup()
-            require("mason-lspconfig").setup({
-                ensure_installed = { "lua_ls", "basedpyright", "ruff", "jsonls", "ltex", "denols", "html", "cssls", "cssmodules_ls", "emmet_language_server" },
-                automatic_installation = false,
-            })
-
             local icons = require('icons')
             local utils = require("utils")
             local default_diagnostic_config = {
@@ -78,7 +24,12 @@ return {
                         { name = "DiagnosticSignInfo",  text = icons.diagnostics.Information },
                     },
                 },
-                virtual_text = true,
+                virtual_text = {
+                    source = "if_many",
+                    -- prefix = '●',
+                    prefix = "⏺ "
+                },
+                virtual_lines = false,
                 update_in_insert = false,
                 underline = true,
                 severity_sort = true,
@@ -92,6 +43,13 @@ return {
                 },
             }
             vim.diagnostic.config(default_diagnostic_config)
+
+            local signs = { Error = "󰅚 ", Warn = "󰀪 ", Hint = "󰌶 ", Info = " " }
+            for type, icon in pairs(signs) do
+                local hl = "DiagnosticSign" .. type
+                vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
+            end
+
 
             local open_diagnostics = function()
                 vim.diagnostic.open_float({
@@ -124,16 +82,18 @@ return {
             --     }
             -- )
 
+            -- mason configs
+            require("mason").setup()
+            require("mason-lspconfig").setup({
+                ensure_installed = { "lua_ls", "basedpyright", "ruff", "jsonls", "ltex", "denols", "html", "cssls", "cssmodules_ls", "emmet_language_server" },
+                automatic_installation = false,
+            })
+
             -- Set up lspconfig.
             local lspconfig = require('lspconfig')
 
             -- setup lsp servers
             local capabilities = require('cmp_nvim_lsp').default_capabilities()
-            local signs = { Error = "󰅚 ", Warn = "󰀪 ", Hint = "󰌶 ", Info = " " }
-            for type, icon in pairs(signs) do
-                local hl = "DiagnosticSign" .. type
-                vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
-            end
 
             local function setup_lsp(server, opts)
                 -- lspconfig[server].setup(opts)
@@ -141,14 +101,26 @@ return {
                 conf.setup(opts)
                 local try_add = conf.manager.try_add
                 conf.manager.try_add = function(bufnr)
-                    if not vim.b.large_buf then
-                        return try_add(bufnr)
-                    end
+                    return try_add(bufnr)
                 end
             end
 
-
+            -- NOTE: LSP on_attach func
             local on_attach = function(client, bufnr)
+                -- NOTE: inlay hint
+                if client.server_capabilities.inlayHintProvider then
+                    vim.lsp.inlay_hint.enable(false)
+                end
+
+                -- NOTE: code_lens
+                if client.server_capabilities.codeLensProvider then
+                    vim.lsp.codelens.refresh()
+                    vim.api.nvim_create_autocmd({ "BufWritePost" }, {
+                        buffer = bufnr,
+                        callback = vim.lsp.codelens.refresh,
+                    })
+                end
+
                 -- lsp keymap
                 -- vim.keymap.set("n", "<leader>l", "<nop>", { desc = "+LSP", noremap = true, buffer=bufnr })
                 vim.keymap.set({ "n", "i" }, "<F13>k", open_diagnostics,
@@ -190,16 +162,22 @@ return {
 
                 -- lsp lines globally
                 local lsp_lines_enable = false
-                vim.diagnostic.config({ virtual_lines = lsp_lines_enable })
                 vim.keymap.set("n", "<leader>lh",
                     function()
-                        vim.diagnostic.config({
-                            virtual_text = lsp_lines_enable,
-                            signs = true,
-                            underline = true,
-                            virtual_lines = not lsp_lines_enable
-                        })
-                        lsp_lines_enable = not lsp_lines_enable
+                        if not lsp_lines_enable then
+                            default_diagnostic_config.virtual_text = false
+                            default_diagnostic_config.virtual_lines = true
+                            lsp_lines_enable = true
+                        else
+                            default_diagnostic_config.virtual_text = {
+                                source = "if_many",
+                                -- prefix = '●',
+                                prefix = "⏺ "
+                            }
+                            default_diagnostic_config.virtual_lines = false
+                            lsp_lines_enable = false
+                        end
+                        vim.diagnostic.config(default_diagnostic_config)
                     end,
                     { desc = "Toggle HlChunk", noremap = true }
                 )
@@ -208,18 +186,15 @@ return {
                 local lsp_lines_curr_line_enabled = false
                 vim.keymap.set("n", "<F13>l",
                     function()
-                        local opts = {
-                            signs = true,
-                            underline = true,
-                            virtual_text = true,
-                        }
+                        if lsp_lines_enable then return end
                         if not lsp_lines_curr_line_enabled then
-                            opts.virtual_lines = { only_current_line = true }
+                            default_diagnostic_config.virtual_lines = { only_current_line = true }
+                            lsp_lines_curr_line_enabled = true
                         else
-                            opts.virtual_lines = false
+                            default_diagnostic_config.virtual_lines = false
+                            lsp_lines_curr_line_enabled = false
                         end
-                        vim.diagnostic.config(opts)
-                        lsp_lines_curr_line_enabled = not lsp_lines_curr_line_enabled
+                        vim.diagnostic.config(default_diagnostic_config)
                     end,
                     { desc = "HlChunk .", noremap = true }
                 )
@@ -227,22 +202,18 @@ return {
                 vim.api.nvim_create_autocmd({ "InsertEnter", "InsertLeave", "CursorMoved", "CursorMovedI" }, {
                     group = vim.api.nvim_create_augroup("Diaable_hlchunk", { clear = true }),
                     callback = function()
-                        if lsp_lines_curr_line_enabled then
-                            vim.diagnostic.config({
-                                virtual_text = true,
-                                signs = true,
-                                underline = true,
-                                virtual_lines = false
-                            })
-                            lsp_lines_curr_line_enabled = not lsp_lines_curr_line_enabled
+                        if default_diagnostic_config.virtual_lines then
+                            default_diagnostic_config.virtual_lines = false
+                            default_diagnostic_config.virtual_text = {
+                                source = "if_many",
+                                -- prefix = '●',
+                                prefix = "⏺ "
+                            }
+                            vim.diagnostic.config(default_diagnostic_config)
+                            lsp_lines_curr_line_enabled = false
                         end
                     end,
                 })
-
-                -- inlay hint
-                if client.server_capabilities.inlayHintProvider then
-                    vim.lsp.inlay_hint.enable(false)
-                end
 
                 -- Code Runner
                 vim.keymap.set("n", "<leader>r", "<nop>", { desc = "which_key_ignore", noremap = true })
@@ -257,14 +228,19 @@ return {
                 end, { noremap = true, silent = true, desc = "Run Code", })
             end
 
-            vim.keymap.set("n", "<leader>lI", "<cmd>LspInfo<CR>", { noremap = true, silent = true, desc = "LSP Info", })
+
+            -- NOTE: ===================== setting up servers ======================
 
             -- comment below line to disable lsp support for nvim files
+            -- NOTE : neodev for nvim apis
             -- require("neodev").setup({})
+
+
+            -- NOTE : lua
             local lua_ls_settings = {
                 Lua = {
                     workspace = { checkThirdParty = false, },
-                    codeLens = { enable = true, },
+                    codeLens = { enable = false, },
                     completion = { callSnippet = "Replace", },
                     doc = { privateName = { "^_" }, },
                     hint = {
@@ -279,6 +255,7 @@ return {
             }
             setup_lsp("lua_ls", { on_attach = on_attach, capabilities = capabilities, settings = lua_ls_settings, })
 
+            -- NOTE : python
             local basedpyright_settings = {
                 basedpyright = {
                     analysis = {
@@ -293,12 +270,15 @@ return {
                 { on_attach = on_attach, capabilities = capabilities, settings = basedpyright_settings })
             setup_lsp("ruff", { on_attach = on_attach, capabilities = capabilities, })
 
+            -- NOTE : Json
             setup_lsp("jsonls", { on_attach = on_attach, capabilities = capabilities, })
 
+            -- NOTE : text
             setup_lsp("ltex",
-                { on_attach = on_attach, capabilities = capabilities, filetypes = { 'gitcommit', 'markdown', 'org', 'norg', 'xhtml', 'text', } }
+                { on_attach = on_attach, capabilities = capabilities, filetypes = { 'gitcommit', 'markdown', 'org', 'norg', 'xhtml', } }
             )
 
+            -- NOTE : javascript, html, css
             vim.g.markdown_fenced_languages = { "ts=typescript" }
             setup_lsp("denols", { on_attach = on_attach, capabilities = capabilities, })
             setup_lsp("html", { on_attach = on_attach, capabilities = capabilities, })
@@ -306,6 +286,8 @@ return {
             setup_lsp("cssmodules_ls", { on_attach = on_attach, capabilities = capabilities, })
             setup_lsp("emmet_language_server", { on_attach = on_attach, capabilities = capabilities, })
 
+
+            -- NOTE : lsp autocmds
             local lsp_attach_aug = vim.api.nvim_create_augroup("lsp_attach_aug", { clear = true })
             vim.api.nvim_create_autocmd({ "LspAttach" }, {
                 callback = function(args)

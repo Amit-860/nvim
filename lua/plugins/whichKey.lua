@@ -2,9 +2,8 @@ return {
     "folke/which-key.nvim",
     cmd = "WhichKey",
     event = "VeryLazy",
-    config = function()
+    opts = function()
         local icons = require('icons')
-        local which_key = require('which-key')
         local which_key_opts = {
             plugins = {
                 marks = true,     -- shows a list of your marks on ' and `
@@ -80,12 +79,16 @@ return {
                 filetypes = { "TelescopePrompt" },
             },
         }
+        return which_key_opts
+    end,
+    config = function(_, opts)
+        local which_key = require('which-key')
 
         if vim.g.neovide then
-            which_key_opts.window.winblend = 75
+            opts.window.winblend = 75
         end
 
-        which_key.setup(which_key_opts)
+        which_key.setup(opts)
 
         which_key.register({
             f = { name = "Find" },

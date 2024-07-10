@@ -23,10 +23,7 @@ local ts_opts = {
         disable = {},  -- optional, list of language that will be disabled
     },
     highlight = {
-        enable = true,                  -- false will disable the whole extension
-        disable = function(lang, bufnr) -- Disable in large C++ buffers
-            return vim.b.large_buf
-        end,
+        enable = true, -- false will disable the whole extension
     },
     context_commentstring = {
         enable = true,
@@ -181,8 +178,9 @@ return {
             "TSInstallFromGrammar",
         },
         event = "UIEnter",
-        config = function()
-            require 'nvim-treesitter.configs'.setup(ts_opts)
+        opts = ts_opts,
+        config = function(_, opts)
+            require 'nvim-treesitter.configs'.setup(opts)
 
             local utils = require('utils')
             -- register all text objects with which-key
@@ -202,6 +200,7 @@ return {
                 }
                 require("which-key").register(defs)
             end)
+            vim.api.nvim_set_hl(0, '@lsp.type.comment', {})
         end
     },
     {

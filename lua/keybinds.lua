@@ -188,6 +188,8 @@ if not vim.g.vscode then
         { desc = "LSP Stop", noremap = true, silent = true })
     vim.keymap.set("n", "<leader>l1", ":LspStart<cr>",
         { desc = "LSP Start", noremap = true, silent = true })
+    vim.keymap.set("n", "<leader>lI", "<cmd>LspInfo<CR>",
+        { noremap = true, silent = true, desc = "LSP Info", })
 
     -- yanky
     vim.keymap.set({ "n", "x" }, "p", "<Plug>(YankyPutAfter)",

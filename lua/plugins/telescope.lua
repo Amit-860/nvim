@@ -172,13 +172,14 @@ return {
             return telescope_opts
         end,
         config = function(_, opts)
-            require('telescope').setup(opts)
-            require("telescope").load_extension("fzy_native")
-            require("telescope").load_extension("ui-select")
-            require("telescope").load_extension("undo")
-            require 'telescope'.load_extension('project')
-            require 'telescope'.load_extension('noice')
-            require 'telescope'.load_extension('grapple')
+            local telescope = require('telescope')
+            telescope.setup(opts)
+            telescope.load_extension("fzy_native")
+            telescope.load_extension("ui-select")
+            telescope.load_extension("undo")
+            telescope.load_extension('project')
+            telescope.load_extension('noice')
+            telescope.load_extension('grapple')
         end
     }
 }

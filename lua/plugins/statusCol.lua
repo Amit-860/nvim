@@ -4,9 +4,9 @@ return {
     dependencies = {
         "lewis6991/gitsigns.nvim",
     },
-    config = function()
+    opts = function()
         local builtin = require('statuscol.builtin')
-        require("statuscol").setup({
+        local statuscol_opts = {
             ft_ignore = {
                 'NvimTree',
                 'toggleterm',
@@ -59,6 +59,11 @@ return {
                     auto = true,
                 },
             }
-        })
+        }
+
+        return statuscol_opts
+    end,
+    config = function(_, opts)
+        require("statuscol").setup(opts)
     end
 }

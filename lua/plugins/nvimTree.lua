@@ -77,7 +77,8 @@ return {
         }
         return nvimtree_opts
     end,
-    config = function()
+    config = function(_, opts)
+        require('nvim-tree').setup(opts)
         vim.api.nvim_set_hl(0, "NvimTreeNormal", { link = "Normal" })
     end
 

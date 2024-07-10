@@ -2,11 +2,8 @@ return {
     {
         'hrsh7th/nvim-cmp',
         event = { "InsertEnter", "CmdlineEnter" },
-        dependencies = {
-            { url = 'https://codeberg.org/FelipeLema/cmp-async-path', event = { "VeryLazy" } },
-            { 'hrsh7th/cmp-cmdline',                                  event = { "VeryLazy" } },
-        },
-        config = function()
+        dependencies = {},
+        opts = function()
             local cmp = require('cmp')
             local cmp_mapping = require "cmp.config.mapping"
             local luasnip = require("luasnip")
@@ -339,9 +336,12 @@ return {
                     }
                 }
             }
+            return cmp_opts
+        end,
+        config = function(_, opts)
+            local cmp = require('cmp')
 
-
-            cmp.setup(cmp_opts)
+            cmp.setup(opts)
 
             -- To use git you need to install the plugin petertriho/cmp-git and uncomment lines below
             -- Set configuration for specific filetype.
@@ -393,7 +393,7 @@ return {
                 }
             })
 
-            cmp.setup.filetype({ "*.txt", "*.tex", "*.typ", "gitcommit", "markdown" }, {
+            cmp.setup.filetype({ "*.txt", "*.tex", "*.typ", "gitcommit", "markdown", "NeogitCommitMessage" }, {
                 sources = {
                     { name = 'buffer' },
                     {

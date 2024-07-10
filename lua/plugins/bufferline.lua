@@ -3,8 +3,7 @@ return {
     event = { "UIEnter" },
     version = "*",
     dependencies = 'nvim-tree/nvim-web-devicons',
-    config = function()
-        local bufferline = require('bufferline')
+    opts = function()
         local opts = {
             options = {
                 -- style_preset = bufferline.style_preset.no_italic,
@@ -44,6 +43,11 @@ return {
                 },
             }
         }
+
+        return opts
+    end,
+    config = function(_, opts)
+        local bufferline = require('bufferline')
 
         if vim.g.neovide then
             opts.options.separator_style = "thick"

@@ -71,5 +71,8 @@ return {
         }
 
         return neorg_opts
+    end,
+    config = function(_, opts)
+        require('neorg').setup(opts)
     end
 }

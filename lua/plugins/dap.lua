@@ -3,10 +3,8 @@ return {
         "mfussenegger/nvim-dap",
         dependencies = { "rcarriga/nvim-dap-ui" },
         event = "LspAttach",
-        config = function()
+        opts = function()
             local icons = require("icons")
-            local dap = require('dap')
-
             local dap_opts = {
                 breakpoint = {
                     text = icons.ui.Bug,
@@ -30,6 +28,11 @@ return {
                     level = "info",
                 },
             }
+
+            return dap_opts
+        end,
+        config = function(_, dap_opts)
+            local dap = require('dap')
 
             vim.fn.sign_define("DapBreakpoint", dap_opts.breakpoint)
             vim.fn.sign_define("DapBreakpointRejected", dap_opts.breakpoint_rejected)

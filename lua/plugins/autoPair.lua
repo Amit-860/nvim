@@ -1,29 +1,28 @@
 return {
     'windwp/nvim-autopairs',
     event = "InsertEnter",
-    config = function()
+    opts = {
+        enable_abbr = true,
+        fast_wrap = {
+            map = '<M-e>',
+            chars = { '{', '[', '(', '"', "'" },
+            pattern = [=[[%'%"%>%]%)%}%,]]=],
+            end_key = '$',
+            before_key = 'h',
+            after_key = 'l',
+            cursor_pos_before = true,
+            keys = 'qwertyuiopzxcvbnmasdfghjkl',
+            manual_position = true,
+            highlight = 'Search',
+            highlight_grey = 'Comment'
+        },
+    },
+    config = function(_, opts)
         local autopair = require('nvim-autopairs')
         local cmp_autopairs = require('nvim-autopairs.completion.cmp')
         local cmp_status, cmp = pcall(require, 'cmp')
 
-        local autopair_opts = {
-            enable_abbr = true,
-            fast_wrap = {
-                map = '<M-e>',
-                chars = { '{', '[', '(', '"', "'" },
-                pattern = [=[[%'%"%>%]%)%}%,]]=],
-                end_key = '$',
-                before_key = 'h',
-                after_key = 'l',
-                cursor_pos_before = true,
-                keys = 'qwertyuiopzxcvbnmasdfghjkl',
-                manual_position = true,
-                highlight = 'Search',
-                highlight_grey = 'Comment'
-            }
-        }
-
-        autopair.setup(autopair_opts)
+        autopair.setup(opts)
 
         if cmp_status then
             cmp.event:on(

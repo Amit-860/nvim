@@ -349,7 +349,7 @@ return {
         recommended = true,
         event = { "BufNewFile", "BufReadPost" },
         opts = {
-            highlight = { timer = 500 },
+            highlight = { timer = vim.o.timeoutlen },
         },
     },
 

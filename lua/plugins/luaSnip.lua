@@ -4,7 +4,7 @@ return {
     event = "BufReadPost",
     dependencies = { "rafamadriz/friendly-snippets" },
     opts = {},
-    config = function()
+    config = function(_, opts)
         require("luasnip.loaders.from_vscode").lazy_load()
     end
 }

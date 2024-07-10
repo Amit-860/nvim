@@ -11,7 +11,7 @@ return {
                     i = { "@block.inner", "@conditional.inner", "@loop.inner" },
                 }, {}),
                 t = { "<([%p%w]-)%f[^<%w][^<>]->.-</%1>", "^<.->().*()</[^/]->$" },
-                d = { "%f[%d]%d+" }, -- digits
+                D = { "%f[%d]%d+" }, -- digits
                 e = {                -- Word with case
                     {
                         "%u[%l%d]+%f[^%l%d]",
@@ -58,7 +58,7 @@ return {
                 a = "Argument",
                 b = "Balanced ), ], }",
                 c = "Class",
-                d = "Digit(s)",
+                D = "Digit(s)",
                 e = "Word in CamelCase & snake_case",
                 f = "Function",
                 G = "Entire file",
