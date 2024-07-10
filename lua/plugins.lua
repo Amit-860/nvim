@@ -108,7 +108,7 @@ return {
                 strategy = {
                     [""] = function(bufnr)
                         local line_count = vim.api.nvim_buf_line_count(bufnr)
-                        if vim.b.large_buf then
+                        if line_count > 1000 then
                             return nil
                         end
                         return require('rainbow-delimiters').strategy['global']
@@ -123,7 +123,7 @@ return {
         "andymass/vim-matchup",
         event = { "BufNewFile", "BufReadPost" },
         config = function()
-            vim.g.matchup_matchparen_offscreen = { method = "popup" }
+            -- vim.g.matchup_matchparen_offscreen = { method = "popup" }
         end,
     },
 
@@ -410,5 +410,24 @@ return {
             })
         end
     },
+
+    -- disabling some featrues for big files
+    {
+        "LunarVim/bigfile.nvim",
+        opts = {
+            filesize = 5,      -- size of the file in MiB, the plugin round file sizes to the closest MiB
+            pattern = { "*" }, -- autocmd pattern or function see <### Overriding the detection of big files>
+            features = {       -- features to disable
+                "indent_blankline",
+                "illuminate",
+                "lsp",
+                "treesitter",
+                "syntax",
+                "matchparen",
+                "vimopts",
+                "filetype",
+            },
+        }
+    }
 
 }

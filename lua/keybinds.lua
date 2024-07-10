@@ -65,7 +65,7 @@ if not vim.g.vscode then
     vim.keymap.set("n", "<leader>qq",
         function()
             vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<esc>", true, false, true), 'x', true) -- changing to normal mode
-            vim.cmd("qall")
+            vim.cmd("confirm qall")
         end
         , { noremap = true, silent = true, desc = "Quit", })
     vim.keymap.set('n', "<leader>qw", "<cmd>wq<cr>", { noremap = true, silent = true, desc = 'Write & Exit' })
@@ -73,9 +73,9 @@ if not vim.g.vscode then
     vim.keymap.set({ 'n', 'i' }, "<C-q>",
         function()
             vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<esc>", true, false, true), 'x', true) -- changing to normal mode
-            local r = pcall(vim.cmd, "bd")
+            local r = pcall(vim.cmd, "confirm bd")
             if not r then
-                vim.cmd("q")
+                vim.cmd("confirm q")
             end
         end, { noremap = true, silent = true, desc = 'Exit' })
 
