@@ -25,20 +25,20 @@ if not vim.g.vscode then
     vim.keymap.set("n", "<leader>fr", "<cmd>Telescope oldfiles<cr>",
         { noremap = true, silent = true, desc = 'Recent Files' })
     vim.keymap.set('n', "<leader>fn",
-        [[<cmd>Telescope find_files find_command={'fd','-H','-E','.git','.','D:/notes'}<cr>]]
+        [[<cmd>Telescope find_files find_command={'fd','-tf','-H','-E','.git','.','D:/notes'}<cr>]]
         , { noremap = true, silent = true, desc = 'find notes' })
     vim.keymap.set('n', "<leader>fc",
-        [[<cmd>lua require'telescope.builtin'.find_files({ find_command = { 'fd', '-H', '-E', '.git', '.', vim.fn.expand("$HOME/AppData/Local/nvim") } })<cr>]]
+        [[<cmd>lua require'telescope.builtin'.find_files({ find_command = { 'fd','-tf', '-H', '-E', '.git', '.', vim.fn.expand("$HOME/AppData/Local/nvim") } })<cr>]]
         , { noremap = true, silent = true, desc = 'find config_files' })
 
     --
     -- close Buffer
-    vim.keymap.set("n", "<leader>c",
+    vim.keymap.set("n", "<leader>x",
         function()
             vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<esc>", true, false, true), 'x', true) -- changing to normal mode
             vim.cmd("bd")
         end, { noremap = true, silent = true, desc = 'which_key_ignore' })
-    vim.keymap.set("n", "<leader>C", "<cmd>bd!<cr>", { noremap = true, silent = true, desc = 'which_key_ignore' })
+    vim.keymap.set("n", "<leader>X", "<cmd>bd!<cr>", { noremap = true, silent = true, desc = 'which_key_ignore' })
 
 
     -- session

@@ -33,7 +33,7 @@ return {
                 },
             },
             update_focused_file = {
-                enable = true,
+                enable = false,
                 update_root = true,
                 ignore_list = { "help" },
             },

@@ -201,8 +201,8 @@ return {
     },
 
     -- mini
-    { 'echasnovski/mini.cursorword', event = { 'BufReadPost', 'BufNewFile' }, version = '*', opts = {} },
-    { 'echasnovski/mini.files',      event = { 'UIEnter' },                   version = '*', opts = {} },
+    { 'echasnovski/mini.cursorword', cond = false,          event = { 'BufReadPost', 'BufNewFile' }, version = '*', opts = {} },
+    { 'echasnovski/mini.files',      event = { 'UIEnter' }, version = '*',                           opts = {} },
     {
         "shellRaining/hlchunk.nvim",
         event = { "BufNewFile", "BufReadPost" },
@@ -317,14 +317,15 @@ return {
     {
         "karb94/neoscroll.nvim",
         cond = not vim.g.neovide,
+        event = { "BufReadPost", "BufNewFile" },
         mappings = { -- Keys to be mapped to their corresponding default scrolling animation
             '<C-u>', '<C-d>',
             '<C-b>', '<C-f>',
             '<C-y>', '<C-e>',
             'zt', 'zz', 'zb',
         },
-        config = function()
-            require('neoscroll').setup({
+        opts = function()
+            return {
                 mappings = { -- Keys to be mapped to their corresponding default scrolling animation
                     '<C-u>', '<C-d>',
                     '<C-b>', '<C-f>',
@@ -339,7 +340,7 @@ return {
                 pre_hook = nil,              -- Function to run before the scrolling animation starts
                 post_hook = nil,             -- Function to run after the scrolling animation ends
                 performance_mode = false,    -- Disable "Performance Mode" on all buffers.
-            })
+            }
         end
     },
 

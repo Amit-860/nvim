@@ -90,7 +90,7 @@ return {
         local header = week_header()
 
         -- adding padding on top of header
-        for _ = 1, math.floor(vim.o.lines * 0.25) do
+        for _ = 1, math.floor(vim.o.lines * 0.24) do
             table.insert(header, 1, "")
         end
 
@@ -125,7 +125,7 @@ return {
                 header = header,
                 center = {
                     {
-                        icon = ' ',
+                        icon = '  ',
                         icon_hl = 'DashboardIconColor',
                         desc = 'New File' .. padding,
                         desc_hl = 'DashboardDescColor',
@@ -136,7 +136,7 @@ return {
                         action = function() vim.cmd("enew") end
                     },
                     {
-                        icon = '󱋢 ',
+                        icon = '󱋢  ',
                         icon_hl = 'DashboardIconColor',
                         desc = 'Recent Files' .. padding,
                         desc_hl = 'DashboardDescColor',
@@ -147,7 +147,7 @@ return {
                         action = function() vim.cmd("Telescope oldfiles") end
                     },
                     -- {
-                    --     icon = '󰮗 ',
+                    --     icon = '󰮗  ',
                     --     icon_hl = 'DashboardIconColor',
                     --     desc = 'Find file' .. padding,
                     --     desc_hl = 'DashboardDescColor',
@@ -157,19 +157,19 @@ return {
                     --     key_format = ' %s',
                     --     action = function() require("utils").smart_find_file({}) end
                     -- },
-                    -- {
-                    --     icon = ' ',
-                    --     icon_hl = 'DashboardIconColor',
-                    --     desc = 'File explorer' .. padding,
-                    --     desc_hl = 'DashboardDescColor',
-                    --     key = 'E',
-                    --     keymap = '',
-                    --     key_hl = 'DashboardButtonShortcut',
-                    --     key_format = ' %s',
-                    --     action = function() require("yazi").yazi(nil, vim.fn.getcwd()) end
-                    -- },
                     {
-                        icon = ' ',
+                        icon = '  ',
+                        icon_hl = 'DashboardIconColor',
+                        desc = 'File explorer' .. padding,
+                        desc_hl = 'DashboardDescColor',
+                        key = 'E',
+                        keymap = '',
+                        key_hl = 'DashboardButtonShortcut',
+                        key_format = ' %s',
+                        action = function() require("yazi").yazi(nil, vim.fn.getcwd()) end
+                    },
+                    {
+                        icon = '  ',
                         icon_hl = 'DashboardIconColor',
                         desc = 'Last session' .. padding,
                         desc_hl = 'DashboardDescColor',
@@ -180,7 +180,7 @@ return {
                         action = function() require('persistence').load({ last = true }) end
                     },
                     {
-                        icon = ' ',
+                        icon = '  ',
                         icon_hl = 'DashboardIconColor',
                         desc = 'LeetCode' .. padding,
                         desc_hl = 'DashboardDescColor',
@@ -191,7 +191,7 @@ return {
                         action = function() vim.cmd("Leet") end
                     },
                     {
-                        icon = ' ',
+                        icon = '  ',
                         icon_hl = 'DashboardIconColor',
                         desc = 'Projects' .. padding,
                         desc_hl = 'DashboardDescColor',
@@ -202,7 +202,7 @@ return {
                         action = function() require 'telescope'.extensions.project.project { display_type = 'full' } end
                     },
                     -- {
-                    --     icon = ' ',
+                    --     icon = '  ',
                     --     icon_hl = 'DashboardIconColor',
                     --     desc = 'NeoGit' .. padding,
                     --     desc_hl = 'DashboardDescColor',
@@ -213,7 +213,7 @@ return {
                     --     action = function() vim.cmd("Neogit") end
                     -- },
                     {
-                        icon = ' ',
+                        icon = '  ',
                         icon_hl = 'DashboardIconColor',
                         desc = 'Configs' .. padding,
                         desc_hl = 'DashboardDescColor',
@@ -221,10 +221,10 @@ return {
                         keymap = '',
                         key_hl = 'DashboardButtonShortcut',
                         key_format = ' %s',
-                        action = function() require 'telescope.builtin'.find_files({ find_command = { 'fd', '-H', '-E', '.git', '.', vim.fn.expand("$HOME/AppData/Local/nvim") } }) end
+                        action = function() require 'telescope.builtin'.find_files({ find_command = { 'fd', '-tf', '-H', '-E', '.git', '.', vim.fn.expand("$HOME/AppData/Local/nvim") } }) end
                     },
                     -- {
-                    --     icon = '󰿅 ',
+                    --     icon = '󰿅  ',
                     --     icon_hl = 'DashboardIconColor',
                     --     desc = 'Quit' .. padding,
                     --     desc_hl = 'DashboardDescColor',

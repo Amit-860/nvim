@@ -1,7 +1,8 @@
 return {
     "rcarriga/nvim-dap-ui",
-    event = "VeryLazy",
-    dependencies = { "nvim-neotest/nvim-nio", { "theHamsta/nvim-dap-virtual-text", opts = {} } },
+    event = "LspAttach",
+    dependencies = { { "nvim-neotest/nvim-nio", event = "VeryLazy" },
+        { "theHamsta/nvim-dap-virtual-text", event = "VeryLazy", opts = {} } },
     opts = function()
         local ui_opts = {
             auto_open = true,

@@ -1,7 +1,7 @@
 return {
     {
         'numToStr/Comment.nvim',
-        event = "VeryLazy",
+        event = { "VeryLazy" },
         opts = {
             ---Add a space b/w comment and the line
             padding = true,
@@ -12,14 +12,14 @@ return {
             ---LHS of toggle mappings in NORMAL mode
             toggler = {
                 ---Line-comment toggle keymap
-                line = '<leader>/',
+                line = 'gcc',
                 ---Block-comment toggle keymap
                 block = 'gbc',
             },
             ---LHS of operator-pending mappings in NORMAL and VISUAL mode
             opleader = {
                 ---Line-comment keymap
-                line = '<leader>/',
+                line = 'gc',
                 ---Block-comment keymap
                 block = 'gb',
             },
@@ -44,7 +44,21 @@ return {
             pre_hook = nil,
             ---Function to call after (un)comment
             post_hook = nil,
-        }
+        },
+        keys = function()
+            local api = require('Comment.api')
+            -- local config = require('Comment.config'):get()
+            local esc = vim.api.nvim_replace_termcodes('<ESC>', true, false, true)
+
+            return {
+                vim.keymap.set('n', '<leader>/', api.toggle.linewise.current, { desc = "comment linewise" }),
+                vim.keymap.set('x', '<leader>/',
+                    function()
+                        vim.api.nvim_feedkeys(esc, 'nx', false)
+                        api.toggle.linewise(vim.fn.visualmode())
+                    end, { desc = "comment linewise" })
+            }
+        end,
     },
     {
         "folke/ts-comments.nvim",
