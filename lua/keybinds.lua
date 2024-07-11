@@ -73,9 +73,11 @@ if not vim.g.vscode then
     vim.keymap.set({ 'n', 'i' }, "<C-q>",
         function()
             vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<esc>", true, false, true), 'x', true) -- changing to normal mode
-            local r = pcall(vim.cmd, "confirm bd")
-            if not r then
-                vim.cmd("confirm q")
+            if not pcall(vim.cmd, 'confirm close') then
+                local r = pcall(vim.cmd, "confirm bd")
+                if not r then
+                    vim.cmd("confirm q")
+                end
             end
         end, { noremap = true, silent = true, desc = 'Exit' })
 

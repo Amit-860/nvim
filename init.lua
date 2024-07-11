@@ -53,7 +53,7 @@ local default_options = {
     -- title          = true,                         -- set the title of window to the value of the titlestring
     -- opt.titlestring = "%<%F%=%l/%L - nvim" -- what the title of the window will be set to
     undofile       = true,  -- enable persistent undo
-    updatetime     = 100,   -- faster completion
+    updatetime     = 500,   -- faster completion
     writebackup    = false, -- if a file is being edited by another program (or was written to file while editing with another program), it is not allowed to be edited
     expandtab      = true,  -- convert tabs to spaces
     shiftwidth     = 4,     -- the number of spaces inserted for each indentation
@@ -132,8 +132,6 @@ require('colors')
 -- autocmd
 require('autocmd')
 
--- lsp
-require('lsp_utils')
 
 -- NOTE: Use vim.fn.expand($HOME/path/to/file.exe) for providing path
 

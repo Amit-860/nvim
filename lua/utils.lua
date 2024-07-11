@@ -4,6 +4,7 @@ local prompt_input_cursor_pos = function(opts, on_submit)
     local Input = require('nui.input')
     local popup = {
         relative = 'cursor',
+        completion = "buffer",
         position = {
             row = 1,
             col = 0,

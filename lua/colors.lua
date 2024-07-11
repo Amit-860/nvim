@@ -1,6 +1,6 @@
 M = {}
 -- vim.api.nvim_set_hl(0, "MatchParen", { bg = nil, fg = "#fffd00", underline = true, bold = true })
--- vim.api.nvim_set_hl(0, "MatchParen", { bg = "#4d5969", fg = "#ffffff", underline = false, bold = true })
+-- vim.api.nvim_set_hl(0, "MatchParen", { bg = "222b39", fg = "#ffffff", underline = false, bold = true })
 vim.api.nvim_set_hl(0, "FindAndReplace", { bg = "#e95d5d", fg = "#131a24", bold = true })
 vim.api.nvim_set_hl(0, "IncSearch", { bg = "#e95d5d", fg = "#131a24", bold = true })
 vim.api.nvim_set_hl(0, "MacroRecording", { bg = "#dbc874", fg = "#131a24", bold = true })
@@ -8,6 +8,10 @@ vim.api.nvim_set_hl(0, "MacroRecording", { bg = "#dbc874", fg = "#131a24", bold 
 -- visual
 -- vim.api.nvim_set_hl(0, "Visual", { bg = "#3a4f6d", bold = true, })
 vim.api.nvim_set_hl(0, "Visual", { bg = "#194c65", bold = true, })
+
+vim.api.nvim_set_hl(0, "LspReferenceRead", { bg = "#124152", })
+vim.api.nvim_set_hl(0, "LspReferenceText", { bg = "#124152", })
+vim.api.nvim_set_hl(0, "LspReferenceWrite", { bg = "#124152", })
 
 -- GitSings hilights
 vim.api.nvim_set_hl(0, "GitSignsUntracked", { fg = "#095611" })
@@ -40,7 +44,7 @@ if vim.g.neovide then
 end
 
 M.neovide_float_winblend = 30
-M.float_winblend = 15
+M.float_winblend = 20
 
 vim.api.nvim_set_hl(0, "MarkStatusLine", { bg = "#354965", fg = "#aeafb0", bold = true })
 vim.api.nvim_set_hl(0, "FloatTitle", { bg = M.float_color, blend = M.float_winblend })

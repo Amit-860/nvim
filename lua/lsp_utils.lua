@@ -55,8 +55,140 @@ for type, icon in pairs(signs) do
 end
 
 
--- INFO: on_attach func
-local on_attach = function(client, bufnr)
+local M = {}
+
+---@alias lsp.Client.filter {id?: number, bufnr?: number, name?: string, method?: string, filter?:fun(client: lsp.Client):boolean}
+---@param opts? lsp.Client.filter
+function M.get_clients(opts)
+    local ret = {} ---@type vim.lsp.Client[]
+    if vim.lsp.get_clients then
+        ret = vim.lsp.get_clients(opts)
+    else
+        ---@diagnostic disable-next-line: deprecated
+        ret = vim.lsp.get_active_clients(opts)
+        if opts and opts.method then
+            ---@param client vim.lsp.Client
+            ret = vim.tbl_filter(function(client)
+                return client.supports_method(opts.method, { bufnr = opts.bufnr })
+            end, ret)
+        end
+    end
+    return opts and opts.filter and vim.tbl_filter(opts.filter, ret) or ret
+end
+
+---@param on_attach fun(client:vim.lsp.Client, buffer)
+---@param name? string
+function M.attach_to_lsp(on_attach, name)
+    return vim.api.nvim_create_autocmd("LspAttach", {
+        callback = function(args)
+            local buffer = args.buf ---@type number
+            local client = vim.lsp.get_client_by_id(args.data.client_id)
+            if client and (not name or client.name == name) then
+                return on_attach(client, buffer)
+            end
+        end,
+    })
+end
+
+-- NOTE: adding LspDynamicCapability
+local supports_method = {}
+
+---@param fn fun(client:vim.lsp.Client, buffer):boolean?
+---@param opts? {group?: integer}
+local function on_dynamic_capability(fn, opts)
+    return vim.api.nvim_create_autocmd("User", {
+        pattern = "LspDynamicCapability",
+        group = opts and opts.group or nil,
+        callback = function(args)
+            local client = vim.lsp.get_client_by_id(args.data.client_id)
+            local buffer = args.data.buffer ---@type number
+            if client then
+                return fn(client, buffer)
+            end
+        end,
+    })
+end
+
+---@param client vim.lsp.Client
+local function check_methods(client, buffer)
+    -- don't trigger on invalid buffers
+    if not vim.api.nvim_buf_is_valid(buffer) then
+        return
+    end
+    -- don't trigger on non-listed buffers
+    if not vim.bo[buffer].buflisted then
+        return
+    end
+    -- don't trigger on nofile buffers
+    if vim.bo[buffer].buftype == "nofile" then
+        return
+    end
+    for method, clients in pairs(supports_method) do
+        clients[client] = clients[client] or {}
+        if not clients[client][buffer] then
+            if client.supports_method and client.supports_method(method, { bufnr = buffer }) then
+                clients[client][buffer] = true
+                vim.api.nvim_exec_autocmds("User", {
+                    pattern = "LspSupportsMethod",
+                    data = { client_id = client.id, buffer = buffer, method = method },
+                })
+            end
+        end
+    end
+end
+
+
+---@param method string
+---@param fn fun(client:vim.lsp.Client, buffer)
+local function on_supports_method(method, fn)
+    supports_method[method] = supports_method[method] or setmetatable({}, { __mode = "k" })
+    return vim.api.nvim_create_autocmd("User", {
+        pattern = "LspSupportsMethod",
+        callback = function(args)
+            local client = vim.lsp.get_client_by_id(args.data.client_id)
+            local buffer = args.data.buffer ---@type number
+            if client and method == args.data.method then
+                return fn(client, buffer)
+            end
+        end,
+    })
+end
+
+
+local function setup()
+    local register_capability = vim.lsp.handlers["client/registerCapability"]
+    vim.lsp.handlers["client/registerCapability"] = function(err, res, ctx)
+        ---@diagnostic disable-next-line: no-unknown
+        local ret = register_capability(err, res, ctx)
+        local client = vim.lsp.get_client_by_id(ctx.client_id)
+        if client then
+            for buffer in pairs(client.attached_buffers) do
+                vim.api.nvim_exec_autocmds("User", {
+                    pattern = "LspDynamicCapability",
+                    data = { client_id = client.id, buffer = buffer },
+                })
+            end
+        end
+        return ret
+    end
+    M.attach_to_lsp(check_methods)
+    on_dynamic_capability(check_methods)
+end
+
+-- -- NOTE: Utilize on_supports_method for using lsp capbilities
+-- on_supports_method("workspace/didRenameFiles", function(_, buf)
+--     vim.api.nvim_create_autocmd({ "CursorHold", "CursorMoved", }, {
+--         group = vim.api.nvim_create_augroup("lsp_word_" .. buf, { clear = true }),
+--         buffer = buf,
+--         callback = function(ev)
+--             print(vim.inspect(ev))
+--         end,
+--     })
+-- end)
+
+
+-- INFO: on_attach func =========================================================================
+M.on_attach = function(client, bufnr)
     -- NOTE: inlay hint
     local inlay_hint_flag = true
     -- if client.server_capabilities.inlayHintProvider then
@@ -75,72 +207,7 @@ local on_attach = function(client, bufnr)
         })
     end
 
-    -- NOTE: adding LspDynamicCapability
-    local supports_method = {}
-    local register_capability = vim.lsp.handlers["client/registerCapability"]
-    vim.lsp.handlers["client/registerCapability"] = function(err, res, ctx)
-        ---@diagnostic disable-next-line: no-unknown
-        local ret = register_capability(err, res, ctx)
-        local client = vim.lsp.get_client_by_id(ctx.client_id)
-        if client then
-            for buffer in pairs(client.attached_buffers) do
-                vim.api.nvim_exec_autocmds("User", {
-                    pattern = "LspDynamicCapability",
-                    data = { client_id = client.id, buffer = buffer },
-                })
-            end
-        end
-        return ret
-    end
-
-    ---@param fn fun(client:vim.lsp.Client, buffer):boolean?
-    ---@param opts? {group?: integer}
-    local function on_dynamic_capability(fn, opts)
-        return vim.api.nvim_create_autocmd("User", {
-            pattern = "LspDynamicCapability",
-            group = opts and opts.group or nil,
-            callback = function(args)
-                local client = vim.lsp.get_client_by_id(args.data.client_id)
-                local buffer = args.data.buffer ---@type number
-                if client then
-                    return fn(client, buffer)
-                end
-            end,
-        })
-    end
-
-    ---@param client vim.lsp.Client
-    local function check_methods(client, buffer)
-        -- don't trigger on invalid buffers
-        if not vim.api.nvim_buf_is_valid(buffer) then
-            return
-        end
-        -- don't trigger on non-listed buffers
-        if not vim.bo[buffer].buflisted then
-            return
-        end
-        -- don't trigger on nofile buffers
-        if vim.bo[buffer].buftype == "nofile" then
-            return
-        end
-        for method, clients in pairs(supports_method) do
-            clients[client] = clients[client] or {}
-            if not clients[client][buffer] then
-                if client.supports_method and client.supports_method(method, { bufnr = buffer }) then
-                    clients[client][buffer] = true
-                    vim.api.nvim_exec_autocmds("User", {
-                        pattern = "LspSupportsMethod",
-                        data = { client_id = client.id, buffer = buffer, method = method },
-                    })
-                end
-            end
-        end
-    end
-    -- INFO:
-    on_dynamic_capability(check_methods)
-
-
-    -- NOTE: LSP word highlight
+    -- NOTE: LSP word highlight -----------------------------------------------------------------
     local words = {}
     words.enabled = false
     words.ns = vim.api.nvim_create_namespace("vim_lsp_references")
@@ -162,7 +229,7 @@ local on_attach = function(client, bufnr)
         end
 
         if client.supports_method "textDocument/documentHighlight" then
-            vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI", "CursorMoved", "CursorMovedI" }, {
+            vim.api.nvim_create_autocmd({ "CursorHold", "CursorMoved", "CursorMovedI" }, {
                 group = vim.api.nvim_create_augroup("lsp_word_" .. bufnr, { clear = true }),
                 buffer = bufnr,
                 callback = function(ev)
@@ -173,6 +240,13 @@ local on_attach = function(client, bufnr)
                             vim.lsp.buf.document_highlight()
                         end
                     end
+                end,
+            })
+            vim.api.nvim_create_autocmd({ "InsertCharPre" }, {
+                group = vim.api.nvim_create_augroup("lsp_word_clear_" .. bufnr, { clear = true }),
+                buffer = bufnr,
+                callback = function()
+                    vim.lsp.buf.clear_references()
                 end,
             })
         end
@@ -201,21 +275,68 @@ local on_attach = function(client, bufnr)
     ---@param count number
     ---@param cycle? boolean
     function words.jump(count, cycle)
-        local words, idx = words.get()
+        local word, idx = words.get()
         if not idx then
             return
         end
         idx = idx + count
         if cycle then
-            idx = (idx - 1) % #words + 1
+            idx = (idx - 1) % #word + 1
         end
-        local target = words[idx]
+        local target = word[idx]
         if target then
             vim.api.nvim_win_set_cursor(0, target.from)
         end
     end
 
-    -- lsp keymap
+    ---INFO: reaname ----------------------------------------------------------------------------------
+    ---@param from string
+    ---@param to string
+    ---@param rename? fun()
+    local function on_rename(from, to, rename)
+        local changes = {
+            files = { {
+                oldUri = vim.uri_from_fname(from),
+                newUri = vim.uri_from_fname(to),
+            } }
+        }
+
+        if client.supports_method("workspace/willRenameFiles") then
+            local resp = client.request_sync("workspace/willRenameFiles", changes, 1000, 0)
+            if resp and resp.result ~= nil then
+                vim.lsp.util.apply_workspace_edit(resp.result, client.offset_encoding)
+            end
+        end
+
+        if rename then
+            rename()
+        end
+        if client.supports_method("workspace/didRenameFiles") then
+            client.notify("workspace/didRenameFiles", changes)
+        end
+    end
+
+    vim.api.nvim_create_autocmd("User", {
+        pattern = "MiniFilesActionRename",
+        callback = function(event)
+            on_rename(event.data.from, event.data.to, function()
+                vim.cmd.edit(event.data.to)
+                vim.api.nvim_buf_delete(buf, { force = true })
+            end)
+        end,
+    })
+
+    local api = require("nvim-tree.api")
+    local Event = api.events.Event
+    api.events.subscribe(Event.NodeRenamed, function(data)
+        on_rename(data.old_name, data.new_name, function()
+            vim.cmd.edit(data.new_name)
+            vim.api.nvim_buf_delete(buf, { force = true })
+        end)
+    end)
+
+
+    -- NOTE: lsp keymap ---------------------------------------------------------------------------------
     -- vim.keymap.set("n", "<leader>l", "<nop>", { desc = "+LSP", noremap = true, buffer=bufnr })
     vim.keymap.set({ "n", "i" }, "<F13>k", open_diagnostics_float,
         { desc = "Signature Help", noremap = true, buffer = bufnr })
@@ -335,15 +456,10 @@ local lsp_attach_aug = vim.api.nvim_create_augroup("lsp_attach_aug", { clear = t
 vim.api.nvim_create_autocmd({ "LspAttach" }, {
     callback = function(args)
         local client = vim.lsp.get_client_by_id(args.data.client_id)
-        on_attach(client, 0)
+        M.on_attach(client, 0)
         vim.b.minicursorword_disable = true
     end,
     group = lsp_attach_aug,
 })
-vim.api.nvim_create_autocmd({ "BufWritePost" }, {
-    group = lsp_attach_aug,
-    pattern = { "*.java" },
-    callback = function()
-        local _, _ = pcall(vim.lsp.codelens.refresh)
-    end,
-})
+
+return M
