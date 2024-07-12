@@ -12,8 +12,9 @@ local default_diagnostic_config = {
     },
     virtual_text = {
         source = "if_many",
-        -- prefix = '●',
-        prefix = "⏺ "
+        -- prefix = ' ',
+        prefix = ' ',
+        -- prefix = "⏺ "
     },
     virtual_lines = false,
     update_in_insert = false,
@@ -348,10 +349,9 @@ M.on_attach = function(client, bufnr)
     vim.keymap.set({ "n" }, "<leader>lr",
         "<cmd>Telescope lsp_references theme=get_ivy initial_mode=normal<CR>",
         { desc = "References", noremap = true, buffer = bufnr })
-    vim.keymap.set({ "n" }, "<leader>lR", function()
-            require('utils').lsp_rename()
-        end,
-        { desc = "Rename Symbol", noremap = true, buffer = bufnr })
+    vim.keymap.set({ "n" }, "<leader>lt",
+        "<cmd>Telescope lsp_type_definitions theme=get_ivy initial_mode=normal<CR>",
+        { desc = "References", noremap = true, buffer = bufnr })
     vim.keymap.set({ "n" }, "<leader>ld",
         "<cmd>Telescope lsp_definitions theme=get_ivy initial_mode=normal<CR>",
         { desc = "Definitions", noremap = true, buffer = bufnr })
@@ -365,14 +365,16 @@ M.on_attach = function(client, bufnr)
         { desc = "Diagnostics", noremap = true, buffer = bufnr })
     vim.keymap.set({ "n" }, "<leader>lf", function() vim.lsp.buf.format() end,
         { desc = "Format", noremap = true, buffer = bufnr })
+    vim.keymap.set({ "n" }, "<leader>lR", function()
+        require('utils').lsp_rename()
+    end, { desc = "Rename Symbol", noremap = true, buffer = bufnr })
 
     -- toggle inlay_hint
     vim.keymap.set({ "n" }, "<leader>lH",
         function()
             local hint_flag = not vim.lsp.inlay_hint.is_enabled({ bufnr = bufnr })
             vim.lsp.inlay_hint.enable(hint_flag)
-        end,
-        { desc = "Virtual Hints", noremap = true, silent = false, buffer = bufnr })
+        end, { desc = "Virtual Hints", noremap = true, silent = false, buffer = bufnr })
 
     -- lsp lines globally
     local lsp_lines_enable = false
@@ -385,15 +387,15 @@ M.on_attach = function(client, bufnr)
             else
                 default_diagnostic_config.virtual_text = {
                     source = "if_many",
-                    -- prefix = '●',
-                    prefix = "⏺ "
+                    -- prefix = ' ',
+                    prefix = ' ',
+                    -- prefix = "⏺ "
                 }
                 default_diagnostic_config.virtual_lines = false
                 lsp_lines_enable = false
             end
             vim.diagnostic.config(default_diagnostic_config)
-        end,
-        { desc = "Toggle HlChunk", noremap = true }
+        end, { desc = "Toggle HlChunk", noremap = true }
     )
 
     -- enable lsplines for curr line
@@ -409,8 +411,7 @@ M.on_attach = function(client, bufnr)
                 lsp_lines_curr_line_enabled = false
             end
             vim.diagnostic.config(default_diagnostic_config)
-        end,
-        { desc = "HlChunk .", noremap = true }
+        end, { desc = "HlChunk .", noremap = true }
     )
     -- autocmd to disable per line HlChunk
     vim.api.nvim_create_autocmd({ "InsertEnter", "InsertLeave", "CursorMoved", "CursorMovedI" }, {
@@ -420,8 +421,9 @@ M.on_attach = function(client, bufnr)
                 default_diagnostic_config.virtual_lines = false
                 default_diagnostic_config.virtual_text = {
                     source = "if_many",
-                    -- prefix = '●',
-                    prefix = "⏺ "
+                    -- prefix = ' ',
+                    prefix = ' ',
+                    -- prefix = "⏺ "
                 }
                 vim.diagnostic.config(default_diagnostic_config)
                 lsp_lines_curr_line_enabled = false
@@ -447,6 +449,10 @@ M.on_attach = function(client, bufnr)
         { desc = "next LSP word", noremap = true, buffer = bufnr })
     vim.keymap.set({ "n" }, "[w", function() words.jump(-1, false) end,
         { desc = "prev LSP word", noremap = true, buffer = bufnr })
+
+    -- ouline
+    vim.keymap.set({ "n" }, "<leader>ls", "<cmd>Outline<CR>",
+        { desc = "Document Symbols", noremap = true, })
 end
 
 

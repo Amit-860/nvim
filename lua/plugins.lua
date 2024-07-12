@@ -95,6 +95,7 @@ return {
     -- LSP
     {
         "folke/neodev.nvim",
+        cond = false,
         event = "VeryLazy"
     },
     {
@@ -129,13 +130,7 @@ return {
         "hedyhli/outline.nvim",
         event = "LspAttach",
         cmd = { "Outline", "OutlineOpen" },
-        keys = {
-            vim.keymap.set({ "n" }, "<leader>ls", "<cmd>Outline<CR>",
-                { desc = "Document Symbols", noremap = true, })
-        },
-        opts = {
-            -- Your setup opts here
-        },
+        opts = {},
     },
     {
         'HiPhish/rainbow-delimiters.nvim',
@@ -238,8 +233,8 @@ return {
     },
 
     -- mini
-    { 'echasnovski/mini.cursorword', cond = false,          event = { 'BufReadPost', 'BufNewFile' }, version = '*', opts = {} },
-    { 'echasnovski/mini.files',      event = { 'UIEnter' }, version = '*',                           opts = {} },
+    -- { 'echasnovski/mini.cursorword', event = { 'BufReadPost', 'BufNewFile' }, version = '*', opts = {} },
+    { 'echasnovski/mini.files', event = { 'UIEnter' }, version = '*', opts = {} },
     {
         "shellRaining/hlchunk.nvim",
         event = { "BufNewFile", "BufReadPost" },

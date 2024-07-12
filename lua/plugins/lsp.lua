@@ -57,7 +57,10 @@ return {
 
             -- comment below line to disable lsp support for nvim files
             -- NOTE : neodev for nvim apis
-            -- require("neodev").setup({})
+            local neodev_status, neodev = pcall(require, "neodev")
+            if neodev_status then
+                neodev.setup({})
+            end
 
 
             -- NOTE : lua

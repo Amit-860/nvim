@@ -121,7 +121,7 @@ return {
             function()
                 local buf_clients = vim.lsp.get_active_clients { bufnr = 0 }
                 if #buf_clients == 0 then
-                    return "LSP Inactive"
+                    return "󰦕"
                 end
 
                 local buf_client_names = {}
@@ -132,8 +132,31 @@ return {
                     end
                 end
                 local unique_client_names = vim.fn.uniq(buf_client_names)
-                local language_servers = table.concat(unique_client_names, ", ")
-                return language_servers
+                return table.concat(unique_client_names, ", ")
+            end,
+            cond = conditions.hide_in_width,
+        }
+
+        local linters = "󰦕"
+        local buf_linters = function()
+            local _, lint = pcall(require, "lint")
+            local buf_linters = {}
+            if lint then
+                buf_linters = lint.get_running()
+            end
+            -- if not buf_linters or #buf_linters == 0 then
+            --     linters = "󰦕"
+            --     return "󰦕"
+            -- end
+            if #buf_linters > 0 then
+                linters = table.concat(buf_linters, ", ")
+            end
+            -- return table.concat(buf_linters, ", ")
+        end
+        local lint = {
+            function()
+                buf_linters()
+                return linters
             end,
             cond = conditions.hide_in_width,
         }
@@ -217,7 +240,7 @@ return {
                 },
                 lualine_c = {},
                 lualine_x = {},
-                lualine_y = { search_result, { 'filetype', color = { bg = colors.bg3 } }, lsp },
+                lualine_y = { search_result, { 'filetype', color = { bg = colors.bg3 } }, lsp, lint },
                 lualine_z = { '%l:%c', '%p%%/%L' },
             },
             inactive_sections = {

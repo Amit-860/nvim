@@ -17,6 +17,18 @@ return {
             events = { "BufWritePost", "BufReadPost", "InsertLeave" },
             linters_by_ft = {
                 python = { "pylint" },
+                -- NOTE : vale setup
+                -- create ~/.vale.ini file
+                -- Put this in .vale.ini file
+                -- -----------------------------------
+                -- This is my .vale.ini:
+                -- StylesPath = .
+                -- MinAlertLevel = suggestion
+                -- Packages = RedHat, alex
+                -- [*]
+                -- BasedOnStyles = Vale, RedHat, alex
+                -- -----------------------------------
+                -- Run .\AppData\Roaming\nvim-data\mason\packages\vale\vale.exe sync
                 text = { "vale" },
                 markdown = { "vale" },
                 gitcommit = { "vale" },
@@ -94,7 +106,7 @@ return {
                 names = vim.tbl_filter(function(name)
                     local linter = lint.linters[name]
                     if not linter then
-                        LazyVim.warn("Linter not found: " .. name, { title = "nvim-lint" })
+                        vim.notify("Linter not found: " .. name, 2)
                     end
                     return linter and not (type(linter) == "table" and linter.condition and not linter.condition(ctx))
                 end, names)
