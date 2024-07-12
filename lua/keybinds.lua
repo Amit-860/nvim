@@ -65,6 +65,7 @@ if not vim.g.vscode then
     vim.keymap.set("n", "<leader>qq",
         function()
             vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<esc>", true, false, true), 'x', true) -- changing to normal mode
+            pcall(vim.cmd, "NvimTreeClose")
             vim.cmd("confirm qall")
         end
         , { noremap = true, silent = true, desc = "Quit", })

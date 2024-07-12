@@ -154,7 +154,7 @@ return {
                         order_by = "recent",
                         search_by = { "title", "path" },
                         initial_mode = "insert",
-                        sync_with_nvim_tree = true, -- default false
+                        sync_with_nvim_tree = false, -- default false
                         -- default for on_project_selected = find project files
                         on_project_selected = function(prompt_bufnr)
                             -- Do anything you want in here. For example:

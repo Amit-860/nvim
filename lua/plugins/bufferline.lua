@@ -58,13 +58,12 @@ return {
         bufferline.setup(opts)
 
         -- Fix bufferline when restoring a session
-
-        vim.api.nvim_create_autocmd("BufUnload", {
-            group = vim.api.nvim_create_augroup("leave dashboard", { clear = true }),
-            pattern = "dashboard",
-            callback = function(event)
-                vim.opt.showtabline = 2
-            end
+        vim.api.nvim_create_autocmd({ "BufAdd", "BufDelete" }, {
+            callback = function()
+                vim.schedule(function()
+                    pcall(nvim_bufferline)
+                end)
+            end,
         })
     end
 }

@@ -78,7 +78,7 @@ end
 
 ---@param on_attach fun(client:vim.lsp.Client, buffer)
 ---@param name? string
-function M.attach_to_lsp(on_attach, name)
+function M.lsp_on_attach(on_attach, name)
     return vim.api.nvim_create_autocmd("LspAttach", {
         callback = function(args)
             local buffer = args.buf ---@type number
@@ -140,7 +140,7 @@ end
 
 ---@param method string
 ---@param fn fun(client:vim.lsp.Client, buffer)
-local function on_supports_method(method, fn)
+function M.on_supports_method(method, fn)
     supports_method[method] = supports_method[method] or setmetatable({}, { __mode = "k" })
     return vim.api.nvim_create_autocmd("User", {
         pattern = "LspSupportsMethod",
@@ -154,8 +154,7 @@ local function on_supports_method(method, fn)
     })
 end
 
-
-local function setup()
+function M.setup()
     local register_capability = vim.lsp.handlers["client/registerCapability"]
     vim.lsp.handlers["client/registerCapability"] = function(err, res, ctx)
         ---@diagnostic disable-next-line: no-unknown
@@ -171,7 +170,7 @@ local function setup()
         end
         return ret
     end
-    M.attach_to_lsp(check_methods)
+    M.lsp_on_attach(check_methods)
     on_dynamic_capability(check_methods)
 end
 
@@ -209,6 +208,7 @@ M.on_attach = function(client, bufnr)
 
     -- NOTE: LSP word highlight -----------------------------------------------------------------
     local words = {}
+    local _, cmp = pcall(require, 'cmp')
     words.enabled = false
     words.ns = vim.api.nvim_create_namespace("vim_lsp_references")
 
@@ -227,16 +227,15 @@ M.on_attach = function(client, bufnr)
             vim.lsp.buf.clear_references()
             return handler(err, result, ctx, config)
         end
-
         if client.supports_method "textDocument/documentHighlight" then
-            vim.api.nvim_create_autocmd({ "CursorHold", "CursorMoved", "CursorMovedI" }, {
+            vim.api.nvim_create_autocmd({ "CursorHold", "CursorMoved" }, {
                 group = vim.api.nvim_create_augroup("lsp_word_" .. bufnr, { clear = true }),
                 buffer = bufnr,
                 callback = function(ev)
                     if not ({ words.get() })[2] then
                         if ev.event:find("CursorMoved") then
                             vim.lsp.buf.clear_references()
-                        elseif not require('cmp').visible() then
+                        elseif not cmp.visible() then
                             vim.lsp.buf.document_highlight()
                         end
                     end
@@ -326,7 +325,7 @@ M.on_attach = function(client, bufnr)
         end,
     })
 
-    local api = require("nvim-tree.api")
+    local _, api = pcall(require, "nvim-tree.api")
     local Event = api.events.Event
     api.events.subscribe(Event.NodeRenamed, function(data)
         on_rename(data.old_name, data.new_name, function()

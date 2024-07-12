@@ -1,17 +1,17 @@
 M = {}
 -- vim.api.nvim_set_hl(0, "MatchParen", { bg = nil, fg = "#fffd00", underline = true, bold = true })
 -- vim.api.nvim_set_hl(0, "MatchParen", { bg = "222b39", fg = "#ffffff", underline = false, bold = true })
-vim.api.nvim_set_hl(0, "FindAndReplace", { bg = "#e95d5d", fg = "#131a24", bold = true })
-vim.api.nvim_set_hl(0, "IncSearch", { bg = "#e95d5d", fg = "#131a24", bold = true })
+vim.api.nvim_set_hl(0, "FindAndReplace", { bg = "#ff6f65", fg = "#131a24", bold = true })
+vim.api.nvim_set_hl(0, "IncSearch", { bg = "#ff6f65", fg = "#131a24", bold = true })
 vim.api.nvim_set_hl(0, "MacroRecording", { bg = "#dbc874", fg = "#131a24", bold = true })
 
 -- visual
 -- vim.api.nvim_set_hl(0, "Visual", { bg = "#3a4f6d", bold = true, })
 vim.api.nvim_set_hl(0, "Visual", { bg = "#194c65", bold = true, })
 
-vim.api.nvim_set_hl(0, "LspReferenceRead", { bg = "#124152", })
-vim.api.nvim_set_hl(0, "LspReferenceText", { bg = "#124152", })
-vim.api.nvim_set_hl(0, "LspReferenceWrite", { bg = "#124152", })
+vim.api.nvim_set_hl(0, "LspReferenceRead", { bg = "#2b3b51", })
+vim.api.nvim_set_hl(0, "LspReferenceText", { bg = "#2b3b51", })
+vim.api.nvim_set_hl(0, "LspReferenceWrite", { bg = "#2b3b51", })
 
 -- GitSings hilights
 vim.api.nvim_set_hl(0, "GitSignsUntracked", { fg = "#095611" })

@@ -1,6 +1,6 @@
 return {
     "nvim-tree/nvim-tree.lua",
-    cmd = { "NvimTreeToggle", "NvimTreeFocus", "NvimTreeFindFile", "NvimTreeCollapse" },
+    cmd = { "NvimTreeToggle", "NvimTreeOpen", "NvimTreeFocus", "NvimTreeFindFile", "NvimTreeCollapse" },
     opts = function()
         local nvimtree_opts = {
             hijack_cursor = true,
@@ -38,7 +38,7 @@ return {
                 ignore_list = { "help" },
             },
             diagnostics = {
-                enable = true,
+                enable = false,
                 show_on_dirs = true,
             },
             filters = {
@@ -48,7 +48,7 @@ return {
             },
             actions = {
                 change_dir = {
-                    enable = false,
+                    enable = true,
                     restrict_above_cwd = true,
                 },
                 open_file = {
@@ -58,7 +58,7 @@ return {
                     },
                 },
                 remove_file = {
-                    close_window = false,
+                    close_window = true,
                 },
             },
             log = {

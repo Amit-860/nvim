@@ -4,7 +4,6 @@ local prompt_input_cursor_pos = function(opts, on_submit)
     local Input = require('nui.input')
     local popup = {
         relative = 'cursor',
-        completion = "buffer",
         position = {
             row = 1,
             col = 0,
@@ -103,12 +102,18 @@ end
 
 M.find_and_replace = function()
     local word = nil
-    vim.ui.input({ prompt = 'Find : ' }, function(input)
+    vim.ui.input({
+        prompt = 'Find : ',
+        completion = "buffer"
+    }, function(input)
         word = input
     end)
     if word then
         highlight(word)
-        vim.ui.input({ prompt = "Replace : " }, function(input)
+        vim.ui.input({
+            prompt = "Replace : ",
+            completion = "buffer"
+        }, function(input)
             if not input then
                 return
             end
@@ -126,11 +131,17 @@ M.find_and_replace_in_selected = function()
     vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<esc>", true, false, true), 'x', true) -- changing to normal mode
     local line1 = vim.api.nvim_buf_get_mark(0, "<")[1]
     local line2 = vim.api.nvim_buf_get_mark(0, ">")[1]
-    vim.ui.input({ prompt = 'Find : ' }, function(input)
+    vim.ui.input({
+        prompt = 'Find : ',
+        completion = "buffer"
+    }, function(input)
         word = input
     end)
     if word then
-        vim.ui.input({ prompt = "Replace : " }, function(input)
+        vim.ui.input({
+            prompt = "Replace : ",
+            completion = "buffer"
+        }, function(input)
             if not input then
                 return
             end
@@ -160,7 +171,10 @@ M.replace_selected = function()
     local word = nil
     word = get_visual_selection()
     if word then
-        vim.ui.input({ prompt = "Replace : " }, function(input)
+        vim.ui.input({
+            prompt = "Replace : ",
+            completion = "buffer"
+        }, function(input)
             if not input then return end
             vim.cmd(":%s/" .. word .. "/" .. input .. "/gc")
         end)
