@@ -52,6 +52,11 @@ return {
                 --     return vim.fs.find({ "selene.toml" }, { path = ctx.filename, upward = true })[1]
                 --   end,
                 -- },
+                vale = {
+                    condition = function()
+                        return vim.bo.modifiable
+                    end
+                }
             },
         },
         config = function(_, opts)

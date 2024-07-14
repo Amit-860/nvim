@@ -4,7 +4,37 @@ return {
     opts = function()
         local ai = require("mini.ai")
         return {
-            n_lines = 500,
+            -- Number of lines within which textobject is searched
+            n_lines = 50,
+
+            -- Table with textobject id as fields, textobject specification as values.
+            -- Also use this to disable builtin textobjects. See |MiniAi.config|.
+
+            -- Module mappings. Use `''` (empty string) to disable one.
+            mappings = {
+                -- Main textobject prefixes
+                around = 'a',
+                inside = 'i',
+
+                -- Next/last textobjects
+                around_next = 'an',
+                inside_next = 'in',
+                around_last = 'aL',
+                inside_last = 'iL',
+
+                -- Move cursor to corresponding edge of `a` textobject
+                goto_left = 'g[',
+                goto_right = 'g]',
+            },
+
+            -- How to search for object (first inside current line, then inside
+            -- neighborhood). One of 'cover', 'cover_or_next', 'cover_or_prev',
+            -- 'cover_or_nearest', 'next', 'prev', 'nearest'.
+            search_method = 'cover_or_next',
+
+            -- Whether to disable showing non-error feedback
+            silent = false,
+
             custom_textobjects = {
                 o = ai.gen_spec.treesitter({
                     a = { "@block.outer", "@conditional.outer", "@loop.outer" },
@@ -73,17 +103,44 @@ return {
                 a[k] = v:gsub(" including.*", "")
             end
 
-            local ic = vim.deepcopy(i)
-            local ac = vim.deepcopy(a)
-            for key, name in pairs({ n = "Next", l = "Last" }) do
-                i[key] = vim.tbl_extend("force", { name = "Inside " .. name .. " textobject" }, ic)
-                a[key] = vim.tbl_extend("force", { name = "Around " .. name .. " textobject" }, ac)
+            local keys = {
+                mode = { 'o', 'x' },
+                { 'i', { group = "inside" } },
+                { 'a', { group = "around" } },
+            }
+
+            for key, name in pairs(i) do
+                table.insert(keys, { 'i' .. key, desc = name })
             end
-            require("which-key").register({
-                mode = { "o", "x" },
-                i = i,
-                a = a,
-            })
+            for key, name in pairs(a) do
+                table.insert(keys, { 'a' .. key, desc = name })
+            end
+
+            -- table.insert(keys, { 'il', { group = "Inside last textobject" } })
+            -- table.insert(keys, { 'in', { group = "Inside next textobject" } })
+            for key, name in pairs({ n = "next", l = "last" }) do
+                for key_i, name_i in pairs(i) do
+                    if key == 'n' then
+                        table.insert(keys, { 'i' .. key .. key_i, desc = "Inside next " .. name_i })
+                    else
+                        table.insert(keys, { 'i' .. key .. key_i, desc = "Inside last " .. name_i })
+                    end
+                end
+            end
+
+            -- table.insert(keys, { 'al', { group = "Around last textobject" } })
+            -- table.insert(keys, { 'an', { group = "Around next textobject" } })
+            for key, name in pairs({ n = "next", l = "last" }) do
+                for key_a, name_a in pairs(i) do
+                    if key == 'n' then
+                        table.insert(keys, { 'a' .. key .. key_a, desc = "Around next " .. name_a })
+                    else
+                        table.insert(keys, { 'a' .. key .. key_a, desc = "Around last " .. name_a })
+                    end
+                end
+            end
+
+            require("which-key").add(keys)
         end)
     end,
 }

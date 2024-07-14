@@ -351,7 +351,7 @@ M.on_attach = function(client, bufnr)
         { desc = "References", noremap = true, buffer = bufnr })
     vim.keymap.set({ "n" }, "<leader>lt",
         "<cmd>Telescope lsp_type_definitions theme=get_ivy initial_mode=normal<CR>",
-        { desc = "References", noremap = true, buffer = bufnr })
+        { desc = "Type Definitions", noremap = true, buffer = bufnr })
     vim.keymap.set({ "n" }, "<leader>ld",
         "<cmd>Telescope lsp_definitions theme=get_ivy initial_mode=normal<CR>",
         { desc = "Definitions", noremap = true, buffer = bufnr })
@@ -432,7 +432,6 @@ M.on_attach = function(client, bufnr)
     })
 
     -- Code Runner
-    vim.keymap.set("n", "<leader>r", "<nop>", { desc = "which_key_ignore", noremap = true })
     vim.keymap.set("n", "<leader>rc", function()
         local file_type = vim.bo.filetype
         utils.code_runner(file_type, "horizontal") -- float, window, horizontal, vertical

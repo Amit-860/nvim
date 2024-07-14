@@ -161,6 +161,10 @@ return {
             cond = conditions.hide_in_width,
         }
 
+        local line_digits = math.floor(math.log(vim.api.nvim_buf_line_count(0), 10) + 1)
+        local col_digits = math.floor(math.log(vim.o.columns * 1.0, 10) + 1)
+        print(vim.inspect({ line_digits, col_digits }))
+
         local lualine_opts = {
             options = {
                 theme = theme,
@@ -241,7 +245,7 @@ return {
                 lualine_c = {},
                 lualine_x = {},
                 lualine_y = { search_result, { 'filetype', color = { bg = colors.bg3 } }, lsp, lint },
-                lualine_z = { '%l:%c', '%p%%/%L' },
+                lualine_z = { '%' .. line_digits .. 'l/%-' .. col_digits .. 'c', '%2p%%/%L' },
             },
             inactive_sections = {
                 lualine_c = { '%f %y %m' },

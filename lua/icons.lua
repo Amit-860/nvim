@@ -166,6 +166,7 @@ return {
         Gear = "",
         History = "",
         Lightbulb = "",
+        Undo = "󰕍",
         LineLeft = "▏",
         LineMiddle = "│",
         List = "",

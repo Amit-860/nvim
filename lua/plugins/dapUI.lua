@@ -74,10 +74,11 @@ return {
             },
         }
 
-        return ui_opts.config
+        return ui_opts
     end,
     config = function(_, opts)
         local dapui = require "dapui"
+        dapui.setup(opts.config)
         local dap = require('dap')
         if opts.auto_open then
             dap.listeners.after.event_initialized["dapui_config"] = function()

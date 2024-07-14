@@ -26,6 +26,19 @@ return {
         lazy = true,
     },
 
+    -- luarocks
+    {
+        -- Install lua from here first before install luarocksj.nvim and neorg
+        -- https://github.com/rjpcomputing/luaforwindows
+        "vhyrro/luarocks.nvim",
+        lazy = false,
+        priority = 1000,
+        config = true,
+        opts = {
+            rocks = { "lua-curl", "nvim-nio", "mimetypes", "xml2lua" }
+        }
+    },
+
     -- Mason
     {
         "williamboman/mason.nvim",
@@ -154,8 +167,9 @@ return {
     {
         "andymass/vim-matchup",
         event = { "BufNewFile", "BufReadPost" },
-        config = function()
+        init = function()
             -- vim.g.matchup_matchparen_offscreen = { method = "popup" }
+            vim.g.matchup_matchparen_offscreen = {}
         end,
     },
 

@@ -13,7 +13,7 @@ return {
         event = { 'BufReadPost', 'BufNewFile' },
         dependencies = { "nvim-lua/plenary.nvim" },
         keys = {
-            vim.keymap.set("n", "ft", "<cmd>TodoTelescope<cr>", { desc = "todo comment" }),
+            vim.keymap.set("n", "<leader>ft", "<cmd>TodoTelescope<cr>", { desc = "todo comment" }),
             vim.keymap.set("n", "]t", function() require("todo-comments").jump_next() end, { desc = "Next todo comment" }),
             vim.keymap.set("n", "[t", function() require("todo-comments").jump_prev() end,
                 { desc = "Previous todo comment" }) },

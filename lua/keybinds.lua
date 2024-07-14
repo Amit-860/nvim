@@ -36,7 +36,7 @@ if not vim.g.vscode then
     vim.keymap.set("n", "<leader>x",
         function()
             vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<esc>", true, false, true), 'x', true) -- changing to normal mode
-            vim.cmd("bd")
+            vim.cmd("confirm bd")
         end, { noremap = true, silent = true, desc = 'which_key_ignore' })
     vim.keymap.set("n", "<leader>X", "<cmd>bd!<cr>", { noremap = true, silent = true, desc = 'which_key_ignore' })
 
@@ -217,12 +217,12 @@ vim.keymap.set('n', '<leader>h', "<cmd>noh<cr>", { desc = "which_key_ignore", no
 -- vim.keymap.set({ "n", "o", "x" }, "gs", '_', { noremap = true, silent = true, desc = "Goto first char" })
 -- vim.keymap.set({ "n", "o", "x" }, "gh", '0', { noremap = true, silent = true, desc = "Goto BOL" })
 -- vim.keymap.set({ "n", "o", "x" }, "gl", '$', { noremap = true, silent = true, desc = "Goto EOL" })
-vim.keymap.set({ 'n', 'i', 'v' }, "<c-s>", "<esc>:w!<cr>", { noremap = false, silent = true, desc = 'Save' })
-vim.keymap.set({ 'n', 'i', 'v' }, "<M-s>",
+vim.keymap.set({ 'n', 'i' }, "<c-s>", "<esc>:w!<cr>", { noremap = false, silent = true, desc = 'Save' })
+vim.keymap.set({ 'n', 'i' }, "<M-s>",
     function() utils.save_as() end
     , { noremap = false, silent = true, desc = 'Save_as' })
-vim.keymap.set({ 'n', 'i', 'v' }, "<M-o>", "<C-6>", { noremap = true, silent = true, desc = 'Edit the alternate file' })
-vim.keymap.set({ 'n', 'i', 'v' }, "<M-O>", "<C-^>", { noremap = true, silent = true, desc = 'Edit the alternate file' })
+vim.keymap.set({ 'n', 'i', }, "<M-o>", "<C-6>", { noremap = true, silent = true, desc = 'Edit the alternate file' })
+vim.keymap.set({ 'n', 'i', }, "<M-O>", "<C-^>", { noremap = true, silent = true, desc = 'Edit the alternate file' })
 
 
 -- Treesitter

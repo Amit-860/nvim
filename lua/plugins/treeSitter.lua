@@ -20,7 +20,9 @@ local ts_opts = {
 
     matchup = {
         enable = true, -- mandatory, false will disable the whole extension
-        disable = {},  -- optional, list of language that will be disabled
+        disable_virtual_text = false,
+        include_match_words = true,
+        disable = {}, -- optional, list of language that will be disabled
     },
     highlight = {
         enable = true, -- false will disable the whole extension
@@ -187,18 +189,19 @@ return {
             utils.on_load("which-key.nvim", function()
                 local defs = {
                     mode = { "n", "v" },
-                    ["g"] = { name = "+goto" },
-                    ["ys"] = { name = "+surround" },
-                    ["z"] = { name = "+fold" },
-                    ["]"] = { name = "+next" },
-                    ["["] = { name = "+prev" },
-                    ["<leader>gd"] = { name = "+diff" },
-                    ["]e"] = { name = "+end" },
-                    ["]s"] = { name = "+start" },
-                    ["[e"] = { name = "+end" },
-                    ["[s"] = { name = "+start" },
+                    { "<leader>gd", group = "diff" },
+                    { "[",          group = "prev" },
+                    { "[e",         group = "end" },
+                    { "[s",         group = "start" },
+                    { "]",          group = "next" },
+                    { "]e",         group = "end" },
+                    { "]s",         group = "start" },
+                    { "g",          group = "goto" },
+                    { "ys",         group = "surround" },
+                    { "z",          group = "fold" },
                 }
-                require("which-key").register(defs)
+
+                require("which-key").add(defs)
             end)
             vim.api.nvim_set_hl(0, '@lsp.type.comment', {})
         end

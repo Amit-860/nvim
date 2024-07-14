@@ -28,6 +28,9 @@ M.float_border_bg_color = "#1d293a"
 M.float_border_fg_color = "#578ea5"
 -- M.line_hilight = "#0a161e"
 
+vim.api.nvim_set_hl(0, "TreesitterContextLineNumber", { bg = "#001925", fg = "#e85c51", bold = false, })
+vim.api.nvim_set_hl(0, "TreesitterContextLineNumberBottom", { bg = "#001925", fg = "#e85c51", bold = true, })
+
 -- terafox
 M.float_color = "#112631"
 M.float_border_bg_color = "#112631"

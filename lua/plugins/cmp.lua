@@ -439,7 +439,7 @@ return {
         end,
     },
     { 'hrsh7th/cmp-nvim-lsp',                                 event = { "VeryLazy" } },
-    { 'ray-x/cmp-treesitter',                                 event = { "VeryLazy" } },
+    -- { 'ray-x/cmp-treesitter',                                 event = { "VeryLazy" } },
     { 'hrsh7th/cmp-buffer',                                   event = { "VeryLazy" } },
     { 'hrsh7th/cmp-cmdline',                                  event = { "VeryLazy" } },
     { 'f3fora/cmp-spell',                                     event = { "VeryLazy" } },
