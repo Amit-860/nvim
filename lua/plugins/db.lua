@@ -1,5 +1,4 @@
-return
-{
+--[[ return {
     "kristijanhusak/vim-dadbod-ui",
     cmd = { "DB", "DBUI", 'DBUIToggle', 'DBUIAddConnection', 'DBUIFindBuffer' },
     keys = {
@@ -47,4 +46,46 @@ return
             end,
         })
     end,
+} ]]
+
+
+return {
+    {
+        -- download Dbee binary from the release and add it to the path
+        "kndndrj/nvim-dbee",
+        dependencies = {
+            "MunifTanjim/nui.nvim",
+        },
+        cmd = "Dbee",
+        build = function()
+            -- Install tries to automatically detect the install method.
+            -- if it fails, try calling it with one of these parameters:
+            --    "curl", "wget", "bitsadmin", "go"
+            require("dbee").install("curl")
+        end,
+        keys = {
+            vim.keymap.set('n', '<localleader>d', "<cmd>Dbee<cr>", { desc = "DBee", noremap = true, silent = true }),
+        },
+        config = function()
+            require("dbee").setup({
+                sources = {
+                    require("dbee.sources").MemorySource:new({
+                        {
+                            name = "db",
+                            id = "db",
+                            type = 'sqlite',
+                            url = vim.fn.expand("$HOME/db/sakila-sqlite3/sakila_master.db")
+                        },
+                        {
+                            name = "jsq",
+                            type = 'jq',
+                            url = vim.fn.expand("$HOME/Downloads/large-file.json")
+                        },
+                    }),
+                    require("dbee.sources").EnvSource:new("DBEE_CONNECTIONS"),
+                    require("dbee.sources").FileSource:new(vim.fn.stdpath("cache") .. "/dbee/persistence.json"),
+                },
+            })
+        end,
+    },
 }

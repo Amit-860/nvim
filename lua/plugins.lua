@@ -26,19 +26,6 @@ return {
         lazy = true,
     },
 
-    -- luarocks
-    {
-        -- Install lua from here first before install luarocksj.nvim and neorg
-        -- https://github.com/rjpcomputing/luaforwindows
-        "vhyrro/luarocks.nvim",
-        lazy = false,
-        priority = 1000,
-        config = true,
-        opts = {
-            rocks = { "lua-curl", "nvim-nio", "mimetypes", "xml2lua" }
-        }
-    },
-
     -- Mason
     {
         "williamboman/mason.nvim",
@@ -74,13 +61,6 @@ return {
                 end
             end)
         end,
-    },
-
-    -- faster
-    {
-        'pteroctopus/faster.nvim',
-        event = "VeryLazy",
-        opts = {}
     },
 
     -- keymappings
@@ -247,8 +227,6 @@ return {
     },
 
     -- mini
-    -- { 'echasnovski/mini.cursorword', event = { 'BufReadPost', 'BufNewFile' }, version = '*', opts = {} },
-    { 'echasnovski/mini.files', event = { 'UIEnter' }, version = '*', opts = {} },
     {
         "shellRaining/hlchunk.nvim",
         event = { "BufNewFile", "BufReadPost" },
@@ -431,7 +409,7 @@ return {
             vim.keymap.set({ 'n' }, "<leader>or",
                 "<cmd>lua require('grug-far').grug_far({ prefills = { flags = vim.fn.expand('%') } })<cr>",
                 { noremap = true, silent = true, desc = 'Grug FAR .' }),
-            vim.keymap.set({ 'n' }, "<leader>oR",
+            vim.keymap.set({ 'n' }, "<leader>rR",
                 "lua require('grug-far').grug_far()<cr>",
                 { noremap = true, silent = true, desc = 'Grug FAR' }),
         },
@@ -458,23 +436,15 @@ return {
         end
     },
 
-    -- disabling some featrues for big files
+    -- highlight yank, undo, redo
     {
-        "LunarVim/bigfile.nvim",
-        opts = {
-            filesize = 5,      -- size of the file in MiB, the plugin round file sizes to the closest MiB
-            pattern = { "*" }, -- autocmd pattern or function see <### Overriding the detection of big files>
-            features = {       -- features to disable
-                "indent_blankline",
-                "illuminate",
-                "lsp",
-                "treesitter",
-                "syntax",
-                "matchparen",
-                "vimopts",
-                "filetype",
-            },
-        }
-    }
+        'mei28/luminate.nvim',
+        event = { 'VeryLazy' },
+        config = function()
+            require 'luminate'.setup({
+                -- if you want to customize, see Usage!
+            })
+        end
+    },
 
 }

@@ -1,16 +1,29 @@
 return {
     {
+        "williamboman/mason.nvim",
+        cmd = "Mason"
+    },
+    {
+        "williamboman/mason-lspconfig.nvim",
+        config = function() end
+    },
+    {
+        "antosha417/nvim-lsp-file-operations",
+        event = { "LspAttach" },
+        dependencies = {
+            "nvim-lua/plenary.nvim",
+            "nvim-tree/nvim-tree.lua",
+        },
+        config = function()
+            require("lsp-file-operations").setup()
+        end,
+    },
+    {
         "neovim/nvim-lspconfig",
         event = { "BufNewFile", "BufReadPre" },
         dependencies = {
-            {
-                "williamboman/mason.nvim",
-                cmd = "Mason"
-            },
-            {
-                "williamboman/mason-lspconfig.nvim",
-                config = function() end
-            },
+            "williamboman/mason.nvim",
+            "williamboman/mason-lspconfig.nvim",
         },
         config = function()
             local on_attach = require('lsp_utils').on_attach
@@ -33,13 +46,32 @@ return {
                         willRename = true,
                     },
                 },
+                -- textDocument = {
+                --     completion = {
+                --         completionItem = {
+                --             snippetSupport = true
+                --         },
+                --     }
+                -- },
+                -- references = {
+                --     dynamicRegistration = true
+                -- },
+                -- semanticTokens = {
+                --     dynamicRegistration = true,
+                -- },
+                -- signatureHelp = {
+                --     dynamicRegistration = true,
+                -- },
             }
+
             local cmp_capabilities = require('cmp_nvim_lsp').default_capabilities()
+            local lsp_file_capabilities = require('lsp-file-operations').default_capabilities()
             local capabilities = vim.tbl_deep_extend(
                 "force",
                 {},
                 vim.lsp.protocol.make_client_capabilities(),
                 cmp_capabilities or {},
+                lsp_file_capabilities or {},
                 capabilities_opts or {}
             )
 
@@ -63,7 +95,7 @@ return {
             end
 
 
-            -- NOTE : lua
+            -- INFO : lua
             local lua_ls_settings = {
                 Lua = {
                     workspace = { checkThirdParty = false, },
@@ -82,7 +114,7 @@ return {
             }
             setup_lsp("lua_ls", { on_attach = on_attach, capabilities = capabilities, settings = lua_ls_settings, })
 
-            -- NOTE : python
+            -- INFO : python
             local basedpyright_settings = {
                 basedpyright = {
                     analysis = {
@@ -97,21 +129,21 @@ return {
                 { on_attach = on_attach, capabilities = capabilities, settings = basedpyright_settings })
             setup_lsp("ruff", { on_attach = on_attach, capabilities = capabilities, })
 
-            -- NOTE : Json
+            -- INFO : Json
             setup_lsp("jsonls", { on_attach = on_attach, capabilities = capabilities, })
 
-            -- NOTE : text
+            -- INFO : text, markdown, org, norg
             -- setup_lsp("ltex",
             --     { on_attach = on_attach, capabilities = capabilities, filetypes = { 'gitcommit', 'markdown', 'org', 'norg', 'xhtml', } }
             -- )
 
-            -- NOTE : javascript, html, css
+            -- INFO : javascript, html, css
             vim.g.markdown_fenced_languages = { "ts=typescript" }
             setup_lsp("denols", { on_attach = on_attach, capabilities = capabilities, })
-            setup_lsp("html", { on_attach = on_attach, capabilities = capabilities, })
+            setup_lsp("html", { on_attach = on_attach, capabilities = capabilities })
             setup_lsp("cssls", { on_attach = on_attach, capabilities = capabilities, })
             setup_lsp("cssmodules_ls", { on_attach = on_attach, capabilities = capabilities, })
             setup_lsp("emmet_language_server", { on_attach = on_attach, capabilities = capabilities, })
         end
-    }
+    },
 }

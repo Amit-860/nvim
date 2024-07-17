@@ -132,16 +132,16 @@ return {
                     end
                 end
                 local unique_client_names = vim.fn.uniq(buf_client_names)
-                return table.concat(unique_client_names, ", ")
+                return table.concat(unique_client_names, "❟")
             end,
             cond = conditions.hide_in_width,
         }
 
         local linters = "󰦕"
         local buf_linters = function()
-            local _, lint = pcall(require, "lint")
+            local ok, lint = pcall(require, "lint")
             local buf_linters = {}
-            if lint then
+            if ok then
                 buf_linters = lint.get_running()
             end
             -- if not buf_linters or #buf_linters == 0 then
@@ -149,10 +149,11 @@ return {
             --     return "󰦕"
             -- end
             if #buf_linters > 0 then
-                linters = table.concat(buf_linters, ", ")
+                linters = table.concat(buf_linters, "❟")
             end
             -- return table.concat(buf_linters, ", ")
         end
+
         local lint = {
             function()
                 buf_linters()
@@ -163,7 +164,6 @@ return {
 
         local line_digits = math.floor(math.log(vim.api.nvim_buf_line_count(0), 10) + 1)
         local col_digits = math.floor(math.log(vim.o.columns * 1.0, 10) + 1)
-        print(vim.inspect({ line_digits, col_digits }))
 
         local lualine_opts = {
             options = {

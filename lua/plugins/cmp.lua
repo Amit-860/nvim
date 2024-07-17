@@ -307,7 +307,6 @@ return {
                         { name = 'nvim_lua' },
                         -- { name = 'path' },
                         { name = 'async_path' },
-                        -- { name = 'cmp-dbee' },
                         { name = 'treesitter', keyword_length = 3 },
                     },
                     {
@@ -359,7 +358,7 @@ return {
                 sources = cmp.config.sources(
                     {
                         { name = 'luasnip' },
-                        { name = 'vim-dadbod-completion' },
+                        { name = 'cmp-dbee' },
                     },
                     {
                         { name = 'buffer', keyword_length = 3 },
@@ -444,5 +443,15 @@ return {
     { 'hrsh7th/cmp-cmdline',                                  event = { "VeryLazy" } },
     { 'f3fora/cmp-spell',                                     event = { "VeryLazy" } },
     { url = 'https://codeberg.org/FelipeLema/cmp-async-path', event = { "VeryLazy" } },
-    { 'saadparwaiz1/cmp_luasnip',                             event = { "VeryLazy" }, dependencies = "L3MON4D3/LuaSnip" },
+    {
+        'saadparwaiz1/cmp_luasnip',
+        event = { "VeryLazy" },
+        dependencies = "L3MON4D3/LuaSnip"
+    },
+    {
+        "MattiasMTS/cmp-dbee",
+        event = { 'VeryLazy' },
+        opts = {},
+        ft = 'sql'
+    },
 }

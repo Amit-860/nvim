@@ -1,6 +1,6 @@
 M = {}
 
-local prompt_input_cursor_pos = function(opts, on_submit)
+local prompt_input_cursor_pos = function(opts, width, on_submit)
     local Input = require('nui.input')
     local popup = {
         relative = 'cursor',
@@ -10,7 +10,7 @@ local prompt_input_cursor_pos = function(opts, on_submit)
         },
         size = {
             min_width = 18,
-            width = '25%',
+            width = width,
         },
         border = {
             style = 'single',
@@ -126,7 +126,7 @@ M.find_and_replace = function()
     vim.cmd("noh")
 end
 
-M.find_and_replace_in_selected = function()
+M.find_and_replace_in_selection = function()
     local word = nil
     vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<esc>", true, false, true), 'x', true) -- changing to normal mode
     local line1 = vim.api.nvim_buf_get_mark(0, "<")[1]
@@ -186,10 +186,12 @@ end
 M.lsp_rename = function()
     local cursor_word = vim.fn.expand("<cword>")
     if not cursor_word then return end
-    prompt_input_cursor_pos({ prompt = cursor_word .. " 󰞘 ", default_value = cursor_word }, function(input)
-        if not input then return end
-        vim.lsp.buf.rename(input)
-    end)
+    prompt_input_cursor_pos({ prompt = cursor_word .. " ⇉ ", default_value = cursor_word },
+        math.floor((#cursor_word * 2.5) + 3),
+        function(input)
+            if not input then return end
+            vim.lsp.buf.rename(input)
+        end)
 end
 
 

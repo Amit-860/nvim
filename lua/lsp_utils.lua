@@ -316,19 +316,9 @@ M.on_attach = function(client, bufnr)
         end
     end
 
-    vim.api.nvim_create_autocmd("User", {
-        pattern = "MiniFilesActionRename",
-        callback = function(event)
-            on_rename(event.data.from, event.data.to, function()
-                vim.cmd.edit(event.data.to)
-                vim.api.nvim_buf_delete(buf, { force = true })
-            end)
-        end,
-    })
-
-    local _, api = pcall(require, "nvim-tree.api")
-    local Event = api.events.Event
-    api.events.subscribe(Event.NodeRenamed, function(data)
+    local _, nvim_tree_api = pcall(require, "nvim-tree.api")
+    local Event = nvim_tree_api.events.Event
+    nvim_tree_api.events.subscribe(Event.NodeRenamed, function(data)
         on_rename(data.old_name, data.new_name, function()
             vim.cmd.edit(data.new_name)
             vim.api.nvim_buf_delete(buf, { force = true })
@@ -338,8 +328,6 @@ M.on_attach = function(client, bufnr)
 
     -- NOTE: lsp keymap ---------------------------------------------------------------------------------
     -- vim.keymap.set("n", "<leader>l", "<nop>", { desc = "+LSP", noremap = true, buffer=bufnr })
-    vim.keymap.set({ "n", "i" }, "<F13>k", open_diagnostics_float,
-        { desc = "Signature Help", noremap = true, buffer = bufnr })
     vim.keymap.set({ "n", "i" }, "<M-i>", "<cmd>lua vim.lsp.buf.signature_help()<CR>",
         { desc = "Signature Help", noremap = true, buffer = bufnr })
     vim.keymap.set({ "n" }, "K", "<cmd>lua vim.lsp.buf.hover()<CR>",
@@ -360,10 +348,22 @@ M.on_attach = function(client, bufnr)
         { desc = "Implementations", noremap = true, buffer = bufnr })
     vim.keymap.set({ "n" }, "<leader>lS", "<cmd>Telescope lsp_workspace_symbols<CR>",
         { desc = "Workspace Symbols", noremap = true, buffer = bufnr })
-    vim.keymap.set({ "n" }, "<leader>lD",
-        "<cmd>Telescope diagnostics bufnr=0 theme=get_ivy initial_mode=normal<CR>",
-        { desc = "Diagnostics", noremap = true, buffer = bufnr })
-    vim.keymap.set({ "n" }, "<leader>lf", function() vim.lsp.buf.format() end,
+    vim.keymap.set({ "n" }, "<leader>lwD",
+        function()
+            require('telescope.builtin').diagnostics({
+                theme = "dropdown", layout_strategy = "vertical", layout_config = { preview_height = 0.6, },
+            })
+        end,
+        { desc = "Workspace", noremap = true, buffer = bufnr })
+    vim.keymap.set({ "n" }, "<leader>lwd",
+        function()
+            require('telescope.builtin').diagnostics({
+                bufnr = 0, theme = "dropdown", layout_strategy = "vertical", layout_config = { preview_height = 0.6, },
+            })
+        end,
+        { desc = "Buff", noremap = true, buffer = bufnr })
+    vim.keymap.set({ "n" }, "<leader>lf",
+        function() require('conform').format({ async = true, lsp_format = "fallback" }) end,
         { desc = "Format", noremap = true, buffer = bufnr })
     vim.keymap.set({ "n" }, "<leader>lR", function()
         require('utils').lsp_rename()
@@ -400,7 +400,7 @@ M.on_attach = function(client, bufnr)
 
     -- enable lsplines for curr line
     local lsp_lines_curr_line_enabled = false
-    vim.keymap.set("n", "<F13>l",
+    vim.keymap.set("n", "<localleader>l",
         function()
             if lsp_lines_enable then return end
             if not lsp_lines_curr_line_enabled then
@@ -454,6 +454,9 @@ M.on_attach = function(client, bufnr)
         { desc = "Document Symbols", noremap = true, })
 end
 
+vim.keymap.set({ "n", "i" }, "<localleader>k", open_diagnostics_float,
+    { desc = "Open diagnostics float", noremap = true, })
+
 
 -- NOTE : lsp autocmds
 local lsp_attach_aug = vim.api.nvim_create_augroup("lsp_attach_aug", { clear = true })
@@ -461,7 +464,6 @@ vim.api.nvim_create_autocmd({ "LspAttach" }, {
     callback = function(args)
         local client = vim.lsp.get_client_by_id(args.data.client_id)
         M.on_attach(client, 0)
-        vim.b.minicursorword_disable = true
     end,
     group = lsp_attach_aug,
 })

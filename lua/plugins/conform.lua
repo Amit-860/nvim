@@ -1,7 +1,8 @@
 return
 {
     "stevearc/conform.nvim",
-    event = { "BufNewFile", "BufReadPost" },
+    event = { "BufWritePre" },
+    cmd = { "ConformInfo" },
     opts = function()
         local slow_format_filetypes = { "json", "xml", "toml", 'yml', 'html' }
         local conform_opts = {
@@ -51,6 +52,9 @@ return
                 org = { "trim_whitespace", "trim_newlines" },
             },
             format_on_save = function(bufnr)
+                if vim.g.disable_autoformat or vim.b[bufnr].disable_autoformat then
+                    return
+                end
                 if slow_format_filetypes[vim.bo[bufnr].filetype] then
                     return
                 end
@@ -59,15 +63,45 @@ return
                         slow_format_filetypes[vim.bo[bufnr].filetype] = true
                     end
                 end
-                return { timeout_ms = 1000, lsp_fallback = true }, on_format
+                return { timeout_ms = 200, lsp_fallback = true }, on_format
             end,
             format_after_save = function(bufnr)
                 if not slow_format_filetypes[vim.bo[bufnr].filetype] then
                     return
                 end
-                return { lsp_fallback = true }
+                return { lsp_format = "fallback" }
             end,
         }
         return conform_opts
     end,
+    keys = {
+        vim.keymap.set({ 'n' }, "<localleader>ce", '<cmd>FormatEnable<cr>', { desc = "Format Enable" }),
+        vim.keymap.set({ 'n' }, "<localleader>cd", '<cmd>FormatDisable!<cr>', { desc = "Format Buff Disable" }),
+        vim.keymap.set({ 'n' }, "<localleader>cD", '<cmd>FormatDisable<cr>', { desc = "Format Disable" }),
+    },
+    init = function()
+        -- If you want the formatexpr, here is the place to set it
+        vim.o.formatexpr = "v:lua.require'conform'.formatexpr()"
+    end,
+    config = function(_, opts)
+        require('conform').setup(opts)
+
+        vim.api.nvim_create_user_command("FormatDisable", function(args)
+            if args.bang then
+                -- FormatDisable! will disable formatting just for this buffer
+                vim.b.disable_autoformat = true
+            else
+                vim.g.disable_autoformat = true
+            end
+        end, {
+            desc = "Disable autoformat-on-save",
+            bang = true,
+        })
+        vim.api.nvim_create_user_command("FormatEnable", function()
+            vim.b.disable_autoformat = false
+            vim.g.disable_autoformat = false
+        end, {
+            desc = "Re-enable autoformat-on-save",
+        })
+    end
 }

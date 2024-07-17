@@ -1,6 +1,7 @@
 return {
     {
         "mfussenegger/nvim-lint",
+        cond = false,
         dependencies = {
             {
                 "williamboman/mason.nvim",
@@ -32,7 +33,7 @@ return {
                 text = { "vale" },
                 markdown = { "vale" },
                 gitcommit = { "vale" },
-                norg = { "vale" },
+                -- norg = { "vale" },
                 NeogitCommitMessage = { "vale" },
                 -- Use the "*" filetype to run linters on all filetypes.
                 -- ['*'] = { 'global linter' },

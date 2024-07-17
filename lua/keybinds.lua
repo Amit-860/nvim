@@ -3,10 +3,8 @@ local utils = require('utils')
 -- settings for neovim
 if not vim.g.vscode then
     -- explorer
-    vim.keymap.set("n", "<leader>eE", "<cmd>lua MiniFiles.open()<cr>",
-        { noremap = true, silent = true, desc = 'Mini' })
-    vim.keymap.set("n", "<leader>ee", "<cmd>NvimTreeToggle<cr>",
-        { noremap = true, silent = true, desc = 'Sidebar' })
+    vim.keymap.set("n", "<leader>e", "<cmd>NvimTreeToggle<cr>",
+        { noremap = true, silent = true, desc = 'NvimTree' })
 
     -- list buffers
     vim.keymap.set("n", "<leader><leader>", "<cmd>Telescope buffers theme=dropdown<cr>",
@@ -152,9 +150,9 @@ if not vim.g.vscode then
         { desc = "Zoxide", noremap = true, silent = true })
 
     -- Find and Replace
-    vim.keymap.set({ "n" }, "<leader>R", utils.find_and_replace,
+    vim.keymap.set({ "n" }, "<leader>rr", utils.find_and_replace,
         { desc = "Find & Replace", noremap = true, silent = true })
-    vim.keymap.set({ "v" }, "<leader>R", utils.find_and_replace_in_selected,
+    vim.keymap.set({ "v" }, "<leader>rr", utils.find_and_replace_in_selection,
         { desc = "Find & Replace in Selection", noremap = true, silent = true })
     vim.keymap.set({ "v" }, "<leader>X", utils.replace_selected,
         { desc = "Replace Selected", noremap = true, silent = true })

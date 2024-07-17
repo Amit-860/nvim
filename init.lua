@@ -34,9 +34,9 @@ local default_options = {
     foldmethod     = "expr",  -- folding, set to "expr" for treesitter based folding / "manual"
     foldlevel      = 3,
     foldlevelstart = 2,
-    foldnestmax    = 5,
+    foldnestmax    = 2,
     foldminlines   = 12,
-    foldenable     = false,
+    foldenable     = true,
     foldexpr       = "nvim_treesitter#foldexpr()", -- set to "nvim_treesitter#foldexpr()" for treesitter based folding
     hidden         = true,                         -- required to keep multiple buffers and open multiple buffers
     hlsearch       = true,                         -- highlight all matches on previous search pattern
@@ -98,10 +98,9 @@ vim.opt.shortmess:append "I"   -- don't show the default intro message
 vim.opt.whichwrap:append "<,>,[,],h,l"
 
 vim.filetype.add {
-    extension = { tex = "tex", zir = "zir", cr = "crystal", },
+    extension = { tex = "tex", zir = "zir", cr = "crystal", http = "http" },
     pattern = { ["[jt]sconfig.*.json"] = "jsonc", },
 }
-
 -- plugins
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
@@ -131,6 +130,8 @@ require('colors')
 
 -- autocmd
 require('autocmd')
+
+require("jq")
 
 
 -- NOTE: Use vim.fn.expand($HOME/path/to/file.exe) for providing path

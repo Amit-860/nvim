@@ -9,9 +9,10 @@ vim.api.nvim_set_hl(0, "MacroRecording", { bg = "#dbc874", fg = "#131a24", bold 
 -- vim.api.nvim_set_hl(0, "Visual", { bg = "#3a4f6d", bold = true, })
 vim.api.nvim_set_hl(0, "Visual", { bg = "#194c65", bold = true, })
 
-vim.api.nvim_set_hl(0, "LspReferenceRead", { bg = "#2b3b51", })
-vim.api.nvim_set_hl(0, "LspReferenceText", { bg = "#2b3b51", })
-vim.api.nvim_set_hl(0, "LspReferenceWrite", { bg = "#2b3b51", })
+local lsp_text = "#0f4163"
+vim.api.nvim_set_hl(0, "LspReferenceRead", { bg = lsp_text, })
+vim.api.nvim_set_hl(0, "LspReferenceText", { bg = lsp_text, })
+vim.api.nvim_set_hl(0, "LspReferenceWrite", { bg = lsp_text, })
 
 -- GitSings hilights
 vim.api.nvim_set_hl(0, "GitSignsUntracked", { fg = "#095611" })
@@ -28,8 +29,9 @@ M.float_border_bg_color = "#1d293a"
 M.float_border_fg_color = "#578ea5"
 -- M.line_hilight = "#0a161e"
 
-vim.api.nvim_set_hl(0, "TreesitterContextLineNumber", { bg = "#001925", fg = "#e85c51", bold = false, })
-vim.api.nvim_set_hl(0, "TreesitterContextLineNumberBottom", { bg = "#001925", fg = "#e85c51", bold = true, })
+-- treesitter context
+vim.api.nvim_set_hl(0, "TreesitterContextLineNumber", { bg = "#001925", fg = "#84c4c9", bold = false, })
+vim.api.nvim_set_hl(0, "TreesitterContextLineNumberBottom", { bg = "#001925", fg = "#b8514b", bold = true, })
 
 -- terafox
 M.float_color = "#112631"
