@@ -320,8 +320,6 @@ M.on_attach = function(client, bufnr)
     local Event = nvim_tree_api.events.Event
     nvim_tree_api.events.subscribe(Event.NodeRenamed, function(data)
         on_rename(data.old_name, data.new_name, function()
-            vim.cmd.edit(data.new_name)
-            vim.api.nvim_buf_delete(buf, { force = true })
         end)
     end)
 

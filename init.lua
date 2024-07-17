@@ -131,9 +131,6 @@ require('colors')
 -- autocmd
 require('autocmd')
 
-require("jq")
-
-
 -- NOTE: Use vim.fn.expand($HOME/path/to/file.exe) for providing path
 
 -- setting specific to NEOVIDE
