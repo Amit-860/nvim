@@ -17,15 +17,9 @@ return {
         -- show a warning when issues were detected with your mappings
         notify = true,
         -- Enable/disable WhichKey for certain mapping modes
-        modes = {
-            n = true,  -- Normal mode
-            i = false, -- Insert mode
-            x = true,  -- Visual mode
-            s = true,  -- Select mode
-            o = true,  -- Operator pending mode
-            t = true,  -- Terminal mode
-            c = true,  -- Command mode
-        },
+        defer = function(ctx)
+            return vim.list_contains({ "<C-V>", "V" }, ctx.mode)
+        end,
         plugins = {
             marks = true,     -- shows a list of your marks on ' and `
             registers = true, -- shows your registers on " in NORMAL or <C-r> in INSERT mode
@@ -107,6 +101,7 @@ return {
             --- Set to `false` to disable keymap icons
             ---@type wk.IconRule[]|false
             rules = {},
+            mappings = true,
             -- use the highlights from mini.icons
             -- When `false`, it will use `WhichKeyIcon` instead
             colors = true,
@@ -118,15 +113,28 @@ return {
                 Right = " ",
                 C = "󰘴 ",
                 M = "󰘵 ",
+                D = "󰘳 ",
                 S = "󰘶 ",
                 CR = "󰌑 ",
                 Esc = "󱊷 ",
                 ScrollWheelDown = "󱕐 ",
                 ScrollWheelUp = "󱕑 ",
                 NL = "󰌑 ",
-                BS = "⌫",
+                BS = "󰁮",
                 Space = "󱁐 ",
                 Tab = "󰌒 ",
+                F1 = "󱊫",
+                F2 = "󱊬",
+                F3 = "󱊭",
+                F4 = "󱊮",
+                F5 = "󱊯",
+                F6 = "󱊰",
+                F7 = "󱊱",
+                F8 = "󱊲",
+                F9 = "󱊳",
+                F10 = "󱊴",
+                F11 = "󱊵",
+                F12 = "󱊶",
             },
         },
         show_help = true, -- show a help message in the command line for using WhichKey
@@ -134,16 +142,13 @@ return {
         -- Which-key automatically sets up triggers for your mappings.
         -- But you can disable this and setup the triggers yourself.
         -- Be aware, that triggers are not needed for visual and operator pending mode.
-        triggers = true, -- automatically setup triggers
+        triggers = {
+            { "<auto>", mode = "nixsotc" },
+        },
         disable = {
             -- disable WhichKey for certain buf types and file types.
             ft = {},
             bt = {},
-            -- disable a trigger for a certain context by returning true
-            ---@type fun(ctx: { keys: string, mode: string, plugin?: string }):boolean?
-            trigger = function(ctx)
-                return false
-            end,
         },
         debug = false, -- enable wk.log in the current directory
     },

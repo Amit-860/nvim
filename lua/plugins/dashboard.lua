@@ -94,26 +94,27 @@ return {
             table.insert(header, 1, "")
         end
 
-        local stats = require('lazy').stats()
         -- adding date and time to header
         local datetime = function()
+            local stats = require('lazy').stats()
             local plugins = #vim.tbl_keys(require("lazy").plugins())
             local datetime = os.date "  %d-%m-%Y   🕑 %H:%M:%S"
             -- local v = vim.version()
             -- local platform = vim.fn.has "win32" == 1 and "" or ""
             -- return string.format(" %d's  %s v%d.%d.%d   ⎸ %s", plugins, platform, v.major, v.minor, v.patch, datetime)
-            return string.format(" %d/%d's plugins loaded   ⎸ %s", stats.loaded, plugins, datetime)
+            return string.format(" %d's plugins installed   ⎸ %s", plugins, datetime)
         end
         vim.list_extend(header, { datetime(), "", "", "" })
 
         -- adding startuptime in footer
         local footer = function()
+            local stats = require('lazy').stats()
             local v = vim.version()
             local platform = vim.fn.has "win32" == 1 and "" or ""
             return {
                 "",
                 "",
-                string.format("󱐌 Started in %.2fms", stats.startuptime),
+                string.format("󱐌 Started in %.2fms & 󰐧 %d plugins loaded ", stats.startuptime, stats.loaded),
                 "",
                 string.format("%s v%d.%d.%d", platform, v.major, v.minor, v.patch)
             }

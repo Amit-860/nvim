@@ -437,20 +437,35 @@ return {
             })
         end,
     },
-    { 'hrsh7th/cmp-nvim-lsp',                                 event = { "VeryLazy" } },
     -- { 'ray-x/cmp-treesitter',                                 event = { "VeryLazy" } },
-    { 'hrsh7th/cmp-buffer',                                   event = { "VeryLazy" } },
-    { 'hrsh7th/cmp-cmdline',                                  event = { "VeryLazy" } },
-    { 'f3fora/cmp-spell',                                     event = { "VeryLazy" } },
-    { url = 'https://codeberg.org/FelipeLema/cmp-async-path', event = { "VeryLazy" } },
+    {
+        'hrsh7th/cmp-nvim-lsp',
+        event = { "LspAttach" }
+    },
+    {
+        'hrsh7th/cmp-buffer',
+        event = { "BufReadPost", "BufNewFile" }
+    },
+    {
+        'hrsh7th/cmp-cmdline',
+        event = { "VeryLazy" }
+    },
+    {
+        url = 'https://codeberg.org/FelipeLema/cmp-async-path',
+        event = { "VeryLazy" }
+    },
+    {
+        'f3fora/cmp-spell',
+        ft = { "*.txt", "*.tex", "*.typ", "gitcommit", "markdown", "NeogitCommitMessage" },
+        -- event = { "BufReadPost", "BufNewFile" }
+    },
     {
         'saadparwaiz1/cmp_luasnip',
-        event = { "VeryLazy" },
+        event = { "BufReadPost", "BufNewFile" },
         dependencies = "L3MON4D3/LuaSnip"
     },
     {
         "MattiasMTS/cmp-dbee",
-        event = { 'VeryLazy' },
         opts = {},
         ft = 'sql'
     },

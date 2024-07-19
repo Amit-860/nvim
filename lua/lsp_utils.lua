@@ -364,7 +364,7 @@ M.on_attach = function(client, bufnr)
         function() require('conform').format({ async = true, lsp_format = "fallback" }) end,
         { desc = "Format", noremap = true, buffer = bufnr })
     vim.keymap.set({ "n" }, "<leader>lR", function()
-        require('utils').lsp_rename()
+        require('lua.utils').lsp_rename()
     end, { desc = "Rename Symbol", noremap = true, buffer = bufnr })
 
     -- toggle inlay_hint

@@ -37,6 +37,17 @@ local function set_buf_text(text, bufnr)
     )
 end
 
+local function is_valid_path(path)
+    local path_len = string.len(path)
+    if path_len < 5 then
+        return false
+    end
+    if string.sub(path, path_len - 5) == "json" then
+        return true
+    end
+    return false
+end
+
 local function jq_filter(json_bufnr, filter, fpath)
     -- spawn jq and pipe in json, returning the output text
     local fname = nil
@@ -44,16 +55,21 @@ local function jq_filter(json_bufnr, filter, fpath)
     if json_bufnr then
         modified = vim.bo[json_bufnr].modified
         fname = vim.fn.bufname(json_bufnr)
+        if not is_valid_path(fname) then
+            fname = nil
+        end
     end
 
     if fpath then
         fname = fpath
     end
 
-    if (not modified) and fname ~= '' then
+    if (not modified) and fname ~= nil then
         -- the following should be faster as it lets jq read the file contents
+        print("path")
         return vim.fn.system({ 'jq', filter, fname })
     else
+        print('buff')
         local json = buf_text(json_bufnr)
         return vim.fn.system({ 'jq', filter }, json)
     end
@@ -133,7 +149,7 @@ local function create_menu(file_list)
     for fname, fpath in pairs(file_list) do
         local k = string.format("  %d. %s", i, fname)
         table.insert(f_list, Menu.item(k))
-        map[k] = fname
+        map[k] = fpath
         i = i + 1
     end
 

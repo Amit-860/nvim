@@ -1,6 +1,10 @@
 return {
     'mistweaverco/kulala.nvim',
-    ft = 'http',
+    event = { "VeryLazy" },
+    -- INFO : add this in ~/.curlrc file
+    --[[ insecure
+-w "\n\n---- cURL measurements stats ----\ntotal: %{time_total} seconds \nsize: %{size_download} bytes \ndnslookup: %{time_namelookup} seconds \nconnect: %{time_connect} seconds \nappconnect: %{time_appconnect} seconds \nredirect: %{time_redirect} seconds \npretransfer: %{time_pretransfer} seconds \nstarttransfer: %{time_starttransfer} seconds \ndownloadspeed: %{speed_download} byte/sec \nuploadspeed: %{speed_upload} byte/sec \n\n"
+     ]]
     opts = {
         -- default_view, body or headers
         default_view = "body",
@@ -45,14 +49,14 @@ return {
         },
         -- additional cURL options
         -- e.g. { "--insecure", "-A", "Mozilla/5.0" }
-        additional_curl_options = {},
+        additional_curl_options = {
+            "--insecure",
+        },
     },
-    config = function(_, opts)
-        -- Setup is required, even if you don't pass any options
-        require('kulala').setup(opts)
-
+    init = function()
         vim.api.nvim_create_autocmd("FileType", {
             group = vim.api.nvim_create_augroup("kulala_au", { clear = true }),
+            pattern = "http",
             callback = function(event)
                 vim.keymap.set('n', "<leader>lr", function() require('kulala').run() end,
                     { noremap = true, silent = true, desc = 'Kulala Run', buffer = event.buff })

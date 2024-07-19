@@ -41,7 +41,7 @@ return {
                     },
                     -- relative = "win",
                     position = {
-                        row = math.floor(vim.o.lines * 0.2),
+                        row = math.floor(vim.o.lines * 0.85),
                         -- row = math.floor(vim.o.lines * 0.75),
                         -- col = math.floor(vim.o.columns * 0.35),
                         col = '50%'

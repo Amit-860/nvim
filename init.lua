@@ -115,18 +115,12 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 local lazy_opts = {
-    checker = { frequency = 604800, }
+    checker = { frequency = 604800, },
+    rocks = {
+        enabled = false
+    }
 }
 require('lazy').setup("plugins", lazy_opts)
-
--- adding lvim default keybinds
-require('lvimKeyBinds')
-
--- Keybinding /lua/keybinds.lua
-require('keybinds')
-
--- hilighters
-require('colors')
 
 -- autocmd
 require('autocmd')
