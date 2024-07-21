@@ -1,7 +1,7 @@
 return {
     "L3MON4D3/LuaSnip",
     build = "make install_jsregexp",
-    event = "BufReadPost",
+    event = { "BufReadPre", "BufNewFile" },
     dependencies = { "rafamadriz/friendly-snippets" },
     opts = {},
     config = function(_, opts)

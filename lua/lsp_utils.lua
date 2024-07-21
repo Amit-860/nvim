@@ -452,7 +452,7 @@ M.on_attach = function(client, bufnr)
         { desc = "Document Symbols", noremap = true, })
 end
 
-vim.keymap.set({ "n", "i" }, "<localleader>k", open_diagnostics_float,
+vim.keymap.set({ "n" }, "<localleader>k", open_diagnostics_float,
     { desc = "Open diagnostics float", noremap = true, })
 
 

@@ -34,9 +34,9 @@ local default_options = {
     foldmethod     = "expr",  -- folding, set to "expr" for treesitter based folding / "manual"
     foldlevel      = 3,
     foldlevelstart = 2,
-    foldnestmax    = 2,
+    foldnestmax    = 5,
     foldminlines   = 12,
-    foldenable     = true,
+    foldenable     = false,
     foldexpr       = "nvim_treesitter#foldexpr()", -- set to "nvim_treesitter#foldexpr()" for treesitter based folding
     hidden         = true,                         -- required to keep multiple buffers and open multiple buffers
     hlsearch       = true,                         -- highlight all matches on previous search pattern
@@ -117,7 +117,24 @@ vim.opt.rtp:prepend(lazypath)
 local lazy_opts = {
     checker = { frequency = 604800, },
     rocks = {
-        enabled = false
+        --     enabled = false,
+        hererocks = true,
+    },
+    performance = {
+        rtp = {
+            reset = true, -- reset the runtime path to $VIMRUNTIME and your config directory
+            paths = {},   -- add any custom paths here that you want to includes in the rtp
+            disabled_plugins = {
+                "gzip",
+                "matchit",
+                "matchparen",
+                "netrwPlugin",
+                "tarPlugin",
+                "tohtml",
+                "tutor",
+                "zipPlugin",
+            },
+        },
     }
 }
 require('lazy').setup("plugins", lazy_opts)

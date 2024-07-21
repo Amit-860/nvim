@@ -62,8 +62,9 @@ return {
                     file_ignore_patterns = {},
                     path_display = { "smart" },
                     winblend = 0,
-                    border = {},
-                    borderchars = nil,
+                    -- border = {},
+                    -- borderchars = nil,
+                    borderchars = { "━", "┃", "━", "┃", "┏", "┓", "┛", "┗" },
                     color_devicons = true,
                     set_env = {
                         ["COLORTERM"] = "truecolor"

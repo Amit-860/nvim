@@ -1,27 +1,6 @@
 return {
     -- theme
     {
-        "EdenEast/nightfox.nvim",
-        cond = not vim.g.vscode,
-        lazy = false,
-        priority = 1000,
-        config = function()
-            local opts = {
-                options = {
-                    styles = { comments = "italic", keywords = "bold", types = "italic,bold", },
-                },
-                palettes = { terafox = { bg1 = "#002f44" }, },
-                groups = { terafox = { CursorLine = { bg = "#092437" }, } },
-            }
-            if vim.g.neovide then
-                opts.palettes = { terafox = { bg1 = "#04131e", bg2 = "#192837" }, }
-                opts.groups = { terafox = { CursorLine = { bg = "#092437" }, } }
-            end
-            require('nightfox').setup(opts)
-            vim.cmd("colorscheme terafox")
-        end
-    },
-    {
         "nvim-tree/nvim-web-devicons",
         lazy = true,
     },
@@ -176,7 +155,11 @@ return {
         "chrisgrieser/nvim-spider",
         event = { "BufNewFile", "BufReadPost" },
         lazy = true,
-        opts = { skipInsignificantPunctuation = true }
+        opts = {
+            skipInsignificantPunctuation = true,
+            consistentOperatorPending = false, -- see "Consistent Operator-pending Mode" in the README
+            subwordMovement = true,
+        }
     },
     {
         "monaqa/dial.nvim",
@@ -275,7 +258,10 @@ return {
     },
 
     -- completion
-    { "onsails/lspkind.nvim" },
+    {
+        "onsails/lspkind.nvim",
+        event = "VeryLazy"
+    },
 
     -- filtesystem
     {
@@ -368,16 +354,6 @@ return {
         end
     },
 
-    -- clipboard
-    {
-        "gbprod/yanky.nvim",
-        recommended = true,
-        event = { "BufNewFile", "BufReadPost" },
-        opts = {
-            highlight = { timer = vim.o.timeoutlen },
-        },
-    },
-
     -- marks/bookmarks
     {
         "cbochs/grapple.nvim",
@@ -443,6 +419,26 @@ return {
         config = function()
             require 'luminate'.setup({
                 -- if you want to customize, see Usage!
+            })
+        end
+    },
+    {
+        'VidocqH/lsp-lens.nvim',
+        event = "LspAttach",
+        opts = {},
+        config = function(_, opts)
+            require 'lsp-lens'.setup({
+                sections = { -- Enable / Disable specific request, formatter example looks 'Format Requests'
+                    definition = true,
+                    references = true,
+                    implements = true,
+                    git_authors = false,
+                },
+            })
+            vim.api.nvim_set_hl(0, "LspLens", {
+                -- bg = "#002f44",
+                fg = "#51a0cf",
+                bold = true
             })
         end
     },

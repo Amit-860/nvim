@@ -52,7 +52,6 @@ return {
         if vim.g.neovide then
             opts.options.separator_style = "thick"
             --     opts.options.style_preset = bufferline.style_preset.no_italic
-            vim.api.nvim_set_hl(0, "BufferLineFill", { fg = "#001925", bg = "#001925" })
         end
 
         bufferline.setup(opts)

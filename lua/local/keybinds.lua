@@ -1,4 +1,5 @@
 local utils = require('utils')
+local telescope_builtins = require('telescope.builtin')
 
 -- settings for neovim
 if not vim.g.vscode then
@@ -12,24 +13,63 @@ if not vim.g.vscode then
 
 
     -- find
-    -- vim.keymap.set("n", "<leader>f", "<nop>", { desc = "+Find", noremap = true, silent = true })
     vim.keymap.set("n", "<leader>ff",
-        function() utils.smart_find_file({ initial_mode = 'insert' }) end,
+        function() utils.smart_find_file({ initial_mode = 'insert', layout_strategy = 'horizontal', layout_config = { preview_width = 0.5 } }) end,
         { noremap = true, silent = true, desc = 'Find Git Files' })
-    vim.keymap.set("n", "<leader>fF", "<cmd>Telescope find_files initial_mode=insert<cr>",
+    vim.keymap.set("n", "<leader>fF",
+        function()
+            telescope_builtins.find_files({
+                initial_mode = 'insert',
+                layout_strategy = 'horizontal',
+                layout_config = { preview_width = 0.5 }
+            })
+        end,
+        -- "<cmd>Telescope find_files initial_mode=insert layout_strategy=horizontal layout_config={preview_width=0.5}<cr>",
         { noremap = true, silent = true, desc = 'All File' })
-    vim.keymap.set("n", "<leader>fs", "<cmd>Telescope live_grep<cr>",
+    vim.keymap.set("n", "<leader>fs",
+        function()
+            telescope_builtins.live_grep({
+                initial_mode = 'insert',
+                layout_strategy = 'horizontal',
+                layout_config = { preview_width = 0.5 }
+            })
+        end,
+        -- "<cmd>Telescope live_grep layout_strategy=horizontal layout_config={preview_width=0.5}<cr>",
         { noremap = true, silent = true, desc = 'String' })
-    vim.keymap.set("n", "<leader>fr", "<cmd>Telescope oldfiles<cr>",
+    vim.keymap.set("n", "<leader>fr",
+        function()
+            telescope_builtins.oldfiles({
+                initial_mode = 'insert',
+                layout_strategy = 'horizontal',
+                layout_config = { preview_width = 0.5 }
+            })
+        end,
+        -- "<cmd>Telescope oldfiles layout_strategy=horizontal layout_config={preview_width=0.5}<cr>",
         { noremap = true, silent = true, desc = 'Recent Files' })
     vim.keymap.set('n', "<leader>fn",
-        [[<cmd>Telescope find_files find_command={'fd','-tf','-H','-E','.git','.','D:/notes'}<cr>]]
-        , { noremap = true, silent = true, desc = 'find notes' })
+        function()
+            telescope_builtins.find_files({
+                find_command = { 'fd', '-tf', '-H', '-E', '.git', '.', 'D:/notes' },
+                initial_mode = 'insert',
+                layout_strategy = 'horizontal',
+                layout_config = { preview_width = 0.5 }
+            })
+        end,
+        -- [[<cmd>Telescope find_files find_command={'fd','-tf','-H','-E','.git','.','D:/notes'} layout_strategy=horizontal layout_config={preview_width=0.5}<cr>]]
+        { noremap = true, silent = true, desc = 'find notes' })
     vim.keymap.set('n', "<leader>fc",
-        [[<cmd>lua require'telescope.builtin'.find_files({ find_command = { 'fd','-tf', '-H', '-E', '.git', '.', vim.fn.expand("$HOME/AppData/Local/nvim") } })<cr>]]
-        , { noremap = true, silent = true, desc = 'find config_files' })
+        function()
+            telescope_builtins.find_files({
+                find_command = { 'fd', '-tf', '-H', '-E', '.git', '.', vim.fn.expand("$HOME/AppData/Local/nvim") },
+                initial_mode = 'insert',
+                layout_strategy = 'horizontal',
+                layout_config = { preview_width = 0.5 }
+            })
+        end,
+        -- [[<cmd>lua require'telescope.builtin'.find_files({ find_command = { 'fd','-tf', '-H', '-E', '.git', '.', vim.fn.expand("$HOME/AppData/Local/nvim") } }) layout_strategy=horizontal layout_config={preview_width=0.5}<cr>]]
+        { noremap = true, silent = true, desc = 'find config_files' })
 
-    --
+
     -- close Buffer
     vim.keymap.set("n", "<leader>x",
         function()
@@ -40,7 +80,6 @@ if not vim.g.vscode then
 
 
     -- session
-    -- vim.keymap.set("n", "<leader>S", "<nop>", { desc = "+Session", noremap = true })
     vim.keymap.set("n", "<leader>Sf",
         function() require('persistence').load() end,
         { noremap = true, silent = true, desc = 'Find Session' })
@@ -59,7 +98,6 @@ if not vim.g.vscode then
 
 
     -- Quit
-    -- vim.keymap.set("n", "<leader>q", "<nop>", { desc = "+Quit", noremap = true })
     vim.keymap.set("n", "<leader>qq",
         function()
             vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<esc>", true, false, true), 'x', true) -- changing to normal mode
@@ -82,18 +120,16 @@ if not vim.g.vscode then
 
 
     -- tab
-    vim.keymap.set('n', "<M-q>", "<cmd>tabclose<cr>", { noremap = true, silent = true, desc = 'Tab close' })
+    vim.keymap.set('n', "<M-x>", "<cmd>tabclose<cr>", { noremap = true, silent = true, desc = 'Tab close' })
     vim.keymap.set('n', "<M-n>", "<cmd>tabnew<cr>", { noremap = true, silent = true, desc = 'Tab new' })
     vim.keymap.set('n', "<M-l>", "<cmd>tabnext<cr>", { noremap = true, silent = true, desc = 'Tab next' })
     vim.keymap.set('n', "<M-h>", "<cmd>tabprevious<cr>", { noremap = true, silent = true, desc = 'Tab prev' })
 
     -- LeetCode
-    -- vim.keymap.set('n', "<leader>L", "<nop>", { noremap = true, silent = true, desc = '+LeetCode' })
     vim.keymap.set('n', "<leader>Lt", "<cmd>Leet test<cr>", { noremap = true, silent = true, desc = 'Test' })
     vim.keymap.set('n', "<leader>Ls", "<cmd>Leet submit<cr>", { noremap = true, silent = true, desc = 'Submit' })
 
     -- Neorg
-    -- vim.keymap.set("n", "<leader>n", "<npp>", { desc = "Notes", noremap = true, silent = true })
     vim.keymap.set('n', "<leader>ni", "<cmd>Neorg index<cr>", { noremap = true, silent = true, desc = 'index' })
     vim.keymap.set('n', "<leader>nj", "<cmd>Neorg journal<cr>", { noremap = true, silent = true, desc = 'journal' })
 
@@ -103,7 +139,6 @@ if not vim.g.vscode then
         { noremap = true, silent = true, desc = 'which_key_ignore' })
 
     --lazy
-    -- vim.keymap.set("n", "<leader>P", "<nop>", { desc = "+Plugins Mgr", noremap = true })
     vim.keymap.set("n", "<leader>Pc", "<cmd>Lazy clean<CR>", { noremap = true, silent = true, desc = "Clean", })
     vim.keymap.set("n", "<leader>Ps", "<cmd>Lazy sync<CR>", { noremap = true, silent = true, desc = "Sync", })
     vim.keymap.set("n", "<leader>Pm", "<cmd>Lazy<CR>", { noremap = true, silent = true, desc = "Manager", })
@@ -192,15 +227,6 @@ if not vim.g.vscode then
     vim.keymap.set("n", "<leader>lI", "<cmd>LspInfo<CR>",
         { noremap = true, silent = true, desc = "LSP Info", })
 
-    -- yanky
-    vim.keymap.set({ "n", "x" }, "p", "<Plug>(YankyPutAfter)",
-        { noremap = true, silent = true, desc = "Yanky Put After" })
-    vim.keymap.set({ "n", "x" }, "P", "<Plug>(YankyPutBefore)",
-        { noremap = true, silent = true, desc = "Yanky Put Before" })
-    vim.keymap.set("n", "<leader>fy", "<CMD>Telescope yank_history<CR>",
-        { noremap = true, silent = true, desc = "Yanky History" })
-
-
     -- Neogit
     vim.keymap.set('n', '<leader>gg', ':Neogit<CR>', { desc = "Neogit", silent = true, noremap = true })
     vim.keymap.set("n", "<leader>gl", function()
@@ -237,13 +263,28 @@ vim.keymap.set({ "n" }, "<M-.>", "<cmd>lua require('ts-node-action').node_action
 
 
 -- Spider
-vim.keymap.set({ "n", "o", "x" }, "w", "<cmd>lua require('spider').motion('w')<CR>",
+local cusotm_patterns = {
+    '[%(%[%{]',
+}
+vim.keymap.set({ "n", "o", "x" }, "w",
+    function()
+        require('spider').motion('w', { customPatterns = { patterns = cusotm_patterns, overrideDefault = false, } })
+    end,
     { desc = "Spider-w", noremap = true })
-vim.keymap.set({ "n", "o", "x" }, "e", "<cmd>lua require('spider').motion('e')<CR>",
+vim.keymap.set({ "n", "o", "x" }, "e",
+    function()
+        require('spider').motion('e', { customPatterns = { patterns = cusotm_patterns, overrideDefault = false, } })
+    end,
     { desc = "Spider-e", noremap = true })
-vim.keymap.set({ "n", "o", "x" }, "b", "<cmd>lua require('spider').motion('b')<CR>",
+vim.keymap.set({ "n", "o", "x" }, "b",
+    function()
+        require('spider').motion('b', { customPatterns = { patterns = cusotm_patterns, overrideDefault = false, } })
+    end,
     { desc = "Spider-b", noremap = true })
-vim.keymap.set({ "n", "o", "x" }, "ge", "<cmd>lua require('spider').motion('ge')<CR>",
+vim.keymap.set({ "n", "o", "x" }, "ge",
+    function()
+        require('spider').motion('ge', { customPatterns = { patterns = cusotm_patterns, overrideDefault = false, } })
+    end,
     { desc = "Spider-ge", noremap = true })
 
 -- disabling key

@@ -1,4 +1,5 @@
 M = {}
+
 -- vim.api.nvim_set_hl(0, "MatchParen", { bg = nil, fg = "#fffd00", underline = true, bold = true })
 -- vim.api.nvim_set_hl(0, "MatchParen", { bg = "222b39", fg = "#ffffff", underline = false, bold = true })
 vim.api.nvim_set_hl(0, "FindAndReplace", { bg = "#ff6f65", fg = "#131a24", bold = true })
