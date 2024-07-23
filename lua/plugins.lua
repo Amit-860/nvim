@@ -326,7 +326,8 @@ return {
     -- scrollings
     {
         "karb94/neoscroll.nvim",
-        cond = not vim.g.neovide,
+        -- cond = not vim.g.neovide,
+        cond = false,
         event = { "BufReadPost", "BufNewFile" },
         mappings = { -- Keys to be mapped to their corresponding default scrolling animation
             '<C-u>', '<C-d>',
@@ -435,11 +436,8 @@ return {
                     git_authors = false,
                 },
             })
-            vim.api.nvim_set_hl(0, "LspLens", {
-                -- bg = "#002f44",
-                fg = "#51a0cf",
-                bold = true
-            })
+            -- vim.api.nvim_set_hl(0, "LspLens", { -- bg = "#002f44", fg = "#51a0cf", bold = true })
+            vim.api.nvim_set_hl(0, "LspLens", { link = "CocInlayHint" })
         end
     },
 

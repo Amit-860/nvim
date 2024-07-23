@@ -1,7 +1,6 @@
 return {
     {
         "EdenEast/nightfox.nvim",
-        cond = vim.g.neovide,
         lazy = false,
         priority = 1000,
         config = function()
@@ -18,11 +17,5 @@ return {
             end
             require('nightfox').setup(opts)
         end
-    },
-    {
-        'RRethy/base16-nvim',
-        lazy = false,
-        priority = 1000,
-        config = function() end
     },
 }

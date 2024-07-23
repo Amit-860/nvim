@@ -32,11 +32,12 @@ local default_options = {
     fileencoding   = "utf-8", -- the encoding written to a file
     foldcolumn     = "auto:1",
     foldmethod     = "expr",  -- folding, set to "expr" for treesitter based folding / "manual"
-    foldlevel      = 3,
-    foldlevelstart = 2,
+    -- foldmethod     = "manual",
+    foldlevel      = 99,
+    foldlevelstart = 99,
     foldnestmax    = 5,
-    foldminlines   = 12,
-    foldenable     = false,
+    foldminlines   = 10,
+    foldenable     = true,
     foldexpr       = "nvim_treesitter#foldexpr()", -- set to "nvim_treesitter#foldexpr()" for treesitter based folding
     hidden         = true,                         -- required to keep multiple buffers and open multiple buffers
     hlsearch       = true,                         -- highlight all matches on previous search pattern
@@ -74,7 +75,7 @@ local default_options = {
     -- listchars      = 'tab:> ,extends:…,precedes:…,nbsp:␣,space:⋅,eol:󱞥', -- Define which helper symbols to show 󱞥
     -- listchars      = 'tab:> ,extends:…,precedes:…,nbsp:␣', -- Define which helper symbols to show
     list           = true, -- Show some helper symbols
-    cursorcolumn   = false,
+    cursorcolumn   = true,
     cursorline     = true,
 
     spell          = false,
@@ -90,6 +91,8 @@ vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
+vim.g.transparency = false
+vim.g.python3_host_prog = vim.fn.expand("$HOME/scoop/apps/python/current/python.exe")
 
 ---  SETTINGS  ---
 vim.opt.spelllang:append "cjk" -- disable spellchecking for asian characters (VIM algorithm does not support it)

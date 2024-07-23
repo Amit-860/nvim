@@ -22,7 +22,7 @@ return {
             bg0         = "#001925", -- Dark bg (status line and float)
             bg1         = "#002333", -- Default bg
             bg2         = "#002f44", -- Lighter bg (colorcolm folds)
-            bg3         = "#003d58", -- Lighter bg (cursor line)
+            bg3         = "#00496a", -- Lighter bg (cursor line)
             bg4         = "#2d4f56", -- Conceal, border fg
             fg0         = "#eaeeee", -- Lighter fg
             fg1         = "#e6eaea", -- Default fg
@@ -37,6 +37,7 @@ return {
                 a = { fg = colors.white, bg = colors.bg1, gui = "bold" },
                 b = { fg = colors.white, bg = colors.bg2, },
                 c = { fg = colors.black, bg = colors.bg0, },
+                x = { fg = colors.white, bg = colors.bg1, },
                 z = { fg = colors.white, bg = colors.bg1, },
             },
             insert = { a = { fg = colors.black, bg = colors.light_green, gui = "bold" } },
@@ -229,9 +230,9 @@ return {
                 },
             },
             lualine_c = {},
-            lualine_x = {},
-            lualine_y = { search_result, { 'filetype', color = { bg = colors.bg3 } }, lsp, lint },
-            lualine_z = { '%' .. line_digits .. 'l/%-' .. col_digits .. 'c', '%2p%%/%L' },
+            lualine_x = { search_result, },
+            lualine_y = { { 'filetype', color = { bg = colors.bg3 } }, lsp, lint },
+            lualine_z = { '%' .. line_digits .. 'l/%-' .. col_digits .. 'c', '%2p%%/%L', 'filesize', },
         }
 
         local no_color_section = {
@@ -297,9 +298,9 @@ return {
                 },
             },
             lualine_c = {},
-            lualine_x = {},
-            lualine_y = { search_result, { 'filetype', }, lsp, lint },
-            lualine_z = { '%' .. line_digits .. 'l/%-' .. col_digits .. 'c', '%2p%%/%L' },
+            lualine_x = { search_result },
+            lualine_y = { { 'filetype', }, lsp, lint },
+            lualine_z = { '%' .. line_digits .. 'l/%-' .. col_digits .. 'c', '%2p%%/%L', { [['/']], color = { fg = "#e4dcd4" } }, 'filesize', },
         }
 
         local lualine_opts = {
@@ -324,6 +325,7 @@ return {
         }
         if vim.g.neovide then
             lualine_opts.options.theme = theme
+            lualine_opts.sections = process_sections(custom_color_section)
         end
 
         return lualine_opts

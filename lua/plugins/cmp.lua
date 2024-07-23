@@ -335,6 +335,16 @@ return {
                     }
                 }
             }
+
+            local border = function()
+                if vim.g.transparency or vim.g.neovide then
+                    return 'none'
+                end
+                return 'single'
+            end
+            cmp_opts.window.completion.border = border()
+            cmp_opts.window.documentation.border = border()
+
             return cmp_opts
         end,
         config = function(_, opts)

@@ -4,9 +4,9 @@ return {
     opts = function()
         vim.api.nvim_set_hl(0, "DashboardButtonShortcut", { fg = "#e95d5d", bold = true })
         vim.api.nvim_set_hl(0, "DashboardHeaderColor", { fg = "#006782", bold = true })
-        vim.api.nvim_set_hl(0, "DashboardIconColor", { fg = "#dbc074", bold = true })
+        vim.api.nvim_set_hl(0, "DashboardIconColor", { link = "@constant" })
         vim.api.nvim_set_hl(0, "DashboardInfoColor", { fg = "#a5a6aa", bold = true })
-        vim.api.nvim_set_hl(0, "DashboardDescColor", { fg = "#bdbec3" })
+        vim.api.nvim_set_hl(0, "DashboardDescColor", { link = '@lsp.type.variable' })
 
         local function week_header()
             local week = {
@@ -108,6 +108,7 @@ return {
 
         -- adding startuptime in footer
         local footer = function()
+            -- we need to call lazy stats again otherwise reopening dashboard will throw error
             local stats = require('lazy').stats()
             local v = vim.version()
             local platform = vim.fn.has "win32" == 1 and "" or ""
@@ -145,7 +146,14 @@ return {
                         keymap = '',
                         key_hl = 'DashboardButtonShortcut',
                         key_format = ' %s',
-                        action = function() vim.cmd("Telescope oldfiles") end
+                        action = function()
+                            require('telescope').extensions.frecency.frecency({
+                                initial_mode = 'insert',
+                                layout_strategy = 'horizontal',
+                                layout_config = { preview_width = 0.5 },
+                                path_display = { "shorten" }
+                            })
+                        end
                     },
                     -- {
                     --     icon = '󰮗  ',

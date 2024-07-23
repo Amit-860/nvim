@@ -63,7 +63,7 @@ vim.api.nvim_create_autocmd("FileType", {
     end,
 })
 
-if vim.g.transparency then
+if vim.g.transparency and not vim.g.neovide then
     vim.api.nvim_create_autocmd("UIEnter", {
         group = vim.api.nvim_create_augroup("transparent", { clear = true }),
         callback = function(event)

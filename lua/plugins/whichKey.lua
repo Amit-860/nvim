@@ -2,7 +2,6 @@ return {
     "folke/which-key.nvim",
     cmd = "WhichKey",
     event = "VeryLazy",
-    dependencies = { 'echasnovski/mini.icons' },
     opts = {
         ---@type false | "classic" | "modern" | "helix"
         preset = "helix",
@@ -144,6 +143,7 @@ return {
         -- Be aware, that triggers are not needed for visual and operator pending mode.
         triggers = {
             { "<auto>", mode = "nixsotc" },
+            { 'm',      mode = 'n' }
         },
         disable = {
             -- disable WhichKey for certain buf types and file types.
@@ -181,7 +181,7 @@ return {
             { "<leader>/", desc = "Comment linewise", icon = icons.ui.Comment },
             { "<leader>r", desc = "Replace", icon = '' },
             { "<localleader>c", desc = "Conform" },
-            { "<leader>lw", desc = "Diagnostics", icon = icons.diagnostics.Information }
+            { "<leader>lw", desc = "Diagnostics", icon = icons.diagnostics.Information },
         })
     end
 }

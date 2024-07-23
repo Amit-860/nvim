@@ -1,5 +1,6 @@
 local utils = require('utils')
 local telescope_builtins = require('telescope.builtin')
+local telescope_extensinos = require('telescope').extensions
 
 -- settings for neovim
 if not vim.g.vscode then
@@ -38,10 +39,11 @@ if not vim.g.vscode then
         { noremap = true, silent = true, desc = 'String' })
     vim.keymap.set("n", "<leader>fr",
         function()
-            telescope_builtins.oldfiles({
+            telescope_extensinos.frecency.frecency({
                 initial_mode = 'insert',
                 layout_strategy = 'horizontal',
-                layout_config = { preview_width = 0.5 }
+                layout_config = { preview_width = 0.5 },
+                path_display = { "shorten" }
             })
         end,
         -- "<cmd>Telescope oldfiles layout_strategy=horizontal layout_config={preview_width=0.5}<cr>",

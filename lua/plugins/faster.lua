@@ -2,7 +2,7 @@
 -- faster
 return {
     'pteroctopus/faster.nvim',
-    event = "VeryLazy",
+    lazy = false,
     opts = {
         -- Behaviour table contains configuration for behaviours faster.nvim uses
         behaviours = {

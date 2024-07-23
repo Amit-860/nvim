@@ -8,6 +8,11 @@ return {
         cmd = { "Telescope undo" }
     },
     {
+        "nvim-telescope/telescope-frecency.nvim",
+        event = "VeryLazy",
+    },
+
+    {
         "nvim-telescope/telescope.nvim",
         event = "VeryLazy",
         dependencies = {
@@ -163,6 +168,14 @@ return {
                             project_actions.change_working_directory(prompt_bufnr, false)
                         end
                     },
+                    frecency = {
+                        matcher = "fuzzy",
+                        path_display = { "shorten" },
+                        ignore_patterns = { [[*.git\*]], [[*\tmp\*]], "term:*" },
+                        ignore_register = function(bufnr)
+                            return not vim.bo[bufnr].buflisted
+                        end,
+                    },
                 }
             }
 
@@ -181,6 +194,7 @@ return {
             telescope.load_extension('project')
             telescope.load_extension('noice')
             telescope.load_extension('grapple')
+            telescope.load_extension("frecency")
         end
     }
 }
