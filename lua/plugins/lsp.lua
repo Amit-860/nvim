@@ -5,6 +5,7 @@ return {
     },
     {
         "williamboman/mason-lspconfig.nvim",
+        event = { "VeryLazy" },
         config = function() end
     },
     {
@@ -26,9 +27,10 @@ return {
             "williamboman/mason-lspconfig.nvim",
         },
         config = function()
-            local on_attach = require('lsp_utils').on_attach
+            require("lsp_opts")
+            local on_attach = require("lsp_utils").on_attach
+
             -- mason configs
-            require("mason").setup()
             require("mason-lspconfig").setup({
                 ensure_installed = { "lua_ls", "basedpyright", "ruff", "jsonls", "ltex", "denols", "html", "cssls", "cssmodules_ls", "emmet_language_server" },
                 automatic_installation = false,
@@ -127,7 +129,8 @@ return {
             }
             setup_lsp("basedpyright",
                 { on_attach = on_attach, capabilities = capabilities, settings = basedpyright_settings })
-            setup_lsp("ruff", { on_attach = on_attach, capabilities = capabilities, })
+            setup_lsp("ruff",
+                { on_attach = on_attach, capabilities = capabilities, cmd = { "ruff", "server", '--preview' } })
 
             -- INFO : Json
             setup_lsp("jsonls", { on_attach = on_attach, capabilities = capabilities, })

@@ -16,6 +16,13 @@ return {
                 opts.groups = { terafox = { CursorLine = { bg = "#092437" }, } }
             end
             require('nightfox').setup(opts)
+
+            if vim.g.neovide then
+                vim.cmd('colorscheme ' .. vim.g.neovide_colorscheme)
+                vim.api.nvim_set_hl(0, "BufferLineFill", { fg = "#001925", bg = "#001925" })
+            else
+                vim.cmd('colorscheme ' .. vim.g.colorscheme)
+            end
         end
     },
 }

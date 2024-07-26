@@ -64,7 +64,7 @@ return {
             require("dbee").install("curl")
         end,
         keys = {
-            vim.keymap.set('n', '<localleader>d', "<cmd>Dbee<cr>", { desc = "DBee", noremap = true, silent = true }),
+            vim.keymap.set('n', '<F3>d', "<cmd>Dbee<cr>", { desc = "DBee", noremap = true, silent = true }),
         },
         config = function()
             require("dbee").setup({
@@ -78,6 +78,7 @@ return {
                         },
                         {
                             name = "jsq",
+                            id = "jsqi",
                             type = 'jq',
                             url = vim.fn.expand("$HOME/Downloads/large-file.json")
                         },

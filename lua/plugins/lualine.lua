@@ -106,14 +106,14 @@ return {
             return last_search .. '(' .. searchcount.current .. '/' .. searchcount.total .. ')'
         end
 
-
-        local noice = require("noice")
         local macro = {
             function()
-                if noice.api.statusline.mode.has then
-                    return noice.api.statusline.mode.get() or ""
+                local recording_register = vim.fn.reg_recording()
+                if recording_register == "" then
+                    return ""
+                else
+                    return "Recording @" .. recording_register
                 end
-                return ""
             end,
             color = { bg = "#dbc874", fg = "#131a24", gui = "bold" }
         }
@@ -163,8 +163,13 @@ return {
             cond = conditions.hide_in_width,
         }
 
-        local line_digits = math.floor(math.log(vim.api.nvim_buf_line_count(0), 10) + 1)
-        local col_digits = math.floor(math.log(vim.o.columns * 1.0, 10) + 1)
+        local page_status = {
+            function()
+                local line_digits = math.floor(math.log(vim.api.nvim_buf_line_count(0), 10) + 1)
+                local col_digits = math.floor(math.log(vim.o.columns * 1.0, 10) + 1)
+                return '［%' .. line_digits .. 'l/%-' .. col_digits .. 'c］'
+            end,
+        }
 
         local custom_color_section = {
             lualine_a = {
@@ -232,7 +237,7 @@ return {
             lualine_c = {},
             lualine_x = { search_result, },
             lualine_y = { { 'filetype', color = { bg = colors.bg3 } }, lsp, lint },
-            lualine_z = { '%' .. line_digits .. 'l/%-' .. col_digits .. 'c', '%2p%%/%L', 'filesize', },
+            lualine_z = { page_status, '%2p%%/%L', 'filesize', },
         }
 
         local no_color_section = {
@@ -300,7 +305,7 @@ return {
             lualine_c = {},
             lualine_x = { search_result },
             lualine_y = { { 'filetype', }, lsp, lint },
-            lualine_z = { '%' .. line_digits .. 'l/%-' .. col_digits .. 'c', '%2p%%/%L', { [['/']], color = { fg = "#e4dcd4" } }, 'filesize', },
+            lualine_z = { page_status, '%2p%%/%L', 'filesize', },
         }
 
         local lualine_opts = {
@@ -309,7 +314,7 @@ return {
                 theme = 'auto',
                 component_separators = { left = "", right = "" },
                 section_separators = { left = '', right = '' },
-                disabled_filetypes = { "alpha" },
+                disabled_filetypes = { "dashboard" },
                 refresh = {                        -- sets how often lualine should refresh it's contents (in ms)
                     statusline = vim.o.timeoutlen, -- The refresh option sets minimum time that lualine tries
                     -- statusline = 1000,
@@ -329,5 +334,6 @@ return {
         end
 
         return lualine_opts
-    end
+    end,
+
 }

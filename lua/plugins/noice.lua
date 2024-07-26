@@ -1,6 +1,12 @@
 return {
     "folke/noice.nvim",
-    event = "UIEnter",
+    -- cond = function()
+    --     if vim.g.neovide then
+    --         return true
+    --     end
+    --     return false
+    -- end,
+    event = "VeryLazy",
     dependencies = { "MunifTanjim/nui.nvim" },
     opts = function()
         local lazy_opts = {
@@ -41,8 +47,7 @@ return {
                     },
                     -- relative = "win",
                     position = {
-                        row = math.floor(vim.o.lines * 0.85),
-                        -- row = math.floor(vim.o.lines * 0.75),
+                        row = math.floor(vim.o.lines * 0.22),
                         -- col = math.floor(vim.o.columns * 0.35),
                         col = '50%'
                     },

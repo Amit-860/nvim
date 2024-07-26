@@ -2,6 +2,7 @@ return {
     {
         'mistweaverco/kulala.nvim',
         event = { "VeryLazy" },
+        cond = false,
         -- INFO : add this in ~/.curlrc file
         --[[ insecure
 -w "\n\n---- cURL measurements stats ----\ntotal: %{time_total} seconds \nsize: %{size_download} bytes \ndnslookup: %{time_namelookup} seconds \nconnect: %{time_connect} seconds \nappconnect: %{time_appconnect} seconds \nredirect: %{time_redirect} seconds \npretransfer: %{time_pretransfer} seconds \nstarttransfer: %{time_starttransfer} seconds \ndownloadspeed: %{speed_download} byte/sec \nuploadspeed: %{speed_upload} byte/sec \n\n"
@@ -54,7 +55,7 @@ return {
                 "--insecure",
             },
         },
-        init = function()
+        config = function()
             vim.api.nvim_create_autocmd("FileType", {
                 group = vim.api.nvim_create_augroup("kulala_au", { clear = true }),
                 pattern = "http",

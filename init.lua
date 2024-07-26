@@ -75,7 +75,7 @@ local default_options = {
     -- listchars      = 'tab:> ,extends:…,precedes:…,nbsp:␣,space:⋅,eol:󱞥', -- Define which helper symbols to show 󱞥
     -- listchars      = 'tab:> ,extends:…,precedes:…,nbsp:␣', -- Define which helper symbols to show
     list           = true, -- Show some helper symbols
-    cursorcolumn   = true,
+    cursorcolumn   = false,
     cursorline     = true,
 
     spell          = false,
@@ -83,6 +83,47 @@ local default_options = {
     spelllang      = { "en_us" }
 }
 
+vim.g.colorscheme = 'dayfox'
+vim.g.neovide_colorscheme = 'terafox'
+
+local lazy_opts = {
+    spec = {
+        -- import your plugins
+        { import = "plugins" },
+    },
+    -- Configure any other settings here. See the documentation for more details.
+    -- colorscheme that will be used when installing plugins.
+    install = { colorscheme = { vim.g.colorscheme } },
+    -- automatically check for plugin updates
+    checker = { frequency = 604800, },
+    rocks = {
+        enabled = true,
+        hererocks = true,
+    },
+    change_detection = {
+        -- automatically check for config file changes and reload the ui
+        enabled = true,
+        notify = false, -- get a notification when changes are found
+    },
+    performance = {
+        rtp = {
+            reset = true, -- reset the runtime path to $VIMRUNTIME and your config directory
+            paths = {},   -- add any custom paths here that you want to includes in the rtp
+            disabled_plugins = {
+                "gzip",
+                "matchit",
+                "matchparen",
+                "netrwPlugin",
+                "tarPlugin",
+                "tohtml",
+                "tutor",
+                "zipPlugin",
+            },
+        },
+    }
+}
+
+-- loading neovim options
 for k, v in pairs(default_options) do
     vim.opt[k] = v
 end
@@ -104,46 +145,6 @@ vim.filetype.add {
     extension = { tex = "tex", zir = "zir", cr = "crystal", http = "http" },
     pattern = { ["[jt]sconfig.*.json"] = "jsonc", },
 }
--- plugins
-local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
-if not vim.loop.fs_stat(lazypath) then
-    vim.fn.system({
-        "git",
-        "clone",
-        "--filter=blob:none",
-        "https://github.com/folke/lazy.nvim.git",
-        "--branch=stable", -- latest stable release
-        lazypath,
-    })
-end
-vim.opt.rtp:prepend(lazypath)
-local lazy_opts = {
-    checker = { frequency = 604800, },
-    rocks = {
-        --     enabled = false,
-        hererocks = true,
-    },
-    performance = {
-        rtp = {
-            reset = true, -- reset the runtime path to $VIMRUNTIME and your config directory
-            paths = {},   -- add any custom paths here that you want to includes in the rtp
-            disabled_plugins = {
-                "gzip",
-                "matchit",
-                "matchparen",
-                "netrwPlugin",
-                "tarPlugin",
-                "tohtml",
-                "tutor",
-                "zipPlugin",
-            },
-        },
-    }
-}
-require('lazy').setup("plugins", lazy_opts)
-
--- autocmd
-require('autocmd')
 
 -- NOTE: Use vim.fn.expand($HOME/path/to/file.exe) for providing path
 
@@ -177,6 +178,30 @@ if vim.g.neovide then
     vim.g.neovide_transparency = 0.85
     vim.g.neovide_fullscreen = false
 
-    vim.o.winblend = 50
-    vim.o.pumblend = 20
+    default_options.winblend = 50
+    default_options.pumblend = 20
+    lazy_opts.install.colorscheme = { vim.g.neovide_colorscheme }
 end
+
+-- bootstraping lazy
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not (vim.uv or vim.loop).fs_stat(lazypath) then
+    local lazyrepo = "https://github.com/folke/lazy.nvim.git"
+    local out = vim.fn.system({ "git", "clone", "--filter=blob:none", "--branch=stable", lazyrepo, lazypath })
+    if vim.v.shell_error ~= 0 then
+        vim.api.nvim_echo({
+            { "Failed to clone lazy.nvim:\n", "ErrorMsg" },
+            { out,                            "WarningMsg" },
+            { "\nPress any key to exit..." },
+        }, true, {})
+        vim.fn.getchar()
+        os.exit(1)
+    end
+end
+vim.opt.rtp:prepend(lazypath)
+
+-- loading plugins
+require('lazy').setup(lazy_opts)
+
+-- autocmd
+require('autocmd')

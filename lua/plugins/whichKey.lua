@@ -1,7 +1,7 @@
 return {
     "folke/which-key.nvim",
     cmd = "WhichKey",
-    event = "VeryLazy",
+    event = "UIEnter",
     opts = {
         ---@type false | "classic" | "modern" | "helix"
         preset = "helix",
@@ -180,8 +180,9 @@ return {
             { "<leader>z", desc = "Zoxide", icon = icons.ui.FolderSymlink },
             { "<leader>/", desc = "Comment linewise", icon = icons.ui.Comment },
             { "<leader>r", desc = "Replace", icon = '' },
-            { "<localleader>c", desc = "Conform" },
             { "<leader>lw", desc = "Diagnostics", icon = icons.diagnostics.Information },
+            { "<F3>c", desc = "Conform", icon = icons.astro.FolderClosed },
+            { "<F3>a", desc = "Cody", icon = icons.misc.Robot },
         })
     end
 }

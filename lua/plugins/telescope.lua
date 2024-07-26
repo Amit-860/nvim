@@ -16,7 +16,7 @@ return {
         "nvim-telescope/telescope.nvim",
         event = "VeryLazy",
         dependencies = {
-            "nvim-telescope/telescope-ui-select.nvim",
+            -- "nvim-telescope/telescope-ui-select.nvim",
             'nvim-telescope/telescope-fzy-native.nvim'
         },
         opts = function()
@@ -189,10 +189,10 @@ return {
             local telescope = require('telescope')
             telescope.setup(opts)
             telescope.load_extension("fzy_native")
-            telescope.load_extension("ui-select")
+            -- telescope.load_extension("ui-select")
             telescope.load_extension("undo")
             telescope.load_extension('project')
-            telescope.load_extension('noice')
+            -- telescope.load_extension('noice')
             telescope.load_extension('grapple')
             telescope.load_extension("frecency")
         end

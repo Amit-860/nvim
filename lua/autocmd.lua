@@ -77,3 +77,11 @@ if vim.g.transparency and not vim.g.neovide then
         end,
     })
 end
+
+
+vim.api.nvim_create_autocmd("TextYankPost", {
+    group = vim.api.nvim_create_augroup("yank_hilight", { clear = true }),
+    callback = function(event)
+        vim.highlight.on_yank({ higroup = "IncSearch", timeout = vim.o.timeoutlen })
+    end,
+})

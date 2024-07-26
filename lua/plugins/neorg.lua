@@ -4,13 +4,9 @@ return {
     cmd = { "Neorg" },
     dependencies = {
         {
-            -- Install lua from here first before install luarocksj.nvim and neorg
-            -- https://github.com/rjpcomputing/luaforwindows
-            "vhyrro/luarocks.nvim",
-            priority = 1000,
-            config = true,
-        },
-        "nvim-neorg/lua-utils.nvim"
+            "nvim-neorg/lua-utils.nvim",
+            event = "VeryLazy",
+        }
     },
     version = "*",
     opts = function()
@@ -54,13 +50,13 @@ return {
                     -- https://github.com/nvim-neorg/neorg/blob/main/lua/neorg/modules/core/keybinds/keybinds.lua
                     config = {
                         default_keybinds = true,
-                        -- neorg_leader = "<localleader>",
+                        -- neorg_leader = "<F3>",
                         hook = function(keybind)
-                            keybind.map("norg", "n", "<localleader>i", "<nop>", { desc = "Norg insert" })
-                            keybind.map("norg", "n", "<localleader>m", "<nop>", { desc = "Norg mode" })
-                            keybind.map("norg", "n", "<localleader>n", "<nop>", { desc = "Norg new note" })
-                            keybind.map("norg", "n", "<localleader>t", "<nop>", { desc = "Norg mark" })
-                            keybind.map("norg", "n", "<localleader>l", "<nop>", { desc = "Norg list" })
+                            keybind.map("norg", "n", "<F3>i", "<nop>", { desc = "Norg insert" })
+                            keybind.map("norg", "n", "<F3>m", "<nop>", { desc = "Norg mode" })
+                            keybind.map("norg", "n", "<F3>n", "<nop>", { desc = "Norg new note" })
+                            keybind.map("norg", "n", "<F3>t", "<nop>", { desc = "Norg mark" })
+                            keybind.map("norg", "n", "<F3>l", "<nop>", { desc = "Norg list" })
                         end
                     },
                 },

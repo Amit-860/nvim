@@ -273,7 +273,7 @@ return {
                     },
                     -- ['<CR>'] = cmp.mapping.confirm({ select = true }),
                     ['<CR>'] = confirm,
-                    ["<tab>"] = cmp.mapping(function(fallback)
+                    ["<tab>"] = cmp_mapping(function(fallback)
                         if cmp.visible() then
                             cmp.select_next_item()
                         elseif luasnip.expand_or_locally_jumpable() then
@@ -287,7 +287,7 @@ return {
                             fallback()
                         end
                     end, { "i", "s" }),
-                    ["<S-Tab>"] = cmp.mapping(function(fallback)
+                    ["<S-Tab>"] = cmp_mapping(function(fallback)
                         if cmp.visible() then
                             cmp.select_prev_item()
                         elseif luasnip.jumpable(-1) then
@@ -301,7 +301,12 @@ return {
 
                 sources = cmp.config.sources(
                     {
+                        { name = 'cody' },
                         { name = 'luasnip' },
+                        {
+                            name = "lazydev",
+                            group_index = 0, -- set group index to 0 to skip loading LuaLS completions
+                        },
                         { name = 'nvim_lsp' },
                         -- { name = 'nvim_lsp_signature_help' },
                         { name = 'nvim_lua' },

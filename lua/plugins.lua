@@ -45,20 +45,18 @@ return {
     -- keymappings
     {
         "kylechui/nvim-surround",
-        version = "*", -- Use for stability; omit to use `main` branch for the latest features
-        event = "VeryLazy",
+        event = 'VeryLazy',
+        keymaps = { "<C-g>s", "<C-g>S", "ys", "yc", "S", "gs", "ds", "cs" },
         opts = {
             keymaps = {
                 insert = "<C-g>s",
                 insert_line = "<C-g>S",
                 normal = "ys",
-                normal_cur = "yss",
-                normal_line = "yS",
-                normal_cur_line = "ySS",
+                normal_cur = "yc",
                 visual = "S",
-                visual_line = "gS",
-                delete = "dS",
-                change = "cS",
+                visual_line = "gs",
+                delete = "ds",
+                change = "cs",
                 change_line = "cS",
             },
         }
@@ -66,9 +64,21 @@ return {
 
     -- LSP
     {
-        "folke/neodev.nvim",
-        cond = false,
-        event = "VeryLazy"
+        "folke/lazydev.nvim",
+        ft = "lua", -- only load on lua files
+        opts = {
+            library = {
+                -- See the configuration section for more details
+                -- Load luvit types when the `vim.uv` word is found
+                { path = "luvit-meta/library", words = { "vim%.uv" } },
+            },
+            enabled = function(root_dir)
+                if vim.fn.expand(root_dir) == vim.fn.expand("$HOME/AppData/Local/nvim") then
+                    return vim.g.lazydev_enabled == nil and true or vim.g.lazydev_enabled
+                end
+                return true
+            end,
+        },
     },
     {
         "folke/persistence.nvim",
@@ -106,7 +116,7 @@ return {
     },
     {
         'HiPhish/rainbow-delimiters.nvim',
-        event = { "BufNewFile", "BufReadPost" },
+        event = { "VeryLazy" },
         config = function()
             require('rainbow-delimiters.setup').setup {
                 strategy = {
@@ -136,6 +146,7 @@ return {
     { "tpope/vim-repeat" },
     {
         "folke/flash.nvim",
+        event = { "VeryLazy" },
         cond = not vim.g.vscode,
         opts = {
             modes = { char = { jump_labels = true }, search = { enabled = false } },
@@ -147,13 +158,13 @@ return {
         keys = {
             { "s",     mode = { "n", "x", "o" }, function() require("flash").jump({}) end,                                     desc = "Flash" },
             { "<M-t>", mode = { "n", "o", "x" }, function() require("flash").treesitter() end,                                 desc = "Flash Treesitter" },
-            { "S",     mode = { "n", "o", "x" }, function() require("flash").jump({ pattern = vim.fn.expand("<cword>") }) end, desc = "Flash Treesitter" },
+            { "S",     mode = { "n" },           function() require("flash").jump({ pattern = vim.fn.expand("<cword>") }) end, desc = "Flash Treesitter" },
             { "<M-/>", mode = { "n" },           function() require("flash").toggle() end,                                     desc = "Toggle Flash Search" },
         },
     },
     {
         "chrisgrieser/nvim-spider",
-        event = { "BufNewFile", "BufReadPost" },
+        event = { "VeryLazy" },
         lazy = true,
         opts = {
             skipInsignificantPunctuation = true,
@@ -380,18 +391,24 @@ return {
 
     -- Find and Replace
     {
-        'MagicDuck/grug-far.nvim',
-        -- event = "VeryLazy",
+        'nvim-pack/nvim-spectre',
+        cmd = "Spectre",
         keys = {
-            vim.keymap.set({ 'n' }, "<leader>or",
-                "<cmd>lua require('grug-far').grug_far({ prefills = { flags = vim.fn.expand('%') } })<cr>",
-                { noremap = true, silent = true, desc = 'Grug FAR .' }),
-            vim.keymap.set({ 'n' }, "<leader>rR",
-                "lua require('grug-far').grug_far()<cr>",
-                { noremap = true, silent = true, desc = 'Grug FAR' }),
+            vim.keymap.set('n', '<F3>ss',
+                function() require("spectre").toggle() end,
+                { desc = "Toggle Spectre" }),
+            vim.keymap.set('n', '<F3>sw',
+                function() require("spectre").open_visual({ select_word = true }) end,
+                { desc = "Search current word" }),
+            vim.keymap.set('v', '<F3>sw',
+                function() require("spectre").open_visual() end,
+                { desc = "Search current word" }),
+            vim.keymap.set('n', '<F3>sf',
+                function() require("spectre").open_file_search({ select_word = true }) end,
+                { desc = "Search on current file" }),
         },
         config = function()
-            require('grug-far').setup({});
+            require('spectre').setup({});
         end
     },
 
@@ -410,34 +427,6 @@ return {
                 use_current_theme = false,
                 output = vim.fn.expand("$HOME") .. "/codeshot/CodeShot_${year}-${month}-${date}_${time}.png",
             })
-        end
-    },
-
-    -- highlight yank, undo, redo
-    {
-        'mei28/luminate.nvim',
-        event = { 'VeryLazy' },
-        config = function()
-            require 'luminate'.setup({
-                -- if you want to customize, see Usage!
-            })
-        end
-    },
-    {
-        'VidocqH/lsp-lens.nvim',
-        event = "LspAttach",
-        opts = {},
-        config = function(_, opts)
-            require 'lsp-lens'.setup({
-                sections = { -- Enable / Disable specific request, formatter example looks 'Format Requests'
-                    definition = true,
-                    references = true,
-                    implements = true,
-                    git_authors = false,
-                },
-            })
-            -- vim.api.nvim_set_hl(0, "LspLens", { -- bg = "#002f44", fg = "#51a0cf", bold = true })
-            vim.api.nvim_set_hl(0, "LspLens", { link = "CocInlayHint" })
         end
     },
 

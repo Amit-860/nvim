@@ -179,7 +179,7 @@ return {
             "TSInstallSync",
             "TSInstallFromGrammar",
         },
-        event = "UIEnter",
+        event = "VeryLazy",
         opts = ts_opts,
         config = function(_, opts)
             require 'nvim-treesitter.configs'.setup(opts)
@@ -208,7 +208,7 @@ return {
     },
     {
         "romgrk/nvim-treesitter-context",
-        event = { "BufNewFile", "BufReadPost" },
+        event = { "VeryLazy" },
         config = function()
             require("treesitter-context").setup({
                 enable = true,   -- Enable this plugin (Can be enabled/disabled later via commands)

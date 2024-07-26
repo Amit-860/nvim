@@ -75,9 +75,9 @@ return
         return conform_opts
     end,
     keys = {
-        vim.keymap.set({ 'n' }, "<localleader>ce", '<cmd>FormatEnable<cr>', { desc = "Format Enable" }),
-        vim.keymap.set({ 'n' }, "<localleader>cd", '<cmd>FormatDisable!<cr>', { desc = "Format Buff Disable" }),
-        vim.keymap.set({ 'n' }, "<localleader>cD", '<cmd>FormatDisable<cr>', { desc = "Format Disable" }),
+        vim.keymap.set({ 'n' }, "<F3>ce", '<cmd>FormatEnable<cr>', { desc = "Format Enable" }),
+        vim.keymap.set({ 'n' }, "<F3>cd", '<cmd>FormatDisable!<cr>', { desc = "Format Buff Disable" }),
+        vim.keymap.set({ 'n' }, "<F3>cD", '<cmd>FormatDisable<cr>', { desc = "Format Disable" }),
     },
     init = function()
         -- If you want the formatexpr, here is the place to set it

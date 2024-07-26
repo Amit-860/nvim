@@ -1,6 +1,8 @@
+local M = {}
 local icons = require('icons')
 local utils = require("utils")
-local default_diagnostic_config = {
+
+M.default_diagnostic_config = {
     signs = {
         active = true,
         values = {
@@ -30,7 +32,7 @@ local default_diagnostic_config = {
     },
 }
 
-local open_diagnostics_float = function()
+M.open_diagnostics_float = function()
     vim.diagnostic.open_float({
         scope = "cursor",
         focusable = false,
@@ -47,16 +49,6 @@ local open_diagnostics_float = function()
     })
 end
 
-vim.diagnostic.config(default_diagnostic_config)
-
-local signs = { Error = "󰅚 ", Warn = "󰀪 ", Hint = "󰌶 ", Info = " " }
-for type, icon in pairs(signs) do
-    local hl = "DiagnosticSign" .. type
-    vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
-end
-
-
-local M = {}
 
 ---@alias lsp.Client.filter {id?: number, bufnr?: number, name?: string, method?: string, filter?:fun(client: lsp.Client):boolean}
 ---@param opts? lsp.Client.filter
@@ -92,11 +84,11 @@ function M.lsp_on_attach(on_attach, name)
 end
 
 -- NOTE: adding LspDynamicCapability
-local supports_method = {}
+M.supports_method = {}
 
 ---@param fn fun(client:vim.lsp.Client, buffer):boolean?
 ---@param opts? {group?: integer}
-local function on_dynamic_capability(fn, opts)
+function M.on_dynamic_capability(fn, opts)
     return vim.api.nvim_create_autocmd("User", {
         pattern = "LspDynamicCapability",
         group = opts and opts.group or nil,
@@ -111,7 +103,7 @@ local function on_dynamic_capability(fn, opts)
 end
 
 ---@param client vim.lsp.Client
-local function check_methods(client, buffer)
+function M.check_methods(client, buffer)
     -- don't trigger on invalid buffers
     if not vim.api.nvim_buf_is_valid(buffer) then
         return
@@ -124,7 +116,7 @@ local function check_methods(client, buffer)
     if vim.bo[buffer].buftype == "nofile" then
         return
     end
-    for method, clients in pairs(supports_method) do
+    for method, clients in pairs(M.supports_method) do
         clients[client] = clients[client] or {}
         if not clients[client][buffer] then
             if client.supports_method and client.supports_method(method, { bufnr = buffer }) then
@@ -138,11 +130,10 @@ local function check_methods(client, buffer)
     end
 end
 
-
 ---@param method string
 ---@param fn fun(client:vim.lsp.Client, buffer)
 function M.on_supports_method(method, fn)
-    supports_method[method] = supports_method[method] or setmetatable({}, { __mode = "k" })
+    M.supports_method[method] = M.supports_method[method] or setmetatable({}, { __mode = "k" })
     return vim.api.nvim_create_autocmd("User", {
         pattern = "LspSupportsMethod",
         callback = function(args)
@@ -171,8 +162,8 @@ function M.setup()
         end
         return ret
     end
-    M.lsp_on_attach(check_methods)
-    on_dynamic_capability(check_methods)
+    M.lsp_on_attach(M.check_methods)
+    M.on_dynamic_capability(M.check_methods)
 end
 
 -- -- NOTE: Utilize on_supports_method for using lsp capbilities
@@ -205,88 +196,6 @@ M.on_attach = function(client, bufnr)
             buffer = bufnr,
             callback = vim.lsp.codelens.refresh,
         })
-    end
-
-    -- NOTE: LSP word highlight -----------------------------------------------------------------
-    local words = {}
-    local _, cmp = pcall(require, 'cmp')
-    words.enabled = false
-    words.ns = vim.api.nvim_create_namespace("vim_lsp_references")
-
-    ---@param opts? {enabled?: boolean}
-    function words.setup(opts)
-        opts = opts or {}
-        if not opts.enabled then
-            return
-        end
-        words.enabled = true
-        local handler = vim.lsp.handlers["textDocument/documentHighlight"]
-        vim.lsp.handlers["textDocument/documentHighlight"] = function(err, result, ctx, config)
-            if not vim.api.nvim_buf_is_loaded(ctx.bufnr) then
-                return
-            end
-            vim.lsp.buf.clear_references()
-            return handler(err, result, ctx, config)
-        end
-        if client.supports_method "textDocument/documentHighlight" then
-            vim.api.nvim_create_autocmd({ "CursorHold", "CursorMoved" }, {
-                group = vim.api.nvim_create_augroup("lsp_word_" .. bufnr, { clear = true }),
-                buffer = bufnr,
-                callback = function(ev)
-                    if not ({ words.get() })[2] then
-                        if ev.event:find("CursorMoved") then
-                            vim.lsp.buf.clear_references()
-                        elseif not cmp.visible() then
-                            vim.lsp.buf.document_highlight()
-                        end
-                    end
-                end,
-            })
-            vim.api.nvim_create_autocmd({ "InsertCharPre" }, {
-                group = vim.api.nvim_create_augroup("lsp_word_clear_" .. bufnr, { clear = true }),
-                buffer = bufnr,
-                callback = function()
-                    vim.lsp.buf.clear_references()
-                end,
-            })
-        end
-    end
-
-    ---@return LspWord[] words, number? current
-    function words.get()
-        local cursor = vim.api.nvim_win_get_cursor(0)
-        local current, ret = nil, {} ---@type number?, LspWord[]
-        for _, extmark in ipairs(vim.api.nvim_buf_get_extmarks(0, words.ns, 0, -1, { details = true })) do
-            local w = {
-                from = { extmark[2] + 1, extmark[3] },
-                to = { extmark[4].end_row + 1, extmark[4].end_col },
-            }
-            ret[#ret + 1] = w
-            if cursor[1] >= w.from[1] and cursor[1] <= w.to[1] and cursor[2] >= w.from[2] and cursor[2] <= w.to[2] then
-                current = #ret
-            end
-        end
-        return ret, current
-    end
-
-    -- INFO:
-    words.setup({ enabled = true })
-
-    ---@param count number
-    ---@param cycle? boolean
-    function words.jump(count, cycle)
-        local word, idx = words.get()
-        if not idx then
-            return
-        end
-        idx = idx + count
-        if cycle then
-            idx = (idx - 1) % #word + 1
-        end
-        local target = word[idx]
-        if target then
-            vim.api.nvim_win_set_cursor(0, target.from)
-        end
     end
 
     ---INFO: reaname ----------------------------------------------------------------------------------
@@ -364,7 +273,7 @@ M.on_attach = function(client, bufnr)
         function() require('conform').format({ async = true, lsp_format = "fallback" }) end,
         { desc = "Format", noremap = true, buffer = bufnr })
     vim.keymap.set({ "n" }, "<leader>lR", function()
-        require('lua.utils').lsp_rename()
+        utils.lsp_rename()
     end, { desc = "Rename Symbol", noremap = true, buffer = bufnr })
 
     -- toggle inlay_hint
@@ -379,51 +288,51 @@ M.on_attach = function(client, bufnr)
     vim.keymap.set("n", "<leader>lh",
         function()
             if not lsp_lines_enable then
-                default_diagnostic_config.virtual_text = false
-                default_diagnostic_config.virtual_lines = true
+                M.default_diagnostic_config.virtual_text = false
+                M.default_diagnostic_config.virtual_lines = true
                 lsp_lines_enable = true
             else
-                default_diagnostic_config.virtual_text = {
+                M.default_diagnostic_config.virtual_text = {
                     source = "if_many",
                     -- prefix = ' ',
                     prefix = ' ',
                     -- prefix = "⏺ "
                 }
-                default_diagnostic_config.virtual_lines = false
+                M.default_diagnostic_config.virtual_lines = false
                 lsp_lines_enable = false
             end
-            vim.diagnostic.config(default_diagnostic_config)
+            vim.diagnostic.config(M.default_diagnostic_config)
         end, { desc = "Toggle HlChunk", noremap = true }
     )
 
     -- enable lsplines for curr line
     local lsp_lines_curr_line_enabled = false
-    vim.keymap.set("n", "<localleader>l",
+    vim.keymap.set("n", "<F3>l",
         function()
             if lsp_lines_enable then return end
             if not lsp_lines_curr_line_enabled then
-                default_diagnostic_config.virtual_lines = { only_current_line = true }
+                M.default_diagnostic_config.virtual_lines = { only_current_line = true }
                 lsp_lines_curr_line_enabled = true
             else
-                default_diagnostic_config.virtual_lines = false
+                M.default_diagnostic_config.virtual_lines = false
                 lsp_lines_curr_line_enabled = false
             end
-            vim.diagnostic.config(default_diagnostic_config)
+            vim.diagnostic.config(M.default_diagnostic_config)
         end, { desc = "HlChunk .", noremap = true }
     )
     -- autocmd to disable per line HlChunk
     vim.api.nvim_create_autocmd({ "InsertEnter", "InsertLeave", "CursorMoved", "CursorMovedI" }, {
         group = vim.api.nvim_create_augroup("Diaable_hlchunk", { clear = true }),
         callback = function()
-            if default_diagnostic_config.virtual_lines then
-                default_diagnostic_config.virtual_lines = false
-                default_diagnostic_config.virtual_text = {
+            if M.default_diagnostic_config.virtual_lines then
+                M.default_diagnostic_config.virtual_lines = false
+                M.default_diagnostic_config.virtual_text = {
                     source = "if_many",
                     -- prefix = ' ',
                     prefix = ' ',
                     -- prefix = "⏺ "
                 }
-                vim.diagnostic.config(default_diagnostic_config)
+                vim.diagnostic.config(M.default_diagnostic_config)
                 lsp_lines_curr_line_enabled = false
             end
         end,
@@ -442,28 +351,14 @@ M.on_attach = function(client, bufnr)
 
 
     -- jump lsp word
-    vim.keymap.set({ "n" }, "]w", function() words.jump(1, false) end,
-        { desc = "next LSP word", noremap = true, buffer = bufnr })
-    vim.keymap.set({ "n" }, "[w", function() words.jump(-1, false) end,
-        { desc = "prev LSP word", noremap = true, buffer = bufnr })
+    -- vim.keymap.set({ "n" }, "]w", function() words.jump(1, false) end,
+    --     { desc = "next LSP word", noremap = true, buffer = bufnr })
+    -- vim.keymap.set({ "n" }, "[w", function() words.jump(-1, false) end,
+    --     { desc = "prev LSP word", noremap = true, buffer = bufnr })
 
     -- ouline
     vim.keymap.set({ "n" }, "<leader>ls", "<cmd>Outline<CR>",
         { desc = "Document Symbols", noremap = true, })
 end
-
-vim.keymap.set({ "n" }, "<localleader>k", open_diagnostics_float,
-    { desc = "Open diagnostics float", noremap = true, })
-
-
--- NOTE : lsp autocmds
-local lsp_attach_aug = vim.api.nvim_create_augroup("lsp_attach_aug", { clear = true })
-vim.api.nvim_create_autocmd({ "LspAttach" }, {
-    callback = function(args)
-        local client = vim.lsp.get_client_by_id(args.data.client_id)
-        M.on_attach(client, 0)
-    end,
-    group = lsp_attach_aug,
-})
 
 return M

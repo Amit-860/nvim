@@ -45,19 +45,19 @@ return {
             ---Function to call after (un)comment
             post_hook = nil,
         },
-        keys = function()
+        config = function(_, opts)
+            require('Comment').setup(opts)
+
             local api = require('Comment.api')
             -- local config = require('Comment.config'):get()
             local esc = vim.api.nvim_replace_termcodes('<ESC>', true, false, true)
 
-            return {
-                vim.keymap.set('n', '<leader>/', api.toggle.linewise.current, { desc = "comment linewise" }),
-                vim.keymap.set('x', '<leader>/',
-                    function()
-                        vim.api.nvim_feedkeys(esc, 'nx', false)
-                        api.toggle.linewise(vim.fn.visualmode())
-                    end, { desc = "comment linewise" })
-            }
+            vim.keymap.set('n', '<leader>/', api.toggle.linewise.current, { desc = "comment linewise" })
+            vim.keymap.set('x', '<leader>/',
+                function()
+                    vim.api.nvim_feedkeys(esc, 'nx', false)
+                    api.toggle.linewise(vim.fn.visualmode())
+                end, { desc = "comment linewise" })
         end,
     },
     {
