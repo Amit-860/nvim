@@ -1,12 +1,7 @@
 return {
     "folke/noice.nvim",
-    -- cond = function()
-    --     if vim.g.neovide then
-    --         return true
-    --     end
-    --     return false
-    -- end,
     event = "VeryLazy",
+    version = "4.4.7",
     dependencies = { "MunifTanjim/nui.nvim" },
     opts = function()
         local lazy_opts = {

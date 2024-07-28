@@ -275,7 +275,7 @@ return {
                     ['<CR>'] = confirm,
                     ["<tab>"] = cmp_mapping(function(fallback)
                         if cmp.visible() then
-                            cmp.select_next_item()
+                            cmp.select_next_item({ behavior = cmp.SelectBehavior, count = 1 })
                         elseif luasnip.expand_or_locally_jumpable() then
                             luasnip.expand_or_jump()
                         elseif jumpable(1) then
@@ -289,7 +289,7 @@ return {
                     end, { "i", "s" }),
                     ["<S-Tab>"] = cmp_mapping(function(fallback)
                         if cmp.visible() then
-                            cmp.select_prev_item()
+                            cmp.select_prev_item({ behavior = cmp.SelectBehavior, count = 1 })
                         elseif luasnip.jumpable(-1) then
                             luasnip.jump(-1)
                         else

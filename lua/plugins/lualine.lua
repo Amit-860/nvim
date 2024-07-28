@@ -167,13 +167,17 @@ return {
             function()
                 local line_digits = math.floor(math.log(vim.api.nvim_buf_line_count(0), 10) + 1)
                 local col_digits = math.floor(math.log(vim.o.columns * 1.0, 10) + 1)
-                return '［%' .. line_digits .. 'l/%-' .. col_digits .. 'c］'
+                -- return '[%' .. line_digits .. 'l/%-' .. col_digits .. 'c]'
+                return 'L:%' .. line_digits .. 'l C:%-' .. col_digits .. 'c'
             end,
         }
 
         local custom_color_section = {
             lualine_a = {
-                { 'mode', color = { gui = "bold" } },
+                {
+                    'mode',
+                    color = { gui = "bold" }
+                },
                 macro,
             },
             lualine_b = {
@@ -182,7 +186,10 @@ return {
                     icon = icons.git.Branch,
                     color = { gui = "bold", bg = colors.bg2 },
                 },
-                { 'diff', color = { gui = "bold", bg = colors.bg2 } },
+                {
+                    'diff',
+                    color = { gui = "bold", bg = colors.bg2 }
+                },
                 {
                     'diagnostics',
                     source = { 'nvim' },
@@ -242,7 +249,10 @@ return {
 
         local no_color_section = {
             lualine_a = {
-                { 'mode', color = { gui = "bold" } },
+                {
+                    'mode',
+                    color = { gui = "bold" }
+                },
                 macro,
             },
             lualine_b = {
