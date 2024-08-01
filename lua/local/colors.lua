@@ -15,8 +15,8 @@ M.float_border_bg_color = "#112631"
 M.line_hilight = "#07161a"
 
 if vim.g.neovide then
-    -- M.line_hilight = "#030a0c"
-    M.line_hilight = "#011425"
+	-- M.line_hilight = "#030a0c"
+	M.line_hilight = "#011425"
 end
 
 M.neovide_float_winblend = 30
@@ -39,7 +39,7 @@ vim.api.nvim_set_hl(0, "MacroRecording", { bg = "#dbc874", fg = "#131a24", bold 
 vim.api.nvim_set_hl(0, "MarkStatusLine", { bg = "#354965", fg = "#aeafb0", bold = true })
 
 -- cmp
-vim.api.nvim_set_hl(0, "CmpSelectedItem", { link = 'Visual' }) -- hilight for selected itme in cmp menu
+vim.api.nvim_set_hl(0, "CmpSelectedItem", { link = "Visual" }) -- hilight for selected itme in cmp menu
 
 -- cmp kind hl
 vim.api.nvim_set_hl(0, "CmpItemKindKeyword", { bg = "#cf3930", fg = "#131a24" })
@@ -71,45 +71,51 @@ vim.api.nvim_set_hl(0, "CmpItemMenuValue", { fg = "#cfa333", italic = true })
 vim.api.nvim_set_hl(0, "CmpItemMenuText", { fg = "#81b29a", italic = true })
 vim.api.nvim_set_hl(0, "CmpItemMenuUnknown", { fg = "#fda47f", italic = true })
 
+vim.api.nvim_set_hl(0, "Cursor", { bg = "#002028", fg = "#efefef", bold = true })
 
 -- INFO: theme specific seetings
 if vim.g.neovide or vim.g.transparency then
-    -- NOTE: only neovide
-    if vim.g.neovide then
-        vim.api.nvim_set_hl(0, "NormalFloat", { bg = M.float_color, blend = M.neovide_float_winblend }) -- hilight for cmp menu
-        vim.api.nvim_set_hl(0, "FloatBorder",
-            { fg = M.float_border_fg_color, bg = M.float_border_bg_color, blend = M.neovide_float_winblend })
-        vim.api.nvim_set_hl(0, "NoiceCmdlinePopup", { bg = M.float_color, blend = M.neovide_float_winblend }) -- hilight for cmp menu
-        vim.api.nvim_set_hl(0, 'Cursor', { bg = "#d7d8dc", reverse = true, bold = true })
-    end
+	-- NOTE: only neovide
+	if vim.g.neovide then
+		vim.api.nvim_set_hl(0, "NormalFloat", { bg = M.float_color, blend = M.neovide_float_winblend }) -- hilight for cmp menu
+		vim.api.nvim_set_hl(
+			0,
+			"FloatBorder",
+			{ fg = M.float_border_fg_color, bg = M.float_border_bg_color, blend = M.neovide_float_winblend }
+		)
+		vim.api.nvim_set_hl(0, "NoiceCmdlinePopup", { bg = M.float_color, blend = M.neovide_float_winblend }) -- hilight for cmp menu
+	end
 
-    -- NOTE: only transparency
-    if vim.g.transparency then
-        vim.api.nvim_set_hl(0, "NormalFloat", { bg = M.float_color, blend = M.float_winblend }) -- hilight for cmp menu
-        vim.api.nvim_set_hl(0, "FloatBorder",
-            { fg = M.float_border_fg_color, bg = M.float_border_bg_color, blend = M.float_winblend })
-        vim.api.nvim_set_hl(0, "NoiceCmdlinePopup", { bg = M.float_color, blend = M.float_winblend }) -- hilight for cmp menu
-    end
+	-- NOTE: only transparency
+	if vim.g.transparency then
+		vim.api.nvim_set_hl(0, "NormalFloat", { bg = M.float_color, blend = M.float_winblend }) -- hilight for cmp menu
+		vim.api.nvim_set_hl(
+			0,
+			"FloatBorder",
+			{ fg = M.float_border_fg_color, bg = M.float_border_bg_color, blend = M.float_winblend }
+		)
+		vim.api.nvim_set_hl(0, "NoiceCmdlinePopup", { bg = M.float_color, blend = M.float_winblend }) -- hilight for cmp menu
+	end
 
-    -- cmp menu
-    vim.api.nvim_set_hl(0, "CmpComplitionMenu", { bg = M.float_color, })                        -- hilight for cmp menu
-    vim.api.nvim_set_hl(0, "CmpSelectedItem", { bg = "#00495c", fg = "#dfdfe0", bold = true, }) -- hilight for selected itme in cmp menu
+	-- cmp menu
+	vim.api.nvim_set_hl(0, "CmpComplitionMenu", { bg = M.float_color }) -- hilight for cmp menu
+	vim.api.nvim_set_hl(0, "CmpSelectedItem", { bg = "#00495c", fg = "#dfdfe0", bold = true }) -- hilight for selected itme in cmp menu
 
-    -- vim.api.nvim_set_hl(0, "FloatTitle", { bg = M.float_color, blend = M.float_winblend })
+	-- vim.api.nvim_set_hl(0, "FloatTitle", { bg = M.float_color, blend = M.float_winblend })
 
-    vim.api.nvim_set_hl(0, "IncSearch", { bg = "#ff6f65", fg = "#131a24", bold = true })
+	vim.api.nvim_set_hl(0, "IncSearch", { bg = "#ff6f65", fg = "#131a24", bold = true })
 
-    -- visual
-    -- vim.api.nvim_set_hl(0, "Visual", { bg = "#3a4f6d", bold = true, })
-    vim.api.nvim_set_hl(0, "Visual", { bg = "#194c65", bold = true, })
+	-- visual
+	-- vim.api.nvim_set_hl(0, "Visual", { bg = "#3a4f6d", bold = true, })
+	vim.api.nvim_set_hl(0, "Visual", { bg = "#194c65", bold = true })
 
-    -- treesitter context
-    vim.api.nvim_set_hl(0, "TreesitterContextLineNumber", { bg = "#001925", fg = "#84c4c9", bold = false, })
-    vim.api.nvim_set_hl(0, "TreesitterContextLineNumberBottom", { bg = "#001925", fg = "#b8514b", bold = true, })
+	-- treesitter context
+	vim.api.nvim_set_hl(0, "TreesitterContextLineNumber", { bg = "#001925", fg = "#84c4c9", bold = false })
+	vim.api.nvim_set_hl(0, "TreesitterContextLineNumberBottom", { bg = "#001925", fg = "#b8514b", bold = true })
 
-    vim.api.nvim_set_hl(0, "YaziFloat", { link = "NormalFloat" })
+	vim.api.nvim_set_hl(0, "YaziFloat", { link = "NormalFloat" })
 
-    -- Floating windows
+	-- Floating windows
 end
 
 return M

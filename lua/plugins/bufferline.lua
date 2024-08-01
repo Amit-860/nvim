@@ -1,8 +1,8 @@
 return {
-    'akinsho/bufferline.nvim',
+    "akinsho/bufferline.nvim",
     event = { "UIEnter" },
     version = "*",
-    dependencies = 'nvim-tree/nvim-web-devicons',
+    dependencies = "nvim-tree/nvim-web-devicons",
     opts = function()
         local opts = {
             options = {
@@ -41,13 +41,13 @@ return {
                         padding = 1,
                     },
                 },
-            }
+            },
         }
 
         return opts
     end,
     config = function(_, opts)
-        local bufferline = require('bufferline')
+        local bufferline = require("bufferline")
 
         if vim.g.neovide then
             opts.options.separator_style = "thick"
@@ -64,5 +64,5 @@ return {
                 end)
             end,
         })
-    end
+    end,
 }

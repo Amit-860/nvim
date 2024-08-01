@@ -187,7 +187,7 @@ M.lsp_rename = function()
     local cursor_word = vim.fn.expand("<cword>")
     if not cursor_word then return end
     prompt_input_cursor_pos({ prompt = cursor_word .. " ⇉ ", default_value = cursor_word },
-        math.floor((#cursor_word * 2.5) + 3),
+        math.max(52, math.floor((#cursor_word * 2.5) + 3)),
         function(input)
             if not input then return end
             vim.lsp.buf.rename(input)

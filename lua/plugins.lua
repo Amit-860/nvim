@@ -45,7 +45,7 @@ return {
     -- keymappings
     {
         "kylechui/nvim-surround",
-        event = 'VeryLazy',
+        event = "VeryLazy",
         keymaps = { "<C-g>s", "<C-g>S", "ys", "yc", "S", "gs", "ds", "cs" },
         opts = {
             keymaps = {
@@ -59,7 +59,7 @@ return {
                 change = "cs",
                 change_line = "cS",
             },
-        }
+        },
     },
 
     -- LSP
@@ -83,12 +83,12 @@ return {
     {
         "folke/persistence.nvim",
         event = { "BufReadPre" },
-        opts = {}
+        opts = {},
     },
     {
         "pmizio/typescript-tools.nvim",
         cond = false,
-        ft = { 'javascript', 'javascriptreact', 'typescript', 'typescriptreact' },
+        ft = { "javascript", "javascriptreact", "typescript", "typescriptreact" },
         dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
         opts = {
             settings = {
@@ -115,23 +115,23 @@ return {
         opts = {},
     },
     {
-        'HiPhish/rainbow-delimiters.nvim',
+        "HiPhish/rainbow-delimiters.nvim",
         event = { "VeryLazy" },
         config = function()
-            require('rainbow-delimiters.setup').setup {
+            require("rainbow-delimiters.setup").setup({
                 strategy = {
                     [""] = function(bufnr)
                         local line_count = vim.api.nvim_buf_line_count(bufnr)
                         if line_count > 1000 then
                             return nil
                         end
-                        return require('rainbow-delimiters').strategy['global']
-                    end
+                        return require("rainbow-delimiters").strategy["global"]
+                    end,
                 },
                 query = {},
                 highlight = {},
-            }
-        end
+            })
+        end,
     },
     {
         "andymass/vim-matchup",
@@ -151,15 +151,50 @@ return {
         opts = {
             modes = { char = { jump_labels = true }, search = { enabled = false } },
             exclude = {
-                "notify", "cmp_menu", "noice", "flash_prompt", "neogit", "NeogitStatus",
-                function(win) return not vim.api.nvim_win_get_config(win).focusable end,
+                "notify",
+                "cmp_menu",
+                "noice",
+                "flash_prompt",
+                "neogit",
+                "NeogitStatus",
+                function(win)
+                    return not vim.api.nvim_win_get_config(win).focusable
+                end,
             },
         },
         keys = {
-            { "s",     mode = { "n", "x", "o" }, function() require("flash").jump({}) end,                                     desc = "Flash" },
-            { "<M-t>", mode = { "n", "o", "x" }, function() require("flash").treesitter() end,                                 desc = "Flash Treesitter" },
-            { "S",     mode = { "n" },           function() require("flash").jump({ pattern = vim.fn.expand("<cword>") }) end, desc = "Flash Treesitter" },
-            { "<M-/>", mode = { "n" },           function() require("flash").toggle() end,                                     desc = "Toggle Flash Search" },
+            {
+                "s",
+                mode = { "n", "x", "o" },
+                function()
+                    require("flash").jump({})
+                end,
+                desc = "Flash",
+            },
+            {
+                "<M-t>",
+                mode = { "n", "o", "x" },
+                function()
+                    require("flash").treesitter()
+                end,
+                desc = "Flash Treesitter",
+            },
+            {
+                "S",
+                mode = { "n" },
+                function()
+                    require("flash").jump({ pattern = vim.fn.expand("<cword>") })
+                end,
+                desc = "Flash Treesitter",
+            },
+            {
+                "<M-/>",
+                mode = { "n" },
+                function()
+                    require("flash").toggle()
+                end,
+                desc = "Toggle Flash Search",
+            },
         },
     },
     {
@@ -170,7 +205,7 @@ return {
             skipInsignificantPunctuation = true,
             consistentOperatorPending = false, -- see "Consistent Operator-pending Mode" in the README
             subwordMovement = true,
-        }
+        },
     },
     {
         "monaqa/dial.nvim",
@@ -182,22 +217,22 @@ return {
             local augend = require("dial.augend")
             require("dial.config").augends:register_group({
                 default = {
-                    augend.integer.alias.decimal,                                                                    -- nonnegative decimal number (0, 1, 2, 3, ...)
-                    augend.integer.alias.hex,                                                                        -- nonnegative hex number  (0x01, 0x1a1f, etc.)
-                    augend.constant.alias.bool,                                                                      -- boolean value (true <-> false)
-                    augend.date.alias["%Y/%m/%d"],                                                                   -- date (2022/02/18, etc.)
-                    augend.date.alias["%m/%d/%Y"],                                                                   -- date (02/19/2022)
-                    augend.date.new { pattern = "%m-%d-%Y", default_kind = "day", only_valid = true, word = false }, -- date (02-19-2022)
-                    augend.date.new { pattern = "%Y-%m-%d", default_kind = "day", only_valid = true, word = false }, -- date (02-19-2022)
-                    augend.date.new({ pattern = "%m.%d.%Y", default_kind = "day", only_valid = true, word = false, }),
-                    augend.constant.new { elements = { "&&", "||" }, word = false, cyclic = true, },
-                    augend.constant.new { elements = { '>', '<' }, word = false, cyclic = true, },
-                    augend.constant.new { elements = { '==', '!=', }, word = false, cyclic = true, },
-                    augend.constant.new { elements = { '===', '!==' }, word = false, cyclic = true, },
-                    augend.constant.new { elements = { 'True', 'False' }, word = false, cyclic = true, },
-                    augend.constant.new { elements = { 'and', 'or', 'not' }, word = false, cyclic = true, },
-                    augend.constant.new { elements = { '+', '-' }, word = false, cyclic = true, },
-                    augend.constant.new { elements = { '*', '/', '//', '%' }, word = false, cyclic = true, },
+                    augend.integer.alias.decimal, -- nonnegative decimal number (0, 1, 2, 3, ...)
+                    augend.integer.alias.hex, -- nonnegative hex number  (0x01, 0x1a1f, etc.)
+                    augend.constant.alias.bool, -- boolean value (true <-> false)
+                    augend.date.alias["%Y/%m/%d"], -- date (2022/02/18, etc.)
+                    augend.date.alias["%m/%d/%Y"], -- date (02/19/2022)
+                    augend.date.new({ pattern = "%m-%d-%Y", default_kind = "day", only_valid = true, word = false }), -- date (02-19-2022)
+                    augend.date.new({ pattern = "%Y-%m-%d", default_kind = "day", only_valid = true, word = false }), -- date (02-19-2022)
+                    augend.date.new({ pattern = "%m.%d.%Y", default_kind = "day", only_valid = true, word = false }),
+                    augend.constant.new({ elements = { "&&", "||" }, word = false, cyclic = true }),
+                    augend.constant.new({ elements = { ">", "<" }, word = false, cyclic = true }),
+                    augend.constant.new({ elements = { "==", "!=" }, word = false, cyclic = true }),
+                    augend.constant.new({ elements = { "===", "!==" }, word = false, cyclic = true }),
+                    augend.constant.new({ elements = { "True", "False" }, word = false, cyclic = true }),
+                    augend.constant.new({ elements = { "and", "or", "not" }, word = false, cyclic = true }),
+                    augend.constant.new({ elements = { "+", "-" }, word = false, cyclic = true }),
+                    augend.constant.new({ elements = { "*", "/", "//", "%" }, word = false, cyclic = true }),
                 },
             })
         end,
@@ -211,10 +246,10 @@ return {
                 timeout = vim.o.timeoutlen,
                 mappings = {
                     i = { j = { k = "<esc>", j = false } },
-                    c = { j = { k = "<esc>", j = false }, },
-                    t = { j = { k = false, j = false }, },
+                    c = { j = { k = "<esc>", j = false } },
+                    t = { j = { k = false, j = false } },
                     v = { j = { k = false, j = false } },
-                    s = { j = { k = "<esc>", j = false }, },
+                    s = { j = { k = "<esc>", j = false } },
                 },
             })
         end,
@@ -230,18 +265,50 @@ return {
                     enable = true,
                     duration = 50,
                     delay = 80,
-                    exclude_filetypes = { alpha = true, TelescopePrompt = true, Outline = true, ['neo-tree'] = true, ['neo-tree-popup'] = true, },
+                    exclude_filetypes = {
+                        alpha = true,
+                        TelescopePrompt = true,
+                        Outline = true,
+                        ["neo-tree"] = true,
+                        ["neo-tree-popup"] = true,
+                    },
                 },
                 line_num = { enable = false },
                 blank = { enable = false },
                 indent = {
                     enable = true,
-                    chars = { "", "│", "│", "│", "│", "│", "│", "│", "│", "│", "│", "│", "│", "│", "│", "│", "│", "│", "│", },
-                    exclude_filetypes = { alpha = true, TelescopePrompt = true, Outline = true, ['neo-tree'] = true, ['neo-tree-popup'] = true, },
-                }
+                    chars = {
+                        "",
+                        "│",
+                        "│",
+                        "│",
+                        "│",
+                        "│",
+                        "│",
+                        "│",
+                        "│",
+                        "│",
+                        "│",
+                        "│",
+                        "│",
+                        "│",
+                        "│",
+                        "│",
+                        "│",
+                        "│",
+                        "│",
+                    },
+                    exclude_filetypes = {
+                        alpha = true,
+                        TelescopePrompt = true,
+                        Outline = true,
+                        ["neo-tree"] = true,
+                        ["neo-tree-popup"] = true,
+                    },
+                },
             }
             require("hlchunk").setup(opts)
-        end
+        end,
     },
 
     -- leetcode
@@ -271,19 +338,19 @@ return {
     -- completion
     {
         "onsails/lspkind.nvim",
-        event = "VeryLazy"
+        event = "VeryLazy",
     },
 
     -- filtesystem
     {
         "nanotee/zoxide.vim",
-        cmd = { "Z" }
+        cmd = { "Z" },
     },
 
     -- git
     {
         "sindrets/diffview.nvim",
-        cmd = { 'DiffviewOpen', 'DiffviewClose', 'DiffviewFileHistory' }
+        cmd = { "DiffviewOpen", "DiffviewClose", "DiffviewFileHistory" },
     },
 
     -- file browsers
@@ -295,12 +362,16 @@ return {
         keys = {
             {
                 "<leader>fB",
-                function() require("yazi").yazi() end,
+                function()
+                    require("yazi").yazi()
+                end,
                 desc = "File Broser",
             },
             {
                 "<leader>fb",
-                function() require("yazi").yazi(nil, vim.fn.getcwd()) end,
+                function()
+                    require("yazi").yazi(nil, vim.fn.getcwd())
+                end,
                 desc = "File Broser .",
             },
         },
@@ -308,21 +379,23 @@ return {
             local yazi_opts = {
                 open_for_directories = true,
                 floating_window_scaling_factor = 0.85,
-                yazi_floating_window_border = 'rounded',
+                yazi_floating_window_border = "rounded",
             }
             if vim.g.neovide then
                 yazi_opts.yazi_floating_window_winblend = 50
             end
-            require('yazi').setup(yazi_opts)
-        end
+            require("yazi").setup(yazi_opts)
+        end,
     },
     {
         "NeogitOrg/neogit",
         cmd = { "Neogit" },
         opts = {
             graph_style = "unicode",
-            telescope_sorter = function() return require("telescope").extensions.fzy_native.native_fzy_sorter() end,
-            integrations = { telescope = true, diffview = true, },
+            telescope_sorter = function()
+                return require("telescope").extensions.fzy_native.native_fzy_sorter()
+            end,
+            integrations = { telescope = true, diffview = true },
             disable_line_numbers = true,
         },
         dependencies = {
@@ -331,46 +404,14 @@ return {
             "nvim-telescope/telescope.nvim", -- optional
             "ibhagwan/fzf-lua",
         },
-        config = true
-    },
-
-    -- scrollings
-    {
-        "karb94/neoscroll.nvim",
-        -- cond = not vim.g.neovide,
-        cond = false,
-        event = { "BufReadPost", "BufNewFile" },
-        mappings = { -- Keys to be mapped to their corresponding default scrolling animation
-            '<C-u>', '<C-d>',
-            '<C-b>', '<C-f>',
-            '<C-y>', '<C-e>',
-            'zt', 'zz', 'zb',
-        },
-        opts = function()
-            return {
-                mappings = { -- Keys to be mapped to their corresponding default scrolling animation
-                    '<C-u>', '<C-d>',
-                    '<C-b>', '<C-f>',
-                    '<C-y>', '<C-e>',
-                    'zt', 'zz', 'zb',
-                },
-                hide_cursor = true,          -- Hide cursor while scrolling
-                stop_eof = true,             -- Stop at <EOF> when scrolling downwards
-                respect_scrolloff = false,   -- Stop scrolling when the cursor reaches the scrolloff margin of the file
-                cursor_scrolls_alone = true, -- The cursor will keep on scrolling even if the window cannot scroll further
-                easing = 'linear',           -- Default easing function
-                pre_hook = nil,              -- Function to run before the scrolling animation starts
-                post_hook = nil,             -- Function to run after the scrolling animation ends
-                performance_mode = false,    -- Disable "Performance Mode" on all buffers.
-            }
-        end
+        config = true,
     },
 
     -- marks/bookmarks
     {
         "cbochs/grapple.nvim",
         dependencies = {
-            { "nvim-tree/nvim-web-devicons" }
+            { "nvim-tree/nvim-web-devicons" },
         },
         opts = {
             scope = "git_branch",
@@ -382,34 +423,59 @@ return {
             },
         },
         keys = {
-            { "ma",         function() require('grapple').tag({ scope = "git_branch" }) end,         desc = "Toggle tag" },
-            { "<leader>fm", "<cmd>Telescope grapple tags scope=git_branch theme=get_ivy<cr>",        desc = "Telescope marks" },
-            { "<M-m>",      function() require('grapple').toggle_tags({ scope = "git_branch" }) end, desc = "Grapple mark" },
-            { "mm",         function() require('grapple').toggle_tags({ scope = "git_branch" }) end, desc = "Grapple mark" },
+            {
+                "ma",
+                function()
+                    require("grapple").tag({ scope = "git_branch" })
+                end,
+                desc = "Toggle tag",
+            },
+            {
+                "<leader>fm",
+                "<cmd>Telescope grapple tags scope=git_branch theme=get_ivy<cr>",
+                desc = "Telescope marks",
+            },
+            {
+                "<M-m>",
+                function()
+                    require("grapple").toggle_tags({ scope = "git_branch" })
+                end,
+                desc = "Grapple mark",
+            },
+            {
+                "mm",
+                function()
+                    require("grapple").toggle_tags({ scope = "git_branch" })
+                end,
+                desc = "Grapple mark",
+            },
         },
     },
 
     -- Find and Replace
     {
-        'nvim-pack/nvim-spectre',
+        "nvim-pack/nvim-spectre",
         cmd = "Spectre",
         keys = {
-            vim.keymap.set('n', '<F3>ss',
-                function() require("spectre").toggle() end,
-                { desc = "Toggle Spectre" }),
-            vim.keymap.set('n', '<F3>sw',
-                function() require("spectre").open_visual({ select_word = true }) end,
-                { desc = "Search current word" }),
-            vim.keymap.set('v', '<F3>sw',
-                function() require("spectre").open_visual() end,
-                { desc = "Search current word" }),
-            vim.keymap.set('n', '<F3>sf',
-                function() require("spectre").open_file_search({ select_word = true }) end,
-                { desc = "Search on current file" }),
+            vim.keymap.set("n", "<leader>rs", function()
+                require("spectre").toggle()
+            end, { desc = "Toggle Spectre" }),
+            vim.keymap.set("n", "<F3>ss", function()
+                require("spectre").toggle()
+            end, { desc = "Toggle Spectre" }),
+            vim.keymap.set("n", "<F3>sw", function()
+                require("spectre").open_visual({ select_word = true })
+            end, { desc = "Search current word" }),
+            vim.keymap.set("v", "<F3>sw", function()
+                require("spectre").open_visual()
+            end, { desc = "Search current word" }),
+            vim.keymap.set("n", "<F3>sf", function()
+                require("spectre").open_file_search({ select_word = true })
+            end, { desc = "Search on current file" }),
         },
         config = function()
-            require('spectre').setup({});
-        end
+            require("spectre").setup({})
+        end,
     },
 
     -- Code-Snapshot
@@ -417,17 +483,20 @@ return {
         "SergioRibera/codeshot.nvim",
         cmd = { "SSSelected", "SSFocused" },
         keys = {
-            vim.keymap.set('v', '<Leader>s', "<nop>", { desc = "Codeshot", noremap = true, silent = true }),
-            vim.keymap.set('v', '<Leader>ss', ":SSSelected<cr>", { desc = "Selected", noremap = true, silent = true }),
-            vim.keymap.set('n', '<Leader>os', ":SSFocused<cr>",
-                { desc = "Codeshot focused", noremap = true, silent = true })
+            vim.keymap.set("v", "<Leader>s", "<nop>", { desc = "Codeshot", noremap = true, silent = true }),
+            vim.keymap.set("v", "<Leader>ss", ":SSSelected<cr>", { desc = "Selected", noremap = true, silent = true }),
+            vim.keymap.set(
+                "n",
+                "<Leader>os",
+                ":SSFocused<cr>",
+                { desc = "Codeshot focused", noremap = true, silent = true }
+            ),
         },
         config = function()
-            require('codeshot').setup({
+            require("codeshot").setup({
                 use_current_theme = false,
                 output = vim.fn.expand("$HOME") .. "/codeshot/CodeShot_${year}-${month}-${date}_${time}.png",
             })
-        end
+        end,
     },
-
 }

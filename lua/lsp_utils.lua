@@ -269,9 +269,6 @@ M.on_attach = function(client, bufnr)
             })
         end,
         { desc = "Buff", noremap = true, buffer = bufnr })
-    vim.keymap.set({ "n" }, "<leader>lf",
-        function() require('conform').format({ async = true, lsp_format = "fallback" }) end,
-        { desc = "Format", noremap = true, buffer = bufnr })
     vim.keymap.set({ "n" }, "<leader>lR", function()
         utils.lsp_rename()
     end, { desc = "Rename Symbol", noremap = true, buffer = bufnr })

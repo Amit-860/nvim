@@ -30,6 +30,25 @@ end
 vim.keymap.set({ "n" }, "<F3>k", lsp_utils.open_diagnostics_float,
     { desc = "Open diagnostics float", noremap = true, })
 
+
+vim.api.nvim_create_user_command("FormatDisable", function(args)
+    if args.bang then
+        -- FormatDisable! will disable formatting just for this buffer
+        vim.b.disable_autoformat = true
+    else
+        vim.g.disable_autoformat = true
+    end
+end, {
+    desc = "Disable autoformat-on-save",
+    bang = true,
+})
+vim.api.nvim_create_user_command("FormatEnable", function()
+    vim.b.disable_autoformat = false
+    vim.g.disable_autoformat = false
+end, {
+    desc = "Re-enable autoformat-on-save",
+})
+
 -- NOTE : lsp autocmds
 local lsp_attach_aug = vim.api.nvim_create_augroup("lsp_attach_aug", { clear = true })
 vim.api.nvim_create_autocmd({ "LspAttach" }, {

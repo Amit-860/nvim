@@ -3,10 +3,9 @@ return {
     ft = "norg",
     cmd = { "Neorg" },
     dependencies = {
-        {
-            "nvim-neorg/lua-utils.nvim",
-            event = "VeryLazy",
-        }
+        { "nvim-neorg/lua-utils.nvim", event = "VeryLazy", },
+        { "nvim-lua/plenary.nvim" },
+        { "nvim-neorg/neorg-telescope" }
     },
     version = "*",
     opts = function()

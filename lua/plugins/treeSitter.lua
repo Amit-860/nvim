@@ -41,16 +41,16 @@ local ts_opts = {
             json = "",
         },
     },
-    indent = { enable = true, disable = { "yaml", } },
+    indent = { enable = true, disable = { "yaml" } },
     textobjects = {
         swap = {
             enable = true,
             swap_next = {
-                ['<M-a>'] = "@parameter.inner"
+                ["<M-a>"] = "@parameter.inner",
             },
             swap_previous = {
-                ['<M-A>'] = "@parameter.inner"
-            }
+                ["<M-A>"] = "@parameter.inner",
+            },
         },
         select = {
             enable = true,
@@ -59,84 +59,83 @@ local ts_opts = {
             including_surrounding_whitespace = true,
             keymaps = {
                 -- You can use the capture groups defined in textobjects.scm
-                ['af'] = '@function.outer',
-                ['if'] = '@function.inner',
-                ['ac'] = '@class.outer',
-                ['ic'] = '@class.inner',
-                ['al'] = '@loop.outer',
-                ['il'] = '@loop.inner',
+                ["af"] = "@function.outer",
+                ["if"] = "@function.inner",
+                ["ac"] = "@class.outer",
+                ["ic"] = "@class.inner",
+                ["al"] = "@loop.outer",
+                ["il"] = "@loop.inner",
                 -- ['aa'] = '@parameter.outer',
                 -- ['ia'] = '@parameter.inner',
-                ['id'] = '@conditional.inner',
-                ['ad'] = '@conditional.outer',
-
+                ["id"] = "@conditional.inner",
+                ["ad"] = "@conditional.outer",
             },
             selection_modes = {
-                ['@parameter.outer'] = 'v', -- charwise
-                ['@function.outer'] = 'v',  -- linewise
-                ['@class.outer'] = 'v',     -- blockwise
+                ["@parameter.outer"] = "v", -- charwise
+                ["@function.outer"] = "v", -- linewise
+                ["@class.outer"] = "v", -- blockwise
             },
         },
         move = {
             enable = true,
             set_jumps = true, -- whether to set jumps in the jumplist
             goto_next_start = {
-                [']c'] = '@class.outer',
-                [']sc'] = '@class.inner',
+                ["]c"] = "@class.outer",
+                ["]sc"] = "@class.inner",
 
-                [']f'] = '@function.outer',  -- outside of the next function
-                [']sf'] = '@function.inner', -- inside the start of the next function
+                ["]f"] = "@function.outer", -- outside of the next function
+                ["]sf"] = "@function.inner", -- inside the start of the next function
 
-                [']l'] = '@loop.outer',
-                [']sl'] = '@loop.inner',
+                ["]l"] = "@loop.outer",
+                ["]sl"] = "@loop.inner",
 
-                [']d'] = '@conditional.outer',
-                [']sd'] = '@conditional.inner',
+                ["]d"] = "@conditional.outer",
+                ["]sd"] = "@conditional.inner",
 
                 -- ['r'] = {
                 --     query = { '@parameter.inner', '@attribute.inner', '@assignment.outer', '@call.inner',
                 --         '@statement.outer', '@function.inner', '@loop.inner', '@return.inner', '@scopename.inner',
                 --         '@conditional.inner', }
                 -- },
-                ['r'] = { query = { '@parameter.inner', '@attribute.inner', '@assignment.lhs', '@assignment.rhs' } },
+                ["r"] = { query = { "@parameter.inner", "@attribute.inner", "@assignment.lhs", "@assignment.rhs" } },
             },
             goto_next_end = {
-                [']ec'] = '@class.inner',
-                [']ef'] = '@function.inner', -- inside the end of the next function
-                [']ed'] = '@conditional.inner',
-                [']el'] = '@loop.inner',
+                ["]ec"] = "@class.inner",
+                ["]ef"] = "@function.inner", -- inside the end of the next function
+                ["]ed"] = "@conditional.inner",
+                ["]el"] = "@loop.inner",
 
-                [']]'] = "@nothing", -- just to remove default vim keybindings
-                [']['] = "@nothing",
+                ["]]"] = "@nothing", -- just to remove default vim keybindings
+                ["]["] = "@nothing",
             },
             goto_previous_start = {
-                ['[c'] = '@class.outer',
-                ['[sc'] = '@class.inner',
+                ["[c"] = "@class.outer",
+                ["[sc"] = "@class.inner",
 
-                ['[f'] = '@function.outer',  -- outside of the previous function
-                ['[sf'] = '@function.inner', -- inside the start of the previous function
+                ["[f"] = "@function.outer", -- outside of the previous function
+                ["[sf"] = "@function.inner", -- inside the start of the previous function
 
-                ['[l'] = '@loop.outer',
-                ['[sl'] = '@loop.inner',
+                ["[l"] = "@loop.outer",
+                ["[sl"] = "@loop.inner",
 
-                ['[d'] = '@conditional.outer',
-                ['[sd'] = '@conditional.inner',
+                ["[d"] = "@conditional.outer",
+                ["[sd"] = "@conditional.inner",
 
                 -- ['R'] = {
                 --     query = { '@parameter.inner', '@attribute.inner', '@assignment.outer', '@call.inner',
                 --         '@statement.outer', '@function.inner', '@loop.inner', '@return.inner', '@scopename.inner',
                 --         '@conditional.inner', }
                 -- },
-                ['R'] = { query = { '@parameter.inner', '@attribute.inner', '@assignment.lhs', '@assignment.rhs' } },
+                ["R"] = { query = { "@parameter.inner", "@attribute.inner", "@assignment.lhs", "@assignment.rhs" } },
             },
             goto_previous_end = {
-                ['[ec'] = '@class.inner',
-                ['[ef'] = '@function.inner', -- inside of the end of the previous function
-                ['[el'] = '@loop.inner',
-                ['[ed'] = '@conditional.inner',
+                ["[ec"] = "@class.inner",
+                ["[ef"] = "@function.inner", -- inside of the end of the previous function
+                ["[el"] = "@loop.inner",
+                ["[ed"] = "@conditional.inner",
 
-                ['[]'] = "@nothing", -- just to remove default vim keybindings
-                ['[['] = "@nothing"
+                ["[]"] = "@nothing", -- just to remove default vim keybindings
+                ["[["] = "@nothing",
             },
         },
     },
@@ -169,7 +168,7 @@ return {
         opts = {},
     },
     {
-        'nvim-treesitter/nvim-treesitter',
+        "nvim-treesitter/nvim-treesitter",
         cmd = {
             "TSInstall",
             "TSUninstall",
@@ -182,38 +181,38 @@ return {
         event = "VeryLazy",
         opts = ts_opts,
         config = function(_, opts)
-            require 'nvim-treesitter.configs'.setup(opts)
+            require("nvim-treesitter.configs").setup(opts)
 
-            local utils = require('utils')
+            local utils = require("utils")
             -- register all text objects with which-key
             utils.on_load("which-key.nvim", function()
                 local defs = {
                     mode = { "n", "v" },
                     { "<leader>gd", group = "diff" },
-                    { "[",          group = "prev" },
-                    { "[e",         group = "end" },
-                    { "[s",         group = "start" },
-                    { "]",          group = "next" },
-                    { "]e",         group = "end" },
-                    { "]s",         group = "start" },
-                    { "g",          group = "goto" },
-                    { "ys",         group = "surround" },
-                    { "z",          group = "fold" },
+                    { "[", group = "prev" },
+                    { "[e", group = "end" },
+                    { "[s", group = "start" },
+                    { "]", group = "next" },
+                    { "]e", group = "end" },
+                    { "]s", group = "start" },
+                    { "g", group = "goto" },
+                    { "ys", group = "surround" },
+                    { "z", group = "fold" },
                 }
 
                 require("which-key").add(defs)
             end)
-            vim.api.nvim_set_hl(0, '@lsp.type.comment', {})
-        end
+            vim.api.nvim_set_hl(0, "@lsp.type.comment", {})
+        end,
     },
     {
         "romgrk/nvim-treesitter-context",
-        event = { "VeryLazy" },
+        event = { "BufReadPost" },
         config = function()
             require("treesitter-context").setup({
-                enable = true,   -- Enable this plugin (Can be enabled/disabled later via commands)
+                enable = true, -- Enable this plugin (Can be enabled/disabled later via commands)
                 throttle = true, -- Throttles plugin updates (may improve performance)
-                max_lines = 8,   -- How many lines the window should span. Values <= 0 mean no limit.
+                max_lines = 8, -- How many lines the window should span. Values <= 0 mean no limit.
                 patterns = { default = { "class", "function", "method" } },
             })
         end,
