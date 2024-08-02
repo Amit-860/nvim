@@ -85,7 +85,8 @@ local default_options = {
 
 local function is_night()
     local now = os.date("*t")
-    return now.hour >= 18
+
+    return not (now.hour >= 8 and now.hour <= 18)
 end
 
 if is_night() then

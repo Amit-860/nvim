@@ -169,7 +169,7 @@ return {
                 table.insert(unique_client_names, 1, "No LSP")
             end
             if #buf_linter == 0 then
-                table.insert(unique_client_names, "No Null_ls")
+                table.insert(unique_client_names, "No Linter")
             end
 
             local client_names_str = table.concat(unique_client_names, ", ")

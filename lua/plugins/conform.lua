@@ -1,16 +1,14 @@
 return {
-    --[[     "stevearc/conform.nvim",
-    cond = false,
-        enabled =false,
+    "stevearc/conform.nvim",
     event = { "BufWritePre" },
     cmd = { "ConformInfo" },
     opts = function()
-        local slow_format_filetypes = { "json", "xml", "toml", 'yml', 'html' }
+        local slow_format_filetypes = { "json", "xml", "toml", "yml", "html" }
         local conform_opts = {
             format = {
                 timeout_ms = 3000,
-                async = false,           -- not recommended to change
-                quiet = false,           -- not recommended to change
+                async = false, -- not recommended to change
+                quiet = false, -- not recommended to change
                 lsp_format = "fallback", -- not recommended to change
             },
             formatters = {
@@ -26,8 +24,12 @@ return {
                 -- shfmt = {
                 --   prepend_args = { "-i", "2", "-ci" },
                 -- },
+                stylua = {
+                    prepend_args = { "--indent-type", "Spaces", "--line-endings", "Windows" },
+                },
             },
             formatters_by_ft = {
+                lua = { "stylua" },
                 python = function(bufnr)
                     if require("conform").get_formatter_info("ruff_format", bufnr).available then
                         return { "ruff_format" }
@@ -70,24 +72,24 @@ return {
                 if not slow_format_filetypes[vim.bo[bufnr].filetype] then
                     return
                 end
-                return { lsp_format = "fallback" }
+                -- return { lsp_format = "fallback" }
             end,
         }
         return conform_opts
     end,
     keys = {
-        vim.keymap.set({ 'n' }, "<F3>ce", '<cmd>FormatEnable<cr>', { desc = "Format Enable" }),
-        vim.keymap.set({ 'n' }, "<F3>cd", '<cmd>FormatDisable!<cr>', { desc = "Format Buff Disable" }),
-        vim.keymap.set({ 'n' }, "<F3>cD", '<cmd>FormatDisable<cr>', { desc = "Format Disable" }),
-        vim.keymap.set({ "n" }, "<leader>lf",
-            function() require('conform').format({ async = true, lsp_format = "fallback" }) end,
-            { desc = "Format", noremap = true })
+        vim.keymap.set({ "n" }, "<F3>ce", "<cmd>FormatEnable<cr>", { desc = "Format Enable" }),
+        vim.keymap.set({ "n" }, "<F3>cd", "<cmd>FormatDisable!<cr>", { desc = "Format Buff Disable" }),
+        vim.keymap.set({ "n" }, "<F3>cD", "<cmd>FormatDisable<cr>", { desc = "Format Disable" }),
+        vim.keymap.set({ "n" }, "<leader>lf", function()
+            require("conform").format({ async = true, lsp_format = "fallback" })
+        end, { desc = "Format", noremap = true }),
     },
     init = function()
         -- If you want the formatexpr, here is the place to set it
         vim.o.formatexpr = "v:lua.require'conform'.formatexpr()"
     end,
     config = function(_, opts)
-        require('conform').setup(opts)
-    end ]]
+        require("conform").setup(opts)
+    end,
 }

@@ -20,25 +20,25 @@ return {
             return vim.list_contains({ "<C-V>", "V" }, ctx.mode)
         end,
         plugins = {
-            marks = true,     -- shows a list of your marks on ' and `
+            marks = true, -- shows a list of your marks on ' and `
             registers = true, -- shows your registers on " in NORMAL or <C-r> in INSERT mode
             -- the presets plugin, adds help for a bunch of default keybindings in Neovim
             -- No actual key bindings are created
             spelling = {
-                enabled = true,   -- enabling this will show WhichKey when pressing z= to select spelling suggestions
+                enabled = true, -- enabling this will show WhichKey when pressing z= to select spelling suggestions
                 suggestions = 20, -- how many suggestions should be shown in the list?
             },
             presets = {
-                operators = true,    -- adds help for operators like d, y, ...
-                motions = true,      -- adds help for motions
+                operators = true, -- adds help for operators like d, y, ...
+                motions = true, -- adds help for motions
                 text_objects = true, -- help for text objects triggered after entering an operator
-                windows = true,      -- default bindings on <c-w>
-                nav = true,          -- misc bindings to work with windows
-                z = true,            -- bindings for folds, spelling and others prefixed with z
-                g = true,            -- bindings for prefixed with g
+                windows = true, -- default bindings on <c-w>
+                nav = true, -- misc bindings to work with windows
+                z = true, -- bindings for folds, spelling and others prefixed with z
+                g = true, -- bindings for prefixed with g
             },
         },
-        ---@type wk.Win
+        ---@type wk.Win.opts
         win = {
             -- width = 1,
             height = { min = 4, max = 24 },
@@ -58,12 +58,12 @@ return {
         },
         layout = {
             width = { min = 20 }, -- min and max width of the columns
-            spacing = 3,          -- spacing between columns
-            align = "center",     -- align columns left, center or right
+            spacing = 3, -- spacing between columns
+            align = "center", -- align columns left, center or right
         },
         keys = {
             scroll_down = "<c-d>", -- binding to scroll down inside the popup
-            scroll_up = "<c-u>",   -- binding to scroll up inside the popup
+            scroll_up = "<c-u>", -- binding to scroll up inside the popup
         },
         ---@type (string|wk.Sorter)[]
         --- Add "manual" as the first element to use the order the mappings were registered
@@ -76,19 +76,19 @@ return {
                 function(key)
                     return require("which-key.view").format(key)
                 end,
-                { "<space>", "SPC", },
-                { "<cr>",    "RET", },
-                { "<tab>",   "TAB", }
+                { "<space>", "SPC" },
+                { "<cr>", "RET" },
+                { "<tab>", "TAB" },
             },
             desc = {
                 { "<Plug>%((.*)%)", "%1" },
-                { "^%+",            "" },
-                { "<[cC]md>",       "" },
-                { "<[cC][rR]>",     "" },
-                { "<[sS]ilent>",    "" },
-                { "^lua%s+",        "" },
-                { "^call%s+",       "" },
-                { "^:%s*",          "" },
+                { "^%+", "" },
+                { "<[cC]md>", "" },
+                { "<[cC][rR]>", "" },
+                { "<[sS]ilent>", "" },
+                { "^lua%s+", "" },
+                { "^call%s+", "" },
+                { "^:%s*", "" },
             },
         },
         icons = {
@@ -143,7 +143,7 @@ return {
         -- Be aware, that triggers are not needed for visual and operator pending mode.
         triggers = {
             { "<auto>", mode = "nixsotc" },
-            { 'm',      mode = 'n' }
+            { "m", mode = "n" },
         },
         disable = {
             -- disable WhichKey for certain buf types and file types.
@@ -153,8 +153,8 @@ return {
         debug = false, -- enable wk.log in the current directory
     },
     config = function(_, opts)
-        local icons = require('icons')
-        local which_key = require('which-key')
+        local icons = require("icons")
+        local which_key = require("which-key")
 
         if vim.g.neovide then
             opts.win.wo.winblend = 75
@@ -165,7 +165,7 @@ return {
         which_key.add({
             { "<leader>rc", hidden = true },
             { "<leader>p", desc = "Project", icon = icons.ui.Project },
-            { "<leader>D", group = "Debug", },
+            { "<leader>D", group = "Debug" },
             { "<leader>L", group = "LeetCode" },
             { "<leader>P", group = "Plugins", icon = icons.ui.Package },
             { "<leader>S", group = "Session" },
@@ -179,10 +179,12 @@ return {
             { "<leader>u", name = "Undo", icon = icons.ui.Undo },
             { "<leader>z", desc = "Zoxide", icon = icons.ui.FolderSymlink },
             { "<leader>/", desc = "Comment linewise", icon = icons.ui.Comment },
-            { "<leader>r", desc = "Replace", icon = '' },
+            { "<leader>r", desc = "Replace", icon = "" },
             { "<leader>lw", desc = "Diagnostics", icon = icons.diagnostics.Information },
             { "<F3>c", desc = "Conform", icon = icons.astro.FolderClosed },
             { "<F3>a", desc = "Cody", icon = icons.misc.Robot },
+            { "<F3>c", desc = "Mini Map", icon = icons.misc.Robot },
+            { "<F3>s", desc = "Spectre", icon = icons.misc.Robot },
         })
-    end
+    end,
 }

@@ -9,13 +9,13 @@ return {
         max_lines = 2000, -- If auto_enable is true, don't open the minimap for buffers which have more than this many lines.
         minimap_width = 16, -- The width of the text part of the minimap
         use_lsp = true, -- Use the builtin LSP to show errors and warnings
-        use_treesitter = true, -- Use nvim-treesitter to highlight the code
-        use_git = true, -- Show small dots to indicate git additions and deletions
-        width_multiplier = 3, -- How many characters one dot represents
-        z_index = 1000, -- The z-index the floating window will be on
+        use_treesitter = false, -- Use nvim-treesitter to highlight the code
+        use_git = false, -- Show small dots to indicate git additions and deletions
+        width_multiplier = 4, -- How many characters one dot represents
+        z_index = 100, -- The z-index the floating window will be on
         show_cursor = true, -- Show the cursor position in the minimap
         screen_bounds = "lines", -- How the visible area is displayed, "lines": lines above and below, "background": background color
-        window_border = "none", -- The border style of the floating window (accepts all usual options)
+        window_border = "single", -- The border style of the floating window (accepts all usual options)
         relative = "win", -- What will be the minimap be placed relative to, "win": the current window, "editor": the entire editor
         events = { "TextChanged", "DiagnosticChanged", "FileWritePost" }, -- Events that update the code window
     },
@@ -42,7 +42,21 @@ return {
     end,
     config = function(_, opts)
         local codewindow = require("codewindow")
+        vim.api.nvim_set_hl(0, "CodewindowUnderline", { underline = true })
+        vim.api.nvim_set_hl(0, "CodewindowBorder", { link = "FloatBorder" })
+        vim.api.nvim_set_hl(0, "CodewindowBackground", { link = "NormalFloat" })
         codewindow.setup(opts)
-        vim.api.nvim_set_hl(0, "CodewindowBorder", { fg = "#aeaeae" })
+
+        vim.api.nvim_create_autocmd("VimResized", {
+            group = vim.api.nvim_create_augroup("codewindow_resize", { clear = true }),
+            pattern = "*",
+            callback = function()
+                if vim.o.columns < 120 then
+                    codewindow.close_minimap()
+                else
+                    codewindow.open_minimap()
+                end
+            end,
+        })
     end,
 }

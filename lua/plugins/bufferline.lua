@@ -18,7 +18,7 @@ return {
                         padding = 1,
                     },
                     {
-                        filetype = "neotree",
+                        filetype = "NvimTree",
                         text = "Explorer",
                         highlight = "PanelHeading",
                         padding = 1,
@@ -37,6 +37,12 @@ return {
                     {
                         filetype = "lazy",
                         text = "Lazy",
+                        highlight = "PanelHeading",
+                        padding = 1,
+                    },
+                    {
+                        filetype = "Codewindow",
+                        text = "Mini Map",
                         highlight = "PanelHeading",
                         padding = 1,
                     },
