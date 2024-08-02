@@ -452,10 +452,13 @@ return {
 
             cmp.setup.filetype({ "NvimTree" }, {
                 enabled = false,
+                experimental = {
+                    ghost_text = false,
+                },
             })
         end,
     },
-    -- { 'ray-x/cmp-treesitter',                                 event = { "VeryLazy" } },
+    -- { 'ray-x/cmp-treesitter', event = { "VeryLazy" } },
     {
         "hrsh7th/cmp-nvim-lsp",
         event = { "LspAttach" },

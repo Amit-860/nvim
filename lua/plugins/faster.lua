@@ -162,27 +162,6 @@ return {
                     end, {})
                 end,
             },
-            minimap = {
-                on = true,
-                defer = true,
-                enable = function()
-                    require("codewindow").open_minimap()
-                end,
-                disable = function()
-                    require("codewindow").close_minimap()
-                end,
-                commands = function()
-                    local codewindow = require("codewindow")
-                    vim.api.nvim_create_user_command("FasterEnableMinimap", function()
-                        codewindow.open_minimap()
-                        vim.notify("codewindow enabled", 1)
-                    end, {})
-                    vim.api.nvim_create_user_command("FasterDisableTSContext", function()
-                        codewindow.close_minimap()
-                        vim.notify("codewindow disabled", 1)
-                    end, {})
-                end,
-            },
             -- Neovim options that affect speed when big file is opened:
             -- swapfile, foldmethod, undolevels, undoreload, list
             vimopts = {

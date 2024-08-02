@@ -239,7 +239,7 @@ M.on_attach = function(client, bufnr)
         "<cmd>lua vim.lsp.buf.signature_help()<CR>",
         { desc = "Signature Help", noremap = true, buffer = bufnr }
     )
-    vim.keymap.set({ "n" }, "K", "<cmd>lua vim.lsp.buf.hover()<CR>", { desc = "Hover", noremap = true, buffer = bufnr })
+    -- vim.keymap.set({ "n" }, "K", "<cmd>lua vim.lsp.buf.hover()<CR>", { desc = "Hover", noremap = true, buffer = bufnr })
     vim.keymap.set(
         { "n" },
         "<leader>la",
@@ -294,6 +294,8 @@ M.on_attach = function(client, bufnr)
     vim.keymap.set({ "n" }, "<leader>lR", function()
         utils.lsp_rename()
     end, { desc = "Rename Symbol", noremap = true, buffer = bufnr })
+    vim.keymap.set({ "n" }, "]d", vim.diagnostic.goto_next)
+    vim.keymap.set({ "n" }, "[d", vim.diagnostic.goto_prev)
 
     -- toggle inlay_hint
     vim.keymap.set({ "n" }, "<leader>lH", function()

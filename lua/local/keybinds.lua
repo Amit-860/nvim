@@ -328,5 +328,3 @@ vim.keymap.set({ "n", "o", "x" }, "ge", function()
 end, { desc = "Spider-ge", noremap = true })
 
 -- disabling key
-
-vim.keymap.set({ "n" }, "K", "<nop>", { noremap = true })

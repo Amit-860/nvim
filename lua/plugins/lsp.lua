@@ -150,16 +150,7 @@ return {
 
             -- INFO : text, markdown, org, norg
             setup_lsp("ltex", { on_attach = on_attach, capabilities = capabilities })
-            setup_lsp("textlsp", {
-                on_attach = on_attach,
-                capabilities = capabilities,
-                filetypes = { "org", "norg", "text", "NeogitCommitMessage" },
-            })
-            setup_lsp("efm", {
-                on_attach = on_attach,
-                capabilities = capabilities,
-                filetypes = { "org", "norg", "text", "NeogitCommitMessage" },
-            })
+
             -- INFO : javascript, html, css
             vim.g.markdown_fenced_languages = { "ts=typescript" }
             setup_lsp("denols", { on_attach = on_attach, capabilities = capabilities })
