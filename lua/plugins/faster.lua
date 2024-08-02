@@ -12,11 +12,6 @@ return {
                 local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(event.buf))
                 if ok and stats and stats.size > max_filesize then
                     vim.cmd("FasterDisableAllFeatures")
-
-                    local nonels_status, nonels = pcall(require, "null-ls")
-                    if nonels_status then
-                        nonels.disable({ "ts_node_action", "gitsigns", "dictionary" })
-                    end
                 end
             end,
         })

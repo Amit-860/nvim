@@ -1,17 +1,17 @@
 return {
     {
-        'hrsh7th/nvim-cmp',
+        "hrsh7th/nvim-cmp",
         event = { "InsertEnter", "CmdlineEnter" },
         dependencies = {},
         opts = function()
-            local cmp = require('cmp')
-            local cmp_mapping = require "cmp.config.mapping"
+            local cmp = require("cmp")
+            local cmp_mapping = require("cmp.config.mapping")
             local luasnip = require("luasnip")
-            local lspkind = require('lspkind')
+            local lspkind = require("lspkind")
             local cmp_types = require("cmp.types.cmp")
             local ConfirmBehavior = cmp_types.ConfirmBehavior
             local SelectBehavior = cmp_types.SelectBehavior
-            local compare = require('cmp.config.compare')
+            local compare = require("cmp.config.compare")
 
             local function jumpable(dir)
                 local win_get_cursor = vim.api.nvim_win_get_cursor
@@ -100,8 +100,8 @@ return {
 
             local function has_words_before()
                 local line, col = unpack(vim.api.nvim_win_get_cursor(0))
-                return col ~= 0 and
-                    vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match "%s" == nil
+                return col ~= 0
+                    and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
             end
 
             local cmp_confirm = cmp.mapping.confirm({
@@ -122,14 +122,13 @@ return {
             local cmp_opts = {
                 snippet = {
                     expand = function(args)
-                        require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
+                        require("luasnip").lsp_expand(args.body) -- For `luasnip` users.
                     end,
                 },
 
                 window = {
                     completion = {
-                        winhighlight =
-                        "Normal:CmpComplitionMenu,FloatBorder:CmpComplitionMenu,CursorLine:CmpSelectedItem,Search:None",
+                        winhighlight = "Normal:CmpComplitionMenu,FloatBorder:CmpComplitionMenu,CursorLine:CmpSelectedItem,Search:None",
                         -- border = 'single',
                         col_offset = -3,
                         side_padding = 0,
@@ -144,7 +143,7 @@ return {
                     fields = { "kind", "abbr", "menu" },
                     format = function(entry, vim_item)
                         local kind = vim_item.kind
-                        local ellipses_char = '…'
+                        local ellipses_char = "…"
 
                         -- vim_item.kind = (icons[vim_item.kind] or "?") .. " " .. vim_item.kind             -- for icon without matching color label
                         -- vim_item.kind = (icons[vim_item.kind] or "?") .. " "                              -- for icon without label
@@ -166,14 +165,14 @@ return {
 
                         local source_symbol = {
                             nvim_lsp = "lsp",
-                            buffer = 'buff',
-                            luasnip = 'snip',
+                            buffer = "buff",
+                            luasnip = "snip",
                             nvim_lsp_signature_help = "sign",
                             nvim_lua = "lsp",
-                            ['vim-dadbod-completion'] = "db",
+                            ["vim-dadbod-completion"] = "db",
                             treesitter = "ts",
-                            spell = 'en',
-                            async_path = 'path'
+                            spell = "en",
+                            async_path = "path",
                         }
 
                         -- setting cmp menu
@@ -181,19 +180,18 @@ return {
                         -- vim_item.menu = string.lower(kind)
                         -- vim_item.menu = "[" .. (source_icon[source] or source) .. "]"
                         -- vim_item.menu = string.lower(kind) .. " ⟨" .. (source_symbol[source] or source) .. "⟩"
-                        local padding       = function()
+                        local padding = function()
                             local rep = 10 - #kind
                             if rep < 1 then
                                 return " "
                             end
                             return string.rep(" ", rep)
                         end
-                        vim_item.menu       = string.lower(kind) ..
-                            padding() .. string.lower(source_symbol[source] or source)
+                        vim_item.menu = string.lower(kind) .. padding() .. string.lower(source_symbol[source] or source)
 
                         -- trims down the extra long suggestions
                         -- trmming and setting menu and abbr
-                        local widths        = {
+                        local widths = {
                             abbr = vim.g.cmp_widths and vim.g.cmp_widths.abbr or 40,
                             menu = vim.g.cmp_widths and vim.g.cmp_widths.menu or 30,
                         }
@@ -216,7 +214,7 @@ return {
                             Value = "CmpItemMenuValue",
                             Text = "CmpItemMenuText",
                             String = "CmpItemMenuText",
-                            Unknown = "CmpItemMenuUnknown"
+                            Unknown = "CmpItemMenuUnknown",
                         })[kind] or "CmpItemMenuUnknown"
 
                         vim_item.kind_hl_group = ({
@@ -231,11 +229,11 @@ return {
                             Value = "CmpItemKindValue",
                             Text = "CmpItemKindText",
                             String = "CmpItemKindText",
-                            Unknown = "CmpItemKindUnknown"
+                            Unknown = "CmpItemKindUnknown",
                         })[kind] or "CmpItemKindUnknown"
 
                         return vim_item
-                    end
+                    end,
                 },
 
                 completion = {
@@ -264,27 +262,24 @@ return {
                         cmp_mapping.select_next_item({ behavior = SelectBehavior.Select }),
                         { "i" }
                     ),
-                    ["<Up>"] = cmp_mapping(
-                        cmp_mapping.select_prev_item({ behavior = SelectBehavior.Select }),
-                        { "i" }
-                    ),
+                    ["<Up>"] = cmp_mapping(cmp_mapping.select_prev_item({ behavior = SelectBehavior.Select }), { "i" }),
                     ["<C-d>"] = cmp_mapping.scroll_docs(-4),
                     ["<C-u>"] = cmp_mapping.scroll_docs(4),
                     ["<C-l>"] = cmp_mapping(function()
                         cmp.complete()
                     end, { "i" }),
-                    ["<C-y>"] = cmp_mapping {
-                        i = cmp_mapping.confirm { behavior = ConfirmBehavior.Replace, select = false },
+                    ["<C-y>"] = cmp_mapping({
+                        i = cmp_mapping.confirm({ behavior = ConfirmBehavior.Replace, select = false }),
                         c = function(fallback)
                             if cmp.visible() then
-                                cmp.confirm { behavior = ConfirmBehavior.Replace, select = false }
+                                cmp.confirm({ behavior = ConfirmBehavior.Replace, select = false })
                             else
                                 fallback()
                             end
                         end,
-                    },
+                    }),
                     -- ['<CR>'] = cmp.mapping.confirm({ select = true }),
-                    ['<CR>'] = confirm,
+                    ["<CR>"] = confirm,
                     ["<tab>"] = cmp_mapping(function(fallback)
                         if cmp.visible() then
                             cmp.select_next_item({ behavior = cmp.SelectBehavior, count = 1 })
@@ -310,34 +305,30 @@ return {
                     end, { "i", "s" }),
                 }),
 
-
-                sources = cmp.config.sources(
+                sources = cmp.config.sources({
+                    { name = "cody" },
+                    { name = "luasnip" },
                     {
-                        { name = 'cody' },
-                        { name = 'luasnip' },
-                        {
-                            name = "lazydev",
-                            group_index = 0, -- set group index to 0 to skip loading LuaLS completions
-                        },
-                        { name = 'nvim_lsp' },
-                        -- { name = 'nvim_lsp_signature_help' },
-                        { name = 'nvim_lua' },
-                        -- { name = 'path' },
-                        { name = 'async_path' },
-                        { name = 'treesitter', keyword_length = 3 },
+                        name = "lazydev",
+                        group_index = 0, -- set group index to 0 to skip loading LuaLS completions
                     },
+                    { name = "nvim_lsp" },
+                    -- { name = 'nvim_lsp_signature_help' },
+                    { name = "nvim_lua" },
+                    -- { name = 'path' },
+                    { name = "async_path" },
+                    { name = "treesitter", keyword_length = 3 },
+                }, {
                     {
-                        {
-                            name = 'buffer',
-                            option = {
-                                get_bufnrs = function()
-                                    return vim.api.nvim_list_bufs()
-                                end
-                            },
-                            keyword_length = 3,
+                        name = "buffer",
+                        option = {
+                            get_bufnrs = function()
+                                return vim.api.nvim_list_bufs()
+                            end,
                         },
-                    }
-                ),
+                        keyword_length = 3,
+                    },
+                }),
 
                 sorting = {
                     comparators = {
@@ -349,15 +340,15 @@ return {
                         compare.sort_text,
                         compare.length,
                         compare.order,
-                    }
-                }
+                    },
+                },
             }
 
             local border = function()
                 if vim.g.transparency or vim.g.neovide then
-                    return 'none'
+                    return "none"
                 end
-                return 'single'
+                return "single"
             end
             cmp_opts.window.completion.border = border()
             cmp_opts.window.documentation.border = border()
@@ -365,58 +356,54 @@ return {
             return cmp_opts
         end,
         config = function(_, opts)
-            local cmp = require('cmp')
+            local cmp = require("cmp")
 
             cmp.setup(opts)
 
             -- To use git you need to install the plugin petertriho/cmp-git and uncomment lines below
             -- Set configuration for specific filetype.
-            cmp.setup.filetype({ 'gitcommit', 'NeogitCommitMessage' }, {
+            cmp.setup.filetype({ "gitcommit", "NeogitCommitMessage" }, {
                 sources = {
                     -- { name = 'git' },
-                    { name = 'buffer' },
-                    { name = 'treesitter' },
-                }
+                    { name = "buffer" },
+                    { name = "treesitter" },
+                },
             })
             -- local cmp_git = pcall(require, "cmp_git")
             -- if cmp_git then require("cmp_git").setup() end
 
-            cmp.setup.filetype({ 'sql', 'mysql', 'plsql' }, {
-                sources = cmp.config.sources(
-                    {
-                        { name = 'luasnip' },
-                        { name = 'cmp-dbee' },
-                    },
-                    {
-                        { name = 'buffer', keyword_length = 3 },
-                    }
-                ),
+            cmp.setup.filetype({ "sql", "mysql", "plsql" }, {
+                sources = cmp.config.sources({
+                    { name = "luasnip" },
+                    { name = "cmp-dbee" },
+                }, {
+                    { name = "buffer", keyword_length = 3 },
+                }),
             })
 
             -- Use buffer source for `/` and `?` (if you enabled `native_menu`, this won't work anymore).
-            cmp.setup.cmdline({ '/', '?' }, {
+            cmp.setup.cmdline({ "/", "?" }, {
                 mapping = cmp.mapping.preset.cmdline(),
                 sources = cmp.config.sources({
-                    { name = 'buffer' }
-                })
+                    { name = "buffer" },
+                }),
             })
 
-
             -- for vim.ui.input completion support
-            cmp.setup.cmdline('@', {
+            cmp.setup.cmdline("@", {
                 mapping = cmp.mapping.preset.cmdline(),
                 sources = cmp.config.sources({
-                    { name = 'buffer' }
-                })
+                    { name = "buffer" },
+                }),
             })
 
             -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
-            cmp.setup.cmdline(':', {
+            cmp.setup.cmdline(":", {
                 mapping = cmp.mapping.preset.cmdline(),
                 sources = cmp.config.sources({
-                    { name = 'path' }
+                    { name = "path" },
                 }, {
-                    { name = 'cmdline' }
+                    { name = "cmdline" },
                 }),
                 matching = {
                     disallow_symbol_nonprefix_matching = false,
@@ -424,13 +411,13 @@ return {
                     disallow_fuzzy_matching = false,
                     disallow_partial_fuzzy_matching = false,
                     disallow_partial_matching = false,
-                    disallow_prefix_unmatching = false
-                }
+                    disallow_prefix_unmatching = false,
+                },
             })
 
             cmp.setup.filetype({ "*.txt", "*.tex", "*.typ", "gitcommit", "markdown", "NeogitCommitMessage" }, {
                 sources = {
-                    { name = 'buffer' },
+                    { name = "buffer" },
                     {
                         name = "spell",
                         option = {
@@ -441,14 +428,14 @@ return {
                             preselect_correct_word = true,
                         },
                     },
-                    { name = 'treesitter' },
-                }
+                    { name = "treesitter" },
+                },
             })
 
             cmp.setup.filetype({ "norg" }, {
                 sources = {
-                    { name = 'neorg' },
-                    { name = 'buffer' },
+                    { name = "neorg" },
+                    { name = "buffer" },
                     {
                         name = "spell",
                         option = {
@@ -459,41 +446,45 @@ return {
                             preselect_correct_word = true,
                         },
                     },
-                    { name = 'treesitter' },
-                }
+                    { name = "treesitter" },
+                },
+            })
+
+            cmp.setup.filetype({ "NvimTree" }, {
+                enabled = false,
             })
         end,
     },
     -- { 'ray-x/cmp-treesitter',                                 event = { "VeryLazy" } },
     {
-        'hrsh7th/cmp-nvim-lsp',
-        event = { "LspAttach" }
+        "hrsh7th/cmp-nvim-lsp",
+        event = { "LspAttach" },
     },
     {
-        'hrsh7th/cmp-buffer',
-        event = { "BufReadPost", "BufNewFile" }
+        "hrsh7th/cmp-buffer",
+        event = { "BufReadPost", "BufNewFile" },
     },
     {
-        'hrsh7th/cmp-cmdline',
-        event = { "VeryLazy" }
+        "hrsh7th/cmp-cmdline",
+        event = { "VeryLazy" },
     },
     {
-        url = 'https://codeberg.org/FelipeLema/cmp-async-path',
-        event = { "VeryLazy" }
+        url = "https://codeberg.org/FelipeLema/cmp-async-path",
+        event = { "VeryLazy" },
     },
     {
-        'f3fora/cmp-spell',
+        "f3fora/cmp-spell",
         ft = { "*.txt", "*.tex", "*.typ", "gitcommit", "markdown", "NeogitCommitMessage" },
         -- event = { "BufReadPost", "BufNewFile" }
     },
     {
-        'saadparwaiz1/cmp_luasnip',
+        "saadparwaiz1/cmp_luasnip",
         event = { "BufReadPost", "BufNewFile" },
-        dependencies = "L3MON4D3/LuaSnip"
+        dependencies = "L3MON4D3/LuaSnip",
     },
     {
         "MattiasMTS/cmp-dbee",
         opts = {},
-        ft = 'sql'
+        ft = "sql",
     },
 }

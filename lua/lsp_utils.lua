@@ -1,5 +1,5 @@
 local M = {}
-local icons = require('icons')
+local icons = require("icons")
 local utils = require("utils")
 
 M.default_diagnostic_config = {
@@ -7,15 +7,15 @@ M.default_diagnostic_config = {
         active = true,
         values = {
             { name = "DiagnosticSignError", text = icons.diagnostics.Error },
-            { name = "DiagnosticSignWarn",  text = icons.diagnostics.Warning },
-            { name = "DiagnosticSignHint",  text = icons.diagnostics.Hint },
-            { name = "DiagnosticSignInfo",  text = icons.diagnostics.Information },
+            { name = "DiagnosticSignWarn", text = icons.diagnostics.Warning },
+            { name = "DiagnosticSignHint", text = icons.diagnostics.Hint },
+            { name = "DiagnosticSignInfo", text = icons.diagnostics.Information },
         },
     },
     virtual_text = {
         source = "if_many",
         -- prefix = ' ',
-        prefix = ' ',
+        prefix = " ",
         -- prefix = "⏺ "
     },
     virtual_lines = false,
@@ -44,11 +44,10 @@ M.open_diagnostics_float = function()
             "InsertCharPre",
             "WinLeave",
             "InsertEnter",
-            "InsertLeave"
+            "InsertLeave",
         },
     })
 end
-
 
 ---@alias lsp.Client.filter {id?: number, bufnr?: number, name?: string, method?: string, filter?:fun(client: lsp.Client):boolean}
 ---@param opts? lsp.Client.filter
@@ -177,20 +176,19 @@ end
 --     })
 -- end)
 
-
 -- INFO: on_attach func =========================================================================
 M.on_attach = function(client, bufnr)
     -- NOTE: inlay hint
     local inlay_hint_flag = true
     -- if client.server_capabilities.inlayHintProvider then
-    if inlay_hint_flag and client.supports_method "textDocument/inlayHint" then
+    if inlay_hint_flag and client.supports_method("textDocument/inlayHint") then
         vim.lsp.inlay_hint.enable(false)
     end
 
     -- NOTE: code_lens
     local code_lens_flag = false
     -- if client.server_capabilities.codeLensProvider then
-    if code_lens_flag and client.supports_method "textDocument/codeLens" then
+    if code_lens_flag and client.supports_method("textDocument/codeLens") then
         vim.lsp.codelens.refresh()
         vim.api.nvim_create_autocmd({ "BufWritePost" }, {
             buffer = bufnr,
@@ -204,10 +202,12 @@ M.on_attach = function(client, bufnr)
     ---@param rename? fun()
     local function on_rename(from, to, rename)
         local changes = {
-            files = { {
-                oldUri = vim.uri_from_fname(from),
-                newUri = vim.uri_from_fname(to),
-            } }
+            files = {
+                {
+                    oldUri = vim.uri_from_fname(from),
+                    newUri = vim.uri_from_fname(to),
+                },
+            },
         }
 
         if client.supports_method("workspace/willRenameFiles") then
@@ -228,95 +228,114 @@ M.on_attach = function(client, bufnr)
     local _, nvim_tree_api = pcall(require, "nvim-tree.api")
     local Event = nvim_tree_api.events.Event
     nvim_tree_api.events.subscribe(Event.NodeRenamed, function(data)
-        on_rename(data.old_name, data.new_name, function()
-        end)
+        on_rename(data.old_name, data.new_name, function() end)
     end)
-
 
     -- NOTE: lsp keymap ---------------------------------------------------------------------------------
     -- vim.keymap.set("n", "<leader>l", "<nop>", { desc = "+LSP", noremap = true, buffer=bufnr })
-    vim.keymap.set({ "n", "i" }, "<M-i>", "<cmd>lua vim.lsp.buf.signature_help()<CR>",
-        { desc = "Signature Help", noremap = true, buffer = bufnr })
-    vim.keymap.set({ "n" }, "K", "<cmd>lua vim.lsp.buf.hover()<CR>",
-        { desc = "Hover", noremap = true, buffer = bufnr })
-    vim.keymap.set({ "n" }, "<leader>la", "<cmd>lua vim.lsp.buf.code_action()<CR>",
-        { desc = "Code Action", noremap = true, buffer = bufnr })
-    vim.keymap.set({ "n" }, "<leader>lr",
+    vim.keymap.set(
+        { "n", "i" },
+        "<M-i>",
+        "<cmd>lua vim.lsp.buf.signature_help()<CR>",
+        { desc = "Signature Help", noremap = true, buffer = bufnr }
+    )
+    vim.keymap.set({ "n" }, "K", "<cmd>lua vim.lsp.buf.hover()<CR>", { desc = "Hover", noremap = true, buffer = bufnr })
+    vim.keymap.set(
+        { "n" },
+        "<leader>la",
+        "<cmd>lua vim.lsp.buf.code_action()<CR>",
+        { desc = "Code Action", noremap = true, buffer = bufnr }
+    )
+    vim.keymap.set(
+        { "n" },
+        "<leader>lr",
         "<cmd>Telescope lsp_references theme=get_ivy initial_mode=normal<CR>",
-        { desc = "References", noremap = true, buffer = bufnr })
-    vim.keymap.set({ "n" }, "<leader>lt",
+        { desc = "References", noremap = true, buffer = bufnr }
+    )
+    vim.keymap.set(
+        { "n" },
+        "<leader>lt",
         "<cmd>Telescope lsp_type_definitions theme=get_ivy initial_mode=normal<CR>",
-        { desc = "Type Definitions", noremap = true, buffer = bufnr })
-    vim.keymap.set({ "n" }, "<leader>ld",
+        { desc = "Type Definitions", noremap = true, buffer = bufnr }
+    )
+    vim.keymap.set(
+        { "n" },
+        "<leader>ld",
         "<cmd>Telescope lsp_definitions theme=get_ivy initial_mode=normal<CR>",
-        { desc = "Definitions", noremap = true, buffer = bufnr })
-    vim.keymap.set({ "n" }, "<leader>li",
+        { desc = "Definitions", noremap = true, buffer = bufnr }
+    )
+    vim.keymap.set(
+        { "n" },
+        "<leader>li",
         "<cmd>Telescope lsp_implementations theme=get_ivy initial_mode=normal<CR>",
-        { desc = "Implementations", noremap = true, buffer = bufnr })
-    vim.keymap.set({ "n" }, "<leader>lS", "<cmd>Telescope lsp_workspace_symbols<CR>",
-        { desc = "Workspace Symbols", noremap = true, buffer = bufnr })
-    vim.keymap.set({ "n" }, "<leader>lwD",
-        function()
-            require('telescope.builtin').diagnostics({
-                theme = "dropdown", layout_strategy = "vertical", layout_config = { preview_height = 0.6, },
-            })
-        end,
-        { desc = "Workspace", noremap = true, buffer = bufnr })
-    vim.keymap.set({ "n" }, "<leader>lwd",
-        function()
-            require('telescope.builtin').diagnostics({
-                bufnr = 0, theme = "dropdown", layout_strategy = "vertical", layout_config = { preview_height = 0.6, },
-            })
-        end,
-        { desc = "Buff", noremap = true, buffer = bufnr })
+        { desc = "Implementations", noremap = true, buffer = bufnr }
+    )
+    vim.keymap.set(
+        { "n" },
+        "<leader>lS",
+        "<cmd>Telescope lsp_workspace_symbols<CR>",
+        { desc = "Workspace Symbols", noremap = true, buffer = bufnr }
+    )
+    vim.keymap.set({ "n" }, "<leader>lE", function()
+        require("telescope.builtin").diagnostics({
+            theme = "dropdown",
+            layout_strategy = "vertical",
+            layout_config = { preview_height = 0.6 },
+        })
+    end, { desc = "Workspace", noremap = true, buffer = bufnr })
+    vim.keymap.set({ "n" }, "<leader>le", function()
+        require("telescope.builtin").diagnostics({
+            bufnr = 0,
+            theme = "dropdown",
+            layout_strategy = "vertical",
+            layout_config = { preview_height = 0.6 },
+        })
+    end, { desc = "Buff", noremap = true, buffer = bufnr })
     vim.keymap.set({ "n" }, "<leader>lR", function()
         utils.lsp_rename()
     end, { desc = "Rename Symbol", noremap = true, buffer = bufnr })
 
     -- toggle inlay_hint
-    vim.keymap.set({ "n" }, "<leader>lH",
-        function()
-            local hint_flag = not vim.lsp.inlay_hint.is_enabled({ bufnr = bufnr })
-            vim.lsp.inlay_hint.enable(hint_flag)
-        end, { desc = "Virtual Hints", noremap = true, silent = false, buffer = bufnr })
+    vim.keymap.set({ "n" }, "<leader>lH", function()
+        local hint_flag = not vim.lsp.inlay_hint.is_enabled({ bufnr = bufnr })
+        vim.lsp.inlay_hint.enable(hint_flag)
+    end, { desc = "Virtual Hints", noremap = true, silent = false, buffer = bufnr })
 
     -- lsp lines globally
     local lsp_lines_enable = false
-    vim.keymap.set("n", "<leader>lh",
-        function()
-            if not lsp_lines_enable then
-                M.default_diagnostic_config.virtual_text = false
-                M.default_diagnostic_config.virtual_lines = true
-                lsp_lines_enable = true
-            else
-                M.default_diagnostic_config.virtual_text = {
-                    source = "if_many",
-                    -- prefix = ' ',
-                    prefix = ' ',
-                    -- prefix = "⏺ "
-                }
-                M.default_diagnostic_config.virtual_lines = false
-                lsp_lines_enable = false
-            end
-            vim.diagnostic.config(M.default_diagnostic_config)
-        end, { desc = "Toggle HlChunk", noremap = true }
-    )
+    vim.keymap.set("n", "<leader>lh", function()
+        if not lsp_lines_enable then
+            M.default_diagnostic_config.virtual_text = false
+            M.default_diagnostic_config.virtual_lines = true
+            lsp_lines_enable = true
+        else
+            M.default_diagnostic_config.virtual_text = {
+                source = "if_many",
+                -- prefix = ' ',
+                prefix = " ",
+                -- prefix = "⏺ "
+            }
+            M.default_diagnostic_config.virtual_lines = false
+            lsp_lines_enable = false
+        end
+        vim.diagnostic.config(M.default_diagnostic_config)
+    end, { desc = "Toggle HlChunk", noremap = true })
 
     -- enable lsplines for curr line
     local lsp_lines_curr_line_enabled = false
-    vim.keymap.set("n", "<F3>l",
-        function()
-            if lsp_lines_enable then return end
-            if not lsp_lines_curr_line_enabled then
-                M.default_diagnostic_config.virtual_lines = { only_current_line = true }
-                lsp_lines_curr_line_enabled = true
-            else
-                M.default_diagnostic_config.virtual_lines = false
-                lsp_lines_curr_line_enabled = false
-            end
-            vim.diagnostic.config(M.default_diagnostic_config)
-        end, { desc = "HlChunk .", noremap = true }
-    )
+    vim.keymap.set("n", "<F3>l", function()
+        if lsp_lines_enable then
+            return
+        end
+        if not lsp_lines_curr_line_enabled then
+            M.default_diagnostic_config.virtual_lines = { only_current_line = true }
+            lsp_lines_curr_line_enabled = true
+        else
+            M.default_diagnostic_config.virtual_lines = false
+            lsp_lines_curr_line_enabled = false
+        end
+        vim.diagnostic.config(M.default_diagnostic_config)
+    end, { desc = "HlChunk .", noremap = true })
     -- autocmd to disable per line HlChunk
     vim.api.nvim_create_autocmd({ "InsertEnter", "InsertLeave", "CursorMoved", "CursorMovedI" }, {
         group = vim.api.nvim_create_augroup("Diaable_hlchunk", { clear = true }),
@@ -326,7 +345,7 @@ M.on_attach = function(client, bufnr)
                 M.default_diagnostic_config.virtual_text = {
                     source = "if_many",
                     -- prefix = ' ',
-                    prefix = ' ',
+                    prefix = " ",
                     -- prefix = "⏺ "
                 }
                 vim.diagnostic.config(M.default_diagnostic_config)
@@ -339,13 +358,12 @@ M.on_attach = function(client, bufnr)
     vim.keymap.set("n", "<leader>rc", function()
         local file_type = vim.bo.filetype
         utils.code_runner(file_type, "horizontal") -- float, window, horizontal, vertical
-    end, { silent = true, desc = "Run Code", })
+    end, { silent = true, desc = "Run Code" })
 
     vim.keymap.set("n", "<F4>", function()
         local file_type = vim.bo.filetype
-        require('pluginSetups.toggleTermConfig').code_runner(file_type)
-    end, { noremap = true, silent = true, desc = "Run Code", })
-
+        require("pluginSetups.toggleTermConfig").code_runner(file_type)
+    end, { noremap = true, silent = true, desc = "Run Code" })
 
     -- jump lsp word
     -- vim.keymap.set({ "n" }, "]w", function() words.jump(1, false) end,
@@ -354,8 +372,7 @@ M.on_attach = function(client, bufnr)
     --     { desc = "prev LSP word", noremap = true, buffer = bufnr })
 
     -- ouline
-    vim.keymap.set({ "n" }, "<leader>ls", "<cmd>Outline<CR>",
-        { desc = "Document Symbols", noremap = true, })
+    vim.keymap.set({ "n" }, "<leader>ls", "<cmd>Outline<CR>", { desc = "Document Symbols", noremap = true })
 end
 
 return M
