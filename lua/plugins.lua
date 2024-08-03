@@ -460,16 +460,16 @@ return {
             vim.keymap.set("n", "<leader>rs", function()
                 require("spectre").toggle()
             end, { desc = "Toggle Spectre" }),
-            vim.keymap.set("n", "<F3>ss", function()
+            vim.keymap.set("n", "<F13>ss", function()
                 require("spectre").toggle()
             end, { desc = "Toggle Spectre" }),
-            vim.keymap.set("n", "<F3>sw", function()
+            vim.keymap.set("n", "<F13>sw", function()
                 require("spectre").open_visual({ select_word = true })
             end, { desc = "Search current word" }),
-            vim.keymap.set("v", "<F3>sw", function()
+            vim.keymap.set("v", "<F13>sw", function()
                 require("spectre").open_visual()
             end, { desc = "Search current word" }),
-            vim.keymap.set("n", "<F3>sf", function()
+            vim.keymap.set("n", "<F13>sf", function()
                 require("spectre").open_file_search({ select_word = true })
             end, { desc = "Search on current file" }),
         },
@@ -528,9 +528,8 @@ return {
                 init = function()
                     -- Require providers
                     require("hover.providers.lsp")
-                    -- require("hover.providers.gh")
-                    -- require("hover.providers.gh_user")
-                    -- require('hover.providers.jira')
+                    require("hover.providers.gh")
+                    require("hover.providers.gh_user")
                     require("hover.providers.dap")
                     require("hover.providers.fold_preview")
                     require("hover.providers.diagnostic")

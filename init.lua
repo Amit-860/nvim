@@ -90,10 +90,18 @@ local function is_night()
 end
 
 if is_night() then
-    vim.g.colorscheme = "nightfox"
+    -- vim.g.colorscheme = "nightfox"
+    vim.o.background = "dark"
+    vim.g.gruvbox_material_background = "hard"
+    vim.g.colorscheme = "gruvbox-material"
 else
-    vim.g.colorscheme = "dayfox"
+    -- vim.g.colorscheme = "dayfox"
+    vim.o.background = "light"
+    vim.g.gruvbox_material_background = "soft" -- soft, medium, hard
+    vim.g.colorscheme = "gruvbox-material"
 end
+vim.g.gruvbox_material_enable_italic = true
+vim.g.gruvbox_material_better_performance = true
 vim.g.neovide_colorscheme = "terafox"
 
 local lazy_opts = {

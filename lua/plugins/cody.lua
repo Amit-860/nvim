@@ -24,11 +24,11 @@ return {
         dependencies = { "nvim-lua/plenary.nvim" },
         cmd = { "CodyAsk", "SourcegraphLogin ", "CodyToggle", "CodyChat", "CodyTask", "CodyRestart" },
         keys = {
-            vim.keymap.set({ 'n', 'v' }, "<F3>aa", function() cody_ask() end,
+            vim.keymap.set({ 'n', 'v' }, "<F13>aa", function() cody_ask() end,
                 { noremap = true, silent = true, desc = 'Cody Ask' }),
-            vim.keymap.set({ 'n' }, "<F3>ac", ":CodyChat<cr>",
+            vim.keymap.set({ 'n' }, "<F13>ac", ":CodyChat<cr>",
                 { noremap = true, silent = true, desc = 'Cody Chat' }),
-            vim.keymap.set({ 'n' }, "<F3>at", ":CodyTask<cr>",
+            vim.keymap.set({ 'n' }, "<F13>at", ":CodyTask<cr>",
                 { noremap = true, silent = true, desc = 'Cody Task' })
         },
         config = function()

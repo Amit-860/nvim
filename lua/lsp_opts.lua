@@ -14,7 +14,7 @@ local hover_opts = {
     border = "none",
     -- add the title in hover float window
     -- title = "hover"
-    relative = 'win',
+    relative = "win",
     max_height = math.floor(vim.o.lines * 0.6),
     max_width = math.floor(vim.o.columns * 0.5),
 }
@@ -22,14 +22,13 @@ if not vim.g.neovide then
     -- [ "╔", "═" ,"╗", "║", "╝", "═", "╚", "║" ].
     hover_opts.border = { "┏", "━", "┓", "┃", "┛", "━", "┗", "┃" }
 end
-local status, _ = pcall(require, "noice")
-if not status then
+local status_noice, _ = pcall(require, "noice")
+local status_hover, _ = pcall(require, "hover")
+if not (status_noice or status_hover) then
     vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, hover_opts)
 end
 
-vim.keymap.set({ "n" }, "<F3>k", lsp_utils.open_diagnostics_float,
-    { desc = "Open diagnostics float", noremap = true, })
-
+vim.keymap.set({ "n" }, "<F13>k", lsp_utils.open_diagnostics_float, { desc = "Open diagnostics float", noremap = true })
 
 vim.api.nvim_create_user_command("FormatDisable", function(args)
     if args.bang then

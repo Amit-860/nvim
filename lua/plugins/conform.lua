@@ -78,9 +78,9 @@ return {
         return conform_opts
     end,
     keys = {
-        vim.keymap.set({ "n" }, "<F3>ce", "<cmd>FormatEnable<cr>", { desc = "Format Enable" }),
-        vim.keymap.set({ "n" }, "<F3>cd", "<cmd>FormatDisable!<cr>", { desc = "Format Buff Disable" }),
-        vim.keymap.set({ "n" }, "<F3>cD", "<cmd>FormatDisable<cr>", { desc = "Format Disable" }),
+        vim.keymap.set({ "n" }, "<F13>ce", "<cmd>FormatEnable<cr>", { desc = "Format Enable" }),
+        vim.keymap.set({ "n" }, "<F13>cd", "<cmd>FormatDisable!<cr>", { desc = "Format Buff Disable" }),
+        vim.keymap.set({ "n" }, "<F13>cD", "<cmd>FormatDisable<cr>", { desc = "Format Disable" }),
         vim.keymap.set({ "n" }, "<leader>lf", function()
             require("conform").format({ async = true, lsp_format = "fallback" })
         end, { desc = "Format", noremap = true }),

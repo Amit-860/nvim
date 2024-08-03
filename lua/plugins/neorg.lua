@@ -49,13 +49,13 @@ return {
                     -- https://github.com/nvim-neorg/neorg/blob/main/lua/neorg/modules/core/keybinds/keybinds.lua
                     config = {
                         default_keybinds = true,
-                        -- neorg_leader = "<F3>",
+                        -- neorg_leader = "<F13>",
                         hook = function(keybind)
-                            keybind.map("norg", "n", "<F3>i", "<nop>", { desc = "Norg insert" })
-                            keybind.map("norg", "n", "<F3>m", "<nop>", { desc = "Norg mode" })
-                            keybind.map("norg", "n", "<F3>n", "<nop>", { desc = "Norg new note" })
-                            keybind.map("norg", "n", "<F3>t", "<nop>", { desc = "Norg mark" })
-                            keybind.map("norg", "n", "<F3>l", "<nop>", { desc = "Norg list" })
+                            keybind.map("norg", "n", "<F13>i", "<nop>", { desc = "Norg insert" })
+                            keybind.map("norg", "n", "<F13>m", "<nop>", { desc = "Norg mode" })
+                            keybind.map("norg", "n", "<F13>n", "<nop>", { desc = "Norg new note" })
+                            keybind.map("norg", "n", "<F13>t", "<nop>", { desc = "Norg mark" })
+                            keybind.map("norg", "n", "<F13>l", "<nop>", { desc = "Norg list" })
                         end
                     },
                 },

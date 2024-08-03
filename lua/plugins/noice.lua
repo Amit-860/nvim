@@ -29,7 +29,7 @@ return {
                 long_message_to_split = true, -- long messages will be sent to a split
                 lsp_doc_border = false, -- add a border to hover docs and signature help
             },
-            notify = { enabled = false },
+            notify = { enabled = true },
             win_options = {
                 winhighlight = { Normal = "NormalFloat", FloatBorder = "FloatBorder" },
             },

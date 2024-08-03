@@ -325,7 +325,7 @@ M.on_attach = function(client, bufnr)
 
     -- enable lsplines for curr line
     local lsp_lines_curr_line_enabled = false
-    vim.keymap.set("n", "<F3>l", function()
+    vim.keymap.set("n", "<F13>l", function()
         if lsp_lines_enable then
             return
         end

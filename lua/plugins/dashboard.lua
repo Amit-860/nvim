@@ -98,7 +98,7 @@ return {
         local datetime = function()
             local stats = require("lazy").stats()
             local plugins = #vim.tbl_keys(require("lazy").plugins())
-            local datetime = os.date("  %d-%m-%Y   ⏱ %H:%M:%S")
+            local datetime = os.date("  %d-%m-%Y    %H:%M:%S")
             -- local v = vim.version()
             -- local platform = vim.fn.has "win32" == 1 and "" or ""
             -- return string.format(" %d's  %s v%d.%d.%d   ⎸ %s", plugins, platform, v.major, v.minor, v.patch, datetime)
