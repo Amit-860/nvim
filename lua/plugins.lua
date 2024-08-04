@@ -147,7 +147,6 @@ return {
     {
         "folke/flash.nvim",
         event = { "VeryLazy" },
-        -- cond = not vim.g.vscode,
         opts = {
             modes = { char = { jump_labels = true }, search = { enabled = false } },
             exclude = {
@@ -240,7 +239,6 @@ return {
     {
         "max397574/better-escape.nvim",
         event = "VeryLazy",
-        cond = not vim.g.vscode,
         config = function()
             require("better_escape").setup({
                 timeout = vim.o.timeoutlen,
@@ -258,7 +256,6 @@ return {
     -- mini
     {
         "shellRaining/hlchunk.nvim",
-        cond = not vim.g.vscode,
         event = { "BufNewFile", "BufReadPost" },
         config = function()
             local opts = {

@@ -1,18 +1,15 @@
 return {
     {
         "williamboman/mason.nvim",
-        cond = not vim.g.vscode,
         cmd = "Mason",
     },
     {
         "williamboman/mason-lspconfig.nvim",
-        cond = not vim.g.vscode,
         event = { "VeryLazy" },
         config = function() end,
     },
     {
         "antosha417/nvim-lsp-file-operations",
-        cond = not vim.g.vscode,
         event = { "LspAttach" },
         dependencies = {
             "nvim-lua/plenary.nvim",
@@ -24,7 +21,6 @@ return {
     },
     {
         "neovim/nvim-lspconfig",
-        cond = not vim.g.vscode,
         event = { "BufNewFile", "BufReadPre" },
         dependencies = {
             "williamboman/mason.nvim",
