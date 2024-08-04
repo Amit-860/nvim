@@ -147,7 +147,7 @@ return {
     {
         "folke/flash.nvim",
         event = { "VeryLazy" },
-        cond = not vim.g.vscode,
+        -- cond = not vim.g.vscode,
         opts = {
             modes = { char = { jump_labels = true }, search = { enabled = false } },
             exclude = {
@@ -258,6 +258,7 @@ return {
     -- mini
     {
         "shellRaining/hlchunk.nvim",
+        cond = not vim.g.vscode,
         event = { "BufNewFile", "BufReadPost" },
         config = function()
             local opts = {
@@ -365,14 +366,14 @@ return {
                 function()
                     require("yazi").yazi()
                 end,
-                desc = "File Broser",
+                desc = "File Browser",
             },
             {
                 "<leader>fb",
                 function()
                     require("yazi").yazi(nil, vim.fn.getcwd())
                 end,
-                desc = "File Broser .",
+                desc = "File Browser .",
             },
         },
         config = function()

@@ -26,7 +26,12 @@ return {
         end,
     },
     {
-        "sainnhe/gruvbox-material",
+        "oxfist/night-owl.nvim",
+        lazy = false,
+        priority = 1000,
+    },
+    {
+        "rose-pine/neovim",
         lazy = false,
         priority = 1000,
     },

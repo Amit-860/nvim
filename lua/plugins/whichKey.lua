@@ -184,7 +184,6 @@ return {
             { "<leader>lE", desc = "Project Diagnostics", icon = icons.diagnostics.Information },
             { "<F13>c", desc = "Conform", icon = icons.astro.FolderClosed },
             { "<F13>a", desc = "Cody", icon = icons.misc.Robot },
-            { "<F13>c", desc = "Mini Map", icon = icons.misc.Robot },
             { "<F13>s", desc = "Spectre", icon = icons.misc.Robot },
         })
     end,

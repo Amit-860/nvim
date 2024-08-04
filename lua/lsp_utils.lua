@@ -249,25 +249,57 @@ M.on_attach = function(client, bufnr)
     vim.keymap.set(
         { "n" },
         "<leader>lr",
-        "<cmd>Telescope lsp_references theme=get_ivy initial_mode=normal<CR>",
+        -- "<cmd>Telescope lsp_references theme=get_ivy initial_mode=normal<CR>",
+        function()
+            require("telescope.builtin").lsp_references({
+                bufnr = 0,
+                theme = "dropdown",
+                layout_strategy = "vertical",
+                layout_config = { preview_height = 0.6 },
+            })
+        end,
         { desc = "References", noremap = true, buffer = bufnr }
     )
     vim.keymap.set(
         { "n" },
         "<leader>lt",
-        "<cmd>Telescope lsp_type_definitions theme=get_ivy initial_mode=normal<CR>",
+        -- "<cmd>Telescope lsp_type_definitions theme=get_ivy initial_mode=normal<CR>",
+        function()
+            require("telescope.builtin").lsp_type_definitions({
+                bufnr = 0,
+                theme = "dropdown",
+                layout_strategy = "vertical",
+                layout_config = { preview_height = 0.6 },
+            })
+        end,
         { desc = "Type Definitions", noremap = true, buffer = bufnr }
     )
     vim.keymap.set(
         { "n" },
         "<leader>ld",
-        "<cmd>Telescope lsp_definitions theme=get_ivy initial_mode=normal<CR>",
+        -- "<cmd>Telescope lsp_definitions theme=get_ivy initial_mode=normal<CR>",
+        function()
+            require("telescope.builtin").lsp_definitions({
+                bufnr = 0,
+                theme = "dropdown",
+                layout_strategy = "vertical",
+                layout_config = { preview_height = 0.6 },
+            })
+        end,
         { desc = "Definitions", noremap = true, buffer = bufnr }
     )
     vim.keymap.set(
         { "n" },
         "<leader>li",
-        "<cmd>Telescope lsp_implementations theme=get_ivy initial_mode=normal<CR>",
+        -- "<cmd>Telescope lsp_implementations theme=get_ivy initial_mode=normal<CR>",
+        function()
+            require("telescope.builtin").lsp_implementations({
+                bufnr = 0,
+                theme = "dropdown",
+                layout_strategy = "vertical",
+                layout_config = { preview_height = 0.6 },
+            })
+        end,
         { desc = "Implementations", noremap = true, buffer = bufnr }
     )
     vim.keymap.set(

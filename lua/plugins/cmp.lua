@@ -345,7 +345,7 @@ return {
             }
 
             local border = function()
-                if vim.g.transparency or vim.g.neovide then
+                if vim.g.transparent or vim.g.neovide then
                     return "none"
                 end
                 return "single"
@@ -386,6 +386,7 @@ return {
                 mapping = cmp.mapping.preset.cmdline(),
                 sources = cmp.config.sources({
                     { name = "buffer" },
+                    { name = "cmdline_history" },
                 }),
             })
 
@@ -394,6 +395,7 @@ return {
                 mapping = cmp.mapping.preset.cmdline(),
                 sources = cmp.config.sources({
                     { name = "buffer" },
+                    { name = "cmdline_history" },
                 }),
             })
 
@@ -401,8 +403,9 @@ return {
             cmp.setup.cmdline(":", {
                 mapping = cmp.mapping.preset.cmdline(),
                 sources = cmp.config.sources({
-                    { name = "path" },
+                    { name = "async_path" },
                 }, {
+                    { name = "cmdline_history" },
                     { name = "cmdline" },
                 }),
                 matching = {
@@ -469,6 +472,10 @@ return {
     },
     {
         "hrsh7th/cmp-cmdline",
+        event = { "VeryLazy" },
+    },
+    {
+        "dmitmel/cmp-cmdline-history",
         event = { "VeryLazy" },
     },
     {

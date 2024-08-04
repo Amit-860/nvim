@@ -72,7 +72,7 @@ vim.api.nvim_set_hl(0, "CmpItemMenuText", { fg = "#81b29a", italic = true })
 vim.api.nvim_set_hl(0, "CmpItemMenuUnknown", { fg = "#fda47f", italic = true })
 
 -- INFO: theme specific seetings
-if vim.g.neovide or vim.g.transparency then
+if vim.g.neovide or vim.g.transparent then
     -- NOTE: only neovide
     if vim.g.neovide then
         vim.api.nvim_set_hl(0, "NormalFloat", { bg = M.float_color, blend = M.neovide_float_winblend }) -- hilight for cmp menu
@@ -85,7 +85,7 @@ if vim.g.neovide or vim.g.transparency then
     end
 
     -- NOTE: only transparency
-    if vim.g.transparency then
+    if vim.g.transparent then
         vim.api.nvim_set_hl(0, "NormalFloat", { bg = M.float_color, blend = M.float_winblend }) -- hilight for cmp menu
         vim.api.nvim_set_hl(
             0,

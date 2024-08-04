@@ -1,15 +1,18 @@
 return {
     {
         "williamboman/mason.nvim",
+        cond = not vim.g.vscode,
         cmd = "Mason",
     },
     {
         "williamboman/mason-lspconfig.nvim",
+        cond = not vim.g.vscode,
         event = { "VeryLazy" },
         config = function() end,
     },
     {
         "antosha417/nvim-lsp-file-operations",
+        cond = not vim.g.vscode,
         event = { "LspAttach" },
         dependencies = {
             "nvim-lua/plenary.nvim",
@@ -21,6 +24,7 @@ return {
     },
     {
         "neovim/nvim-lspconfig",
+        cond = not vim.g.vscode,
         event = { "BufNewFile", "BufReadPre" },
         dependencies = {
             "williamboman/mason.nvim",
@@ -100,11 +104,6 @@ return {
             -- NOTE: ===================== setting up servers ======================
 
             -- comment below line to disable lsp support for nvim files
-            -- NOTE : neodev for nvim apis
-            local neodev_status, neodev = pcall(require, "neodev")
-            if neodev_status then
-                neodev.setup({})
-            end
 
             -- INFO : lua
             local lua_ls_settings = {
@@ -123,7 +122,12 @@ return {
                     },
                 },
             }
-            setup_lsp("lua_ls", { on_attach = on_attach, capabilities = capabilities, settings = lua_ls_settings })
+            setup_lsp("lua_ls", {
+                on_attach = on_attach,
+                capabilities = capabilities,
+                settings = lua_ls_settings,
+                autostart = false,
+            })
 
             -- INFO : python
             local basedpyright_settings = {
@@ -136,28 +140,60 @@ return {
                     },
                 },
             }
-            setup_lsp(
-                "basedpyright",
-                { on_attach = on_attach, capabilities = capabilities, settings = basedpyright_settings }
-            )
-            setup_lsp(
-                "ruff",
-                { on_attach = on_attach, capabilities = capabilities, cmd = { "ruff", "server", "--preview" } }
-            )
+            setup_lsp("basedpyright", {
+                on_attach = on_attach,
+                capabilities = capabilities,
+                settings = basedpyright_settings,
+                autostart = false,
+            })
+            setup_lsp("ruff", {
+                on_attach = on_attach,
+                capabilities = capabilities,
+                cmd = { "ruff", "server", "--preview" },
+                autostart = false,
+            })
 
             -- INFO : Json
-            setup_lsp("jsonls", { on_attach = on_attach, capabilities = capabilities })
+            setup_lsp("jsonls", {
+                on_attach = on_attach,
+                capabilities = capabilities,
+                autostart = false,
+            })
 
             -- INFO : text, markdown, org, norg
-            setup_lsp("ltex", { on_attach = on_attach, capabilities = capabilities })
+            setup_lsp("ltex", {
+                on_attach = on_attach,
+                capabilities = capabilities,
+                autostart = false,
+            })
 
             -- INFO : javascript, html, css
             vim.g.markdown_fenced_languages = { "ts=typescript" }
-            setup_lsp("denols", { on_attach = on_attach, capabilities = capabilities })
-            setup_lsp("html", { on_attach = on_attach, capabilities = capabilities })
-            setup_lsp("cssls", { on_attach = on_attach, capabilities = capabilities })
-            setup_lsp("cssmodules_ls", { on_attach = on_attach, capabilities = capabilities })
-            setup_lsp("emmet_language_server", { on_attach = on_attach, capabilities = capabilities })
+            setup_lsp("denols", {
+                on_attach = on_attach,
+                capabilities = capabilities,
+                autostart = false,
+            })
+            setup_lsp("html", {
+                on_attach = on_attach,
+                capabilities = capabilities,
+                autostart = false,
+            })
+            setup_lsp("cssls", {
+                on_attach = on_attach,
+                capabilities = capabilities,
+                autostart = false,
+            })
+            setup_lsp("cssmodules_ls", {
+                on_attach = on_attach,
+                capabilities = capabilities,
+                autostart = false,
+            })
+            setup_lsp("emmet_language_server", {
+                on_attach = on_attach,
+                capabilities = capabilities,
+                autostart = false,
+            })
         end,
     },
 }

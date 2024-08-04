@@ -1,17 +1,23 @@
--- disabling some featrues for big files
+-- disabling some features for big files
 -- faster
 return {
     "pteroctopus/faster.nvim",
-    event = "VeryLazy",
+    lazy = false,
     init = function()
-        vim.api.nvim_create_autocmd("BufReadPost", {
+        vim.api.nvim_create_autocmd({ "BufReadPost" }, {
             group = vim.api.nvim_create_augroup("Faster_ag", { clear = true }),
             pattern = "*",
             callback = function(event)
                 local max_filesize = 1020 * 1024 * 2 -- 2MB
                 local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(event.buf))
+                if vim.g.vscode then
+                    return
+                end
                 if ok and stats and stats.size > max_filesize then
                     vim.cmd("FasterDisableAllFeatures")
+                    vim.cmd("LspStop")
+                else
+                    vim.cmd("LspStart")
                 end
             end,
         })
@@ -33,18 +39,13 @@ return {
                     "illuminate",
                     "matchparen",
                     "lsp",
-                    "nvim-lspconfig",
-                    "mason-lspconfig",
                     "treesitter",
                     "indent_blankline",
                     "vimopts",
                     "syntax",
                     "filetype",
-                    "luminate",
-                    "outline",
-                    "vim-matchup",
-                    "hlchunk",
-                    "neoscroll",
+                    "ts_context",
+                    "lualine",
                 },
                 -- Files larger than `filesize` are considered big files. Value is in MB.
                 filesize = 2,
@@ -97,8 +98,8 @@ return {
             -- Neovim filetype plugin
             -- https://neovim.io/doc/user/filetype.html
             filetype = {
-                on = false,
-                defer = true,
+                on = true,
+                defer = false,
             },
             -- Illuminate plugin
             -- https://github.com/RRethy/vim-illuminate
@@ -133,8 +134,8 @@ return {
             -- Neovim syntax
             -- https://neovim.io/doc/user/syntax.html
             syntax = {
-                on = false,
-                defer = true,
+                on = true,
+                defer = false,
             },
             -- Neovim treesitter
             -- https://neovim.io/doc/user/treesitter.html
