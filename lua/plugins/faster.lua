@@ -10,9 +10,6 @@ return {
             callback = function(event)
                 local max_filesize = 1020 * 1024 * 2 -- 2MB
                 local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(event.buf))
-                if vim.g.vscode then
-                    return
-                end
                 if ok and stats and stats.size > max_filesize then
                     vim.cmd("FasterDisableAllFeatures")
                     vim.cmd("LspStop")

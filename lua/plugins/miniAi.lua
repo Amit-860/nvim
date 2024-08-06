@@ -1,6 +1,6 @@
 return {
     "echasnovski/mini.ai",
-    event = { "BufReadPost", "BufNewFile" },
+    event = { "VeryLazy" },
     opts = function()
         local ai = require("mini.ai")
         return {
@@ -13,24 +13,24 @@ return {
             -- Module mappings. Use `''` (empty string) to disable one.
             mappings = {
                 -- Main textobject prefixes
-                around = 'a',
-                inside = 'i',
+                around = "a",
+                inside = "i",
 
                 -- Next/last textobjects
-                around_next = 'an',
-                inside_next = 'in',
-                around_last = 'aL',
-                inside_last = 'iL',
+                around_next = "an",
+                inside_next = "in",
+                around_last = "aL",
+                inside_last = "iL",
 
                 -- Move cursor to corresponding edge of `a` textobject
-                goto_left = 'g[',
-                goto_right = 'g]',
+                goto_left = "g[",
+                goto_right = "g]",
             },
 
             -- How to search for object (first inside current line, then inside
             -- neighborhood). One of 'cover', 'cover_or_next', 'cover_or_prev',
             -- 'cover_or_nearest', 'next', 'prev', 'nearest'.
-            search_method = 'cover_or_next',
+            search_method = "cover_or_next",
 
             -- Whether to disable showing non-error feedback
             silent = false,
@@ -42,7 +42,7 @@ return {
                 }, {}),
                 t = { "<([%p%w]-)%f[^<%w][^<>]->.-</%1>", "^<.->().*()</[^/]->$" },
                 D = { "%f[%d]%d+" }, -- digits
-                e = {                -- Word with case
+                e = { -- Word with case
                     {
                         "%u[%l%d]+%f[^%l%d]",
                         "%f[%S][%l%d]+%f[^%l%d]",
@@ -59,13 +59,13 @@ return {
                     }
                     return { from = from, to = to }
                 end,
-                u = ai.gen_spec.function_call(),                           -- u for "Usage"
+                u = ai.gen_spec.function_call(), -- u for "Usage"
                 U = ai.gen_spec.function_call({ name_pattern = "[%w_]" }), -- without dot in function name
             },
         }
     end,
     config = function(_, opts)
-        local utils = require('utils')
+        local utils = require("utils")
         require("mini.ai").setup(opts)
         -- register all text objects with which-key
         utils.on_load("which-key.nvim", function()
@@ -104,26 +104,26 @@ return {
             end
 
             local keys = {
-                mode = { 'o', 'x' },
-                { 'i', { group = "inside" } },
-                { 'a', { group = "around" } },
+                mode = { "o", "x" },
+                { "i", { group = "inside" } },
+                { "a", { group = "around" } },
             }
 
             for key, name in pairs(i) do
-                table.insert(keys, { 'i' .. key, desc = name })
+                table.insert(keys, { "i" .. key, desc = name })
             end
             for key, name in pairs(a) do
-                table.insert(keys, { 'a' .. key, desc = name })
+                table.insert(keys, { "a" .. key, desc = name })
             end
 
             -- table.insert(keys, { 'il', { group = "Inside last textobject" } })
             -- table.insert(keys, { 'in', { group = "Inside next textobject" } })
             for key, name in pairs({ n = "next", l = "last" }) do
                 for key_i, name_i in pairs(i) do
-                    if key == 'n' then
-                        table.insert(keys, { 'i' .. key .. key_i, desc = "Inside next " .. name_i })
+                    if key == "n" then
+                        table.insert(keys, { "i" .. key .. key_i, desc = "Inside next " .. name_i })
                     else
-                        table.insert(keys, { 'i' .. key .. key_i, desc = "Inside last " .. name_i })
+                        table.insert(keys, { "i" .. key .. key_i, desc = "Inside last " .. name_i })
                     end
                 end
             end
@@ -132,10 +132,10 @@ return {
             -- table.insert(keys, { 'an', { group = "Around next textobject" } })
             for key, name in pairs({ n = "next", l = "last" }) do
                 for key_a, name_a in pairs(i) do
-                    if key == 'n' then
-                        table.insert(keys, { 'a' .. key .. key_a, desc = "Around next " .. name_a })
+                    if key == "n" then
+                        table.insert(keys, { "a" .. key .. key_a, desc = "Around next " .. name_a })
                     else
-                        table.insert(keys, { 'a' .. key .. key_a, desc = "Around last " .. name_a })
+                        table.insert(keys, { "a" .. key .. key_a, desc = "Around last " .. name_a })
                     end
                 end
             end

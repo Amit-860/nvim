@@ -1,8 +1,10 @@
 return {
     "rcarriga/nvim-dap-ui",
-    event = "LspAttach",
-    dependencies = { { "nvim-neotest/nvim-nio", event = "VeryLazy" },
-        { "theHamsta/nvim-dap-virtual-text", event = "VeryLazy", opts = {} } },
+    ft = { "python", "java" },
+    dependencies = {
+        { "nvim-neotest/nvim-nio", event = "VeryLazy" },
+        { "theHamsta/nvim-dap-virtual-text", event = "VeryLazy", opts = {} },
+    },
     opts = function()
         local ui_opts = {
             auto_open = true,
@@ -26,17 +28,17 @@ return {
                 layouts = {
                     {
                         elements = {
-                            { id = "scopes",      size = 0.33 },
+                            { id = "scopes", size = 0.33 },
                             { id = "breakpoints", size = 0.17 },
-                            { id = "stacks",      size = 0.25 },
-                            { id = "watches",     size = 0.25 },
+                            { id = "stacks", size = 0.25 },
+                            { id = "watches", size = 0.25 },
                         },
                         size = 0.33,
                         position = "right",
                     },
                     {
                         elements = {
-                            { id = "repl",    size = 0.45 },
+                            { id = "repl", size = 0.45 },
                             { id = "console", size = 0.55 },
                         },
                         size = 0.27,
@@ -77,9 +79,9 @@ return {
         return ui_opts
     end,
     config = function(_, opts)
-        local dapui = require "dapui"
+        local dapui = require("dapui")
         dapui.setup(opts.config)
-        local dap = require('dap')
+        local dap = require("dap")
         if opts.auto_open then
             dap.listeners.after.event_initialized["dapui_config"] = function()
                 dapui.open()
@@ -91,5 +93,5 @@ return {
                 dapui.close()
             end
         end
-    end
+    end,
 }

@@ -5,8 +5,27 @@ return {
     },
     {
         "williamboman/mason-lspconfig.nvim",
+        cond = false,
         event = { "VeryLazy" },
-        config = function() end,
+        config = function()
+            -- mason configs
+            require("mason-lspconfig").setup({
+                ensure_installed = {
+                    "lua_ls",
+                    "basedpyright",
+                    "ruff",
+                    "jsonls",
+                    "ltex",
+                    "denols",
+                    "html",
+                    "cssls",
+                    "cssmodules_ls",
+                    "emmet_language_server",
+                },
+                automatic_installation = false,
+            })
+
+        end,
     },
     {
         "antosha417/nvim-lsp-file-operations",
@@ -28,23 +47,6 @@ return {
         config = function()
             require("lsp_opts")
             local on_attach = require("lsp_utils").on_attach
-
-            -- mason configs
-            require("mason-lspconfig").setup({
-                ensure_installed = {
-                    "lua_ls",
-                    "basedpyright",
-                    "ruff",
-                    "jsonls",
-                    "ltex",
-                    "denols",
-                    "html",
-                    "cssls",
-                    "cssmodules_ls",
-                    "emmet_language_server",
-                },
-                automatic_installation = false,
-            })
 
             -- Set up lspconfig.
             local lspconfig = require("lspconfig")
@@ -160,16 +162,17 @@ return {
             setup_lsp("ltex", {
                 on_attach = on_attach,
                 capabilities = capabilities,
+                filetypes = { "tex", "markdown", "org", "norg" },
                 autostart = false,
             })
 
             -- INFO : javascript, html, css
             vim.g.markdown_fenced_languages = { "ts=typescript" }
-            setup_lsp("denols", {
-                on_attach = on_attach,
-                capabilities = capabilities,
-                autostart = false,
-            })
+            -- setup_lsp("denols", {
+            --     on_attach = on_attach,
+            --     capabilities = capabilities,
+            --     autostart = false,
+            -- })
             setup_lsp("html", {
                 on_attach = on_attach,
                 capabilities = capabilities,
@@ -189,6 +192,20 @@ return {
                 on_attach = on_attach,
                 capabilities = capabilities,
                 autostart = false,
+            })
+
+            vim.api.nvim_create_autocmd({ "BufReadPre" }, {
+                group = vim.api.nvim_create_augroup("Toggle_LSP_ag", { clear = true }),
+                pattern = "*",
+                callback = function(event)
+                    local max_filesize = 1020 * 1024 * 2 -- 2MB
+                    local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(event.buf))
+                    if ok and stats and stats.size > max_filesize then
+                        vim.cmd("LspStop")
+                    else
+                        vim.cmd("LspStart")
+                    end
+                end,
             })
         end,
     },

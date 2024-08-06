@@ -87,7 +87,6 @@ return {
     },
     {
         "pmizio/typescript-tools.nvim",
-        cond = false,
         ft = { "javascript", "javascriptreact", "typescript", "typescriptreact" },
         dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
         opts = {
@@ -480,6 +479,13 @@ return {
     {
         "SergioRibera/codeshot.nvim",
         cmd = { "SSSelected", "SSFocused" },
+        opts = {
+            use_current_theme = false,
+            -- theme = "DarkNeon",
+            -- theme = "gruvbox-dark",
+            theme = "Dracula",
+            output = vim.fn.expand("$HOME") .. "/codeshot/CodeShot_${year}-${month}-${date}_${time}.png",
+        },
         keys = {
             vim.keymap.set("v", "<Leader>s", "<nop>", { desc = "Codeshot", noremap = true, silent = true }),
             vim.keymap.set("v", "<Leader>ss", ":SSSelected<cr>", { desc = "Selected", noremap = true, silent = true }),
@@ -490,11 +496,8 @@ return {
                 { desc = "Codeshot focused", noremap = true, silent = true }
             ),
         },
-        config = function()
-            require("codeshot").setup({
-                use_current_theme = false,
-                output = vim.fn.expand("$HOME") .. "/codeshot/CodeShot_${year}-${month}-${date}_${time}.png",
-            })
+        config = function(_, opts)
+            require("codeshot").setup(opts)
         end,
     },
 

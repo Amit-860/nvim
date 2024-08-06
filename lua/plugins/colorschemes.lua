@@ -30,9 +30,4 @@ return {
         lazy = false,
         priority = 1000,
     },
-    {
-        "rose-pine/neovim",
-        lazy = false,
-        priority = 1000,
-    },
 }

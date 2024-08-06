@@ -2,7 +2,7 @@ return {
     {
         "mfussenegger/nvim-dap",
         dependencies = { "rcarriga/nvim-dap-ui" },
-        event = "LspAttach",
+        ft = { "python", "java" },
         opts = function()
             local icons = require("icons")
             local dap_opts = {
@@ -32,20 +32,20 @@ return {
             return dap_opts
         end,
         config = function(_, dap_opts)
-            local dap = require('dap')
+            local dap = require("dap")
 
             vim.fn.sign_define("DapBreakpoint", dap_opts.breakpoint)
             vim.fn.sign_define("DapBreakpointRejected", dap_opts.breakpoint_rejected)
             vim.fn.sign_define("DapStopped", dap_opts.stopped)
 
             dap.set_log_level(dap_opts.log.level)
-        end
+        end,
     },
     {
         "mfussenegger/nvim-dap-python",
-        ft = 'python',
+        ft = "python",
         config = function()
             require("dap-python").setup("~/scoop/apps/python/current/python")
         end,
-    }
+    },
 }
