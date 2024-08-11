@@ -85,20 +85,19 @@ local default_options = {
 
 local function is_night()
     local now = os.date("*t")
-
     return not (now.hour >= 7 and now.hour <= 17)
 end
 
+vim.g.neovide_colorscheme = "terafox"
+vim.g.transparent = false
 if is_night() then
-    -- vim.g.colorscheme = "catppuccin"
-    vim.g.colorscheme = "tokyonight-moon"
+    vim.g.transparent = true
+    vim.g.colorscheme = "tokyonight-storm"
 else
     -- vim.g.colorscheme = "dawnfox"
-    vim.g.colorscheme = "catppuccin-frappe"
+    vim.g.transparent = true
+    vim.g.colorscheme = "nightfox"
 end
-vim.g.gruvbox_material_enable_italic = true
-vim.g.gruvbox_material_better_performance = true
-vim.g.neovide_colorscheme = "terafox"
 
 local lazy_opts = {
     spec = {
@@ -146,7 +145,6 @@ vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
-vim.g.transparent = false
 vim.g.python3_host_prog = vim.fn.expand("$HOME/scoop/apps/python/current/python.exe")
 
 vim.o.guifont = "JetBrainsMono Nerd Font Mono:h10:sb"

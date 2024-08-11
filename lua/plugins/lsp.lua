@@ -170,8 +170,8 @@ return {
             setup_lsp("denols", {
                 on_attach = on_attach,
                 capabilities = capabilities,
-                autostart = false,
                 filetypes = { "javascript", "typescript", "html", "css" },
+                autostart = false,
             })
             setup_lsp("html", {
                 on_attach = on_attach,
@@ -186,6 +186,7 @@ return {
             setup_lsp("cssmodules_ls", {
                 on_attach = on_attach,
                 capabilities = capabilities,
+                filetypes = { "css", "scss", "html", "typescriptreact", "javascriptreact" },
                 autostart = false,
             })
             setup_lsp("emmet_language_server", {
