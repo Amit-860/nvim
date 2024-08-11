@@ -396,7 +396,7 @@ M.on_attach = function(client, bufnr)
 
     vim.keymap.set("n", "<F4>", function()
         local file_type = vim.bo.filetype
-        require("pluginSetups.toggleTermConfig").code_runner(file_type)
+        utils.code_runner(file_type, "horizontal") -- float, window, horizontal, vertical
     end, { noremap = true, silent = true, desc = "Run Code" })
 
     -- jump lsp word
@@ -405,7 +405,7 @@ M.on_attach = function(client, bufnr)
     -- vim.keymap.set({ "n" }, "[w", function() words.jump(-1, false) end,
     --     { desc = "prev LSP word", noremap = true, buffer = bufnr })
 
-    -- ouline
+    -- outline
     vim.keymap.set({ "n" }, "<leader>ls", "<cmd>Outline<CR>", { desc = "Document Symbols", noremap = true })
 end
 

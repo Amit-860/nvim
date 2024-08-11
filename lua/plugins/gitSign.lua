@@ -67,18 +67,18 @@ return {
 
                 -- Actions
                 map("n", "<leader>gs", ":Gitsigns stage_hunk<CR>", { desc = "Stage Hunk" })
-                -- map('n', '<leader>gn', ':LazyGit<CR>', { desc = "Lazygit" })
                 map("v", "<leader>gs", ":Gitsigns stage_hunk<CR>", { desc = "Stage Hunk" })
                 map("n", "<leader>gr", ":Gitsigns reset_hunk<CR>", { desc = "Reset Hunk" })
                 map("v", "<leader>gr", ":Gitsigns reset_hunk<CR>", { desc = "Reset HUnk" })
                 map("n", "<leader>gS", "<cmd>Gitsigns stage_buffer<CR>", { desc = "Stage Buffer" })
                 map("n", "<leader>gu", "<cmd>Gitsigns undo_stage_hunk<CR>", { desc = "Stage Hunk" })
                 map("n", "<leader>gR", "<cmd>Gitsigns reset_buffer<CR>", { desc = "Reset Buffer" })
-                map("n", "<leader>gp", "<cmd>Gitsigns preview_hunk<CR>", { desc = "Preview Hunk" })
-                map("n", "<leader>gB", '<cmd>lua require"gitsigns".blame_line{full=true}<CR>', { desc = "Blame" })
+                -- map("n", "<leader>gp", "<cmd>Gitsigns preview_hunk<CR>", { desc = "Preview Hunk" })
+                map("n", "<leader>gp", "<cmd>Gitsigns preview_hunk_inline<CR>", { desc = "Preview Hunk" })
+                map("n", "<leader>gb", '<cmd>lua require"gitsigns".blame_line{full=true}<CR>', { desc = "Blame" })
                 map(
                     "n",
-                    "<leader>gb",
+                    "<leader>gB",
                     "<cmd>Gitsigns toggle_current_line_blame<CR>",
                     { desc = "Toggle Curr_line Blame" }
                 )

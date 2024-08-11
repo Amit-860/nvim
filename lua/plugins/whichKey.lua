@@ -2,6 +2,7 @@ return {
     "folke/which-key.nvim",
     cmd = "WhichKey",
     event = "UIEnter",
+    keys = { "<leader>", "<SPC>", " " },
     opts = {
         ---@type false | "classic" | "modern" | "helix"
         preset = "helix",

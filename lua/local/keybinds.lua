@@ -50,15 +50,7 @@ vim.keymap.set(
 vim.keymap.set(
     "n",
     "<leader>fr",
-    function()
-        telescope_extensinos.frecency.frecency({
-            initial_mode = "insert",
-            layout_strategy = "horizontal",
-            layout_config = { preview_width = 0.5 },
-            path_display = { "shorten" },
-        })
-    end,
-    -- "<cmd>Telescope oldfiles layout_strategy=horizontal layout_config={preview_width=0.5}<cr>",
+    "<cmd>Telescope oldfiles layout_strategy=horizontal layout_config={preview_width=0.5}<cr>",
     { noremap = true, silent = true, desc = "Recent Files" }
 )
 vim.keymap.set(
@@ -126,12 +118,13 @@ vim.keymap.set("n", "<leader>qw", "<cmd>wq<cr>", { noremap = true, silent = true
 vim.keymap.set("n", "<leader>qQ", "<cmd>q!<cr>", { noremap = true, silent = true, desc = "Force Exit" })
 vim.keymap.set({ "n", "i" }, "<C-q>", function()
     vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<esc>", true, false, true), "x", true) -- changing to normal mode
-    if not pcall(vim.cmd, "confirm close") then
-        local r = pcall(vim.cmd, "confirm bd")
-        if not r then
-            vim.cmd("confirm q")
-        end
-    end
+    local s1, _ = pcall(vim.cmd, "confirm close")
+    -- if not s1 then
+    -- local s2, _ = pcall(vim.cmd, "confirm bd")
+    -- if not s2 then
+    -- vim.cmd("confirm q")
+    -- end
+    -- end
 end, { noremap = true, silent = true, desc = "Exit" })
 
 -- tab
@@ -176,7 +169,7 @@ end, { desc = "Step Out", noremap = true, silent = true })
 vim.keymap.set("n", "<F10>", function()
     require("dap").step_over()
 end, { desc = "Step Over", noremap = true, silent = true })
-vim.keymap.set("n", "<leader>DT", function()
+vim.keymap.set("n", "<leader>Dx", function()
     require("dap").terminate()
 end, { desc = "Terminate", noremap = true, silent = true })
 vim.keymap.set("n", "<leader>Dr", function()
@@ -244,7 +237,7 @@ vim.keymap.set("n", "<leader>ob", function()
     utils.broot_toggle()
 end, { desc = "Broot", noremap = true, silent = true })
 vim.keymap.set("n", "<leader>ol", function()
-    require("pluginSetups.toggleTermConfig").lazygit_toggle()
+    utils.lazygit_toggle()
 end, { desc = "Lazygit", noremap = true, silent = true })
 
 -- Project
@@ -263,6 +256,12 @@ vim.keymap.set("n", "<leader>gg", ":Neogit<CR>", { desc = "Neogit", silent = tru
 vim.keymap.set("n", "<leader>gl", function()
     utils.lazygit_toggle()
 end, { desc = "Lazygit", noremap = true, silent = true })
+
+-- Jujutsu
+
+vim.keymap.set("n", "<leader>gj", function()
+    utils.jj_toggle()
+end, { desc = "JJ", noremap = true, silent = true })
 
 -- general
 vim.keymap.set("v", "<BS>", '"_d', { noremap = true, silent = true })

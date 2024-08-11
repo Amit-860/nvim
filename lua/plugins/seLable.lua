@@ -1,9 +1,9 @@
 return {
-    'Axlefublr/selabel.nvim',
-    event = { "VeryLazy", },
+    "Axlefublr/selabel.nvim",
+    event = { "VeryLazy" },
     opts = {
         win_opts = {
-            border = "single"
-        }
+            border = "single",
+        },
     },
 }

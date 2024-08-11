@@ -26,7 +26,12 @@ return {
         end,
     },
     {
-        "oxfist/night-owl.nvim",
+        "catppuccin/nvim",
+        lazy = false,
+        priority = 1000,
+    },
+    {
+        "folke/tokyonight.nvim",
         lazy = false,
         priority = 1000,
     },

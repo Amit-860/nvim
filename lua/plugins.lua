@@ -87,13 +87,14 @@ return {
     },
     {
         "pmizio/typescript-tools.nvim",
-        ft = { "javascript", "javascriptreact", "typescript", "typescriptreact" },
+        ft = { "javascriptreact", "typescriptreact" },
         dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
         opts = {
             settings = {
                 tsserver_file_preferences = {
                     quotePreference = "single",
                 },
+                format = { enable = false },
                 tsserver_format_options = {
                     semicolons = "insert",
                 },
@@ -404,51 +405,6 @@ return {
         config = true,
     },
 
-    -- marks/bookmarks
-    {
-        "cbochs/grapple.nvim",
-        dependencies = {
-            { "nvim-tree/nvim-web-devicons" },
-        },
-        opts = {
-            scope = "git_branch",
-            icons = true,
-            quick_select = "123456789",
-            scopes = {},
-            win_opts = {
-                border = "rounded",
-            },
-        },
-        keys = {
-            {
-                "ma",
-                function()
-                    require("grapple").tag({ scope = "git_branch" })
-                end,
-                desc = "Toggle tag",
-            },
-            {
-                "<leader>fm",
-                "<cmd>Telescope grapple tags scope=git_branch theme=get_ivy<cr>",
-                desc = "Telescope marks",
-            },
-            {
-                "<M-m>",
-                function()
-                    require("grapple").toggle_tags({ scope = "git_branch" })
-                end,
-                desc = "Grapple mark",
-            },
-            {
-                "mm",
-                function()
-                    require("grapple").toggle_tags({ scope = "git_branch" })
-                end,
-                desc = "Grapple mark",
-            },
-        },
-    },
-
     -- Find and Replace
     {
         "nvim-pack/nvim-spectre",
@@ -498,59 +454,6 @@ return {
         },
         config = function(_, opts)
             require("codeshot").setup(opts)
-        end,
-    },
-
-    -- hover
-    {
-        "lewis6991/hover.nvim",
-        event = "VeryLazy",
-        keys = function()
-            local hover = require("hover")
-            return {
-                -- Setup keymaps
-                vim.keymap.set("n", "K", hover.hover, { desc = "hover.nvim" }),
-                vim.keymap.set("n", "gK", hover.hover_select, { desc = "hover.nvim (select)" }),
-                vim.keymap.set("n", "<tab>", function()
-                    hover.hover_switch("previous")
-                end, { desc = "hover.nvim (previous source)" }),
-                vim.keymap.set("n", "<S-tab>", function()
-                    hover.hover_switch("next")
-                end, { desc = "hover.nvim (next source)" }),
-
-                -- Mouse support
-                -- vim.o.mousemoveevent = true
-                -- vim.keymap.set("n", "<MouseMove>", hover.hover_mouse, { desc = "hover.nvim (mouse)" })
-            }
-        end,
-        config = function()
-            local hover = require("hover")
-            local hover_opts = {
-                init = function()
-                    -- Require providers
-                    require("hover.providers.lsp")
-                    require("hover.providers.gh")
-                    require("hover.providers.gh_user")
-                    require("hover.providers.dap")
-                    require("hover.providers.fold_preview")
-                    require("hover.providers.diagnostic")
-                    require("hover.providers.man")
-                    -- require("hover.providers.dictionary")
-                end,
-                preview_opts = {
-                    border = "single",
-                },
-                -- Whether the contents of a currently open hover window should be moved
-                -- to a :h preview-window when pressing the hover keymap.
-                preview_window = true,
-                title = true,
-                mouse_providers = {
-                    "LSP",
-                },
-                mouse_delay = 2000,
-            }
-
-            hover.setup(hover_opts)
         end,
     },
 }

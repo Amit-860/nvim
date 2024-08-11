@@ -25,7 +25,14 @@ return {
                 --   prepend_args = { "-i", "2", "-ci" },
                 -- },
                 stylua = {
-                    prepend_args = { "--indent-type", "Spaces", "--line-endings", "Windows" },
+                    prepend_args = {
+                        "--indent-type",
+                        "Spaces",
+                        "--line-endings",
+                        "Windows",
+                        -- '--quote-style',
+                        -- 'AutoPreferSingle',
+                    },
                 },
             },
             formatters_by_ft = {
@@ -66,7 +73,7 @@ return {
                         slow_format_filetypes[vim.bo[bufnr].filetype] = true
                     end
                 end
-                return { timeout_ms = 200, lsp_fallback = true }, on_format
+                return { timeout_ms = 500, lsp_fallback = true }, on_format
             end,
             format_after_save = function(bufnr)
                 if not slow_format_filetypes[vim.bo[bufnr].filetype] then

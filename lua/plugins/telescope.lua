@@ -8,11 +8,6 @@ return {
         cmd = { "Telescope undo" },
     },
     {
-        "nvim-telescope/telescope-frecency.nvim",
-        event = "VeryLazy",
-    },
-
-    {
         "nvim-telescope/telescope.nvim",
         event = "VeryLazy",
         dependencies = {
@@ -202,7 +197,6 @@ return {
             pcall(telescope.load_extension, "project")
             pcall(telescope.load_extension, "noice")
             pcall(telescope.load_extension, "grapple")
-            pcall(telescope.load_extension, "frecency")
         end,
     },
 }

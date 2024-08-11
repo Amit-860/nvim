@@ -1,3 +1,4 @@
 Home.vim
 Session.vim
 *.log
+*bookmarks.db.json*

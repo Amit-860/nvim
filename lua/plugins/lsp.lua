@@ -24,7 +24,6 @@ return {
                 },
                 automatic_installation = false,
             })
-
         end,
     },
     {
@@ -168,11 +167,12 @@ return {
 
             -- INFO : javascript, html, css
             vim.g.markdown_fenced_languages = { "ts=typescript" }
-            -- setup_lsp("denols", {
-            --     on_attach = on_attach,
-            --     capabilities = capabilities,
-            --     autostart = false,
-            -- })
+            setup_lsp("denols", {
+                on_attach = on_attach,
+                capabilities = capabilities,
+                autostart = false,
+                filetypes = { "javascript", "typescript", "html", "css" },
+            })
             setup_lsp("html", {
                 on_attach = on_attach,
                 capabilities = capabilities,

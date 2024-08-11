@@ -1,9 +1,9 @@
 M = {}
 
 local prompt_input_cursor_pos = function(opts, width, on_submit)
-    local Input = require('nui.input')
+    local Input = require("nui.input")
     local popup = {
-        relative = 'cursor',
+        relative = "cursor",
         position = {
             row = 1,
             col = 0,
@@ -13,47 +13,51 @@ local prompt_input_cursor_pos = function(opts, width, on_submit)
             width = width,
         },
         border = {
-            style = 'single',
-            highlight = 'FloatBorder',
-            padding = { 0, 1 }
+            style = "single",
+            highlight = "FloatBorder",
+            padding = { 0, 1 },
         },
         win_options = {
-            winhighlight = 'NormalFloat:NormalFloat',
-        }
+            winhighlight = "NormalFloat:NormalFloat",
+        },
     }
     local input = Input(popup, {
         prompt = opts.prompt,
         default_value = opts.default_value,
-        on_submit = on_submit
+        on_submit = on_submit,
     })
 
     input:mount()
-    input:map('i', '<Esc>', input.input_props.on_close, { noremap = true })
-    input:map('i', '<C-c>', input.input_props.on_close, { noremap = true })
+    input:map("i", "<Esc>", input.input_props.on_close, { noremap = true })
+    input:map("i", "<C-c>", input.input_props.on_close, { noremap = true })
 end
 M.prompt_input_cursor_pos = prompt_input_cursor_pos
 
 local window_matches = {}
 local highlight = function(word, only_current)
     local win_id = vim.api.nvim_get_current_win()
-    if not vim.api.nvim_win_is_valid(win_id) then return end
+    if not vim.api.nvim_win_is_valid(win_id) then
+        return
+    end
 
     window_matches[win_id] = window_matches[win_id] or {}
 
     -- Add match highlight for current word under cursor
     local current_word_pattern = [[\k*\%#\k*]]
-    local match_id_current = vim.fn.matchadd('MiniCursorwordCurrent', current_word_pattern, -1)
+    local match_id_current = vim.fn.matchadd("MiniCursorwordCurrent", current_word_pattern, -1)
     window_matches[win_id].id_current = match_id_current
 
     -- Don't add main match id if not needed or if one is already present
-    if only_current or window_matches[win_id].id ~= nil then return end
+    if only_current or window_matches[win_id].id ~= nil then
+        return
+    end
 
     -- Add match highlight for non-current word under cursor. NOTEs:
     local curword = word
     local pattern = string.format([[\(%s\)\@!\&\V\<%s\>]], current_word_pattern, curword)
 
     -- highlight for word which will be replaced
-    local match_id = vim.fn.matchadd('FindAndReplace', pattern, -1)
+    local match_id = vim.fn.matchadd("FindAndReplace", pattern, -1)
 
     -- Store information about highlight
     window_matches[win_id].id = match_id
@@ -65,7 +69,9 @@ local unhighlight = function(only_current)
     -- Don't do anything if there is no valid information to act upon
     local win_id = vim.api.nvim_get_current_win()
     local win_match = window_matches[win_id]
-    if not vim.api.nvim_win_is_valid(win_id) or win_match == nil then return end
+    if not vim.api.nvim_win_is_valid(win_id) or win_match == nil then
+        return
+    end
 
     -- Use `pcall` because there is an error if match id is not present. It can
     -- happen if something else called `clearmatches`.
@@ -81,9 +87,9 @@ M.unhighlight = unhighlight
 
 M.smart_find_file = function(opts)
     if not opts.find_command then
-        opts.find_command = { 'fd', '-H', '-E', '.git' }
+        opts.find_command = { "fd", "-H", "-E", ".git" }
     end
-    local builtin = require('telescope.builtin')
+    local builtin = require("telescope.builtin")
     local ok = pcall(builtin.git_files, opts)
     if not ok then
         builtin.find_files(opts)
@@ -103,8 +109,8 @@ end
 M.find_and_replace = function()
     local word = nil
     vim.ui.input({
-        prompt = 'Find : ',
-        completion = "buffer"
+        prompt = "Find : ",
+        completion = "buffer",
     }, function(input)
         word = input
     end)
@@ -112,7 +118,7 @@ M.find_and_replace = function()
         highlight(word)
         vim.ui.input({
             prompt = "Replace : ",
-            completion = "buffer"
+            completion = "buffer",
         }, function(input)
             if not input then
                 return
@@ -128,24 +134,24 @@ end
 
 M.find_and_replace_in_selection = function()
     local word = nil
-    vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<esc>", true, false, true), 'x', true) -- changing to normal mode
+    vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<esc>", true, false, true), "x", true) -- changing to normal mode
     local line1 = vim.api.nvim_buf_get_mark(0, "<")[1]
     local line2 = vim.api.nvim_buf_get_mark(0, ">")[1]
     vim.ui.input({
-        prompt = 'Find : ',
-        completion = "buffer"
+        prompt = "Find : ",
+        completion = "buffer",
     }, function(input)
         word = input
     end)
     if word then
         vim.ui.input({
             prompt = "Replace : ",
-            completion = "buffer"
+            completion = "buffer",
         }, function(input)
             if not input then
                 return
             end
-            vim.cmd(":" .. line1 .. ',' .. line2 .. "s/" .. word .. "/" .. input .. "/gc")
+            vim.cmd(":" .. line1 .. "," .. line2 .. "s/" .. word .. "/" .. input .. "/gc")
         end)
     else
         return
@@ -155,14 +161,14 @@ end
 
 local get_visual_selection = function()
     vim.cmd('noau normal! "vy"')
-    local text = vim.fn.getreg('v')
-    vim.fn.setreg('v', {})
+    local text = vim.fn.getreg("v")
+    vim.fn.setreg("v", {})
 
     text = string.gsub(text, "\n", "")
     if #text > 0 then
         return text
     else
-        return ''
+        return ""
     end
 end
 M.get_visual_selection = get_visual_selection
@@ -173,9 +179,11 @@ M.replace_selected = function()
     if word then
         vim.ui.input({
             prompt = "Replace : ",
-            completion = "buffer"
+            completion = "buffer",
         }, function(input)
-            if not input then return end
+            if not input then
+                return
+            end
             vim.cmd(":%s/" .. word .. "/" .. input .. "/gc")
         end)
     else
@@ -185,19 +193,26 @@ end
 
 M.lsp_rename = function()
     local cursor_word = vim.fn.expand("<cword>")
-    if not cursor_word then return end
-    prompt_input_cursor_pos({ prompt = cursor_word .. " ⇉ ", default_value = cursor_word },
+    if not cursor_word then
+        return
+    end
+    prompt_input_cursor_pos(
+        { prompt = cursor_word .. " ⇉ ", default_value = cursor_word },
         math.max(52, math.floor((#cursor_word * 2.5) + 3)),
         function(input)
-            if not input then return end
+            if not input then
+                return
+            end
             vim.lsp.buf.rename(input)
-        end)
+        end
+    )
 end
-
 
 M.save_as = function()
     vim.ui.input({ prompt = "Save as : " }, function(input)
-        if not input then return end
+        if not input then
+            return
+        end
         vim.cmd("w " .. input)
     end)
 end
@@ -218,17 +233,43 @@ M.lazygit_toggle = function()
         height = math.floor(vim.o.lines * 1),
         width = math.floor(vim.o.columns * 1),
     }
-    local lazygit = Terminal:new {
+    local lazygit = Terminal:new({
         cmd = "lazygit",
         hidden = true,
         direction = "float",
         float_opts = float_opts,
         on_open = function(_)
-            vim.cmd "startinsert!"
+            vim.cmd("startinsert!")
         end,
         on_close = function(_) end,
         count = 99,
+    })
+    -- condition for neovide
+    if vim.g.neovide then
+        float_opts.height = math.floor(vim.o.lines * 0.98)
+        float_opts.width = math.floor(vim.o.columns * 0.98)
+    end
+    lazygit:toggle()
+end
+
+M.jj_toggle = function()
+    local Terminal = require("toggleterm.terminal").Terminal
+    local float_opts = {
+        border = "none",
+        height = math.floor(vim.o.lines * 1),
+        width = math.floor(vim.o.columns * 1),
     }
+    local lazygit = Terminal:new({
+        cmd = "lazyjj",
+        hidden = true,
+        direction = "float",
+        float_opts = float_opts,
+        on_open = function(_)
+            vim.cmd("startinsert!")
+        end,
+        on_close = function(_) end,
+        count = 99,
+    })
     -- condition for neovide
     if vim.g.neovide then
         float_opts.height = math.floor(vim.o.lines * 0.98)
@@ -243,17 +284,17 @@ M.broot_toggle = function()
         -- height = math.floor(vim.o.lines * 1),
         -- width = math.floor(vim.o.columns * 1),
     }
-    local broot = Terminal:new {
+    local broot = Terminal:new({
         cmd = "broot",
         hidden = true,
         direction = "float",
         float_opts = float_opts,
         on_open = function(_)
-            vim.cmd "startinsert!"
+            vim.cmd("startinsert!")
         end,
         on_close = function(_) end,
         count = 99,
-    }
+    })
     -- condition for neovide
     if vim.g.neovide then
         -- float_opts.height = math.floor(vim.o.lines * 1.0)
@@ -265,21 +306,20 @@ end
 M.code_runner = function(run_cmd, direction)
     local Terminal = require("toggleterm.terminal").Terminal
     local file_name = vim.api.nvim_buf_get_name(0)
-    local py_runner = Terminal:new {
+    local py_runner = Terminal:new({
         cmd = run_cmd .. " " .. file_name,
         hidden = true,
         direction = direction,
         close_on_exit = false, -- close the terminal window when the process exits
         -- float_opts = {},
         on_open = function(_)
-            vim.cmd "startinsert!"
+            vim.cmd("startinsert!")
         end,
         on_close = function(_) end,
         count = 99,
-    }
+    })
     py_runner:toggle()
 end
-
 
 local function is_loaded(name)
     local Config = require("lazy.core.config")

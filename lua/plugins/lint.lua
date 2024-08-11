@@ -16,6 +16,7 @@ return {
                 lua = { "codespell" },
                 json = { "codespell" },
                 toml = { "codespell" },
+                --------------------------------------------------------------------
                 -- NOTE : vale setup
                 -- create ~/.vale.ini file
                 -- Put this in .vale.ini file
@@ -28,6 +29,7 @@ return {
                 -- BasedOnStyles = Vale, RedHat, alex
                 -- -----------------------------------
                 -- Run .\AppData\Roaming\nvim-data\mason\packages\vale\vale.exe sync
+                -- -----------------------------------------------------------------
                 text = { "vale" },
                 -- markdown = { "vale" },
                 -- gitcommit = { "vale" },
@@ -62,17 +64,17 @@ return {
             local M = {}
 
             local lint = require("lint")
-            for name, linter in pairs(opts.linters) do
-                if type(linter) == "table" and type(lint.linters[name]) == "table" then
-                    lint.linters[name] = vim.tbl_deep_extend("force", lint.linters[name], linter)
-                    if type(linter.prepend_args) == "table" then
-                        lint.linters[name].args = lint.linters[name].args or {}
-                        vim.list_extend(lint.linters[name].args, linter.prepend_args)
-                    end
-                else
-                    lint.linters[name] = linter
-                end
-            end
+            -- for name, linter in pairs(opts.linters) do
+            --     if type(linter) == "table" and type(lint.linters[name]) == "table" then
+            --         lint.linters[name] = vim.tbl_deep_extend("force", lint.linters[name], linter)
+            --         if type(linter.prepend_args) == "table" then
+            --             lint.linters[name].args = lint.linters[name].args or {}
+            --             vim.list_extend(lint.linters[name].args, linter.prepend_args)
+            --         end
+            --     else
+            --         lint.linters[name] = linter
+            --     end
+            -- end
             lint.linters_by_ft = opts.linters_by_ft
 
             function M.debounce(ms, fn)
