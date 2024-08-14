@@ -389,7 +389,7 @@ M.on_attach = function(client, bufnr)
     })
 
     -- Code Runner
-    vim.keymap.set("n", "<leader>rc", function()
+    vim.keymap.set("n", "<leader>cr", function()
         local file_type = vim.bo.filetype
         utils.code_runner(file_type, "horizontal") -- float, window, horizontal, vertical
     end, { silent = true, desc = "Run Code" })

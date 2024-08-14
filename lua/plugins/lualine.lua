@@ -205,6 +205,47 @@ return {
             end,
         }
 
+        local telescope_builtins_status, telescope_builtins = pcall(require, "telescope.builtin")
+        local diagnostics_on_click = function()
+            if telescope_builtins_status then
+                telescope_builtins.diagnostics({
+                    initial_mode = "normal",
+                    bufnr = 0,
+                    theme = "dropdown",
+                    layout_strategy = "vertical",
+                    layout_config = { preview_height = 0.6 },
+                })
+            end
+        end
+
+        local git_on_click = function()
+            if telescope_builtins_status then
+                telescope_builtins.git_branches({
+                    initial_mode = "normal",
+                    bufnr = 0,
+                    theme = "dropdown",
+                    layout_strategy = "vertical",
+                    layout_config = { preview_height = 0.6 },
+                })
+            end
+        end
+
+        local gitdiff_on_click = function()
+            if telescope_builtins_status then
+                telescope_builtins.git_status({
+                    initial_mode = "normal",
+                    bufnr = 0,
+                    theme = "dropdown",
+                    layout_strategy = "vertical",
+                    layout_config = { preview_height = 0.6 },
+                })
+            end
+        end
+
+        local lsp_on_click = function()
+            pcall(vim.cmd, "LspInfo")
+        end
+
         local custom_color_section = {
             lualine_a = {
                 {
@@ -218,23 +259,27 @@ return {
                     "b:gitsigns_head",
                     icon = icons.git.Branch,
                     color = { gui = "bold", bg = colors.bg2 },
+                    on_click = git_on_click,
                 },
                 {
                     "diff",
                     color = { gui = "bold", bg = colors.bg2 },
                     cond = conditions.hide_in_width,
+                    on_click = gitdiff_on_click,
                 },
                 {
                     "diagnostics",
                     source = { "nvim" },
                     sections = { "error" },
                     diagnostics_color = { error = { bg = colors.red, fg = colors.black, gui = "bold" } },
+                    on_click = diagnostics_on_click,
                 },
                 {
                     "diagnostics",
                     source = { "nvim" },
                     sections = { "warn" },
                     diagnostics_color = { warn = { bg = colors.orange, fg = colors.black } },
+                    on_click = diagnostics_on_click,
                 },
                 {
                     "filename",
@@ -284,7 +329,7 @@ return {
             lualine_x = { search_result },
             lualine_y = {
                 { "filetype", color = { bg = colors.bg3 } },
-                { get_attached_clients, cond = conditions.hide_in_width },
+                { get_attached_clients, cond = conditions.hide_in_width, on_click = lsp_on_click },
             },
             lualine_z = { page_status, "%2p%%/%L", "filesize" },
         }
@@ -302,11 +347,13 @@ return {
                     "b:gitsigns_head",
                     icon = icons.git.Branch,
                     color = { gui = "bold" },
+                    on_click = git_on_click,
                 },
                 {
                     "diff",
                     color = { gui = "bold" },
                     cond = conditions.hide_in_width,
+                    on_click = gitdiff_on_click,
                 },
                 {
                     "diagnostics",
@@ -365,7 +412,10 @@ return {
             },
             lualine_c = {},
             lualine_x = { search_result },
-            lualine_y = { { "filetype" }, { get_attached_clients, cond = conditions.hide_in_width } },
+            lualine_y = {
+                { "filetype" },
+                { get_attached_clients, cond = conditions.hide_in_width, on_click = lsp_on_click },
+            },
             lualine_z = { page_status, "%2p%%/%L", "filesize" },
         }
 

@@ -2,11 +2,13 @@ return {
     "AckslD/nvim-neoclip.lua",
     event = { "BufReadPost", "BufNewFile" },
     keys = {
-        vim.keymap.set("n", "<leader>y", function()
-            require('telescope').extensions.neoclip.neoclip({
-                theme = "dropdown", layout_strategy = "vertical", layout_config = { preview_height = 0.6, },
+        vim.keymap.set({ "n", "v" }, "<leader>y", function()
+            require("telescope").extensions.neoclip.neoclip({
+                theme = "dropdown",
+                layout_strategy = "vertical",
+                layout_config = { preview_height = 0.6 },
             })
-        end, { noremap = true, silent = true, desc = "which_key_ignore" })
+        end, { noremap = true, silent = true, desc = "which_key_ignore" }),
     },
     opts = {
         history = 100,
@@ -18,7 +20,7 @@ return {
         preview = true,
         prompt = nil,
         default_register = '"',
-        default_register_macros = 'q',
+        default_register_macros = "q",
         enable_macro_history = true,
         content_spec_column = false,
         disable_keycodes_parsing = false,
@@ -42,35 +44,35 @@ return {
         keys = {
             telescope = {
                 i = {
-                    select = '<cr>',
-                    paste = '<c-p>',
-                    paste_behind = '<c-k>',
-                    replay = '<c-q>', -- replay a macro
-                    delete = '<c-d>', -- delete an entry
-                    edit = '<c-e>',   -- edit an entry
+                    select = "<cr>",
+                    paste = "<c-p>",
+                    paste_behind = "<c-k>",
+                    replay = "<c-q>", -- replay a macro
+                    delete = "<c-d>", -- delete an entry
+                    edit = "<c-e>", -- edit an entry
                     custom = {},
                 },
                 n = {
-                    select = '<cr>',
-                    paste = 'p',
+                    select = "<cr>",
+                    paste = "p",
                     --- It is possible to map to more than one key.
                     -- paste = { 'p', '<c-p>' },
-                    paste_behind = 'P',
-                    replay = 'q',
-                    delete = 'd',
-                    edit = 'e',
+                    paste_behind = "P",
+                    replay = "q",
+                    delete = "d",
+                    edit = "e",
                     custom = {},
                 },
             },
             fzf = {
-                select = 'default',
-                paste = 'ctrl-p',
-                paste_behind = 'ctrl-k',
+                select = "default",
+                paste = "ctrl-p",
+                paste_behind = "ctrl-k",
                 custom = {},
             },
         },
     },
     config = function(_, opts)
-        require('neoclip').setup(opts)
-    end
+        require("neoclip").setup(opts)
+    end,
 }

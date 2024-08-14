@@ -164,7 +164,7 @@ return {
         which_key.setup(opts)
 
         which_key.add({
-            { "<leader>rc", hidden = true },
+            { "<leader>c", hidden = true },
             { "<leader>p", desc = "Project", icon = icons.ui.Project },
             { "<leader>D", group = "Debug" },
             { "<leader>L", group = "LeetCode" },

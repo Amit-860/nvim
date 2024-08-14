@@ -23,6 +23,7 @@ return {
                 active = true,
                 on_config_done = nil,
                 -- theme = "dropdown", ---@type telescope_themes
+                file_ignore_patterns = { "%.git/." },
                 defaults = {
                     prompt_prefix = icons.ui.Telescope .. " ",
                     selection_caret = icons.ui.RightTriangle .. " ",
@@ -67,8 +68,22 @@ return {
                             ["q"] = actions.close,
                         },
                     },
-                    file_ignore_patterns = {},
+                    file_ignore_patterns = { "node_modules", "package-lock.json" },
                     path_display = { "smart" },
+                    -- - "hidden"          hide file names
+                    -- - "tail"            only display the file name, and not the path
+                    -- - "absolute"        display absolute paths
+                    -- - "smart"           remove as much from the path as possible to only show
+                    --                     the difference between the displayed paths.
+                    --                     Warning: The nature of the algorithm might have a negative
+                    --                     performance impact!
+                    -- - "shorten"         only display the first character of each directory in
+                    --                     the path
+                    -- - "truncate"        truncates the start of the path when the whole path will
+                    --                     not fit. To increase the gap between the path and the edge,
+                    --                     set truncate to number `truncate = 3`
+                    -- - "filename_first"  shows filenames first and then the directories
+
                     winblend = 0,
                     -- border = {},
                     -- borderchars = nil,
@@ -99,6 +114,7 @@ return {
                         initial_mode = "insert",
                         theme = "dropdown",
                         previewer = false,
+                        path_display = { "tail" },
                         mappings = {
                             i = {
                                 ["<C-d>"] = actions.delete_buffer,
@@ -171,14 +187,14 @@ return {
                             project_actions.change_working_directory(prompt_bufnr, false)
                         end,
                     },
-                    frecency = {
-                        matcher = "fuzzy",
-                        path_display = { "shorten" },
-                        ignore_patterns = { [[*.git\*]], [[*\tmp\*]], "term:*" },
-                        ignore_register = function(bufnr)
-                            return not vim.bo[bufnr].buflisted
-                        end,
-                    },
+                    -- frecency = {
+                    --     matcher = "fuzzy",
+                    --     path_display = { "shorten" },
+                    --     ignore_patterns = { [[*.git\*]], [[*\tmp\*]], "term:*" },
+                    --     ignore_register = function(bufnr)
+                    --         return not vim.bo[bufnr].buflisted
+                    --     end,
+                    -- },
                 },
             }
 
@@ -197,6 +213,16 @@ return {
             pcall(telescope.load_extension, "project")
             pcall(telescope.load_extension, "noice")
             pcall(telescope.load_extension, "grapple")
+
+            vim.api.nvim_create_autocmd("FileType", {
+                pattern = "TelescopeResults",
+                callback = function(ctx)
+                    vim.api.nvim_buf_call(ctx.buf, function()
+                        vim.fn.matchadd("TelescopeParent", "\t\t.*$")
+                        vim.api.nvim_set_hl(0, "TelescopeParent", { link = "Comment" })
+                    end)
+                end,
+            })
         end,
     },
 }

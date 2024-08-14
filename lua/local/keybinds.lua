@@ -21,6 +21,15 @@ vim.keymap.set("n", "<leader>ff", function()
         layout_config = { preview_width = 0.5 },
     })
 end, { noremap = true, silent = true, desc = "Find Git Files" })
+vim.keymap.set("n", "<c-f>", function()
+    telescope_builtins.current_buffer_fuzzy_find({
+        initial_mode = "insert",
+        bufnr = 0,
+        theme = "dropdown",
+        layout_strategy = "vertical",
+        layout_config = { preview_height = 0.6 },
+    })
+end, { noremap = true, silent = true, desc = "Find Git Files" })
 vim.keymap.set(
     "n",
     "<leader>fF",
@@ -158,8 +167,37 @@ vim.keymap.set("n", "<leader>PP", "<cmd>Lazy profile<CR>", { noremap = true, sil
 -- DAP keymappings
 -- vim.keymap.set("n", "<F5>", function() require('dap').continue() end,
 --     { desc = "Continue", noremap = true, silent = true })
+
+local function conditional_breakpoint()
+    vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<esc>", true, false, true), "x", true) -- changing to normal mode
+    vim.ui.input({
+        prompt = "condition : ",
+        completion = "buffer",
+    }, function(input)
+        if not input then
+            return
+        end
+        require("dap").toggle_breakpoint(input)
+    end)
+end
+
+vim.keymap.set("n", "<Leader>DR", function()
+    require("dap").repl.toggle()
+end, { desc = "REPL", noremap = true, silent = true })
 vim.keymap.set("n", "<F5>", "<CMD>DapContinue<CR>", { desc = "Continue", noremap = true, silent = true })
 vim.keymap.set("n", "<F9>", "<CMD>DapToggleBreakpoint<CR>", { desc = "Breakpoints", noremap = true, silent = true })
+vim.keymap.set(
+    "n",
+    "<leader>Dbb",
+    "<CMD>DapToggleBreakpoint<CR>",
+    { desc = "Breakpoints", noremap = true, silent = true }
+)
+vim.keymap.set(
+    "n",
+    "<leader>Dbc",
+    conditional_breakpoint,
+    { desc = "Conditional Breakpoints", noremap = true, silent = true }
+)
 vim.keymap.set("n", "<F7>", function()
     require("dap").step_into()
 end, { desc = "Step Into", noremap = true, silent = true })
@@ -226,7 +264,12 @@ vim.keymap.set(
     { desc = "Search Commands", noremap = true, silent = true }
 )
 vim.keymap.set("n", "<leader>od", ":Telescope help_tags<cr>", { desc = "Search Docs", noremap = true, silent = true })
-vim.keymap.set("n", "<leader>oh", ":Telescope highlights<cr>", { desc = "Search Docs", noremap = true, silent = true })
+vim.keymap.set(
+    "n",
+    "<leader>oh",
+    ":Telescope highlights<cr>",
+    { desc = "Search Highlights", noremap = true, silent = true }
+)
 vim.keymap.set(
     "n",
     "<leader>ot",

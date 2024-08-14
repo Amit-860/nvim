@@ -67,8 +67,8 @@ local ts_opts = {
                 ["il"] = "@loop.inner",
                 -- ['aa'] = '@parameter.outer',
                 -- ['ia'] = '@parameter.inner',
-                ["ib"] = "@conditional.inner",
-                ["ab"] = "@conditional.outer",
+                ["it"] = "@conditional.inner",
+                ["at"] = "@conditional.outer",
             },
             selection_modes = {
                 ["@parameter.outer"] = "v", -- charwise
@@ -89,8 +89,8 @@ local ts_opts = {
                 ["]l"] = "@loop.outer",
                 ["]sl"] = "@loop.inner",
 
-                ["]b"] = "@conditional.outer",
-                ["]sb"] = "@conditional.inner",
+                ["]t"] = "@conditional.outer",
+                ["]st"] = "@conditional.inner",
 
                 -- ['r'] = {
                 --     query = { '@parameter.inner', '@attribute.inner', '@assignment.outer', '@call.inner',
@@ -102,7 +102,7 @@ local ts_opts = {
             goto_next_end = {
                 ["]ec"] = "@class.inner",
                 ["]ef"] = "@function.inner", -- inside the end of the next function
-                ["]eb"] = "@conditional.inner",
+                ["]et"] = "@conditional.inner",
                 ["]el"] = "@loop.inner",
 
                 ["]]"] = "@nothing", -- just to remove default vim keybindings
@@ -118,8 +118,8 @@ local ts_opts = {
                 ["[l"] = "@loop.outer",
                 ["[sl"] = "@loop.inner",
 
-                ["[b"] = "@conditional.outer",
-                ["[sb"] = "@conditional.inner",
+                ["[t"] = "@conditional.outer",
+                ["[st"] = "@conditional.inner",
 
                 -- ['R'] = {
                 --     query = { '@parameter.inner', '@attribute.inner', '@assignment.outer', '@call.inner',
@@ -132,7 +132,7 @@ local ts_opts = {
                 ["[ec"] = "@class.inner",
                 ["[ef"] = "@function.inner", -- inside of the end of the previous function
                 ["[el"] = "@loop.inner",
-                ["[eb"] = "@conditional.inner",
+                ["[et"] = "@conditional.inner",
 
                 ["[]"] = "@nothing", -- just to remove default vim keybindings
                 ["[["] = "@nothing",

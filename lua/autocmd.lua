@@ -1,5 +1,13 @@
 local augroup = vim.api.nvim_create_augroup
 
+-- preventing neovim from commenting new line before/after commented line
+vim.api.nvim_create_autocmd("FileType", {
+    pattern = "*",
+    callback = function()
+        vim.opt_local.formatoptions:remove({ "r", "o" })
+    end,
+})
+
 -- wrap and check for spell in text filetypes
 vim.api.nvim_create_autocmd("FileType", {
     group = augroup("wrap_spell", { clear = true }),
@@ -64,7 +72,7 @@ vim.api.nvim_create_autocmd("FileType", {
 })
 
 if vim.g.transparent and not vim.g.neovide then
-    vim.api.nvim_create_autocmd("UIEnter", {
+    vim.api.nvim_create_autocmd({ "UIEnter" }, {
         group = vim.api.nvim_create_augroup("transparent", { clear = true }),
         callback = function(event)
             -- transparent

@@ -91,12 +91,28 @@ return {
         dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
         opts = {
             settings = {
-                tsserver_file_preferences = {
-                    quotePreference = "single",
-                },
                 format = { enable = false },
                 tsserver_format_options = {
                     semicolons = "insert",
+                },
+                separate_diagnostic_server = true,
+                expose_as_code_action = "all",
+                -- tsserver_plugins = {},
+                tsserver_max_memory = "auto",
+                complete_function_calls = true,
+                include_completions_with_insert_text = true,
+                tsserver_file_preferences = {
+                    quotePreference = "single", -- auto | double | single
+                    includeInlayParameterNameHints = "all", -- "none" | "literals" | "all";
+                    includeInlayParameterNameHintsWhenArgumentMatchesName = true,
+                    includeInlayFunctionParameterTypeHints = true,
+                    includeInlayVariableTypeHints = true,
+                    includeInlayVariableTypeHintsWhenTypeMatchesName = true,
+                    includeInlayPropertyDeclarationTypeHints = true,
+                    includeInlayFunctionLikeReturnTypeHints = true,
+                    includeInlayEnumMemberValueHints = true,
+                    includeCompletionsForModuleExports = true,
+                    autoImportFileExcludePatterns = { "node_modules/*", ".git/*" },
                 },
             },
         },
@@ -302,6 +318,7 @@ return {
                         Outline = true,
                         ["neo-tree"] = true,
                         ["neo-tree-popup"] = true,
+                        ["leetcode.nvim"] = true,
                     },
                 },
             }

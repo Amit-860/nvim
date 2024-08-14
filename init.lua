@@ -91,12 +91,11 @@ end
 vim.g.neovide_colorscheme = "terafox"
 vim.g.transparent = false
 if is_night() then
-    vim.g.transparent = true
-    vim.g.colorscheme = "tokyonight-storm"
+    -- vim.g.transparent = true
+    -- vim.g.colorscheme = "nightfox"
+    vim.g.colorscheme = "catppuccin-mocha"
 else
-    -- vim.g.colorscheme = "dawnfox"
-    vim.g.transparent = true
-    vim.g.colorscheme = "nightfox"
+    vim.g.colorscheme = "dawnfox"
 end
 
 local lazy_opts = {
@@ -106,7 +105,7 @@ local lazy_opts = {
     },
     -- Configure any other settings here. See the documentation for more details.
     -- colorscheme that will be used when installing plugins.
-    install = { colorscheme = { vim.g.colorscheme } },
+    install = { missing = true, colorscheme = { vim.g.colorscheme } },
     -- automatically check for plugin updates
     checker = { frequency = 604800 },
     rocks = {
