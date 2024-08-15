@@ -296,11 +296,36 @@ M.broot_toggle = function()
         count = 99,
     })
     -- condition for neovide
-    if vim.g.neovide then
-        -- float_opts.height = math.floor(vim.o.lines * 1.0)
-        -- float_opts.width = math.floor(vim.o.columns * 1.0)
-    end
+    -- if vim.g.neovide then
+    -- float_opts.height = math.floor(vim.o.lines * 1.0)
+    -- float_opts.width = math.floor(vim.o.columns * 1.0)
+    -- end
     broot:toggle()
+end
+
+M.atac_toggle = function()
+    local Terminal = require("toggleterm.terminal").Terminal
+    local float_opts = {
+        height = math.floor(vim.o.lines * 1),
+        width = math.floor(vim.o.columns * 1),
+    }
+    local atac = Terminal:new({
+        cmd = "atac",
+        hidden = true,
+        direction = "float",
+        float_opts = float_opts,
+        on_open = function(_)
+            vim.cmd("startinsert!")
+        end,
+        on_close = function(_) end,
+        count = 99,
+    })
+    -- condition for neovide
+    -- if vim.g.neovide then
+    -- float_opts.height = math.floor(vim.o.lines * 1.0)
+    -- float_opts.width = math.floor(vim.o.columns * 1.0)
+    -- end
+    atac:toggle()
 end
 
 M.code_runner = function(run_cmd, direction)

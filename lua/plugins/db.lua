@@ -48,7 +48,6 @@
     end,
 } ]]
 
-
 return {
     {
         -- download Dbee binary from the release and add it to the path
@@ -64,7 +63,7 @@ return {
             require("dbee").install("curl")
         end,
         keys = {
-            vim.keymap.set('n', '<F13>d', "<cmd>Dbee<cr>", { desc = "DBee", noremap = true, silent = true }),
+            vim.keymap.set("n", "<F13>d", "<cmd>Dbee<cr>", { desc = "DBee", noremap = true, silent = true }),
         },
         config = function()
             require("dbee").setup({
@@ -73,14 +72,14 @@ return {
                         {
                             name = "db",
                             id = "db",
-                            type = 'sqlite',
-                            url = vim.fn.expand("$HOME/db/sakila-sqlite3/sakila_master.db")
+                            type = "sqlite",
+                            url = vim.fn.expand("$HOME/db/sakila-sqlite3/sakila_master.db"),
                         },
                         {
                             name = "jsq",
                             id = "jsqi",
-                            type = 'jq',
-                            url = vim.fn.expand("$HOME/Downloads/large-file.json")
+                            type = "jq",
+                            url = vim.fn.expand("$HOME/Downloads/large-file.json"),
                         },
                     }),
                     require("dbee.sources").EnvSource:new("DBEE_CONNECTIONS"),

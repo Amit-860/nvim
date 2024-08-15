@@ -276,6 +276,9 @@ vim.keymap.set(
     ":Telescope colorscheme<cr>",
     { desc = "Preview Theme", noremap = true, silent = true }
 )
+vim.keymap.set("n", "<leader>oa", function()
+    utils.atac_toggle()
+end, { desc = "ATAC", noremap = true, silent = true })
 vim.keymap.set("n", "<leader>ob", function()
     utils.broot_toggle()
 end, { desc = "Broot", noremap = true, silent = true })
