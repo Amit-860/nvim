@@ -184,6 +184,9 @@ end
 vim.keymap.set("n", "<Leader>DR", function()
     require("dap").repl.toggle()
 end, { desc = "REPL", noremap = true, silent = true })
+vim.keymap.set({ "n", "v" }, "<Leader>De", function()
+    require("dapui").eval()
+end, { desc = "Eval", noremap = true, silent = true })
 vim.keymap.set("n", "<F5>", "<CMD>DapContinue<CR>", { desc = "Continue", noremap = true, silent = true })
 vim.keymap.set("n", "<F9>", "<CMD>DapToggleBreakpoint<CR>", { desc = "Breakpoints", noremap = true, silent = true })
 vim.keymap.set(

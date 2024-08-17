@@ -476,10 +476,10 @@ return {
         "hrsh7th/cmp-cmdline",
         event = { "VeryLazy" },
     },
-    {
-        "dmitmel/cmp-cmdline-history",
-        event = { "VeryLazy" },
-    },
+    -- {
+    --     "dmitmel/cmp-cmdline-history",
+    --     event = { "VeryLazy" },
+    -- },
     {
         url = "https://codeberg.org/FelipeLema/cmp-async-path",
         event = { "VeryLazy" },

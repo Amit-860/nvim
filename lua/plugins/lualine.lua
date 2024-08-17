@@ -102,7 +102,7 @@ return {
                 return ""
             end
             local searchcount = vim.fn.searchcount({ maxcount = 9999 })
-            return last_search .. "(" .. searchcount.current .. "/" .. searchcount.total .. ")"
+            return last_search .. " [" .. searchcount.current .. "/" .. searchcount.total .. "]"
         end
 
         local macro = {
@@ -206,17 +206,6 @@ return {
         }
 
         local telescope_builtins_status, telescope_builtins = pcall(require, "telescope.builtin")
-        local diagnostics_on_click = function()
-            if telescope_builtins_status then
-                telescope_builtins.diagnostics({
-                    initial_mode = "normal",
-                    bufnr = 0,
-                    theme = "dropdown",
-                    layout_strategy = "vertical",
-                    layout_config = { preview_height = 0.6 },
-                })
-            end
-        end
 
         local git_on_click = function()
             if telescope_builtins_status then
@@ -242,7 +231,7 @@ return {
             end
         end
 
-        local lsp_on_click = function()
+        local attached_on_click = function()
             pcall(vim.cmd, "LspInfo")
         end
 
@@ -272,14 +261,12 @@ return {
                     source = { "nvim" },
                     sections = { "error" },
                     diagnostics_color = { error = { bg = colors.red, fg = colors.black, gui = "bold" } },
-                    on_click = diagnostics_on_click,
                 },
                 {
                     "diagnostics",
                     source = { "nvim" },
                     sections = { "warn" },
                     diagnostics_color = { warn = { bg = colors.orange, fg = colors.black } },
-                    on_click = diagnostics_on_click,
                 },
                 {
                     "filename",
@@ -328,8 +315,8 @@ return {
             lualine_c = {},
             lualine_x = { search_result },
             lualine_y = {
-                { "filetype", color = { bg = colors.bg3 } },
-                { get_attached_clients, cond = conditions.hide_in_width, on_click = lsp_on_click },
+                { "filetype", color = { bg = colors.bg3 }, on_click = attached_on_click },
+                { get_attached_clients, cond = conditions.hide_in_width },
             },
             lualine_z = { page_status, "%2p%%/%L", "filesize" },
         }
@@ -359,13 +346,19 @@ return {
                     "diagnostics",
                     source = { "nvim" },
                     sections = { "error" },
-                    diagnostics_color = { error = { bg = colors.red, fg = colors.black, gui = "bold" } },
+                    diagnostics_color = { error = { bg = colors.red, fg = colors.black } },
                 },
                 {
                     "diagnostics",
                     source = { "nvim" },
                     sections = { "warn" },
                     diagnostics_color = { warn = { bg = colors.orange, fg = colors.black } },
+                },
+                {
+                    "diagnostics",
+                    source = { "nvim" },
+                    sections = { "info" },
+                    diagnostics_color = { info = { bg = colors.green, fg = colors.black } },
                 },
                 {
                     "filename",
@@ -385,7 +378,7 @@ return {
                 {
                     function()
                         if vim.bo.modifiable == false or vim.bo.readonly == true then
-                            return ""
+                            return " "
                         end
                         return ""
                     end,
@@ -413,8 +406,8 @@ return {
             lualine_c = {},
             lualine_x = { search_result },
             lualine_y = {
-                { "filetype" },
-                { get_attached_clients, cond = conditions.hide_in_width, on_click = lsp_on_click },
+                { "filetype", on_click = attached_on_click },
+                { get_attached_clients, cond = conditions.hide_in_width },
             },
             lualine_z = { page_status, "%2p%%/%L", "filesize" },
         }
@@ -427,10 +420,9 @@ return {
                 section_separators = { left = "", right = "" },
                 disabled_filetypes = { "dashboard" },
                 refresh = { -- sets how often lualine should refresh it's contents (in ms)
-                    statusline = vim.o.timeoutlen, -- The refresh option sets minimum time that lualine tries
-                    -- statusline = 1000,
-                    tabline = 1000, -- to maintain between refresh. It's not guarantied if situation
-                    winbar = 1000, -- arises that lualine needs to refresh itself before this time
+                    statusline = 1500,
+                    tabline = 30000, -- to maintain between refresh. It's not guarantied if situation
+                    winbar = 30000, -- arises that lualine needs to refresh itself before this time
                 },
             },
             sections = process_sections(no_color_section),

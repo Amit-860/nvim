@@ -93,7 +93,7 @@ vim.g.transparent = false
 if is_night() then
     -- vim.g.transparent = true
     -- vim.g.colorscheme = "nightfox"
-    vim.g.colorscheme = "catppuccin-mocha"
+    vim.g.colorscheme = "catppuccin"
 else
     vim.g.colorscheme = "dawnfox"
 end

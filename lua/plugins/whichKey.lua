@@ -167,6 +167,7 @@ return {
             { "<leader>c", hidden = true },
             { "<leader>p", desc = "Project", icon = icons.ui.Project },
             { "<leader>D", group = "Debug" },
+            { "<leader>Db", group = "Breakpoints", icon = icons.astro.Debugger },
             { "<leader>L", group = "LeetCode" },
             { "<leader>P", group = "Plugins", icon = icons.ui.Package },
             { "<leader>S", group = "Session" },
