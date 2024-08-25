@@ -164,7 +164,6 @@ return {
         which_key.setup(opts)
 
         which_key.add({
-            { "<leader>c", hidden = true },
             { "<leader>p", desc = "Project", icon = icons.ui.Project },
             { "<leader>D", group = "Debug" },
             { "<leader>Db", group = "Breakpoints", icon = icons.astro.Debugger },

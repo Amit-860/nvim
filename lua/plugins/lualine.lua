@@ -27,7 +27,7 @@ return {
             fg0 = "#eaeeee", -- Lighter fg
             fg1 = "#e6eaea", -- Default fg
             fg2 = "#cbd9d8", -- Darker fg (status line)
-            fg3 = "#587b7b", -- Darker fg (line numbers, fold colums)
+            fg3 = "#587b7b", -- Darker fg (line numbers, fold column)
             sel0 = "#293e40", -- Popup bg, visual selection bg
             sel1 = "#425e5e", -- Popup sel bg, search bg
         }
@@ -219,6 +219,14 @@ return {
             end
         end
 
+        local diagnostics_on_click = function()
+            telescope_builtins.diagnostics({
+                theme = "dropdown",
+                layout_strategy = "vertical",
+                layout_config = { preview_height = 0.6 },
+            })
+        end
+
         local gitdiff_on_click = function()
             if telescope_builtins_status then
                 telescope_builtins.git_status({
@@ -315,8 +323,8 @@ return {
             lualine_c = {},
             lualine_x = { search_result },
             lualine_y = {
-                { "filetype", color = { bg = colors.bg3 }, on_click = attached_on_click },
-                { get_attached_clients, cond = conditions.hide_in_width },
+                { "filetype", color = { bg = colors.bg3 }, on_click = diagnostics_on_click },
+                { get_attached_clients, cond = conditions.hide_in_width, on_click = attached_on_click },
             },
             lualine_z = { page_status, "%2p%%/%L", "filesize" },
         }
@@ -406,8 +414,8 @@ return {
             lualine_c = {},
             lualine_x = { search_result },
             lualine_y = {
-                { "filetype", on_click = attached_on_click },
-                { get_attached_clients, cond = conditions.hide_in_width },
+                { "filetype", on_click = diagnostics_on_click },
+                { get_attached_clients, cond = conditions.hide_in_width, on_click = attached_on_click },
             },
             lualine_z = { page_status, "%2p%%/%L", "filesize" },
         }

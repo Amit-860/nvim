@@ -87,10 +87,25 @@ return {
         end
 
         local padding = string.rep(" ", 14)
-        local header = week_header()
+
+        local function split(s, sep)
+            local fields = {}
+
+            local sep = sep or " "
+            local pattern = string.format("([^%s]+)", sep)
+            string.gsub(s, pattern, function(c)
+                fields[#fields + 1] = c
+            end)
+
+            return fields
+        end
+
+        -- local header = week_header()
+        local calendar = require("local.calendar")
+        local header = split(calendar.createOutput() .. " \n \n", "\n")
 
         -- adding padding on top of header
-        for _ = 1, math.floor(vim.o.lines * 0.24) do
+        for _ = 1, math.floor(vim.o.lines * 0.2) do
             table.insert(header, 1, "")
         end
 
@@ -98,11 +113,15 @@ return {
         local datetime = function()
             local stats = require("lazy").stats()
             local plugins = #vim.tbl_keys(require("lazy").plugins())
-            local datetime = os.date("  %d-%m-%Y    %H:%M:%S")
+            local date = calendar.date
+            -- local datetime = os.date("  %d-%m-%Y    %H:%M:%S")
+            local time = os.date("  %H hrs : %M mins & %S secs")
+            -- local datetime = "  " .. date.day .. " " .. date.monthName .. " " .. date.year .. ", " .. date.dayName
             -- local v = vim.version()
             -- local platform = vim.fn.has "win32" == 1 and "" or ""
             -- return string.format(" %d's  %s v%d.%d.%d   ⎸ %s", plugins, platform, v.major, v.minor, v.patch, datetime)
-            return string.format(" %d's plugins installed   ⎸ %s", plugins, datetime)
+            -- return string.format(" %d's plugins installed   ⎸ %s", plugins, datetime)
+            return string.format(" %d's plugins installed   ⎸ %s", plugins, time)
         end
         vim.list_extend(header, { datetime(), "", "", "" })
 

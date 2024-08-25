@@ -1,8 +1,5 @@
 M = {}
 
--- vim.api.nvim_set_hl(0, "MatchParen", { bg = nil, fg = "#fffd00", underline = true, bold = true })
--- vim.api.nvim_set_hl(0, "MatchParen", { bg = "222b39", fg = "#ffffff", underline = false, bold = true })
-
 -- nightfox
 -- M.float_color = "#202d3f"
 M.float_border_bg_color = "#1d293a"

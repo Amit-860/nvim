@@ -85,7 +85,7 @@ local default_options = {
 
 local function is_night()
     local now = os.date("*t")
-    return not (now.hour >= 7 and now.hour <= 17)
+    return not (now.hour >= 8 and now.hour <= 16)
 end
 
 vim.g.neovide_colorscheme = "terafox"
@@ -93,7 +93,8 @@ vim.g.transparent = false
 if is_night() then
     -- vim.g.transparent = true
     -- vim.g.colorscheme = "nightfox"
-    vim.g.colorscheme = "catppuccin"
+    -- vim.g.colorscheme = "terafox"
+    vim.g.colorscheme = "nordfox"
 else
     vim.g.colorscheme = "dawnfox"
 end
