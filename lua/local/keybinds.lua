@@ -14,6 +14,15 @@ vim.keymap.set(
 )
 
 -- find
+vim.keymap.set(
+    "n",
+    "<M-f>",
+    function()
+        telescope_builtins.resume()
+    end,
+    -- "<cmd>Telescope live_grep layout_strategy=horizontal layout_config={preview_width=0.5}<cr>",
+    { noremap = true, silent = true, desc = "Find Resume" }
+)
 vim.keymap.set("n", "<leader>ff", function()
     utils.smart_find_file({
         initial_mode = "insert",
@@ -47,7 +56,8 @@ vim.keymap.set(
     "n",
     "<leader>fs",
     function()
-        telescope_builtins.live_grep({
+        -- telescope_builtins.live_grep({
+        require("telescope").extensions.live_grep_args.live_grep_args({
             initial_mode = "insert",
             layout_strategy = "horizontal",
             layout_config = { preview_width = 0.5 },
@@ -59,7 +69,15 @@ vim.keymap.set(
 vim.keymap.set(
     "n",
     "<leader>fr",
-    "<cmd>Telescope oldfiles layout_strategy=horizontal layout_config={preview_width=0.5}<cr>",
+    -- "<cmd>Telescope oldfiles layout_strategy=horizontal layout_config={preview_width=0.5}<cr>",
+    function()
+        require("telescope").extensions.frecency.frecency({
+            initial_mode = "insert",
+            layout_strategy = "horizontal",
+            layout_config = { preview_width = 0.5 },
+            path_display = { "shorten" },
+        })
+    end,
     { noremap = true, silent = true, desc = "Recent Files" }
 )
 vim.keymap.set(
@@ -76,20 +94,21 @@ vim.keymap.set(
     -- [[<cmd>Telescope find_files find_command={'fd','-tf','-H','-E','.git','.','D:/notes'} layout_strategy=horizontal layout_config={preview_width=0.5}<cr>]]
     { noremap = true, silent = true, desc = "find notes" }
 )
-vim.keymap.set(
-    "n",
-    "<leader>fc",
-    function()
-        telescope_builtins.find_files({
-            find_command = { "fd", "-tf", "-H", "-E", ".git", ".", vim.fn.expand("$HOME/AppData/Local/nvim") },
-            initial_mode = "insert",
-            layout_strategy = "horizontal",
-            layout_config = { preview_width = 0.5 },
-        })
-    end,
-    -- [[<cmd>lua require'telescope.builtin'.find_files({ find_command = { 'fd','-tf', '-H', '-E', '.git', '.', vim.fn.expand("$HOME/AppData/Local/nvim") } }) layout_strategy=horizontal layout_config={preview_width=0.5}<cr>]]
-    { noremap = true, silent = true, desc = "find config_files" }
-)
+vim.keymap.set("n", "<leader>fc", function()
+    telescope_builtins.find_files({
+        find_command = { "fd", "-tf", "-H", "-E", ".git", ".", vim.fn.expand("$HOME/AppData/Local/nvim") },
+        initial_mode = "insert",
+        layout_strategy = "horizontal",
+        layout_config = { preview_width = 0.5 },
+    }) -- [[<cmd>lua require'telescope.builtin'.find_files({ find_command = { 'fd','-tf', '-H', '-E', '.git', '.', vim.fn.expand("$HOME/AppData/Local/nvim") } }) layout_strategy=horizontal layout_config={preview_width=0.5}<cr>]]
+end, { noremap = true, silent = true, desc = "find config_files" })
+vim.keymap.set("n", "<leader>fp", function()
+    require("telescope").extensions.lazy_plugins.lazy_plugins({
+        initial_mode = "insert",
+        layout_strategy = "horizontal",
+        layout_config = { preview_width = 0.5 },
+    })
+end, { noremap = true, silent = true, desc = "find plugins" })
 
 -- close Buffer
 vim.keymap.set("n", "<leader>x", function()
@@ -288,6 +307,16 @@ end, { desc = "Broot", noremap = true, silent = true })
 vim.keymap.set("n", "<leader>ol", function()
     utils.lazygit_toggle()
 end, { desc = "Lazygit", noremap = true, silent = true })
+vim.keymap.set("n", "<leader>ov", function()
+    vim.cmd("HighlightColors Toggle")
+end, { desc = "Highlights Colors", silent = true })
+vim.keymap.set("n", "<leader>on", function()
+    require("telescope").extensions.noice.noice({
+        theme = "dropdown",
+        layout_strategy = "vertical",
+        layout_config = { preview_height = 0.6 },
+    })
+end, { desc = "Telescope Noice", silent = true })
 
 -- Project
 vim.keymap.set("n", "<leader>p", function()

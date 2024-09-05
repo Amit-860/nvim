@@ -19,7 +19,7 @@ end
 M.neovide_float_winblend = 30
 M.float_winblend = 20
 
--- GitSings hilights
+-- GitSings highlights
 vim.api.nvim_set_hl(0, "GitSignsUntracked", { fg = "#095611" })
 -- vim.api.nvim_set_hl(0, "GitSignsAdd", { fg = "#7aa4a1" })
 -- vim.api.nvim_set_hl(0, "GitSignsChange", { fg = "#fda47f" })
@@ -36,7 +36,7 @@ vim.api.nvim_set_hl(0, "MacroRecording", { bg = "#dbc874", fg = "#131a24", bold 
 vim.api.nvim_set_hl(0, "MarkStatusLine", { bg = "#354965", fg = "#aeafb0", bold = true })
 
 -- cmp
-vim.api.nvim_set_hl(0, "CmpSelectedItem", { link = "Visual" }) -- hilight for selected itme in cmp menu
+vim.api.nvim_set_hl(0, "CmpSelectedItem", { link = "Visual" }) -- highlights for selected item in cmp menu
 
 -- cmp kind hl
 vim.api.nvim_set_hl(0, "CmpItemKindKeyword", { bg = "#cf3930", fg = "#131a24" })
@@ -68,33 +68,33 @@ vim.api.nvim_set_hl(0, "CmpItemMenuValue", { fg = "#cfa333", italic = true })
 vim.api.nvim_set_hl(0, "CmpItemMenuText", { fg = "#81b29a", italic = true })
 vim.api.nvim_set_hl(0, "CmpItemMenuUnknown", { fg = "#fda47f", italic = true })
 
--- INFO: theme specific seetings
+-- INFO: theme specific settings
 if vim.g.neovide or vim.g.transparent then
     -- NOTE: only neovide
     if vim.g.neovide then
-        vim.api.nvim_set_hl(0, "NormalFloat", { bg = M.float_color, blend = M.neovide_float_winblend }) -- hilight for cmp menu
+        vim.api.nvim_set_hl(0, "NormalFloat", { bg = M.float_color, blend = M.neovide_float_winblend }) -- highlights for cmp menu
         vim.api.nvim_set_hl(
             0,
             "FloatBorder",
             { fg = M.float_border_fg_color, bg = M.float_border_bg_color, blend = M.neovide_float_winblend }
         )
-        vim.api.nvim_set_hl(0, "NoiceCmdlinePopup", { bg = M.float_color, blend = M.neovide_float_winblend }) -- hilight for cmp menu
+        vim.api.nvim_set_hl(0, "NoiceCmdlinePopup", { bg = M.float_color, blend = M.neovide_float_winblend }) -- highlights for cmp menu
     end
 
     -- NOTE: only transparency
     if vim.g.transparent then
-        vim.api.nvim_set_hl(0, "NormalFloat", { bg = M.float_color, blend = M.float_winblend }) -- hilight for cmp menu
+        vim.api.nvim_set_hl(0, "NormalFloat", { bg = M.float_color, blend = M.float_winblend }) -- highlights for cmp menu
         vim.api.nvim_set_hl(
             0,
             "FloatBorder",
             { fg = M.float_border_fg_color, bg = M.float_border_bg_color, blend = M.float_winblend }
         )
-        vim.api.nvim_set_hl(0, "NoiceCmdlinePopup", { bg = M.float_color, blend = M.float_winblend }) -- hilight for cmp menu
+        vim.api.nvim_set_hl(0, "NoiceCmdlinePopup", { bg = M.float_color, blend = M.float_winblend }) -- highlights for cmp menu
     end
 
     -- cmp menu
-    vim.api.nvim_set_hl(0, "CmpComplitionMenu", { bg = M.float_color }) -- hilight for cmp menu
-    vim.api.nvim_set_hl(0, "CmpSelectedItem", { bg = "#00495c", fg = "#dfdfe0", bold = true }) -- hilight for selected itme in cmp menu
+    vim.api.nvim_set_hl(0, "CmpComplitionMenu", { bg = M.float_color }) -- highlights for cmp menu
+    vim.api.nvim_set_hl(0, "CmpSelectedItem", { bg = "#00495c", fg = "#dfdfe0", bold = true }) -- highlights for selected item in cmp menu
 
     -- vim.api.nvim_set_hl(0, "FloatTitle", { bg = M.float_color, blend = M.float_winblend })
 

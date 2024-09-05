@@ -3,7 +3,7 @@ return {
     ft = { "python", "java" },
     dependencies = {
         { "nvim-neotest/nvim-nio", event = "VeryLazy" },
-        { "theHamsta/nvim-dap-virtual-text", event = "VeryLazy", opts = {} },
+        -- { "theHamsta/nvim-dap-virtual-text", event = "VeryLazy", opts = {} },
     },
     opts = function()
         local ui_opts = {

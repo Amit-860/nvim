@@ -21,6 +21,7 @@ return {
         dir = vim.fn.expand("./../local/colors"),
         event = { "UIEnter" },
         config = function()
+            require("local.colors")
             vim.api.nvim_create_autocmd("ColorScheme", {
                 group = vim.api.nvim_create_augroup("colors", { clear = true }),
                 callback = function(event)

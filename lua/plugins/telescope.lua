@@ -8,6 +8,18 @@ return {
         cmd = { "Telescope undo" },
     },
     {
+        "polirritmico/telescope-lazy-plugins.nvim",
+        event = "VeryLazy",
+    },
+    {
+        "nvim-telescope/telescope-frecency.nvim",
+        event = "VeryLazy",
+    },
+    {
+        "nvim-telescope/telescope-live-grep-args.nvim",
+        event = "VeryLazy",
+    },
+    {
         "nvim-telescope/telescope.nvim",
         event = "VeryLazy",
         dependencies = {
@@ -187,14 +199,14 @@ return {
                             project_actions.change_working_directory(prompt_bufnr, false)
                         end,
                     },
-                    -- frecency = {
-                    --     matcher = "fuzzy",
-                    --     path_display = { "shorten" },
-                    --     ignore_patterns = { [[*.git\*]], [[*\tmp\*]], "term:*" },
-                    --     ignore_register = function(bufnr)
-                    --         return not vim.bo[bufnr].buflisted
-                    --     end,
-                    -- },
+                    frecency = {
+                        matcher = "fuzzy",
+                        path_display = { "shorten" },
+                        ignore_patterns = { [[*.git\*]], [[*\tmp\*]], "term:*" },
+                        ignore_register = function(bufnr)
+                            return not vim.bo[bufnr].buflisted
+                        end,
+                    },
                 },
             }
 
@@ -212,7 +224,10 @@ return {
             pcall(telescope.load_extension, "undo")
             pcall(telescope.load_extension, "project")
             pcall(telescope.load_extension, "noice")
-            pcall(telescope.load_extension, "grapple")
+            -- pcall(telescope.load_extension, "grapple")
+            pcall(telescope.load_extension, "frecency")
+            pcall(telescope.load_extension, "lazy_plugins")
+            pcall(telescope.load_extension, "live_grep_args")
 
             vim.api.nvim_create_autocmd("FileType", {
                 pattern = "TelescopeResults",

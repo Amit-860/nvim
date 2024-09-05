@@ -59,7 +59,7 @@ return {
         },
         layout = {
             width = { min = 20 }, -- min and max width of the columns
-            spacing = 3, -- spacing between columns
+            spacing = 5, -- spacing between columns
             align = "center", -- align columns left, center or right
         },
         keys = {

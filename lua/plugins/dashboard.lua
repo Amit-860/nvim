@@ -142,6 +142,7 @@ return {
 
         local dashboard_opts = {
             theme = "doom",
+            disable_move = true,
             config = {
                 header = header,
                 center = {
@@ -167,8 +168,16 @@ return {
                         keymap = "",
                         key_hl = "DashboardButtonShortcut",
                         key_format = " %s",
+                        -- action = function()
+                        --     vim.cmd("Telescope oldfiles layout_strategy=horizontal layout_config={preview_width=0.5}")
+                        -- end,
                         action = function()
-                            vim.cmd("Telescope oldfiles layout_strategy=horizontal layout_config={preview_width=0.5}")
+                            require("telescope").extensions.frecency.frecency({
+                                initial_mode = "insert",
+                                layout_strategy = "horizontal",
+                                layout_config = { preview_width = 0.5 },
+                                path_display = { "shorten" },
+                            })
                         end,
                     },
                     -- {

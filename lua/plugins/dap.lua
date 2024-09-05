@@ -1,7 +1,6 @@
 return {
     {
         "mfussenegger/nvim-dap",
-        dependencies = { "rcarriga/nvim-dap-ui" },
         ft = { "python", "java" },
         opts = function()
             local icons = require("icons")

@@ -226,7 +226,7 @@ M.createOutput = function()
 
     for i = start, date.prevMonthLastDay, 1 do
         -- days = days .. "│   " .. i .. "   "
-        days = days .. "    " .. " ˗" .. "   "
+        days = days .. "    " .. " ˗" .. "    "
         -- days = days .. "         "
         pos.col = pos.col + 1
     end
@@ -237,9 +237,9 @@ M.createOutput = function()
         local day = ""
         if i == date.day then
             -- day = "✅(" .. i .. ")"
-            day = " ❰ " .. i .. " ❱ "
-            -- paddingL = (" "):rep((8 - string.len(day)) / 2 + (8 - string.len(day)) % 2)
-            paddingL = (" "):rep((8 - string.len(day)) / 2 + (8 - string.len(day)) % 2 - 1)
+            day = "  ❰ " .. i .. " ❱ "
+            paddingL = (" "):rep((8 - string.len(day)) / 2 + (8 - string.len(day)) % 2)
+            -- paddingL = (" "):rep((8 - string.len(day)) / 2 + (8 - string.len(day)) % 2 - 1)
             paddingR = (" "):rep((8 - string.len(day)) / 2 + 1)
         else
             day = "" .. i
@@ -270,6 +270,7 @@ M.createOutput = function()
             -- days = days .. "         "
             nextday = nextday + 1
         end
+        days = days .. "\n"
     end
 
     -- days = days .. "│\n"
@@ -286,7 +287,7 @@ M.createOutput = function()
     --     .. days
     -- )
 
-    local s = (date.monthName .. " - " .. date.year):gsub("%s+", "")
+    local s = (date.monthName .. " - " .. date.year)
     local p = (" "):rep(62 - #s)
 
     local output = (

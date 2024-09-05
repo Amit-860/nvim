@@ -453,28 +453,28 @@ return {
     },
 
     -- Code-Snapshot
-    {
-        "SergioRibera/codeshot.nvim",
-        cmd = { "SSSelected", "SSFocused" },
-        opts = {
-            use_current_theme = false,
-            -- theme = "DarkNeon",
-            -- theme = "gruvbox-dark",
-            theme = "Dracula",
-            output = vim.fn.expand("$HOME") .. "/codeshot/CodeShot_${year}-${month}-${date}_${time}.png",
-        },
-        keys = {
-            vim.keymap.set("v", "<Leader>s", "<nop>", { desc = "Codeshot", noremap = true, silent = true }),
-            vim.keymap.set("v", "<Leader>ss", ":SSSelected<cr>", { desc = "Selected", noremap = true, silent = true }),
-            vim.keymap.set(
-                "n",
-                "<Leader>os",
-                ":SSFocused<cr>",
-                { desc = "Codeshot focused", noremap = true, silent = true }
-            ),
-        },
-        config = function(_, opts)
-            require("codeshot").setup(opts)
-        end,
-    },
+    -- {
+    --     "SergioRibera/codeshot.nvim",
+    --     cmd = { "SSSelected", "SSFocused" },
+    --     opts = {
+    --         use_current_theme = false,
+    --         -- theme = "DarkNeon",
+    --         -- theme = "gruvbox-dark",
+    --         theme = "Dracula",
+    --         output = vim.fn.expand("$HOME") .. "/codeshot/CodeShot_${year}-${month}-${date}_${time}.png",
+    --     },
+    --     keys = {
+    --         vim.keymap.set("v", "<Leader>s", "<nop>", { desc = "Codeshot", noremap = true, silent = true }),
+    --         vim.keymap.set("v", "<Leader>ss", ":SSSelected<cr>", { desc = "Selected", noremap = true, silent = true }),
+    --         vim.keymap.set(
+    --             "n",
+    --             "<Leader>os",
+    --             ":SSFocused<cr>",
+    --             { desc = "Codeshot focused", noremap = true, silent = true }
+    --         ),
+    --     },
+    --     config = function(_, opts)
+    --         require("codeshot").setup(opts)
+    --     end,
+    -- },
 }
