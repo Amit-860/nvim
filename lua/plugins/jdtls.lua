@@ -78,8 +78,8 @@ return {
                 java = {
                     eclipse = { downloadSources = true, },
                     maven = { downloadSources = true, },
-                    implementationsCodeLens = { enabled = true, },
-                    referencesCodeLens = { enabled = true, },
+                    implementationsCodeLens = { enabled = false, },
+                    referencesCodeLens = { enabled = false, },
                     references = { includeDecompiledSources = true, },
                     signatureHelp = { enabled = true },
                     inlayHints = {

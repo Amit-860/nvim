@@ -390,13 +390,15 @@ M.on_attach = function(client, bufnr)
 
     -- Code Runner
     vim.keymap.set("n", "<leader>rc", function()
-        local file_type = vim.bo.filetype
-        utils.code_runner(file_type, "horizontal") -- float, window, horizontal, vertical
+        -- local file_type = vim.bo.filetype
+        -- utils.code_runner(file_type, "horizontal") -- float, window, horizontal, vertical
+        vim.cmd("RunCode")
     end, { silent = true, desc = "Run Code" })
 
     vim.keymap.set("n", "<F4>", function()
-        local file_type = vim.bo.filetype
-        utils.code_runner(file_type, "horizontal") -- float, window, horizontal, vertical
+        -- local file_type = vim.bo.filetype
+        -- utils.code_runner(file_type, "horizontal") -- float, window, horizontal, vertical
+        vim.cmd("RunCode")
     end, { noremap = true, silent = true, desc = "Run Code" })
 
     -- jump lsp word

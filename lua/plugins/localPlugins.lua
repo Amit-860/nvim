@@ -30,4 +30,23 @@ return {
             })
         end,
     },
+    {
+        -- coderunner
+        dir = vim.fn.expand("./../local/codeRunner"),
+        cmd = { "RunCode", "ReopenLastOutput" },
+        config = function()
+            local runTA = require("local.codeRunner")
+            runTA.setup({
+                output_window_type = "floating", -- floating, pane, tab, split
+                output_window_configs = {
+                    width = math.floor(vim.o.columns * 0.8),
+                    height = math.floor(vim.o.lines * 0.8),
+                    position = "center", -- Position of the floating window ("center", "top", "bottom", "left", "right", "custom")
+                    custom_col = nil,
+                    custom_row = nil,
+                    transparent = false,
+                },
+            })
+        end,
+    },
 }

@@ -59,7 +59,7 @@ return {
         end
 
         hover.register({
-            name = "DR",
+            name = "D-R",
             priority = 500,
             --- @param bufnr integer
             enabled = function(bufnr)
