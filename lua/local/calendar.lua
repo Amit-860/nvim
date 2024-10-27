@@ -226,7 +226,7 @@ M.createOutput = function()
 
     for i = start, date.prevMonthLastDay, 1 do
         -- days = days .. "│   " .. i .. "   "
-        days = days .. "    " .. " ˗" .. "    "
+        days = days .. "    " .. " ˗" .. "   "
         -- days = days .. "         "
         pos.col = pos.col + 1
     end
@@ -237,11 +237,10 @@ M.createOutput = function()
         local day = ""
         if i == date.day then
             -- day = "✅(" .. i .. ")"
-            day = "❰ " .. i .. " ❱ "
-            if i > 10 then
+            day = "  ❰ " .. i .. " ❱ "
+            if i >= 10 then
                 day = " ❰ " .. i .. " ❱ "
             end
-
             paddingL = (" "):rep((8 - string.len(day)) / 2 + (8 - string.len(day)) % 2)
             -- paddingL = (" "):rep((8 - string.len(day)) / 2 + (8 - string.len(day)) % 2 - 1)
             paddingR = (" "):rep((8 - string.len(day)) / 2 + 1)

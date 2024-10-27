@@ -277,6 +277,7 @@ return {
     {
         "shellRaining/hlchunk.nvim",
         event = { "BufNewFile", "BufReadPost" },
+        cond = not vim.g.vscode,
         config = function()
             local opts = {
                 chunk = {

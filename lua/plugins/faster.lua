@@ -2,6 +2,7 @@
 -- faster
 return {
     "pteroctopus/faster.nvim",
+    cond = not vim.g.vscode,
     lazy = false,
     init = function()
         vim.api.nvim_create_autocmd({ "BufReadPost" }, {

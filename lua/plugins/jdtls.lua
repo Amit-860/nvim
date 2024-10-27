@@ -1,8 +1,9 @@
 return {
     "mfussenegger/nvim-jdtls",
     ft = "java",
+    cond = not vim.g.vscode,
     config = function()
-        local jdtls = require('jdtls')
+        local jdtls = require("jdtls")
         local mason_registry = require("mason-registry")
         local jdtls_path = mason_registry.get_package("jdtls"):get_install_path()
         -- local lombok_path = vim.fn.stdpath('data') .. "mason/packages/lombok-nightly/lombok.jar"
@@ -13,14 +14,16 @@ return {
         local workspace_path = home .. "/jdtls_workspace/"
         local project_name = vim.fn.fnamemodify(vim.fn.getcwd(), ":p:h:t")
         local workspace_dir = workspace_path .. project_name
-        local os_config = 'win'
+        local os_config = "win"
         local bundles = {
-            vim.fn.glob(mason_registry.get_package('java-debug-adapter'):get_install_path() ..
-                "/extension/server/com.microsoft.java.debug.plugin-*.jar"),
+            vim.fn.glob(
+                mason_registry.get_package("java-debug-adapter"):get_install_path()
+                    .. "/extension/server/com.microsoft.java.debug.plugin-*.jar"
+            ),
         }
 
         local config = {
-            root_dir = jdtls.setup.find_root({ ".metadata", ".git", "pom.xml", 'build.gradle', 'mvnw' }),
+            root_dir = jdtls.setup.find_root({ ".metadata", ".git", "pom.xml", "build.gradle", "mvnw" }),
             cmd = {
                 "java",
                 "-Declipse.application=org.eclipse.jdt.ls.core.id1",
@@ -40,7 +43,7 @@ return {
                 "-configuration",
                 jdtls_path .. "/config_" .. os_config,
                 "-data",
-                workspace_dir
+                workspace_dir,
             },
             flags = {
                 debounce_text_changes = 150,
@@ -76,11 +79,11 @@ return {
             test = true,
             settings = {
                 java = {
-                    eclipse = { downloadSources = true, },
-                    maven = { downloadSources = true, },
-                    implementationsCodeLens = { enabled = false, },
-                    referencesCodeLens = { enabled = false, },
-                    references = { includeDecompiledSources = true, },
+                    eclipse = { downloadSources = true },
+                    maven = { downloadSources = true },
+                    implementationsCodeLens = { enabled = false },
+                    referencesCodeLens = { enabled = false },
+                    references = { includeDecompiledSources = true },
                     signatureHelp = { enabled = true },
                     inlayHints = {
                         parameterNames = {
@@ -100,7 +103,10 @@ return {
                             "org.mockito.Mockito.*",
                         },
                         importOrder = {
-                            "java", "javax", "com", "org"
+                            "java",
+                            "javax",
+                            "com",
+                            "org",
                         },
                     },
                     extendedClientCapabilities = jdtls.extendedClientCapabilities,
@@ -118,9 +124,8 @@ return {
                     },
                 },
             },
-            capabilities = require('cmp_nvim_lsp').default_capabilities()
+            capabilities = require("cmp_nvim_lsp").default_capabilities(),
         }
-
 
         local jdtls_aug = vim.api.nvim_create_augroup("jdtls_aug", { clear = true })
         vim.api.nvim_create_autocmd({ "FileType" }, {
@@ -131,5 +136,5 @@ return {
             pattern = "java",
             group = jdtls_aug,
         })
-    end
+    end,
 }
