@@ -328,9 +328,8 @@ M.atac_toggle = function()
     atac:toggle()
 end
 
-M.code_runner = function(run_cmd, direction)
+M.code_runner = function(run_cmd, file_name, direction)
     local Terminal = require("toggleterm.terminal").Terminal
-    local file_name = vim.api.nvim_buf_get_name(0)
     local py_runner = Terminal:new({
         cmd = run_cmd .. " " .. file_name,
         hidden = true,

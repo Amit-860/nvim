@@ -1,5 +1,6 @@
 return {
     "nvim-tree/nvim-tree.lua",
+    cond = not vim.g.vscode,
     cmd = { "NvimTreeToggle", "NvimTreeOpen", "NvimTreeFocus", "NvimTreeFindFile", "NvimTreeCollapse" },
     opts = function()
         local nvimtree_opts = {
@@ -8,7 +9,7 @@ return {
             view = {
                 adaptive_size = true,
                 side = "right",
-                width = "22%"
+                width = "22%",
             },
             renderer = {
                 full_name = true,
@@ -78,8 +79,7 @@ return {
         return nvimtree_opts
     end,
     config = function(_, opts)
-        require('nvim-tree').setup(opts)
+        require("nvim-tree").setup(opts)
         vim.api.nvim_set_hl(0, "NvimTreeNormal", { link = "Normal" })
-    end
-
+    end,
 }

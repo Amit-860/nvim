@@ -2,6 +2,7 @@ return {
     {
         "mfussenegger/nvim-dap",
         ft = { "python", "java" },
+        cond = not vim.g.vscode,
         opts = function()
             local icons = require("icons")
             local dap_opts = {

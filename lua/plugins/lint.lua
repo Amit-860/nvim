@@ -1,6 +1,7 @@
 return {
     {
         "mfussenegger/nvim-lint",
+        cond = not vim.g.vscode,
         dependencies = {
             {
                 "williamboman/mason.nvim",
@@ -16,6 +17,8 @@ return {
                 lua = { "codespell" },
                 json = { "codespell" },
                 toml = { "codespell" },
+                go = { "codespell" },
+                -- go = { "codespell", "golangcilint" },
                 --------------------------------------------------------------------
                 -- NOTE : vale setup
                 -- create ~/.vale.ini file

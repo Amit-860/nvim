@@ -1,6 +1,7 @@
 return {
     "nvimdev/dashboard-nvim",
     lazy = false,
+    cond = not vim.g.vscode,
     opts = function()
         vim.api.nvim_set_hl(0, "DashboardButtonShortcut", { fg = "#e95d5d", bold = true })
         vim.api.nvim_set_hl(0, "DashboardHeaderColor", { fg = "#006782", bold = true })

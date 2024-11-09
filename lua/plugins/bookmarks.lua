@@ -2,6 +2,7 @@
 return {
     "LintaoAmons/bookmarks.nvim",
     event = "VeryLazy",
+    cond = not vim.g.vscode,
     opts = {},
     keys = {
         vim.keymap.set(

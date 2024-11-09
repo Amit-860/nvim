@@ -71,6 +71,7 @@ return {
     {
         "altermo/ultimate-autopair.nvim",
         event = { "InsertEnter", "CmdlineEnter" },
+        cond = not vim.g.vscode,
         branch = "v0.6", --recommended as each new version will have breaking changes
         opts = {
             tabout = {

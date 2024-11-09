@@ -1,5 +1,6 @@
 return {
     "folke/which-key.nvim",
+    cond = not vim.g.vscode,
     cmd = "WhichKey",
     event = "UIEnter",
     keys = { "<leader>", "<SPC>", " " },

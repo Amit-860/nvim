@@ -1,5 +1,6 @@
 return {
-    'akinsho/toggleterm.nvim',
+    "akinsho/toggleterm.nvim",
+    cond = not vim.g.vscode,
     event = "VeryLazy",
     version = "*",
     opts = {
@@ -11,14 +12,14 @@ return {
         hide_numbers = true, -- hide the number column in toggleterm buffers
         shade_filetypes = {},
         shade_terminals = false,
-        shading_factor = 2,     -- the degree by which to darken to terminal colour, default: 1 for dark backgrounds, 3 for light
+        shading_factor = 2, -- the degree by which to darken to terminal colour, default: 1 for dark backgrounds, 3 for light
         start_in_insert = true,
         insert_mappings = true, -- whether or not the open mapping applies in insert mode
         persist_size = false,
         -- direction = 'vertical' | 'horizontal' | 'window' | 'float',
         direction = "float",
         close_on_exit = true, -- close the terminal window when the process exits
-        shell = nil,          -- change the default shell
+        shell = nil, -- change the default shell
         -- This field is only relevant if direction is set to 'float'
         float_opts = {
             -- The border key is *almost* the same as 'nvim_win_open'
@@ -36,18 +37,17 @@ return {
             winblend = 0,
             highlights = {
                 NormalFloat = {
-                    link = 'NormalFloat'
+                    link = "NormalFloat",
                 },
                 FloatBorder = {
-                    link = "FloatBorder"
+                    link = "FloatBorder",
                 },
             },
-
         },
         execs = {
             { nil, "<M-1>", "Horizontal Terminal", "horizontal", 0.3 },
-            { nil, "<M-2>", "Vertical Terminal",   "vertical",   0.4 },
-            { nil, "<M-3>", "Float Terminal",      "float",      nil },
+            { nil, "<M-2>", "Vertical Terminal", "vertical", 0.4 },
+            { nil, "<M-3>", "Float Terminal", "float", nil },
         },
     },
     config = function(_, toggle_term_opts)
@@ -80,24 +80,24 @@ return {
         end
 
         local add_exec = function(opts)
-            local binary = opts.cmd:match "(%S+)"
+            local binary = opts.cmd:match("(%S+)")
             if vim.fn.executable(binary) ~= 1 then
                 return
             end
 
             local _exec_toggle = function(opts)
                 local Terminal = require("toggleterm.terminal").Terminal
-                local term = Terminal:new { cmd = opts.cmd, count = opts.count, direction = opts.direction }
+                local term = Terminal:new({ cmd = opts.cmd, count = opts.count, direction = opts.direction })
                 term:toggle(opts.size, opts.direction)
             end
 
             vim.keymap.set({ "n", "t" }, opts.keymap, function()
-                _exec_toggle { cmd = opts.cmd, count = opts.count, direction = opts.direction, size = opts.size() }
+                _exec_toggle({ cmd = opts.cmd, count = opts.count, direction = opts.direction, size = opts.size() })
             end, { desc = opts.label, noremap = true, silent = true })
         end
 
         local init = function()
-            local terminal = require "toggleterm"
+            local terminal = require("toggleterm")
             for i, exec in pairs(toggle_term_opts.execs) do
                 local direction = exec[4] or toggle_term_opts.direction
 
@@ -118,5 +118,5 @@ return {
         end
 
         init()
-    end
+    end,
 }

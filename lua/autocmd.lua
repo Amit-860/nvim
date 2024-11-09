@@ -86,17 +86,6 @@ if vim.g.transparent and not vim.g.neovide then
     })
 end
 
-vim.api.nvim_create_autocmd({ "VimEnter" }, {
-    group = vim.api.nvim_create_augroup("Applying colorscheme", { clear = true }),
-    callback = function(event)
-        if vim.g.neovide then
-            vim.cmd("colorscheme " .. vim.g.neovide_colorscheme)
-        else
-            vim.cmd("colorscheme " .. vim.g.colorscheme)
-        end
-    end,
-})
-
 vim.api.nvim_create_autocmd("TextYankPost", {
     group = vim.api.nvim_create_augroup("yank_hilight", { clear = true }),
     callback = function(event)

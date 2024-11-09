@@ -1,26 +1,27 @@
 return {
     {
         "nvim-telescope/telescope-project.nvim",
+        cond = not vim.g.vscode,
         event = "VeryLazy",
     },
     {
         "debugloop/telescope-undo.nvim",
+        cond = not vim.g.vscode,
         cmd = { "Telescope undo" },
     },
     {
-        "polirritmico/telescope-lazy-plugins.nvim",
-        event = "VeryLazy",
-    },
-    {
         "nvim-telescope/telescope-frecency.nvim",
+        cond = not vim.g.vscode,
         event = "VeryLazy",
     },
     {
         "nvim-telescope/telescope-live-grep-args.nvim",
+        cond = not vim.g.vscode,
         event = "VeryLazy",
     },
     {
         "nvim-telescope/telescope.nvim",
+        cond = not vim.g.vscode,
         event = "VeryLazy",
         dependencies = {
             -- "nvim-telescope/telescope-ui-select.nvim",
@@ -226,7 +227,6 @@ return {
             pcall(telescope.load_extension, "noice")
             -- pcall(telescope.load_extension, "grapple")
             pcall(telescope.load_extension, "frecency")
-            pcall(telescope.load_extension, "lazy_plugins")
             pcall(telescope.load_extension, "live_grep_args")
 
             vim.api.nvim_create_autocmd("FileType", {

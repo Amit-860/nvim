@@ -31,9 +31,23 @@ return {
         end,
     },
     {
+        -- fixing colorscheme setting issue
+        dir = vim.fn.expand("./"),
+        lazy = false,
+        priority = 900,
+        config = function()
+            if vim.g.neovide then
+                vim.cmd("colorscheme " .. vim.g.neovide_colorscheme)
+            else
+                vim.cmd("colorscheme " .. vim.g.colorscheme)
+            end
+        end,
+    },
+    {
         -- coderunner
         dir = vim.fn.expand("./../local/codeRunner"),
         cmd = { "RunCode", "ReopenLastOutput" },
+        cond = not vim.g.vscode,
         config = function()
             local runTA = require("local.codeRunner")
             runTA.setup({

@@ -2,6 +2,7 @@ return {
     -- theme
     {
         "nvim-tree/nvim-web-devicons",
+        cond = not vim.g.vscode,
         lazy = true,
     },
 
@@ -9,6 +10,7 @@ return {
     {
         "williamboman/mason.nvim",
         cmd = "Mason",
+        cond = not vim.g.vscode,
         build = ":MasonUpdate",
         opts_extend = { "ensure_installed" },
         opts = {
@@ -66,6 +68,7 @@ return {
     {
         "folke/lazydev.nvim",
         ft = "lua", -- only load on lua files
+        cond = not vim.g.vscode,
         opts = {
             library = {
                 -- See the configuration section for more details
@@ -83,11 +86,13 @@ return {
     {
         "folke/persistence.nvim",
         event = { "BufReadPre" },
+        cond = not vim.g.vscode,
         opts = {},
     },
     {
         "pmizio/typescript-tools.nvim",
         ft = { "javascriptreact", "typescriptreact" },
+        cond = not vim.g.vscode,
         dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
         opts = {
             settings = {
@@ -120,6 +125,7 @@ return {
     {
         url = "https://git.sr.ht/~whynothugo/lsp_lines.nvim",
         event = "LspAttach",
+        cond = not vim.g.vscode,
         config = function()
             require("lsp_lines").setup()
         end,
@@ -127,12 +133,14 @@ return {
     {
         "hedyhli/outline.nvim",
         event = "LspAttach",
+        cond = not vim.g.vscode,
         cmd = { "Outline", "OutlineOpen" },
         opts = {},
     },
     {
         "HiPhish/rainbow-delimiters.nvim",
         event = { "VeryLazy" },
+        cond = not vim.g.vscode,
         config = function()
             require("rainbow-delimiters.setup").setup({
                 strategy = {
@@ -258,6 +266,7 @@ return {
     },
     {
         "max397574/better-escape.nvim",
+        cond = not vim.g.vscode,
         event = "VeryLazy",
         config = function()
             require("better_escape").setup({
@@ -335,6 +344,7 @@ return {
     {
         "kawre/leetcode.nvim",
         cmd = { "Leet" },
+        cond = not vim.g.vscode,
         build = ":TSUpdate html",
         dependencies = {
             "nvim-telescope/telescope.nvim",
@@ -359,23 +369,27 @@ return {
     {
         "onsails/lspkind.nvim",
         event = "VeryLazy",
+        cond = not vim.g.vscode,
     },
 
     -- filtesystem
     {
         "nanotee/zoxide.vim",
         cmd = { "Z" },
+        cond = not vim.g.vscode,
     },
 
     -- git
     {
         "sindrets/diffview.nvim",
         cmd = { "DiffviewOpen", "DiffviewClose", "DiffviewFileHistory" },
+        cond = not vim.g.vscode,
     },
 
     -- file browsers
     {
         "mikavilpas/yazi.nvim",
+        cond = not vim.g.vscode,
         dependencies = {
             "nvim-lua/plenary.nvim",
         },
@@ -410,6 +424,7 @@ return {
     {
         "NeogitOrg/neogit",
         cmd = { "Neogit" },
+        cond = not vim.g.vscode,
         opts = {
             graph_style = "unicode",
             telescope_sorter = function()
@@ -431,6 +446,7 @@ return {
     {
         "nvim-pack/nvim-spectre",
         cmd = "Spectre",
+        cond = not vim.g.vscode,
         keys = {
             vim.keymap.set("n", "<leader>rs", function()
                 require("spectre").toggle()

@@ -56,6 +56,7 @@ return {
             "MunifTanjim/nui.nvim",
         },
         cmd = "Dbee",
+        cond = not vim.g.vscode,
         build = function()
             -- Install tries to automatically detect the install method.
             -- if it fails, try calling it with one of these parameters:

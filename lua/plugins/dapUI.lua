@@ -1,6 +1,7 @@
 return {
     "rcarriga/nvim-dap-ui",
     ft = { "python", "java" },
+    cond = not vim.g.vscode,
     dependencies = {
         { "nvim-neotest/nvim-nio", event = "VeryLazy" },
         -- { "theHamsta/nvim-dap-virtual-text", event = "VeryLazy", opts = {} },

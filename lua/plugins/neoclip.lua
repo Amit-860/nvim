@@ -1,6 +1,7 @@
 return {
     "AckslD/nvim-neoclip.lua",
     event = { "BufReadPost", "BufNewFile" },
+    cond = not vim.g.vscode,
     keys = {
         vim.keymap.set({ "n", "v" }, "<leader>y", function()
             require("telescope").extensions.neoclip.neoclip({

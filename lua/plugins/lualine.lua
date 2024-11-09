@@ -1,6 +1,7 @@
 return {
     "nvim-lualine/lualine.nvim",
     event = { "BufNewFile", "BufReadPost" },
+    cond = not vim.g.vscode,
     dependencies = { "nvim-tree/nvim-web-devicons" },
     opts = function()
         local icons = require("icons")

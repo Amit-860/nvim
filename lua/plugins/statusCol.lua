@@ -1,49 +1,57 @@
 return {
     "luukvbaal/statuscol.nvim",
+    cond = not vim.g.vscode,
     event = { "BufNewFile", "BufReadPre" },
     dependencies = {
         "lewis6991/gitsigns.nvim",
     },
     opts = function()
-        local builtin = require('statuscol.builtin')
+        local builtin = require("statuscol.builtin")
         local statuscol_opts = {
             ft_ignore = {
-                'NvimTree',
-                'toggleterm',
-                'NeogitStatus',
-                'help',
-                'lazy'
+                "NvimTree",
+                "toggleterm",
+                "NeogitStatus",
+                "help",
+                "lazy",
             },
             bt_ignore = {
-                'nofile',
-                'terminal',
-                'Neogit',
+                "nofile",
+                "terminal",
+                "Neogit",
             },
             relculright = true,
             segments = {
                 {
-                    sign = { namespace = { "diagnostic/signs" }, name = { 'Dap' }, text = { ".*" }, maxwidth = 1, colwidth = 1, auto = false },
-                    click = "v:lua.ScLa"
+                    sign = {
+                        namespace = { "diagnostic/signs" },
+                        name = { "Dap" },
+                        text = { ".*" },
+                        maxwidth = 1,
+                        colwidth = 1,
+                        auto = false,
+                    },
+                    click = "v:lua.ScLa",
                 },
                 {
-                    text = { " ", builtin.lnumfunc, },
+                    text = { " ", builtin.lnumfunc },
                     condition = { true, builtin.non_empty },
                     click = "v:lua.ScLa",
-                    auto = false
+                    auto = false,
                 },
                 {
                     text = { " " },
-                    click = 'v:lua.ScSa',
-                    auto = false
+                    click = "v:lua.ScSa",
+                    auto = false,
                 },
                 {
-                    sign = { namespace = { 'gitsigns' }, maxwidth = 1, colwidth = 1, auto = false, },
-                    click = 'v:lua.ScSa'
+                    sign = { namespace = { "gitsigns" }, maxwidth = 1, colwidth = 1, auto = false },
+                    click = "v:lua.ScSa",
                 },
                 {
                     text = {
                         function(args)
-                            local icons = require('icons')
+                            local icons = require("icons")
                             args.fold.close = icons.ui.Right
                             args.fold.open = icons.ui.Down
                             args.fold.sep = " "
@@ -58,12 +66,12 @@ return {
                     click = "v:lua.ScFa",
                     auto = true,
                 },
-            }
+            },
         }
 
         return statuscol_opts
     end,
     config = function(_, opts)
         require("statuscol").setup(opts)
-    end
+    end,
 }

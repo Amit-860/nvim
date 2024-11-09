@@ -9,6 +9,7 @@ vim.api.nvim_create_autocmd("FileType", {
 return {
     {
         "lima1909/resty.nvim",
+        cond = not vim.g.vscode,
         dependencies = { "nvim-lua/plenary.nvim" },
         -- ft = "http",
         cmd = { "Resty" },

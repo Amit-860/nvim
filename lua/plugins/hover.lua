@@ -1,6 +1,7 @@
 return {
     "lewis6991/hover.nvim",
     event = "VeryLazy",
+    cond = not vim.g.vscode,
     keys = function()
         local hover = require("hover")
         return {

@@ -1,11 +1,13 @@
 return {
     "nvim-neorg/neorg",
     ft = "norg",
+    cond = not vim.g.vscode,
     cmd = { "Neorg" },
     dependencies = {
-        { "nvim-neorg/lua-utils.nvim", event = "VeryLazy", },
+        { "nvim-neorg/lua-utils.nvim", event = "VeryLazy" },
         { "nvim-lua/plenary.nvim" },
-        { "nvim-neorg/neorg-telescope" }
+        { "nvim-neorg/neorg-telescope" },
+        { "pysan3/pathlib.nvim" },
     },
     version = "*",
     opts = function()
@@ -22,7 +24,7 @@ return {
                 ["core.ui"] = {},
                 ["core.dirman"] = {
                     config = {
-                        workspaces = { notes = vim.fn.expand("D:/notes"), },
+                        workspaces = { notes = vim.fn.expand("D:/notes") },
                         default_workspace = "notes",
                     },
                 },
@@ -56,18 +58,18 @@ return {
                             keybind.map("norg", "n", "<F13>n", "<nop>", { desc = "Norg new note" })
                             keybind.map("norg", "n", "<F13>t", "<nop>", { desc = "Norg mark" })
                             keybind.map("norg", "n", "<F13>l", "<nop>", { desc = "Norg list" })
-                        end
+                        end,
                     },
                 },
                 ["core.syntax"] = {},
                 ["core.neorgcmd"] = {},
-                ["core.queries.native"] = {}
+                ["core.queries.native"] = {},
             },
         }
 
         return neorg_opts
     end,
     config = function(_, opts)
-        require('neorg').setup(opts)
-    end
+        require("neorg").setup(opts)
+    end,
 }

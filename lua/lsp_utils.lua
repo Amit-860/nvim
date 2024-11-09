@@ -391,13 +391,23 @@ M.on_attach = function(client, bufnr)
     -- Code Runner
     vim.keymap.set("n", "<leader>rc", function()
         -- local file_type = vim.bo.filetype
-        -- utils.code_runner(file_type, "horizontal") -- float, window, horizontal, vertical
+        -- local file_name = vim.api.nvim_buf_get_name(0)
+        -- if file_type == "go" then
+        --     utils.code_runner(file_type, "run .", "horizontal") -- float, window, horizontal, vertical
+        -- else
+        --     utils.code_runner(file_type, file_name, "horizontal") -- float, window, horizontal, vertical
+        -- end
         vim.cmd("RunCode")
     end, { silent = true, desc = "Run Code" })
 
     vim.keymap.set("n", "<F4>", function()
         -- local file_type = vim.bo.filetype
-        -- utils.code_runner(file_type, "horizontal") -- float, window, horizontal, vertical
+        -- local file_name = vim.api.nvim_buf_get_name(0)
+        -- if file_type == "go" then
+        --     utils.code_runner(file_type, "run .", "horizontal") -- float, window, horizontal, vertical
+        -- else
+        --     utils.code_runner(file_type, file_name, "horizontal") -- float, window, horizontal, vertical
+        -- end
         vim.cmd("RunCode")
     end, { noremap = true, silent = true, desc = "Run Code" })
 

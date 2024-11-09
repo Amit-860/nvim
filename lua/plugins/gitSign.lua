@@ -1,6 +1,7 @@
 return {
     "lewis6991/gitsigns.nvim",
     event = "BufReadPost",
+    cond = not vim.g.vscode,
     cmd = "Gitsigns",
     opts = function()
         local icons = require("icons")

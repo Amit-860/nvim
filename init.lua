@@ -83,6 +83,10 @@ local default_options = {
     spelllang = { "en_us" },
 }
 
+if vim.g.vscode then
+    default_options.cmdheight = 1
+end
+
 local function is_night()
     local now = os.date("*t")
     return not (now.hour >= 8 and now.hour <= 16)

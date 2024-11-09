@@ -2,6 +2,7 @@ return {
     {
         "williamboman/mason.nvim",
         cmd = "Mason",
+        cond = not vim.g.vscode,
     },
     {
         "williamboman/mason-lspconfig.nvim",
@@ -29,6 +30,7 @@ return {
     {
         "antosha417/nvim-lsp-file-operations",
         event = { "LspAttach" },
+        cond = not vim.g.vscode,
         dependencies = {
             "nvim-lua/plenary.nvim",
             "nvim-tree/nvim-tree.lua",
@@ -153,6 +155,13 @@ return {
 
             -- INFO : Json
             setup_lsp("jsonls", {
+                on_attach = on_attach,
+                capabilities = capabilities,
+                autostart = false,
+            })
+
+            -- INFO : GO
+            setup_lsp("gopls", {
                 on_attach = on_attach,
                 capabilities = capabilities,
                 autostart = false,

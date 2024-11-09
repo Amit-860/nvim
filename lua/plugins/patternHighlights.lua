@@ -1,6 +1,7 @@
 return {
     {
         "brenoprata10/nvim-highlight-colors",
+        cond = not vim.g.vscode,
         cmd = { "HighlightColors" },
         -- event = { 'BufReadPost', 'BufNewFile' },
         opts = {
@@ -10,6 +11,7 @@ return {
     },
     {
         "folke/todo-comments.nvim",
+        cond = not vim.g.vscode,
         event = { "BufReadPost", "BufNewFile" },
         dependencies = { "nvim-lua/plenary.nvim" },
         keys = {
