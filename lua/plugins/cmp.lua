@@ -151,11 +151,29 @@ return {
                         -- vim_item.kind = " " .. lspkind.presets.default[kind] .. " " .. kind
 
                         --setting cmp menu kind icons
+
+                        local local_kind_symbol = {
+                            Constructor = " ",
+                            Enum = " ",
+                            EnumMember = " ",
+                            Event = " ",
+                            Interface = " ",
+                            Module = " ",
+                            Property = " ",
+                            Reference = " ",
+                            Snippet = " ",
+                            Struct = " ",
+                            Cody = "🤖",
+                            Codeium = "🤖",
+                        }
+
                         if not kind then
                             kind = "Unknown"
                             vim_item.kind = " " .. "?" .. " "
                         else
-                            vim_item.kind = " " .. (lspkind.presets.default[kind] or "") .. " "
+                            vim_item.kind = " "
+                                .. (lspkind.presets.default[kind] or local_kind_symbol[kind] or "")
+                                .. " "
                         end
 
                         --removing dubplicates
@@ -175,6 +193,7 @@ return {
                             spell = "en",
                             async_path = "path",
                             go_pkgs = "go-pkg",
+                            codeium = "codi",
                         }
 
                         -- setting cmp menu
@@ -248,7 +267,7 @@ return {
                 },
 
                 experimental = {
-                    ghost_text = true,
+                    ghost_text = false,
                 },
 
                 mapping = cmp_mapping.preset.insert({
@@ -311,6 +330,7 @@ return {
 
                 sources = cmp.config.sources({
                     { name = "cody" },
+                    { name = "codeium", max_item_count = 5 },
                     { name = "luasnip" },
                     {
                         name = "lazydev",
@@ -331,6 +351,7 @@ return {
                             end,
                         },
                         keyword_length = 3,
+                        max_item_count = 5,
                     },
                 }),
 

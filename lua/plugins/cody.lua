@@ -21,6 +21,7 @@ if not vim.g.vscode then
     return {
         {
             "sourcegraph/sg.nvim",
+            cond = false,
             event = "LspAttach",
             dependencies = { "nvim-lua/plenary.nvim" },
             cmd = { "CodyAsk", "SourcegraphLogin ", "CodyToggle", "CodyChat", "CodyTask", "CodyRestart" },

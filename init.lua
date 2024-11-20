@@ -100,7 +100,8 @@ if is_night() then
     -- vim.g.colorscheme = "terafox"
     vim.g.colorscheme = "nordfox"
 else
-    vim.g.colorscheme = "dawnfox"
+    -- vim.g.colorscheme = "dawnfox"
+    vim.g.colorscheme = "nordfox"
 end
 
 local lazy_opts = {

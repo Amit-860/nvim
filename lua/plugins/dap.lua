@@ -62,6 +62,7 @@ return {
     },
     {
         "mfussenegger/nvim-dap-python",
+        cond = not vim.g.vscode,
         ft = "python",
         config = function()
             require("dap-python").setup("~/scoop/apps/python/current/python")
