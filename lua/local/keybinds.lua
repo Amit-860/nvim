@@ -114,8 +114,9 @@ if not vim.g.vscode then
 
     -- close Buffer
     vim.keymap.set("n", "<leader>x", function()
-        vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<esc>", true, false, true), "x", true) -- changing to normal mode
-        vim.cmd("confirm bd")
+        -- vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<esc>", true, false, true), "x", true) -- changing to normal mode
+        -- vim.cmd("confirm bd")
+        Snacks.bufdelete()
     end, { noremap = true, silent = true, desc = "which_key_ignore" })
     vim.keymap.set("n", "<leader>X", "<cmd>bd!<cr>", { noremap = true, silent = true, desc = "which_key_ignore" })
 
@@ -159,7 +160,7 @@ if not vim.g.vscode then
 
     -- tab
     vim.keymap.set("n", "<M-x>", "<cmd>tabclose<cr>", { noremap = true, silent = true, desc = "Tab close" })
-    vim.keymap.set("n", "<M-n>", "<cmd>tabnew<cr>", { noremap = true, silent = true, desc = "Tab new" })
+    vim.keymap.set("n", "<M-w>", "<cmd>tabnew<cr>", { noremap = true, silent = true, desc = "Tab new" })
     vim.keymap.set("n", "<M-l>", "<cmd>tabnext<cr>", { noremap = true, silent = true, desc = "Tab next" })
     vim.keymap.set("n", "<M-h>", "<cmd>tabprevious<cr>", { noremap = true, silent = true, desc = "Tab prev" })
 
@@ -173,7 +174,8 @@ if not vim.g.vscode then
 
     -- Home
     vim.keymap.set("n", "<leader>.", function()
-        vim.cmd("Dashboard")
+        -- vim.cmd("Dashboard")
+        Snacks.dashboard.open()
     end, { noremap = true, silent = true, desc = "which_key_ignore" })
 
     --lazy

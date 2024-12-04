@@ -163,8 +163,8 @@ return {
                             Reference = " ",
                             Snippet = " ",
                             Struct = " ",
-                            Cody = "🤖",
-                            Codeium = "🤖",
+                            Cody = "󰚩",
+                            Codeium = "󰚩",
                         }
 
                         if not kind then
