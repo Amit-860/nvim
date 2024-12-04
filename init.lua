@@ -32,9 +32,9 @@ local default_options = {
     fileencoding = "utf-8", -- the encoding written to a file
     foldcolumn = "auto:1",
     foldenable = true,
-    foldmethod = "expr", -- folding, set to "expr" for treesitter based folding / "manual"
-    foldexpr = "nvim_treesitter#foldexpr()", -- set to "nvim_treesitter#foldexpr()" for treesitter based folding
-    -- foldmethod     = "manual",
+    foldmethod = "manual",
+    -- foldmethod = "expr", -- folding, set to "expr" for treesitter based folding / "manual"
+    -- foldexpr = "nvim_treesitter#foldexpr()", -- set to "nvim_treesitter#foldexpr()" for treesitter based folding
     foldlevel = 99,
     foldlevelstart = 99,
     foldnestmax = 10,
@@ -96,9 +96,9 @@ vim.g.neovide_colorscheme = "terafox"
 vim.g.transparent = false
 if is_night() then
     -- vim.g.transparent = true
-    -- vim.g.colorscheme = "nightfox"
+    vim.g.colorscheme = "nightfox"
     -- vim.g.colorscheme = "terafox"
-    vim.g.colorscheme = "nordfox"
+    -- vim.g.colorscheme = "nordfox"
 else
     -- vim.g.colorscheme = "dawnfox"
     vim.g.colorscheme = "nordfox"

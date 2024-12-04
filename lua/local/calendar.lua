@@ -291,7 +291,8 @@ M.createOutput = function()
     -- )
 
     local s = (date.monthName .. " - " .. date.year)
-    local p = (" "):rep(62 - #s)
+    -- local p = (" "):rep(62 - #s)
+    local p = ""
 
     local output = (
         p

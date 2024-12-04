@@ -70,11 +70,11 @@ local dashboard_opts = {
                     require("telescope").extensions.project.project({ display_type = "full" })
                 end,
             },
-            -- {
-            --     icon = '  ',
-            --     desc = 'NeoGit' ,
-            --     key = 'G',
-            -- },
+            {
+                icon = "  ",
+                desc = "NeoGit",
+                key = "G",
+            },
             -- {
             --     icon = '󰿅  ',
             --     desc = 'Quit' ,
@@ -104,29 +104,46 @@ local dashboard_opts = {
     },
     formats = {
         header = { "%s", align = "left" },
-        footer = { "%s", align = "left" },
     },
     sections = {
-        { section = "header" },
-        { section = "keys", gap = 0, padding = 2 },
-        { pane = 2, padding = 1 },
-        { pane = 2, icon = " ", title = "Recent Files", section = "recent_files", indent = 3, padding = 2 },
-        { pane = 2, icon = " ", title = "Projects", section = "projects", indent = 3, padding = 2 },
+        --INFO : Pane -- 1 | left
+        { text = { calendar.createOutput(), hl = "SnacksDashboardDesc" }, padding = 0 },
+        { section = "keys", gap = 0, padding = 1 },
+
+        --INFO : Pane -- 2 | right
         {
             pane = 2,
-            icon = " ",
+            icon = " ",
             title = "Git Status",
             section = "terminal",
             enabled = function()
                 return Snacks.git.get_root() ~= nil
             end,
             cmd = "git --no-pager diff --stat -B -M -C",
-            height = 5,
-            padding = 2,
+            height = 9,
+            padding = 1,
             ttl = 5 * 60,
             indent = 3,
         },
-        { section = "startup" },
+        -- { pane = 2, icon = " ", title = "Recent Files", section = "recent_files", indent = 3, padding = 2 },
+        { pane = 2, icon = " ", title = "Sessions", section = "projects", indent = 3, padding = 3, limit = 10 },
+        function()
+            local lazy_stats = require("lazy.stats").stats()
+            local ms = (math.floor(lazy_stats.startuptime * 100 + 0.5) / 100)
+            return {
+                pane = 2,
+                align = "right",
+                text = {
+                    { " ⚡ ", hl = "MatchParen" },
+                    { "Neovim loaded ", hl = "special" },
+                    { lazy_stats.loaded .. "", hl = "String" },
+                    { "/", hl = "special" },
+                    { lazy_stats.count .. "", hl = "CmpItemAbbr" },
+                    { " plugins in ", hl = "footer" },
+                    { ms .. "ms", hl = "Error" },
+                },
+            }
+        end,
     },
 }
 
@@ -172,6 +189,39 @@ return {
             -- or leave it empty to use the default settings
             -- refer to the configuration section below
         },
+        statuscolumn = {
+            enabled = true,
+            left = { "mark", "sign" }, -- priority of signs on the left (high to low)
+            right = { "git", "fold" }, -- priority of signs on the right (high to low)
+            folds = {
+                open = true, -- show open fold icons
+                git_hl = true, -- use Git Signs hl for fold icons
+            },
+            git = {
+                -- patterns to match Git signs
+                patterns = { "GitSign", "MiniDiffSign" },
+            },
+            refresh = 100, -- refresh at most every 50ms
+        },
+        -- bigfile = {
+        --     notify = true, -- show notification when big file detected
+        --     size = 2 * 1024 * 1024, -- 1.5MB
+        --     -- Enable or disable features when big file detected
+        --     ---@param ctx {buf: number, ft:string}
+        --     setup = function(ctx)
+        --         vim.cmd([[NoMatchParen]])
+        --         vim.cmd("IlluminatePauseBuf")
+        --         vim.cmd("IBLDisable")
+        --         pcall(function()
+        --             require("lualine").hide()
+        --         end)
+        --         Snacks.util.wo(0, { foldmethod = "manual", statuscolumn = "", conceallevel = 0 })
+        --         vim.b.minianimate_disable = true
+        --         vim.schedule(function()
+        --             vim.bo[ctx.buf].syntax = ctx.ft
+        --         end)
+        --     end,
+        -- },
     },
     keys = {
         {

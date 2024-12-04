@@ -1,6 +1,7 @@
 return {
     "luukvbaal/statuscol.nvim",
-    cond = not vim.g.vscode,
+    -- cond = not vim.g.vscode,
+    cond = false,
     event = { "BufNewFile", "BufReadPre" },
     dependencies = {
         "lewis6991/gitsigns.nvim",
