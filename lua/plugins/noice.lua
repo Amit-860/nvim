@@ -2,7 +2,7 @@ return {
     "folke/noice.nvim",
     cond = not vim.g.vscode,
     event = "VeryLazy",
-    version = "4.4.7",
+    -- version = "4.4.7",
     dependencies = { "MunifTanjim/nui.nvim" },
     opts = function()
         local lazy_opts = {

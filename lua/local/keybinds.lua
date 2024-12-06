@@ -114,21 +114,29 @@ if not vim.g.vscode then
 
     -- close Buffer
     vim.keymap.set("n", "<leader>x", function()
-        -- vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<esc>", true, false, true), "x", true) -- changing to normal mode
-        -- vim.cmd("confirm bd")
-        Snacks.bufdelete()
+        -- local ok, _ = pcall(Snacks.bufdelete)
+        -- if not ok then
+        vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<esc>", true, false, true), "x", true) -- changing to normal mode
+        local c, _ = pcall(vim.cmd, "confirm bd")
+        if not c then
+            vim.cmd("confirm close")
+        end
+        -- end
     end, { noremap = true, silent = true, desc = "which_key_ignore" })
     vim.keymap.set("n", "<leader>X", "<cmd>bd!<cr>", { noremap = true, silent = true, desc = "which_key_ignore" })
 
     -- session
     vim.keymap.set("n", "<leader>Sf", function()
-        require("persistence").load()
+        -- require("persistence").select()
+        vim.cmd("Telescope persisted theme=dropdown")
     end, { noremap = true, silent = true, desc = "Find Session" })
     vim.keymap.set("n", "<leader>Sl", function()
-        require("persistence").load({ last = true })
+        -- require("persistence").load({ last = true })
+        vim.cmd("SessionLoadLast")
     end, { noremap = true, silent = true, desc = "Last Session" })
     vim.keymap.set("n", "<leader>Ss", function()
-        require("persistence").stop()
+        -- require("persistence").stop()
+        vim.cmd("SessionStop")
     end, { noremap = true, silent = true, desc = "Stop Session" })
 
     -- Undo
@@ -276,7 +284,7 @@ if not vim.g.vscode then
     )
     vim.keymap.set(
         { "v" },
-        "<leader>X",
+        "<leader>rx",
         utils.replace_selected,
         { desc = "Replace Selected", noremap = true, silent = true }
     )

@@ -32,9 +32,9 @@ local default_options = {
     fileencoding = "utf-8", -- the encoding written to a file
     foldcolumn = "auto:1",
     foldenable = true,
-    foldmethod = "manual",
-    -- foldmethod = "expr", -- folding, set to "expr" for treesitter based folding / "manual"
-    -- foldexpr = "nvim_treesitter#foldexpr()", -- set to "nvim_treesitter#foldexpr()" for treesitter based folding
+    -- foldmethod = "manual",
+    foldmethod = "expr", -- folding, set to "expr" for treesitter based folding / "manual"
+    foldexpr = "nvim_treesitter#foldexpr()", -- set to "nvim_treesitter#foldexpr()" for treesitter based folding
     foldlevel = 99,
     foldlevelstart = 99,
     foldnestmax = 10,
@@ -96,12 +96,12 @@ vim.g.neovide_colorscheme = "terafox"
 vim.g.transparent = false
 if is_night() then
     -- vim.g.transparent = true
-    vim.g.colorscheme = "nightfox"
+    -- vim.g.colorscheme = "nightfox"
     -- vim.g.colorscheme = "terafox"
-    -- vim.g.colorscheme = "nordfox"
-else
-    -- vim.g.colorscheme = "dawnfox"
     vim.g.colorscheme = "nordfox"
+else
+    vim.g.colorscheme = "dawnfox"
+    -- vim.g.colorscheme = "nordfox"
 end
 
 local lazy_opts = {
@@ -221,3 +221,32 @@ require("lazy").setup(lazy_opts)
 
 -- autocmd
 require("autocmd")
+
+-- loading keybinding
+require("local.keybinds")
+require("local.lvimKeyBinds")
+
+-- loading custom colors
+require("local.colors")
+
+if vim.g.neovide then
+    vim.cmd("colorscheme " .. vim.g.neovide_colorscheme)
+else
+    vim.cmd("colorscheme " .. vim.g.colorscheme)
+end
+
+-- loading coderunner
+require("local.codeRunner").setup({
+    output_window_type = "floating", -- floating, pane, tab, split
+    output_window_configs = {
+        width = math.floor(vim.o.columns * 0.8),
+        height = math.floor(vim.o.lines * 0.8),
+        position = "center", -- Position of the floating window ("center", "top", "bottom", "left", "right", "custom")
+        custom_col = nil,
+        custom_row = nil,
+        transparent = false,
+    },
+})
+
+-- loading jq
+require("local.jq")

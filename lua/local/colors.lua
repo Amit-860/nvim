@@ -90,6 +90,10 @@ if vim.g.neovide or vim.g.transparent then
             { fg = M.float_border_fg_color, bg = M.float_border_bg_color, blend = M.float_winblend }
         )
         vim.api.nvim_set_hl(0, "NoiceCmdlinePopup", { bg = M.float_color, blend = M.float_winblend }) -- highlights for cmp menu
+        vim.api.nvim_set_hl(0, "SnacksNormal", { link = "NormalFloat" }) -- highlights for selected item in cmp menu
+        vim.api.nvim_set_hl(0, "SnacksNormalNC", { link = "NormalFloat" }) -- highlights for selected item in cmp menu
+        vim.api.nvim_set_hl(0, "SnacksScratchTitle", { link = "NormalFloat" }) -- highlights for selected item in cmp menu
+        vim.api.nvim_set_hl(0, "SnacksScratchFooter", { link = "NormalFloat" }) -- highlights for selected item in cmp menu
     end
 
     -- cmp menu

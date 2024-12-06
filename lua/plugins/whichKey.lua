@@ -187,6 +187,7 @@ return {
             { "<F13>c", desc = "Conform", icon = icons.astro.FolderClosed },
             { "<F13>a", desc = "Cody", icon = icons.misc.Robot },
             { "<F13>s", desc = "Spectre", icon = icons.misc.Robot },
+            { "<F13>t", desc = "Toggle", icon = icons.astro.Selected },
         })
     end,
 }

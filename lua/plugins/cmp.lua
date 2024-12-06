@@ -524,10 +524,4 @@ return {
         cond = not vim.g.vscode,
         dependencies = "L3MON4D3/LuaSnip",
     },
-    {
-        "MattiasMTS/cmp-dbee",
-        cond = not vim.g.vscode,
-        opts = {},
-        ft = "sql",
-    },
 }

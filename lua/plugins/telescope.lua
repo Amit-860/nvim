@@ -228,6 +228,7 @@ return {
             -- pcall(telescope.load_extension, "grapple")
             pcall(telescope.load_extension, "frecency")
             pcall(telescope.load_extension, "live_grep_args")
+            pcall(telescope.load_extension, "persisted")
 
             vim.api.nvim_create_autocmd("FileType", {
                 pattern = "TelescopeResults",

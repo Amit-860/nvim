@@ -92,3 +92,10 @@ vim.api.nvim_create_autocmd("TextYankPost", {
         vim.highlight.on_yank({ higroup = "IncSearch", timeout = vim.o.timeoutlen })
     end,
 })
+
+vim.api.nvim_create_autocmd("ColorScheme", {
+    group = vim.api.nvim_create_augroup("colors", { clear = true }),
+    callback = function(event)
+        require("local.colors")
+    end,
+})

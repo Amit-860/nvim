@@ -84,12 +84,6 @@ return {
         },
     },
     {
-        "folke/persistence.nvim",
-        event = { "BufReadPre" },
-        cond = not vim.g.vscode,
-        opts = {},
-    },
-    {
         "pmizio/typescript-tools.nvim",
         ft = { "javascriptreact", "typescriptreact" },
         cond = not vim.g.vscode,
@@ -413,7 +407,7 @@ return {
             local yazi_opts = {
                 open_for_directories = true,
                 floating_window_scaling_factor = 0.85,
-                yazi_floating_window_border = "rounded",
+                yazi_floating_window_border = "single",
             }
             if vim.g.neovide then
                 yazi_opts.yazi_floating_window_winblend = 50

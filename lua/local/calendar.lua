@@ -296,7 +296,8 @@ M.createOutput = function()
 
     local output = (
         p
-        .. s
+        .. " "
+        .. string.upper(s)
         .. "\n"
         .. "┌──────────────────────────────────────────────────────────────┐\n"
         -- .. M.__Header(date.dayName .. ",", date.monthName, date.day, date.year)

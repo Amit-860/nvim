@@ -2,21 +2,20 @@ local calendar = require("local.calendar")
 local dashboard_opts = {
     enabled = true,
     width = 64,
-    pane_gap = 8,
+    pane_gap = 5,
     preset = {
         keys = {
-
             {
                 icon = "  ",
                 key = "N",
-                desc = "New File",
+                desc = "New file",
                 action = function()
                     vim.cmd("enew")
                 end,
             },
             {
                 icon = "󱋢  ",
-                desc = "Recent Files",
+                desc = "Recent files",
                 key = "R",
                 -- action = function()
                 --     vim.cmd("Telescope oldfiles layout_strategy=horizontal layout_config={preview_width=0.5}")
@@ -47,11 +46,21 @@ local dashboard_opts = {
                 end,
             },
             {
+                icon = "  ",
+                desc = "Find session",
+                key = "S",
+                action = function()
+                    -- require("persistence").load({ last = true })
+                    vim.cmd("Telescope persisted theme=dropdown")
+                end,
+            },
+            {
                 icon = "  ",
                 desc = "Last session",
                 key = "L",
                 action = function()
-                    require("persistence").load({ last = true })
+                    -- require("persistence").load({ last = true })
+                    vim.cmd("SessionLoadLast")
                 end,
             },
             {
@@ -74,12 +83,10 @@ local dashboard_opts = {
                 icon = "  ",
                 desc = "NeoGit",
                 key = "G",
+                action = function()
+                    vim.cmd("Neogit")
+                end,
             },
-            -- {
-            --     icon = '󰿅  ',
-            --     desc = 'Quit' ,
-            --     action = function() vim.cmd("q") end
-            -- },
             {
                 icon = "  ",
                 desc = "Configs",
@@ -99,6 +106,14 @@ local dashboard_opts = {
                     })
                 end,
             },
+            {
+                icon = "󰿅  ",
+                desc = "Quit",
+                key = "Q",
+                action = function()
+                    vim.cmd("q")
+                end,
+            },
         },
         header = calendar.createOutput(),
     },
@@ -106,27 +121,50 @@ local dashboard_opts = {
         header = { "%s", align = "left" },
     },
     sections = {
-        --INFO : Pane -- 1 | left
-        { text = { calendar.createOutput(), hl = "SnacksDashboardDesc" }, padding = 0 },
-        { section = "keys", gap = 0, padding = 1 },
-
-        --INFO : Pane -- 2 | right
+        --INFO : Pane -- 1
         {
-            pane = 2,
+            pane = 1,
+            text = {
+                { "  CWD: ", hl = "footer" },
+                { vim.fn.getcwd(), hl = "special" },
+            },
+            indent = 0,
+            padding = 1,
+        },
+        {
+            pane = 1,
             icon = " ",
             title = "Git Status",
             section = "terminal",
             enabled = function()
                 return Snacks.git.get_root() ~= nil
             end,
-            cmd = "git --no-pager diff --stat -B -M -C",
+            cmd = "git --no-pager diff --stat --stat-graph-width=28 -B -M -C",
+            -- cmd = "git -c color.status=always status -sb --ignore-submodules=dirty && git diff --shortstat",
+            key = "-",
+            action = function()
+                Snacks.lazygit()
+            end,
             height = 9,
             padding = 1,
             ttl = 5 * 60,
             indent = 3,
         },
-        -- { pane = 2, icon = " ", title = "Recent Files", section = "recent_files", indent = 3, padding = 2 },
-        { pane = 2, icon = " ", title = "Sessions", section = "projects", indent = 3, padding = 3, limit = 10 },
+        -- { pane = 1, icon = " ", title = "Recent Files", section = "recent_files", indent = 3, padding = 2 },
+        {
+            pane = 1,
+            icon = " ",
+            title = "Sessions",
+            section = "projects",
+            indent = 3,
+            padding = 3,
+            limit = 8,
+            height = 10,
+        },
+
+        --INFO : Pane -- 2
+        { pane = 2, text = { calendar.createOutput(), hl = "SnacksDashboardDesc" }, padding = 0 },
+        { pane = 2, section = "keys", gap = 0, padding = 1 },
         function()
             local lazy_stats = require("lazy.stats").stats()
             local ms = (math.floor(lazy_stats.startuptime * 100 + 0.5) / 100)
@@ -134,8 +172,8 @@ local dashboard_opts = {
                 pane = 2,
                 align = "right",
                 text = {
-                    { " ⚡ ", hl = "MatchParen" },
-                    { "Neovim loaded ", hl = "special" },
+                    { " ⚡", hl = "DevIconPy" },
+                    { "Neovim loaded ", hl = "footer" },
                     { lazy_stats.loaded .. "", hl = "String" },
                     { "/", hl = "special" },
                     { lazy_stats.count .. "", hl = "CmpItemAbbr" },
@@ -168,9 +206,6 @@ return {
         },
         scratch = {
             enabled = true,
-            -- your scratch configuration comes here
-            -- or leave it empty to use the default settings
-            -- refer to the configuration section below
         },
         toggle = {
             enabled = true,
@@ -181,6 +216,19 @@ return {
         styles = {
             notification = {
                 wo = { wrap = true }, -- Wrap notifications
+            },
+            scratch = {
+                height = math.floor(vim.o.lines * 0.85),
+                width = math.floor(vim.o.columns * 0.85),
+                bo = { buftype = "", buflisted = false, bufhidden = "hide", swapfile = false },
+                minimal = false,
+                noautocmd = false,
+                -- position = "right",
+                zindex = 20,
+                wo = { winhighlight = "NormalFloat:Normal" },
+                border = "single",
+                title_pos = "center",
+                footer_pos = "center",
             },
         },
         lazygit = {
@@ -295,16 +343,16 @@ return {
                 vim.print = _G.dd -- Override print to use snacks for `:=` command
 
                 -- Create some toggle mappings
-                Snacks.toggle.option("spell", { name = "Spelling" }):map("<leader>tus")
-                Snacks.toggle.option("wrap", { name = "Wrap" }):map("<leader>tuw")
-                Snacks.toggle.option("relativenumber", { name = "Relative Number" }):map("<leader>tuL")
-                Snacks.toggle.diagnostics():map("<leader>tud")
-                Snacks.toggle.line_number():map("<leader>tul")
+                Snacks.toggle.option("spell", { name = "Spelling" }):map("<F13>ts")
+                Snacks.toggle.option("wrap", { name = "Wrap" }):map("<F13>tw")
+                Snacks.toggle.option("relativenumber", { name = "Relative Number" }):map("<F13>tL")
+                Snacks.toggle.diagnostics():map("<F13>td")
+                Snacks.toggle.line_number():map("<F13>tl")
                 Snacks.toggle
                     .option("conceallevel", { off = 0, on = vim.o.conceallevel > 0 and vim.o.conceallevel or 2 })
-                    :map("<leader>tuc")
-                Snacks.toggle.treesitter():map("<leader>tuT")
-                Snacks.toggle.inlay_hints():map("<leader>tuh")
+                    :map("<F13>tc")
+                Snacks.toggle.treesitter():map("<F13>tT")
+                Snacks.toggle.inlay_hints():map("<F13>th")
             end,
         })
     end,
