@@ -5,7 +5,7 @@ return {
     cond = not vim.g.vscode,
     dependencies = {
         "nvim-lua/plenary.nvim",
-        "hrsh7th/nvim-cmp",
+        -- "hrsh7th/nvim-cmp",
     },
     config = function()
         require("codeium").setup({
@@ -23,7 +23,7 @@ return {
                 -- Whether to enable virtual text of not for filetypes not specifically listed above.
                 default_filetype_enabled = true,
                 -- How long to wait (in ms) before requesting completions after typing stops.
-                idle_delay = 75,
+                idle_delay = 50,
                 -- Priority of the virtual text. This usually ensures that the completions appear on top of
                 -- other plugins that also add virtual text, such as LSP inlay hints, but can be modified if
                 -- desired.
@@ -58,13 +58,12 @@ return {
             ":Codeium Chat<cr>",
             { noremap = true, silent = true, desc = "Codeium Chat" }
         )
-        vim.keymap.set({ "n" }, "<F13>i", function()
-            -- Request completions immediately.
-            -- vt.complete()
-
-            -- Request a completion, or cycle to the next if we already have some
-            vt.cycle_or_complete()
-        end, { noremap = true, silent = true, desc = "Codeium Complete" })
+        -- vim.keymap.set({ "n", "i" }, "<F13>ai", function()
+        -- Request completions immediately.
+        -- vt.complete()
+        -- Request a completion, or cycle to the next if we already have some
+        --     vt.cycle_or_complete()
+        -- end, { noremap = true, silent = true, desc = "Codeium Complete" })
         -- vim.keymap.set({ "n" }, "<F13>ad", function()
         --     -- Complete only after idle_delay has passed with no other calls to debounced_complete().
         --     vt.debounced_complete()

@@ -105,8 +105,8 @@ local ts_opts = {
                 ["]et"] = "@conditional.inner",
                 ["]el"] = "@loop.inner",
 
-                ["]]"] = "@nothing", -- just to remove default vim keybindings
-                ["]["] = "@nothing",
+                -- ["]]"] = "@nothing", -- just to remove default vim keybindings
+                -- ["]["] = "@nothing",
             },
             goto_previous_start = {
                 ["[c"] = "@class.outer",
@@ -134,8 +134,8 @@ local ts_opts = {
                 ["[el"] = "@loop.inner",
                 ["[et"] = "@conditional.inner",
 
-                ["[]"] = "@nothing", -- just to remove default vim keybindings
-                ["[["] = "@nothing",
+                -- ["[]"] = "@nothing", -- just to remove default vim keybindings
+                -- ["[["] = "@nothing",
             },
         },
     },
@@ -215,6 +215,36 @@ return {
                 max_lines = 8, -- How many lines the window should span. Values <= 0 mean no limit.
                 patterns = { default = { "class", "function", "method" } },
             })
+        end,
+    },
+    {
+        "drybalka/tree-climber.nvim",
+        event = { "BufReadPost", "BufNewFile" },
+        init = function()
+            vim.keymap.set(
+                { "n", "v", "o" },
+                "[o",
+                require("tree-climber").goto_parent,
+                { noremap = true, silent = true, desc = "Goto parent node" }
+            )
+            vim.keymap.set(
+                { "n", "v", "o" },
+                "]o",
+                require("tree-climber").goto_child,
+                { noremap = true, silent = true, desc = "Goto child node" }
+            )
+            vim.keymap.set(
+                { "n", "v", "o" },
+                "]]",
+                require("tree-climber").goto_next,
+                { noremap = true, silent = true, desc = "Goto next node" }
+            )
+            vim.keymap.set(
+                { "n", "v", "o" },
+                "[[",
+                require("tree-climber").goto_prev,
+                { noremap = true, silent = true, desc = "Goto perv node" }
+            )
         end,
     },
 }

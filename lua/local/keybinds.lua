@@ -104,22 +104,22 @@ if not vim.g.vscode then
             layout_config = { preview_width = 0.5 },
         }) -- [[<cmd>lua require'telescope.builtin'.find_files({ find_command = { 'fd','-tf', '-H', '-E', '.git', '.', vim.fn.expand("$HOME/AppData/Local/nvim") } }) layout_strategy=horizontal layout_config={preview_width=0.5}<cr>]]
     end, { noremap = true, silent = true, desc = "find config_files" })
-    vim.keymap.set("n", "<leader>fp", function()
-        telescope_extensinos.lazy_plugins.lazy_plugins({
-            initial_mode = "insert",
-            layout_strategy = "horizontal",
-            layout_config = { preview_width = 0.5 },
-        })
-    end, { noremap = true, silent = true, desc = "find plugins" })
+    -- vim.keymap.set("n", "<leader>fp", function()
+    --     telescope_extensinos.lazy_plugins.lazy_plugins({
+    --         initial_mode = "insert",
+    --         layout_strategy = "horizontal",
+    --         layout_config = { preview_width = 0.5 },
+    --     })
+    -- end, { noremap = true, silent = true, desc = "find plugins" })
 
     -- close Buffer
     vim.keymap.set("n", "<leader>x", function()
         -- local ok, _ = pcall(Snacks.bufdelete)
         -- if not ok then
         vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<esc>", true, false, true), "x", true) -- changing to normal mode
-        local c, _ = pcall(vim.cmd, "confirm bd")
+        local c, _ = pcall(vim.cmd, "confirm close")
         if not c then
-            vim.cmd("confirm close")
+            vim.cmd("confirm bd")
         end
         -- end
     end, { noremap = true, silent = true, desc = "which_key_ignore" })
@@ -370,9 +370,9 @@ end
 vim.keymap.set("v", "<BS>", '"_d', { noremap = true, silent = true })
 vim.keymap.set("n", "U", "<C-r>", { noremap = true, silent = true })
 vim.keymap.set("n", "<leader>h", "<cmd>noh<cr>", { desc = "which_key_ignore", noremap = true })
--- vim.keymap.set({ "n", "o", "x" }, "gs", '_', { noremap = true, silent = true, desc = "Goto first char" })
--- vim.keymap.set({ "n", "o", "x" }, "gh", '0', { noremap = true, silent = true, desc = "Goto BOL" })
--- vim.keymap.set({ "n", "o", "x" }, "gl", '$', { noremap = true, silent = true, desc = "Goto EOL" })
+vim.keymap.set({ "n", "o", "x" }, "gs", "_", { noremap = true, silent = true, desc = "Goto first char" })
+vim.keymap.set({ "n", "o", "x" }, "gh", "0", { noremap = true, silent = true, desc = "Goto BOL" })
+vim.keymap.set({ "n", "o", "x" }, "gl", "$", { noremap = true, silent = true, desc = "Goto EOL" })
 vim.keymap.set({ "n", "i" }, "<c-s>", "<esc>:w!<cr>", { noremap = false, silent = true, desc = "Save" })
 vim.keymap.set({ "n", "i" }, "<M-s>", function()
     utils.save_as()

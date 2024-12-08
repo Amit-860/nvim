@@ -188,6 +188,7 @@ return {
             { "<F13>a", desc = "Cody", icon = icons.misc.Robot },
             { "<F13>s", desc = "Spectre", icon = icons.misc.Robot },
             { "<F13>t", desc = "Toggle", icon = icons.astro.Selected },
+            { "<F13>g", desc = "Git", icon = icons.astro.GitBranch },
         })
     end,
 }

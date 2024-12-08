@@ -1,5 +1,5 @@
 return {
-    {
+    --[[     {
         "hrsh7th/nvim-cmp",
         event = { "InsertEnter", "CmdlineEnter" },
         cond = not vim.g.vscode,
@@ -163,10 +163,9 @@ return {
                             Reference = " ",
                             Snippet = " ",
                             Struct = " ",
-                            Cody = "󰚩",
-                            Codeium = "󰚩",
+                            Cody = "󰚩 ",
+                            Codeium = "󰚩 ",
                         }
-
                         if not kind then
                             kind = "Unknown"
                             vim_item.kind = " " .. "?" .. " "
@@ -224,34 +223,34 @@ return {
                         end
 
                         vim_item.menu_hl_group = ({
-                            Class = "CmpItemMenuClass",
-                            Struct = "CmpItemMenuStruct",
-                            Snippet = "CmpItemMenuSnippet",
-                            Method = "CmpItemMenuMethod",
-                            Function = "CmpItemMenuFunction",
-                            Field = "CmpItemMenuField",
-                            Enum = "CmpItemMenuEnum",
-                            Variable = "CmpItemMenuVariable",
-                            Value = "CmpItemMenuValue",
-                            Text = "CmpItemMenuText",
-                            String = "CmpItemMenuText",
-                            Unknown = "CmpItemMenuUnknown",
-                        })[kind] or "CmpItemMenuUnknown"
+                            Class = "ItemMenuClass",
+                            Struct = "ItemMenuStruct",
+                            Snippet = "ItemMenuSnippet",
+                            Method = "ItemMenuMethod",
+                            Function = "ItemMenuFunction",
+                            Field = "ItemMenuField",
+                            Enum = "ItemMenuEnum",
+                            Variable = "ItemMenuVariable",
+                            Value = "ItemMenuValue",
+                            Text = "ItemMenuText",
+                            String = "ItemMenuText",
+                            Unknown = "ItemMenuUnknown",
+                        })[kind] or "ItemMenuUnknown"
 
                         vim_item.kind_hl_group = ({
-                            Class = "CmpItemKindClass",
-                            Struct = "CmpItemKindStruct",
-                            Snippet = "CmpItemKindSnippet",
-                            Method = "CmpItemKindMethod",
-                            Function = "CmpItemKindFunction",
-                            Field = "CmpItemKindField",
-                            Enum = "CmpItemKindEnum",
-                            Variable = "CmpItemKindVariable",
-                            Value = "CmpItemKindValue",
-                            Text = "CmpItemKindText",
-                            String = "CmpItemKindText",
-                            Unknown = "CmpItemKindUnknown",
-                        })[kind] or "CmpItemKindUnknown"
+                            Class = "ItemKindClass",
+                            Struct = "ItemKindStruct",
+                            Snippet = "ItemKindSnippet",
+                            Method = "ItemKindMethod",
+                            Function = "ItemKindFunction",
+                            Field = "ItemKindField",
+                            Enum = "ItemKindEnum",
+                            Variable = "ItemKindVariable",
+                            Value = "ItemKindValue",
+                            Text = "ItemKindText",
+                            String = "ItemKindText",
+                            Unknown = "ItemKindUnknown",
+                        })[kind] or "ItemKindUnknown"
 
                         return vim_item
                     end,
@@ -400,6 +399,7 @@ return {
             cmp.setup.filetype({ "sql", "mysql", "plsql" }, {
                 sources = cmp.config.sources({
                     { name = "luasnip" },
+                    { name = "vim-dadbod-completion" },
                     { name = "cmp-dbee" },
                 }, {
                     { name = "buffer", keyword_length = 3 },
@@ -523,5 +523,5 @@ return {
         event = { "BufReadPost", "BufNewFile" },
         cond = not vim.g.vscode,
         dependencies = "L3MON4D3/LuaSnip",
-    },
+    }, ]]
 }

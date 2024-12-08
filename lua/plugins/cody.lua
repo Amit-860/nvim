@@ -1,4 +1,5 @@
-local function cody_ask()
+return {}
+--[[ local function cody_ask()
     vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<esc>", true, false, true), "x", true) -- changing to normal mode
     local line1 = vim.api.nvim_buf_get_mark(0, "<")[1]
     local line2 = vim.api.nvim_buf_get_mark(0, ">")[1]
@@ -49,4 +50,4 @@ if not vim.g.vscode then
     }
 else
     return {}
-end
+end ]]

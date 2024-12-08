@@ -80,13 +80,30 @@ return {
                 -- },
             }
 
-            local cmp_capabilities = require("cmp_nvim_lsp").default_capabilities()
-            local lsp_file_capabilities = require("lsp-file-operations").default_capabilities()
+            local cmp_ok, cmp = pcall(require, "cmp_nvim_lsp")
+            local cmp_capabilities = {}
+            if cmp_ok then
+                cmp_capabilities = cmp.default_capabilities()
+            end
+
+            local blink_ok, blink = pcall(require, "blink.cmp")
+            local blink_capabilities = {}
+            if blink_ok then
+                blink_capabilities = blink.get_lsp_capabilities()
+            end
+
+            local lsp_file_ops_ok, lsp_file_ops = pcall(require, "lsp-file-operations")
+            local lsp_file_capabilities = {}
+            if lsp_file_ops_ok then
+                lsp_file_capabilities = lsp_file_ops.default_capabilities()
+            end
+
             local capabilities = vim.tbl_deep_extend(
                 "force",
                 {},
                 vim.lsp.protocol.make_client_capabilities(),
                 cmp_capabilities or {},
+                blink_capabilities or {},
                 lsp_file_capabilities or {},
                 capabilities_opts or {}
             )

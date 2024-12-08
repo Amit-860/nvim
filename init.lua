@@ -94,6 +94,9 @@ end
 
 vim.g.neovide_colorscheme = "terafox"
 vim.g.transparent = false
+-- vim.g.autoload = not (vim.g.neovide or vim.g.vscode)
+vim.g.autoload = false
+
 if is_night() then
     -- vim.g.transparent = true
     -- vim.g.colorscheme = "nightfox"
@@ -104,6 +107,8 @@ else
     -- vim.g.colorscheme = "nordfox"
 end
 
+-- NOTE: -------------------------------------------------------------------------------------------------------
+
 local lazy_opts = {
     spec = {
         -- import your plugins
@@ -113,7 +118,7 @@ local lazy_opts = {
     -- colorscheme that will be used when installing plugins.
     install = { missing = true, colorscheme = { vim.g.colorscheme } },
     -- automatically check for plugin updates
-    checker = { frequency = 604800 },
+    checker = { enabled = true, frequency = 3601 * 3 },
     rocks = {
         enabled = true,
         hererocks = true,

@@ -27,7 +27,7 @@ return {
 
         follow_cwd = true, -- Change the session file to match any change in the cwd?
         use_git_branch = true, -- Include the git branch in the session file name?
-        -- autoload = (not vim.g.neovide and not vim.g.vscode),
+        autoload = vim.g.autoload,
 
         -- Function to run when `autoload = true` but there is no session to load
         ---@type fun(): any

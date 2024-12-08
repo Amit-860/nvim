@@ -6,7 +6,10 @@ return {
         keys = {
             vim.keymap.set("n", "<F13>d", "<cmd>DBUIToggle<cr>", { desc = "DadBod", noremap = true, silent = true }),
         },
-        dependencies = { "kristijanhusak/vim-dadbod-completion", "tpope/vim-dadbod" },
+        dependencies = {
+            { "kristijanhusak/vim-dadbod-completion", ft = { "sql", "mysql", "plsql" }, lazy = true },
+            "tpope/vim-dadbod",
+        },
         init = function()
             vim.g.dbs = {
                 { name = "large", url = "jq:" .. vim.fn.expand("$HOME/Downloads/large-file.json") },
