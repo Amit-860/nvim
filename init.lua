@@ -118,7 +118,7 @@ local lazy_opts = {
     -- colorscheme that will be used when installing plugins.
     install = { missing = true, colorscheme = { vim.g.colorscheme } },
     -- automatically check for plugin updates
-    checker = { enabled = true, frequency = 3601 * 3 },
+    checker = { enabled = true, frequency = 3600 * 6 },
     rocks = {
         enabled = true,
         hererocks = true,

@@ -76,7 +76,7 @@ local blink_opts = {
         },
         providers = {
             -- dont show LuaLS require statements when lazydev has items
-            lsp = { fallback_for = { "lazydev" }, max_items = 5 },
+            lsp = { fallback_for = { "lazydev" } },
             lazydev = { name = "LazyDev", module = "lazydev.integrations.blink" },
             dadbod = { name = "Dadbod", module = "vim_dadbod_completion.blink" },
             spell = {
@@ -94,7 +94,7 @@ local blink_opts = {
             codeium = {
                 name = "codeium",
                 module = "blink.compat.source",
-                score_offset = 5,
+                score_offset = 3,
                 transform_items = nil, -- Function to transform the items before they're returned
                 should_show_items = true, -- Whether or not to show the items
                 max_items = 5, -- Maximum number of items to display in the menu
@@ -189,9 +189,9 @@ local blink_opts = {
             winhighlight = "Normal:BlinkCmpDoc,FloatBorder:BlinkCmpDocBorder,CursorLine:BlinkCmpDocCursorLine,Search:None",
             draw = {
                 -- Aligns the keyword you've typed to a component in the menu
-                align_to_component = "label", -- or 'none' to disable
+                align_to_component = "kind_icon", -- or 'none' to disable
                 -- Left and right padding, optionally { left, right } for different padding on each side
-                padding = 0,
+                padding = { 0, 1 },
                 -- Gap between columns
                 gap = 1,
                 -- Use treesitter to highlight the label text
@@ -201,8 +201,7 @@ local blink_opts = {
                 columns = {
                     { "kind_icon" },
                     { "label", "label_description", gap = 1 },
-                    { "kind" },
-                    { "source_name" },
+                    { "kind", "source_name", gap = 1 },
                 },
                 -- for a setup similar to nvim-cmp: https://github.com/Saghen/blink.cmp/pull/245#issuecomment-2463659508
                 -- columns = { { "label", "label_description", gap = 1 }, { "kind_icon", "kind" } },
@@ -253,6 +252,7 @@ local blink_opts = {
                     },
 
                     label = {
+                        ellipsis = true,
                         width = { fill = true, max = 60 },
                         text = function(ctx)
                             return ctx.label .. ctx.label_detail
@@ -284,7 +284,7 @@ local blink_opts = {
                     },
 
                     label_description = {
-                        width = { max = 30 },
+                        width = { max = 20, min = 10 },
                         text = function(ctx)
                             return ctx.label_description
                         end,
@@ -292,9 +292,9 @@ local blink_opts = {
                     },
 
                     source_name = {
-                        width = { max = 30 },
+                        width = { max = 20, min = 10 },
                         text = function(ctx)
-                            return string.lower(ctx.source_name) .. " "
+                            return string.lower(ctx.source_name)
                         end,
                         highlight = "BlinkCmpSource",
                     },
@@ -307,10 +307,10 @@ local blink_opts = {
             -- Controls whether the documentation window will automatically show when selecting a completion item
             auto_show = true,
             -- Delay before showing the documentation window
-            auto_show_delay_ms = 1000,
+            auto_show_delay_ms = 500,
             -- Delay before updating the documentation window when selecting a new item,
             -- while an existing item is still visible
-            update_delay_ms = 150,
+            update_delay_ms = 250,
             -- Whether to use treesitter highlighting, disable if you run into performance issues
             treesitter_highlighting = true,
             window = {
@@ -334,12 +334,16 @@ local blink_opts = {
 
         -- Displays a preview of the selected item on the current line
         ghost_text = {
-            enabled = false,
+            enabled = true,
         },
     },
 
     -- experimental signature help support
     signature = { enabled = true },
+
+    fuzzy = {
+        sorts = { "label", "score", "kind" },
+    },
 }
 
 return {

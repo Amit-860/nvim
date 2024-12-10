@@ -53,6 +53,8 @@ vim.api.nvim_set_hl(0, "ItemKindValue", { bg = "#cfa333", fg = "#131a24" })
 vim.api.nvim_set_hl(0, "ItemKindText", { bg = "#81b29a", fg = "#131a24" })
 vim.api.nvim_set_hl(0, "ItemKindUnknown", { bg = "#fda47f", fg = "#131a24" })
 
+vim.api.nvim_set_hl(0, "BlinkCmpGhostText", { fg = "#898e98" })
+
 -- cmp menu hl
 vim.api.nvim_set_hl(0, "ItemMenuKeyword", { fg = "#cf3930", italic = true })
 vim.api.nvim_set_hl(0, "ItemMenuClass", { fg = "#dbc074", italic = true })

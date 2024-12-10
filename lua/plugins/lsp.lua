@@ -41,7 +41,7 @@ return {
     },
     {
         "neovim/nvim-lspconfig",
-        event = { "BufNewFile", "BufReadPre" },
+        event = { "BufNewFile", "BufReadPre", "UIEnter" },
         cond = not vim.g.vscode,
         dependencies = {
             "williamboman/mason.nvim",

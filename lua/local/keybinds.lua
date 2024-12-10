@@ -380,6 +380,10 @@ end, { noremap = false, silent = true, desc = "Save_as" })
 vim.keymap.set({ "n", "i" }, "<M-o>", "<C-6>", { noremap = true, silent = true, desc = "Edit the alternate file" })
 vim.keymap.set({ "n", "i" }, "<M-O>", "<C-^>", { noremap = true, silent = true, desc = "Edit the alternate file" })
 
+-- scroll
+vim.api.nvim_set_keymap("n", "<C-d>", tostring(math.floor(vim.o.lines * 0.25)) .. "<C-e>", { noremap = true })
+vim.api.nvim_set_keymap("n", "<C-u>", tostring(math.floor(vim.o.lines * 0.25)) .. "<C-y>", { noremap = true })
+
 -- Treesitter
 vim.keymap.set({ "n", "x", "o" }, ";", function()
     require("nvim-treesitter.textobjects.repeatable_move").repeat_last_move_next()
