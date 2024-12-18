@@ -49,8 +49,6 @@ M.open_diagnostics_float = function()
     })
 end
 
----@alias lsp.Client.filter {id?: number, bufnr?: number, name?: string, method?: string, filter?:fun(client: lsp.Client):boolean}
----@param opts? lsp.Client.filter
 function M.get_clients(opts)
     local ret = {} ---@type vim.lsp.Client[]
     if vim.lsp.get_clients then
@@ -61,7 +59,8 @@ function M.get_clients(opts)
         if opts and opts.method then
             ---@param client vim.lsp.Client
             ret = vim.tbl_filter(function(client)
-                return client.supports_method(opts.method, { bufnr = opts.bufnr })
+                return client.supports_method(opts.method, { bufnr = opts.bufnr }) -- will be deprecated
+                -- return client:supports_method(opts.method, opts.bufnr)
             end, ret)
         end
     end
@@ -118,7 +117,8 @@ function M.check_methods(client, buffer)
     for method, clients in pairs(M.supports_method) do
         clients[client] = clients[client] or {}
         if not clients[client][buffer] then
-            if client.supports_method and client.supports_method(method, { bufnr = buffer }) then
+            if client.supports_method and client.supports_method(method, { bufnr = buffer }) then -- will be deprecated
+                -- if client.supports_method and client:supports_method(method, buffer) then
                 clients[client][buffer] = true
                 vim.api.nvim_exec_autocmds("User", {
                     pattern = "LspSupportsMethod",
@@ -255,6 +255,7 @@ M.on_attach = function(client, bufnr)
                 bufnr = 0,
                 theme = "dropdown",
                 layout_strategy = "vertical",
+                include_declaration = true,
                 layout_config = { preview_height = 0.6 },
             })
         end,
@@ -269,6 +270,7 @@ M.on_attach = function(client, bufnr)
                 bufnr = 0,
                 theme = "dropdown",
                 layout_strategy = "vertical",
+                include_declaration = true,
                 layout_config = { preview_height = 0.6 },
             })
         end,
@@ -283,6 +285,7 @@ M.on_attach = function(client, bufnr)
                 bufnr = 0,
                 theme = "dropdown",
                 layout_strategy = "vertical",
+                include_declaration = true,
                 layout_config = { preview_height = 0.6 },
             })
         end,
@@ -297,6 +300,7 @@ M.on_attach = function(client, bufnr)
                 bufnr = 0,
                 theme = "dropdown",
                 layout_strategy = "vertical",
+                include_declaration = true,
                 layout_config = { preview_height = 0.6 },
             })
         end,
@@ -390,25 +394,33 @@ M.on_attach = function(client, bufnr)
 
     -- Code Runner
     vim.keymap.set("n", "<leader>rc", function()
-        -- local file_type = vim.bo.filetype
+        local file_type = vim.bo.filetype
         -- local file_name = vim.api.nvim_buf_get_name(0)
         -- if file_type == "go" then
         --     utils.code_runner(file_type, "run .", "horizontal") -- float, window, horizontal, vertical
         -- else
         --     utils.code_runner(file_type, file_name, "horizontal") -- float, window, horizontal, vertical
         -- end
-        vim.cmd("RunCode")
+        if file_type == "java" then
+            vim.cmd("JavaRunnerRunMain")
+        else
+            vim.cmd("RunCode")
+        end
     end, { silent = true, desc = "Run Code" })
 
     vim.keymap.set("n", "<F4>", function()
-        -- local file_type = vim.bo.filetype
+        local file_type = vim.bo.filetype
         -- local file_name = vim.api.nvim_buf_get_name(0)
         -- if file_type == "go" then
         --     utils.code_runner(file_type, "run .", "horizontal") -- float, window, horizontal, vertical
         -- else
         --     utils.code_runner(file_type, file_name, "horizontal") -- float, window, horizontal, vertical
         -- end
-        vim.cmd("RunCode")
+        if file_type == "java" then
+            vim.cmd("JavaRunnerRunMain")
+        else
+            vim.cmd("RunCode")
+        end
     end, { noremap = true, silent = true, desc = "Run Code" })
 
     -- jump lsp word

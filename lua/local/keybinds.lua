@@ -288,6 +288,9 @@ if not vim.g.vscode then
         utils.replace_selected,
         { desc = "Replace Selected", noremap = true, silent = true }
     )
+    vim.keymap.set({ "n" }, "<leader>rf", function()
+        Snacks.rename.rename_file()
+    end, { desc = "Rename File", noremap = true, silent = true })
 
     -- help
     vim.keymap.set(
@@ -363,7 +366,19 @@ if not vim.g.vscode then
         utils.jj_toggle()
     end, { desc = "JJ", noremap = true, silent = true })
 
-    -- -----------------------------------------------------------------------------------------------------------------
+    -- general
+    vim.keymap.set({ "n", "i" }, "<c-s>", "<esc>:w!<cr>", { noremap = false, silent = true, desc = "Save" })
+    vim.keymap.set({ "n", "i" }, "<M-s>", function()
+        utils.save_as()
+    end, { noremap = false, silent = true, desc = "Save_as" })
+    vim.keymap.set({ "n", "i" }, "<M-o>", "<C-6>", { noremap = true, silent = true, desc = "Edit the alternate file" })
+    vim.keymap.set({ "n", "i" }, "<M-O>", "<C-^>", { noremap = true, silent = true, desc = "Edit the alternate file" })
+    vim.keymap.set({ "n", "i" }, "<F13>=", function()
+        vim.cmd("Telescope spell_suggest")
+    end, { noremap = true, silent = true, desc = "Edit the alternate file" })
+    vim.keymap.set({ "n" }, "<F13>\\", "<esc>:term<cr>", { noremap = false, silent = true, desc = "Terminal Buffer" })
+
+    --INFO: not disabled for vscode -----------------------------------------------------------------------------------------------------------------
 end
 
 -- general
@@ -373,16 +388,10 @@ vim.keymap.set("n", "<leader>h", "<cmd>noh<cr>", { desc = "which_key_ignore", no
 vim.keymap.set({ "n", "o", "x" }, "gs", "_", { noremap = true, silent = true, desc = "Goto first char" })
 vim.keymap.set({ "n", "o", "x" }, "gh", "0", { noremap = true, silent = true, desc = "Goto BOL" })
 vim.keymap.set({ "n", "o", "x" }, "gl", "$", { noremap = true, silent = true, desc = "Goto EOL" })
-vim.keymap.set({ "n", "i" }, "<c-s>", "<esc>:w!<cr>", { noremap = false, silent = true, desc = "Save" })
-vim.keymap.set({ "n", "i" }, "<M-s>", function()
-    utils.save_as()
-end, { noremap = false, silent = true, desc = "Save_as" })
-vim.keymap.set({ "n", "i" }, "<M-o>", "<C-6>", { noremap = true, silent = true, desc = "Edit the alternate file" })
-vim.keymap.set({ "n", "i" }, "<M-O>", "<C-^>", { noremap = true, silent = true, desc = "Edit the alternate file" })
 
 -- scroll
-vim.api.nvim_set_keymap("n", "<C-d>", tostring(math.floor(vim.o.lines * 0.25)) .. "<C-e>", { noremap = true })
-vim.api.nvim_set_keymap("n", "<C-u>", tostring(math.floor(vim.o.lines * 0.25)) .. "<C-y>", { noremap = true })
+vim.api.nvim_set_keymap("n", "<C-d>", tostring(math.floor(vim.o.lines * 0.33)) .. "<C-e>", { noremap = true })
+vim.api.nvim_set_keymap("n", "<C-u>", tostring(math.floor(vim.o.lines * 0.33)) .. "<C-y>", { noremap = true })
 
 -- Treesitter
 vim.keymap.set({ "n", "x", "o" }, ";", function()

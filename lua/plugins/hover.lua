@@ -9,10 +9,10 @@ return {
             vim.keymap.set("n", "K", hover.hover, { desc = "hover.nvim" }),
             -- vim.keymap.set("n", "gK", hover.hover_select, { desc = "hover.nvim (select)" }),
             vim.keymap.set("n", "<tab>", function()
-                hover.hover_switch("next")
+                hover.hover_switch("next", { bufnr = 0, pos = { 1, 1 } })
             end, { desc = "hover.nvim (next source)" }),
             vim.keymap.set("n", "S<tab>", function()
-                hover.hover_switch("previous")
+                hover.hover_switch("previous", { bufnr = 0, pos = { 1, 1 } })
             end, { desc = "hover.nvim (previous source)" }),
 
             -- Mouse support
@@ -73,10 +73,18 @@ return {
             --- @param opts Hover.Options
             --- @param done fun(result: any)
             execute = function(opts, done)
-                local params = vim.lsp.util.make_position_params(0)
-                params.context = { includeDeclaration = false }
-                vim.lsp.buf_request(0, "textDocument/definition", params, function(d_err, defs)
-                    vim.lsp.buf_request(0, "textDocument/references", params, function(r_err, refs)
+                local params = vim.lsp.util.make_position_params(0, "utf-8")
+                -- params.context = { includeDeclaration = false }
+                vim.lsp.buf_request(0, "textDocument/definition", {
+                    textDocument = params.textDocument,
+                    position = params.position,
+                    context = { includeDeclaration = false },
+                }, function(d_err, defs)
+                    vim.lsp.buf_request(0, "textDocument/references", {
+                        textDocument = params.textDocument,
+                        position = params.position,
+                        context = { includeDeclaration = true },
+                    }, function(r_err, refs)
                         if not d_err and not r_err and defs ~= nil and refs ~= nil then
                             done({
                                 lines = { ("Definitions : **%s** | References : **%s**"):format(#defs, #refs) },

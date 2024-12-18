@@ -20,12 +20,22 @@ return {
         event = "VeryLazy",
     },
     {
+        "nvim-telescope/telescope-fzf-native.nvim",
+        cond = not vim.g.vscode,
+        event = "VeryLazy",
+        -- Manually run below command in windows
+        -- cd C:/Users/AMIT/AppData/Roaming/nvim-data/lazy/telescope-fzf-native.nvim
+        -- "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release"
+        -- then copy all files from .\telescope-fzf-native.nvim\build\Release to .\telescope-fzf-native.nvim\build
+        -- basically copy all file form ./Release folder to parent ./Build folder
+    },
+    {
         "nvim-telescope/telescope.nvim",
         cond = not vim.g.vscode,
         event = "VeryLazy",
         dependencies = {
             -- "nvim-telescope/telescope-ui-select.nvim",
-            "nvim-telescope/telescope-fzy-native.nvim",
+            -- "nvim-telescope/telescope-fzy-native.nvim",
         },
         opts = function()
             local icons = require("icons")
@@ -208,6 +218,13 @@ return {
                             return not vim.bo[bufnr].buflisted
                         end,
                     },
+                    fzf = {
+                        fuzzy = true, -- false will only do exact matching
+                        override_generic_sorter = true, -- override the generic sorter
+                        override_file_sorter = true, -- override the file sorter
+                        case_mode = "smart_case", -- or "ignore_case" or "respect_case"
+                        -- the default case_mode is "smart_case"
+                    },
                 },
             }
 
@@ -221,11 +238,11 @@ return {
             local telescope = require("telescope")
             telescope.setup(opts)
             pcall(telescope.load_extension, "fzy_native")
-            -- pcall(telescope.load_extension,"ui-select")
+            pcall(telescope.load_extension, "fzf")
+            pcall(telescope.load_extension, "ui-select")
             pcall(telescope.load_extension, "undo")
             pcall(telescope.load_extension, "project")
             pcall(telescope.load_extension, "noice")
-            -- pcall(telescope.load_extension, "grapple")
             pcall(telescope.load_extension, "frecency")
             pcall(telescope.load_extension, "live_grep_args")
             pcall(telescope.load_extension, "persisted")

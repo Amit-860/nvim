@@ -22,7 +22,6 @@ if not vim.g.vscode then
     return {
         {
             "sourcegraph/sg.nvim",
-            cond = false,
             event = "LspAttach",
             dependencies = { "nvim-lua/plenary.nvim" },
             cmd = { "CodyAsk", "SourcegraphLogin ", "CodyToggle", "CodyChat", "CodyTask", "CodyRestart" },
@@ -41,6 +40,12 @@ if not vim.g.vscode then
                     "<F13>at",
                     ":CodyTask<cr>",
                     { noremap = true, silent = true, desc = "Cody Task" }
+                ),
+                vim.keymap.set(
+                    { "n" },
+                    "<F13>f",
+                    "<cmd>lua require('sg.extensions.telescope').fuzzy_search_results()<CR>",
+                    { noremap = true, silent = true, desc = "Cody Find" }
                 ),
             },
             config = function()

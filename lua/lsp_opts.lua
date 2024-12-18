@@ -3,10 +3,26 @@ local lsp_utils = require("lsp_utils")
 vim.diagnostic.config(lsp_utils.default_diagnostic_config)
 
 local signs = { Error = "󰅚 ", Warn = "󰀪 ", Hint = "󰌶 ", Info = " " }
-for type, icon in pairs(signs) do
-    local hl = "DiagnosticSign" .. type
-    vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
-end
+-- for type, icon in pairs(signs) do
+--     local hl = "DiagnosticSign" .. type
+--     vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
+-- end
+vim.diagnostic.config({
+    signs = {
+        text = {
+            [vim.diagnostic.severity.ERROR] = signs.Error,
+            [vim.diagnostic.severity.WARN] = signs.Warn,
+            [vim.diagnostic.severity.HINT] = signs.Hint,
+            [vim.diagnostic.severity.INFO] = signs.Info,
+        },
+        numhl = {
+            [vim.diagnostic.severity.ERROR] = "DiagnosticSign" .. "Error",
+            [vim.diagnostic.severity.WARN] = "DiagnosticSign" .. "Warn",
+            [vim.diagnostic.severity.HINT] = "DiagnosticSign" .. "Hint",
+            [vim.diagnostic.severity.INFO] = "DiagnosticSign" .. "Info",
+        },
+    },
+})
 
 -- Disabled as using Noice for this
 local hover_opts = {

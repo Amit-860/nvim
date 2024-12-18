@@ -119,7 +119,7 @@ return {
         }
 
         local function get_attached_clients()
-            local buf_clients = vim.lsp.get_active_clients({ bufnr = 0 })
+            local buf_clients = vim.lsp.get_clients({ bufnr = 0 })
             local buf_ft = vim.bo.filetype
             local buf_client_names = {}
             local buf_lsps = {}

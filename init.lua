@@ -89,26 +89,28 @@ end
 
 local function is_night()
     local now = os.date("*t")
-    return not (now.hour >= 8 and now.hour <= 16)
+    return not (now.hour >= 8 and now.hour <= 14)
 end
 
 vim.g.neovide_colorscheme = "terafox"
 vim.g.transparent = false
--- vim.g.autoload = not (vim.g.neovide or vim.g.vscode)
-vim.g.autoload = false
+vim.g.autoload = not (vim.g.neovide or vim.g.vscode)
+-- vim.g.autoload = false
 
 if is_night() then
+    vim.g.is_night = true
     -- vim.g.transparent = true
     -- vim.g.colorscheme = "nightfox"
     -- vim.g.colorscheme = "terafox"
     vim.g.colorscheme = "nordfox"
 else
+    vim.g.is_night = false
+    -- vim.g.colorscheme = "dayfox"
     vim.g.colorscheme = "dawnfox"
     -- vim.g.colorscheme = "nordfox"
 end
 
 -- NOTE: -------------------------------------------------------------------------------------------------------
-
 local lazy_opts = {
     spec = {
         -- import your plugins
@@ -118,7 +120,7 @@ local lazy_opts = {
     -- colorscheme that will be used when installing plugins.
     install = { missing = true, colorscheme = { vim.g.colorscheme } },
     -- automatically check for plugin updates
-    checker = { enabled = true, frequency = 3600 * 6 },
+    checker = { enabled = false, frequency = 3600 * 24 * 7 },
     rocks = {
         enabled = true,
         hererocks = true,
@@ -224,34 +226,40 @@ vim.opt.rtp:prepend(lazypath)
 -- loading plugins
 require("lazy").setup(lazy_opts)
 
--- autocmd
-require("autocmd")
-
 -- loading keybinding
 require("local.keybinds")
 require("local.lvimKeyBinds")
 
--- loading custom colors
-require("local.colors")
+-- autocmd
+require("autocmd")
 
-if vim.g.neovide then
-    vim.cmd("colorscheme " .. vim.g.neovide_colorscheme)
-else
-    vim.cmd("colorscheme " .. vim.g.colorscheme)
+if not vim.g.vscode then
+    -- loading proper colorscheme
+    vim.cmd("colorscheme " .. (vim.g.neovide and vim.g.neovide_colorscheme or vim.g.colorscheme))
+
+    -- loading jq
+    require("local.jq")
+
+    -- loading custom colors
+    vim.api.nvim_create_autocmd("ColorScheme", {
+        group = vim.api.nvim_create_augroup("colors", { clear = true }),
+        callback = function(_)
+            -- Snacks.notify("Custom colors are loaded")
+            require("local.colors")
+        end,
+    })
+    require("local.colors")
+
+    -- loading coderunner
+    require("local.codeRunner").setup({
+        output_window_type = "floating", -- floating, pane, tab, split
+        output_window_configs = {
+            width = math.floor(vim.o.columns * 0.8),
+            height = math.floor(vim.o.lines * 0.8),
+            position = "center", -- Position of the floating window ("center", "top", "bottom", "left", "right", "custom")
+            custom_col = nil,
+            custom_row = nil,
+            transparent = false,
+        },
+    })
 end
-
--- loading coderunner
-require("local.codeRunner").setup({
-    output_window_type = "floating", -- floating, pane, tab, split
-    output_window_configs = {
-        width = math.floor(vim.o.columns * 0.8),
-        height = math.floor(vim.o.lines * 0.8),
-        position = "center", -- Position of the floating window ("center", "top", "bottom", "left", "right", "custom")
-        custom_col = nil,
-        custom_row = nil,
-        transparent = false,
-    },
-})
-
--- loading jq
-require("local.jq")

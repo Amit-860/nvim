@@ -192,35 +192,31 @@ local dashboard_opts = {
     sections = dashboard_sections,
 }
 
+-- INFO: highlight for indent module
+local function indent_highlight()
+    if vim.g.is_night then
+        return { scope = "@keyword.return" }
+    end
+    return { scope = "@constructor" }
+end
+
 -- INFO: Snacks Modeules
 local snacks_opts = {
     dashboard = dashboard_opts,
     notifier = {
         enabled = true,
-        -- your notifier configuration comes here
-        -- or leave it empty to use the default settings
-        -- refer to the configuration section below
     },
     quickfile = {
         enabled = true,
-        -- your quickfile configuration comes here
-        -- or leave it empty to use the default settings
-        -- refer to the configuration section below
     },
     scratch = {
         enabled = true,
     },
     toggle = {
         enabled = true,
-        -- your toggle configuration comes here
-        -- or leave it empty to use the default settings
-        -- refer to the configuration section below
     },
     lazygit = {
         enabled = true,
-        -- your lazygit configuration comes here
-        -- or leave it empty to use the default settings
-        -- refer to the configuration section below
     },
     statuscolumn = {
         enabled = true,
@@ -238,7 +234,7 @@ local snacks_opts = {
     },
     -- bigfile = {
     --     notify = true, -- show notification when big file detected
-    --     size = 2 * 1024 * 1024, -- 1.5MB
+    --     size = 2 * 1024 * 1024,
     --     -- Enable or disable features when big file detected
     --     ---@param ctx {buf: number, ft:string}
     --     setup = function(ctx)
@@ -257,21 +253,15 @@ local snacks_opts = {
     -- },
     dim = {
         enabled = true,
-        -- your dim configuration comes here
-        -- or leave it empty to use the default settings
-        -- refer to the configuration section below
+    },
+    input = {
+        enabled = false,
     },
     -- scroll = {
     --     enabled = not vim.g.neovide,
-    --     -- your scroll configuration comes here
-    --     -- or leave it empty to use the default settings
-    --     -- refer to the configuration section below
     -- },
     zen = {
         enabled = true,
-        -- your zen configuration comes here
-        -- or leave it empty to use the default settings
-        -- refer to the configuration section below
         toggles = {
             dim = false,
             git_signs = false,
@@ -284,13 +274,26 @@ local snacks_opts = {
         enabled = true,
         indent = {
             hl = "NonText",
+            -- can be a list of hl groups to cycle through
+            -- hl = {
+            --     "SnacksIndent1",
+            --     "SnacksIndent2",
+            --     "SnacksIndent3",
+            --     "SnacksIndent4",
+            --     "SnacksIndent5",
+            --     "SnacksIndent6",
+            --     "SnacksIndent7",
+            --     "SnacksIndent8",
+            -- },
         },
         scope = {
             enabled = true,
+            -- char = "╽",
+            char = "╎",
             -- char = "╏",
             -- char = "┇",
-            char = "┋",
-            hl = "@function.builtin",
+            -- char = "┋",
+            hl = indent_highlight().scope,
         },
         chunk = {
             enabled = false,

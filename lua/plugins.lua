@@ -48,6 +48,7 @@ return {
     {
         "kylechui/nvim-surround",
         event = "VeryLazy",
+        cond = not vim.g.vscode,
         keymaps = { "<C-g>s", "<C-g>S", "ys", "yc", "S", "gs", "ds", "cs" },
         opts = {
             keymaps = {
@@ -154,6 +155,7 @@ return {
     {
         "andymass/vim-matchup",
         event = { "BufNewFile", "BufReadPost" },
+        cond = not vim.g.vscode,
         init = function()
             -- vim.g.matchup_matchparen_offscreen = { method = "popup" }
             vim.g.matchup_matchparen_offscreen = {}
@@ -267,71 +269,12 @@ return {
                 timeout = vim.o.timeoutlen,
                 mappings = {
                     i = { j = { k = "<esc>", j = false } },
-                    c = { j = { k = "<esc>", j = false } },
-                    t = { j = { k = false, j = false } },
+                    t = { j = { k = "<C-\\><C-n>", j = false } },
                     v = { j = { k = false, j = false } },
-                    s = { j = { k = "<esc>", j = false } },
+                    c = { j = { k = false, j = false } },
+                    s = { j = { k = false, j = false } },
                 },
             })
-        end,
-    },
-
-    -- mini
-    {
-        "shellRaining/hlchunk.nvim",
-        event = { "BufNewFile", "BufReadPost" },
-        -- cond = not vim.g.vscode,
-        cond = false,
-        config = function()
-            local opts = {
-                chunk = {
-                    enable = true,
-                    duration = 50,
-                    delay = 80,
-                    exclude_filetypes = {
-                        alpha = true,
-                        TelescopePrompt = true,
-                        Outline = true,
-                        ["neo-tree"] = true,
-                        ["neo-tree-popup"] = true,
-                    },
-                },
-                line_num = { enable = false },
-                blank = { enable = false },
-                indent = {
-                    enable = true,
-                    chars = {
-                        "",
-                        "│",
-                        "│",
-                        "│",
-                        "│",
-                        "│",
-                        "│",
-                        "│",
-                        "│",
-                        "│",
-                        "│",
-                        "│",
-                        "│",
-                        "│",
-                        "│",
-                        "│",
-                        "│",
-                        "│",
-                        "│",
-                    },
-                    exclude_filetypes = {
-                        alpha = true,
-                        TelescopePrompt = true,
-                        Outline = true,
-                        ["neo-tree"] = true,
-                        ["neo-tree-popup"] = true,
-                        ["leetcode.nvim"] = true,
-                    },
-                },
-            }
-            require("hlchunk").setup(opts)
         end,
     },
 

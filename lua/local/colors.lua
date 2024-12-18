@@ -8,6 +8,7 @@ M.float_border_fg_color = "#578ea5"
 
 -- terafox
 M.float_color = "#112631"
+-- M.float_color = "#061621"
 M.float_border_bg_color = "#112631"
 M.line_hilight = "#07161a"
 
@@ -81,6 +82,12 @@ if vim.g.neovide or vim.g.transparent then
             { fg = M.float_border_fg_color, bg = M.float_border_bg_color, blend = M.neovide_float_winblend }
         )
         vim.api.nvim_set_hl(0, "NoiceCmdlinePopup", { bg = M.float_color, blend = M.neovide_float_winblend }) -- highlights for cmp menu
+        -- vim.api.nvim_set_hl(0, "SnacksNormal", { link = "NormalFloat" }) -- highlights for selected item in cmp menu
+        -- vim.api.nvim_set_hl(0, "SnacksNormalNC", { link = "NormalFloat" }) -- highlights for selected item in cmp menu
+        -- vim.api.nvim_set_hl(0, "SnacksDashboardTerminal", { bg = "#061621", blend = 75 }) -- highlights for selected item in cmp menu
+        vim.api.nvim_set_hl(0, "SnacksDashboardTerminal", { bg = M.float_color, blend = 70 }) -- highlights for selected item in cmp menu
+        vim.api.nvim_set_hl(0, "SnacksScratchTitle", { link = "NormalFloat" }) -- highlights for selected item in cmp menu
+        vim.api.nvim_set_hl(0, "SnacksScratchFooter", { link = "NormalFloat" }) -- highlights for selected item in cmp menu
     end
 
     -- NOTE: only transparency
@@ -92,10 +99,6 @@ if vim.g.neovide or vim.g.transparent then
             { fg = M.float_border_fg_color, bg = M.float_border_bg_color, blend = M.float_winblend }
         )
         vim.api.nvim_set_hl(0, "NoiceCmdlinePopup", { bg = M.float_color, blend = M.float_winblend }) -- highlights for cmp menu
-        vim.api.nvim_set_hl(0, "SnacksNormal", { link = "NormalFloat" }) -- highlights for selected item in cmp menu
-        vim.api.nvim_set_hl(0, "SnacksNormalNC", { link = "NormalFloat" }) -- highlights for selected item in cmp menu
-        vim.api.nvim_set_hl(0, "SnacksScratchTitle", { link = "NormalFloat" }) -- highlights for selected item in cmp menu
-        vim.api.nvim_set_hl(0, "SnacksScratchFooter", { link = "NormalFloat" }) -- highlights for selected item in cmp menu
     end
 
     -- cmp menu

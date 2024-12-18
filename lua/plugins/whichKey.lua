@@ -1,9 +1,8 @@
 return {
     "folke/which-key.nvim",
     cond = not vim.g.vscode,
-    cmd = "WhichKey",
-    event = "UIEnter",
-    keys = { "<leader>", "<SPC>", " " },
+    event = "VeryLazy",
+    -- keys = { "<leader>", "<SPC>", " ", "<F13>" },
     opts = {
         ---@type false | "classic" | "modern" | "helix"
         preset = "helix",

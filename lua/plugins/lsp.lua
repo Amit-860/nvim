@@ -40,6 +40,15 @@ return {
         end,
     },
     {
+        "nvim-java/nvim-java",
+        cond = not vim.g.vscode,
+        ft = "java",
+        config = function()
+            local java = require("java")
+            java.setup()
+        end,
+    },
+    {
         "neovim/nvim-lspconfig",
         event = { "BufNewFile", "BufReadPre", "UIEnter" },
         cond = not vim.g.vscode,
@@ -217,6 +226,13 @@ return {
                 autostart = false,
             })
             setup_lsp("emmet_language_server", {
+                on_attach = on_attach,
+                capabilities = capabilities,
+                autostart = false,
+            })
+
+            -- INFO: Java
+            setup_lsp("jdtls", {
                 on_attach = on_attach,
                 capabilities = capabilities,
                 autostart = false,

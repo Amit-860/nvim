@@ -1,5 +1,5 @@
 return {
-    --[[     {
+    {
         "hrsh7th/nvim-cmp",
         event = { "InsertEnter", "CmdlineEnter" },
         cond = not vim.g.vscode,
@@ -329,7 +329,7 @@ return {
 
                 sources = cmp.config.sources({
                     { name = "cody" },
-                    { name = "codeium", max_item_count = 5 },
+                    -- { name = "codeium", max_item_count = 5 },
                     { name = "luasnip" },
                     {
                         name = "lazydev",
@@ -502,11 +502,11 @@ return {
         event = { "VeryLazy" },
         cond = not vim.g.vscode,
     },
-    -- {
-    --     "dmitmel/cmp-cmdline-history",
-    --     event = { "VeryLazy" },
-    --cond = not vim.g.vscode,
-    -- },
+    {
+        "dmitmel/cmp-cmdline-history",
+        event = { "VeryLazy" },
+        cond = not vim.g.vscode,
+    },
     {
         url = "https://codeberg.org/FelipeLema/cmp-async-path",
         event = { "VeryLazy" },
@@ -523,5 +523,5 @@ return {
         event = { "BufReadPost", "BufNewFile" },
         cond = not vim.g.vscode,
         dependencies = "L3MON4D3/LuaSnip",
-    }, ]]
+    },
 }

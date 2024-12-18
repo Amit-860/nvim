@@ -2,10 +2,10 @@ return {
     "Exafunction/codeium.nvim",
     event = { "BufReadPost", "BufNewFile" },
     cmd = { "Codeium" },
-    cond = not vim.g.vscode,
+    -- cond = not vim.g.vscode,
+    cond = false,
     dependencies = {
         "nvim-lua/plenary.nvim",
-        -- "hrsh7th/nvim-cmp",
     },
     config = function()
         require("codeium").setup({
@@ -23,7 +23,7 @@ return {
                 -- Whether to enable virtual text of not for filetypes not specifically listed above.
                 default_filetype_enabled = true,
                 -- How long to wait (in ms) before requesting completions after typing stops.
-                idle_delay = 50,
+                idle_delay = 20,
                 -- Priority of the virtual text. This usually ensures that the completions appear on top of
                 -- other plugins that also add virtual text, such as LSP inlay hints, but can be modified if
                 -- desired.

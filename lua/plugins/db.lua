@@ -2,7 +2,7 @@ return {
     {
         "kristijanhusak/vim-dadbod-ui",
         cmd = { "DB", "DBUI", "DBUIToggle", "DBUIAddConnection", "DBUIFindBuffer" },
-        cond = true,
+        cond = not vim.g.vscode,
         keys = {
             vim.keymap.set("n", "<F13>d", "<cmd>DBUIToggle<cr>", { desc = "DadBod", noremap = true, silent = true }),
         },

@@ -2,6 +2,7 @@ return {
     {
         "EdenEast/nightfox.nvim",
         lazy = false,
+        cond = not vim.g.vscode,
         priority = 1000,
         config = function()
             local opts = {

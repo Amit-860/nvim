@@ -2,7 +2,7 @@ local ts_opts = {
     on_config_done = nil,
 
     -- A list of parser names, or "all"
-    ensure_installed = { "comment", "lua", "json" },
+    -- ensure_installed = { "comment", "lua", "json" },
 
     -- List of parsers to ignore installing (for "all")
     ignore_install = { "org" },
@@ -92,12 +92,23 @@ local ts_opts = {
                 ["]t"] = "@conditional.outer",
                 ["]st"] = "@conditional.inner",
 
-                -- ['r'] = {
-                --     query = { '@parameter.inner', '@attribute.inner', '@assignment.outer', '@call.inner',
-                --         '@statement.outer', '@function.inner', '@loop.inner', '@return.inner', '@scopename.inner',
-                --         '@conditional.inner', }
-                -- },
-                ["r"] = { query = { "@parameter.inner", "@attribute.inner", "@assignment.lhs", "@assignment.rhs" } },
+                ["r"] = {
+                    query = {
+                        "@parameter.inner",
+                        "@attribute.inner",
+                        "@assignment.outer",
+                        -- "@assignment.lhs",
+                        -- "@assignment.rhs",
+                        "@call.inner",
+                        "@statement.outer",
+                        "@function.inner",
+                        "@loop.inner",
+                        "@return.inner",
+                        "@scopename.inner",
+                        "@conditional.inner",
+                    },
+                },
+                -- ["r"] = { query = { "@parameter.inner", "@attribute.inner", "@assignment.lhs", "@assignment.rhs" } },
             },
             goto_next_end = {
                 ["]ec"] = "@class.inner",
@@ -121,12 +132,23 @@ local ts_opts = {
                 ["[t"] = "@conditional.outer",
                 ["[st"] = "@conditional.inner",
 
-                -- ['R'] = {
-                --     query = { '@parameter.inner', '@attribute.inner', '@assignment.outer', '@call.inner',
-                --         '@statement.outer', '@function.inner', '@loop.inner', '@return.inner', '@scopename.inner',
-                --         '@conditional.inner', }
-                -- },
-                ["R"] = { query = { "@parameter.inner", "@attribute.inner", "@assignment.lhs", "@assignment.rhs" } },
+                ["R"] = {
+                    query = {
+                        "@parameter.inner",
+                        "@attribute.inner",
+                        "@assignment.outer",
+                        -- "@assignment.lhs",
+                        -- "@assignment.rhs",
+                        "@call.inner",
+                        "@statement.outer",
+                        "@function.inner",
+                        "@loop.inner",
+                        "@return.inner",
+                        "@scopename.inner",
+                        "@conditional.inner",
+                    },
+                },
+                -- ["R"] = { query = { "@parameter.inner", "@attribute.inner", "@assignment.lhs", "@assignment.rhs" } },
             },
             goto_previous_end = {
                 ["[ec"] = "@class.inner",
@@ -158,11 +180,11 @@ local ts_opts = {
 return {
     {
         "nvim-treesitter/nvim-treesitter-textobjects",
-        event = { "BufNewFile", "BufReadPost" },
+        event = { "VeryLazy" },
     },
     {
         "ckolkey/ts-node-action",
-        event = { "BufNewFile", "BufReadPost" },
+        event = { "VeryLazy" },
         dependencies = { "nvim-treesitter" },
         lazy = true,
         opts = {},
@@ -208,6 +230,7 @@ return {
     {
         "romgrk/nvim-treesitter-context",
         event = { "BufReadPost" },
+        cond = not vim.g.vscode,
         config = function()
             require("treesitter-context").setup({
                 enable = true, -- Enable this plugin (Can be enabled/disabled later via commands)
@@ -219,7 +242,7 @@ return {
     },
     {
         "drybalka/tree-climber.nvim",
-        event = { "BufReadPost", "BufNewFile" },
+        event = { "VeryLazy" },
         init = function()
             vim.keymap.set(
                 { "n", "v", "o" },
