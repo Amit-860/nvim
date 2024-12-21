@@ -1,12 +1,8 @@
 return {
     "stevearc/oil.nvim",
+    cond = not vim.g.vscode,
     opts = {
-        columns = {
-            "icon",
-            "permissions",
-            "size",
-            "mtime",
-        },
+        columns = { "icon" },
         keymaps = {
             ["g?"] = { "actions.show_help", mode = "n" },
             ["<CR>"] = { "actions.select", mode = "n" },
@@ -15,7 +11,6 @@ return {
             -- ["<C-h>"] = { "actions.select", opts = { horizontal = true } },
             -- ["<C-t>"] = { "actions.select", opts = { tab = true } },
             ["<C-p>"] = "actions.preview",
-            ["<C-q>"] = { "actions.close", mode = "n" },
             ["<C-r>"] = "actions.refresh",
             ["_"] = { "actions.open_cwd", mode = "n" },
             ["`"] = { "actions.cd", mode = "n" },
@@ -62,25 +57,38 @@ return {
         },
     },
     keymap = {
-        vim.keymap.set("n", "-", "<CMD>Oil --float<CR>", { desc = "Open parent directory" }),
+        vim.keymap.set("n", "<F13>o", "<CMD>Oil --float<CR>", { desc = "Open parent directory" }),
     },
-    dependencies = {
-        "nvim-tree/nvim-web-devicons",
-        -- { "echasnovski/mini.icons", opts = {}}
-    },
+    dependencies = { "nvim-tree/nvim-web-devicons" },
     config = function(_, opts)
         local oil = require("oil")
-        oil.setup(opts)
-
-        local oil_aug = vim.api.nvim_create_augroup("oil_aug", { clear = true })
-        vim.api.nvim_create_autocmd({ "FileType" }, {
-            pattern = "oil",
-            group = oil_aug,
-            callback = function(event)
-                vim.keymap.set({ "n", "i" }, "<C-s>", function()
+        local detail = false
+        opts.keymaps = vim.tbl_deep_extend("force", opts.keymaps, {
+            ["gd"] = {
+                desc = "Toggle file detail view",
+                callback = function()
+                    detail = not detail
+                    if detail then
+                        require("oil").set_columns({ "icon", "permissions", "size", "mtime" })
+                    else
+                        require("oil").set_columns({ "icon" })
+                    end
+                end,
+            },
+            ["<C-s>"] = {
+                desc = "Save Change",
+                callback = function()
                     oil.save()
-                end, { buffer = event.buf })
-            end,
+                end,
+            },
+            ["<F13>o"] = {
+                desc = "Quit Oil",
+                mode = "n",
+                callback = function()
+                    oil.close()
+                end,
+            },
         })
+        oil.setup(opts)
     end,
 }

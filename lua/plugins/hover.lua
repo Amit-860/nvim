@@ -21,6 +21,7 @@ return {
         }
     end,
     config = function()
+        local utils = require("utils")
         local hover = require("hover")
         local hover_opts = {
             init = function()
@@ -35,7 +36,7 @@ return {
                 -- require("hover.providers.dictionary")
             end,
             preview_opts = {
-                border = "single",
+                border = utils.border_func(),
             },
             -- Whether the contents of a currently open hover window should be moved
             -- to a :h preview-window when pressing the hover keymap.

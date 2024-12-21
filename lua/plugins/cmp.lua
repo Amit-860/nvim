@@ -1,4 +1,5 @@
-return {
+return {}
+--[[ return {
     {
         "hrsh7th/nvim-cmp",
         event = { "InsertEnter", "CmdlineEnter" },
@@ -524,4 +525,4 @@ return {
         cond = not vim.g.vscode,
         dependencies = "L3MON4D3/LuaSnip",
     },
-}
+} ]]

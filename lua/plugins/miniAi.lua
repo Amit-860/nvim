@@ -19,8 +19,8 @@ return {
                 -- Next/last textobjects
                 around_next = "an",
                 inside_next = "in",
-                around_last = "aL",
-                inside_last = "iL",
+                around_last = "ap",
+                inside_last = "ip",
 
                 -- Move cursor to corresponding edge of `a` textobject
                 goto_left = "g[",
@@ -30,7 +30,7 @@ return {
             -- How to search for object (first inside current line, then inside
             -- neighborhood). One of 'cover', 'cover_or_next', 'cover_or_prev',
             -- 'cover_or_nearest', 'next', 'prev', 'nearest'.
-            search_method = "cover_or_next",
+            search_method = "cover_or_nearest",
 
             -- Whether to disable showing non-error feedback
             silent = false,
@@ -61,12 +61,28 @@ return {
                 end,
                 u = ai.gen_spec.function_call(), -- u for "Usage"
                 U = ai.gen_spec.function_call({ name_pattern = "[%w_]" }), -- without dot in function name
+                f = ai.gen_spec.treesitter({
+                    a = "@function.outer",
+                    i = "@function.inner",
+                }, {}),
+                c = ai.gen_spec.treesitter({
+                    a = "@class.outer",
+                    i = "@class.inner",
+                }, {}),
+                l = ai.gen_spec.treesitter({
+                    a = "@loop.outer",
+                    i = "@loop.inner",
+                }, {}),
+                d = ai.gen_spec.treesitter({
+                    a = "@conditional.outer",
+                    i = "@conditional.inner",
+                }, {}),
             },
         }
     end,
     config = function(_, opts)
-        local utils = require("utils")
         require("mini.ai").setup(opts)
+        local utils = require("utils")
         -- register all text objects with which-key
         utils.on_load("which-key.nvim", function()
             ---@type table<string, string|table>
@@ -97,6 +113,8 @@ return {
                 t = "Tag",
                 u = "Use/call function & method",
                 U = "Use/call without dot in name",
+                l = "Loop",
+                d = "Conditional statement",
             }
             local a = vim.deepcopy(i)
             for k, v in pairs(a) do
@@ -116,27 +134,21 @@ return {
                 table.insert(keys, { "a" .. key, desc = name })
             end
 
+            local groups = { n = "next", p = "prev" }
+
             -- table.insert(keys, { 'il', { group = "Inside last textobject" } })
             -- table.insert(keys, { 'in', { group = "Inside next textobject" } })
-            for key, name in pairs({ n = "next", l = "last" }) do
+            for key, name in pairs(groups) do
                 for key_i, name_i in pairs(i) do
-                    if key == "n" then
-                        table.insert(keys, { "i" .. key .. key_i, desc = "Inside next " .. name_i })
-                    else
-                        table.insert(keys, { "i" .. key .. key_i, desc = "Inside last " .. name_i })
-                    end
+                    table.insert(keys, { "i" .. key .. key_i, desc = "inside " .. name .. " " .. name_i })
                 end
             end
 
             -- table.insert(keys, { 'al', { group = "Around last textobject" } })
             -- table.insert(keys, { 'an', { group = "Around next textobject" } })
-            for key, name in pairs({ n = "next", l = "last" }) do
+            for key, name in pairs(groups) do
                 for key_a, name_a in pairs(i) do
-                    if key == "n" then
-                        table.insert(keys, { "a" .. key .. key_a, desc = "Around next " .. name_a })
-                    else
-                        table.insert(keys, { "a" .. key .. key_a, desc = "Around last " .. name_a })
-                    end
+                    table.insert(keys, { "a" .. key .. key_a, desc = "around " .. name .. " " .. name_a })
                 end
             end
 

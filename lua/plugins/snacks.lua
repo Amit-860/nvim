@@ -194,7 +194,7 @@ local dashboard_opts = {
 
 -- INFO: highlight for indent module
 local function indent_highlight()
-    if vim.g.is_night then
+    if vim.g.is_night or vim.g.neovide then
         return { scope = "@keyword.return" }
     end
     return { scope = "@constructor" }
@@ -286,6 +286,16 @@ local snacks_opts = {
             --     "SnacksIndent8",
             -- },
         },
+        ---@field style? "out"|"up_down"|"down"|"up"
+        animate = {
+            enabled = true,
+            style = "out",
+            easing = "linear",
+            duration = {
+                step = 100, -- ms per step
+                total = 800, -- maximum duration
+            },
+        },
         scope = {
             enabled = true,
             -- char = "╽",
@@ -294,6 +304,26 @@ local snacks_opts = {
             -- char = "┇",
             -- char = "┋",
             hl = indent_highlight().scope,
+            treesitter = {
+                enabled = true,
+                blocks = {
+                    enabled = false, -- enable to use the following blocks
+                    "function_declaration",
+                    "function_definition",
+                    "method_declaration",
+                    "method_definition",
+                    "class_declaration",
+                    "class_definition",
+                    "do_statement",
+                    "while_statement",
+                    "repeat_statement",
+                    "if_statement",
+                    "for_statement",
+                },
+                field_blocks = {
+                    "local_declaration",
+                },
+            },
         },
         chunk = {
             enabled = false,

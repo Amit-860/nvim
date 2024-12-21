@@ -9,7 +9,7 @@ return {
         -- Delay before showing the popup. Can be a number or a function that returns a number.
         ---@type number | fun(ctx: { keys: string, mode: string, plugin?: string }):number
         delay = function(ctx)
-            return ctx.plugin and 0 or 150
+            return ctx.plugin and 0 or vim.opt.timeoutlen._value
         end,
         --- You can add any mappings here, or use `require('which-key').add()` later
         ---@type wk.Spec
@@ -39,7 +39,6 @@ return {
                 g = true, -- bindings for prefixed with g
             },
         },
-        ---@type wk.Win.opts
         win = {
             -- width = 1,
             height = { min = 4, max = 24 },
@@ -188,6 +187,9 @@ return {
             { "<F13>s", desc = "Spectre", icon = icons.misc.Robot },
             { "<F13>t", desc = "Toggle", icon = icons.astro.Selected },
             { "<F13>g", desc = "Git", icon = icons.astro.GitBranch },
+            { "<F13>o", desc = "Oil", icon = icons.astro.FolderEmpty },
+            { "<F13>l", desc = "HlChunk", icon = icons.astro.DiagnosticHint },
+            { "<F13>d", desc = "Dadbod", icon = icons.astro.FileNew },
         })
     end,
 }

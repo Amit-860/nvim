@@ -1,6 +1,7 @@
 return {
     "folke/drop.nvim",
-    cond = not vim.g.vscode,
+    -- cond = not vim.g.vscode,
+    cond = false,
     event = "VeryLazy",
     opts = {
         theme = "auto", -- when auto, it will choose a theme based on the date

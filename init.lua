@@ -50,7 +50,7 @@ local default_options = {
     swapfile = false, -- creates a swapfile
     termguicolors = true, -- set term gui colors (most terminals support this)
     timeout = true,
-    timeoutlen = 300, -- time to wait for a mapped sequence to complete (in milliseconds)
+    timeoutlen = 200, -- time to wait for a mapped sequence to complete (in milliseconds)
     -- title          = true,                         -- set the title of window to the value of the titlestring
     -- opt.titlestring = "%<%F%=%l/%L - nvim" -- what the title of the window will be set to
     undofile = true, -- enable persistent undo
@@ -94,8 +94,8 @@ end
 
 vim.g.neovide_colorscheme = "terafox"
 vim.g.transparent = false
-vim.g.autoload = not (vim.g.neovide or vim.g.vscode)
--- vim.g.autoload = false
+-- vim.g.autoload = not (vim.g.neovide or vim.g.vscode)
+vim.g.autoload = true
 
 if is_night() then
     vim.g.is_night = true
@@ -198,7 +198,8 @@ if vim.g.neovide then
     vim.g.neovide_cursor_unfocused_outline_width = 0.05
     vim.g.neovide_confirm_quit = false
 
-    vim.g.neovide_transparency = 0.85
+    -- vim.g.neovide_transparency = 0.85
+    vim.g.neovide_transparency = 0.9
     vim.g.neovide_fullscreen = false
 
     default_options.winblend = 50

@@ -156,7 +156,7 @@ local function create_menu(file_list)
         keymap = {
             focus_next = { "j", "<Down>", "<Tab>" },
             focus_prev = { "k", "<Up>", "<S-Tab>" },
-            close = { "<Esc>", "<C-c>" },
+            close = { "<Esc>", "<C-q>" },
             submit = { "<CR>", "<Space>" },
         },
         on_close = function()

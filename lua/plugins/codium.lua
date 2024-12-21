@@ -1,4 +1,5 @@
-return {
+return {}
+--[[ return {
     "Exafunction/codeium.nvim",
     event = { "BufReadPost", "BufNewFile" },
     cmd = { "Codeium" },
@@ -69,4 +70,4 @@ return {
         --     vt.debounced_complete()
         -- end, { noremap = true, silent = true, desc = "Codeium Complete After Delay" }),
     end,
-}
+} ]]

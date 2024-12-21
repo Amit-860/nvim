@@ -46,15 +46,14 @@ local ts_opts = {
         swap = {
             enable = true,
             swap_next = {
-                ["<M-a>"] = "@parameter.inner",
+                ["<M-a>"] = "@parameter",
             },
             swap_previous = {
-                ["<M-A>"] = "@parameter.inner",
+                ["<M-A>"] = "@parameter",
             },
         },
         select = {
-            enable = true,
-            -- Automatically jump forward to textobj, similar to targets.vim
+            enable = false,
             lookahead = false,
             including_surrounding_whitespace = true,
             keymaps = {
@@ -180,7 +179,7 @@ local ts_opts = {
 return {
     {
         "nvim-treesitter/nvim-treesitter-textobjects",
-        event = { "VeryLazy" },
+        event = { "BufReadPost", "BufNewFile" },
     },
     {
         "ckolkey/ts-node-action",
@@ -191,16 +190,16 @@ return {
     },
     {
         "nvim-treesitter/nvim-treesitter",
-        cmd = {
-            "TSInstall",
-            "TSUninstall",
-            "TSUpdate",
-            "TSUpdateSync",
-            "TSInstallInfo",
-            "TSInstallSync",
-            "TSInstallFromGrammar",
-        },
-        event = "VeryLazy",
+        -- cmd = {
+        --     "TSInstall",
+        --     "TSUninstall",
+        --     "TSUpdate",
+        --     "TSUpdateSync",
+        --     "TSInstallInfo",
+        --     "TSInstallSync",
+        --     "TSInstallFromGrammar",
+        -- },
+        event = { "VeryLazy", "BufReadPre", "BufNewFile" },
         opts = ts_opts,
         config = function(_, opts)
             require("nvim-treesitter.configs").setup(opts)

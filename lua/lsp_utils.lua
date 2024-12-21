@@ -14,9 +14,9 @@ M.default_diagnostic_config = {
     },
     virtual_text = {
         source = "if_many",
-        -- prefix = ' ',
-        prefix = " ",
-        -- prefix = "⏺ "
+        -- prefix = " ",
+        -- prefix = " ",
+        prefix = "⏺ ",
     },
     virtual_lines = false,
     update_in_insert = false,
@@ -236,14 +236,29 @@ M.on_attach = function(client, bufnr)
     vim.keymap.set(
         { "n", "i" },
         "<M-i>",
-        "<cmd>lua vim.lsp.buf.signature_help()<CR>",
+        -- "<cmd>lua vim.lsp.buf.signature_help()<CR>",
+        function()
+            vim.lsp.buf.signature_help()
+        end,
         { desc = "Signature Help", noremap = true, buffer = bufnr }
     )
     -- vim.keymap.set({ "n" }, "K", "<cmd>lua vim.lsp.buf.hover()<CR>", { desc = "Hover", noremap = true, buffer = bufnr })
     vim.keymap.set(
         { "n" },
         "<leader>la",
-        "<cmd>lua vim.lsp.buf.code_action()<CR>",
+        -- "<cmd>lua vim.lsp.buf.code_action()<CR>",
+        function()
+            -- vim.lsp.buf.code_action()
+            require("fzf-lua").lsp_code_actions({
+                winopts = {
+                    relative = "cursor",
+                    width = 0.6,
+                    height = 0.6,
+                    row = 1,
+                    preview = { vertical = "up:70%" },
+                },
+            })
+        end,
         { desc = "Code Action", noremap = true, buffer = bufnr }
     )
     vim.keymap.set(
@@ -349,9 +364,9 @@ M.on_attach = function(client, bufnr)
         else
             M.default_diagnostic_config.virtual_text = {
                 source = "if_many",
-                -- prefix = ' ',
-                prefix = " ",
-                -- prefix = "⏺ "
+                -- prefix = " ",
+                -- prefix = " ",
+                prefix = "⏺ ",
             }
             M.default_diagnostic_config.virtual_lines = false
             lsp_lines_enable = false
@@ -382,9 +397,9 @@ M.on_attach = function(client, bufnr)
                 M.default_diagnostic_config.virtual_lines = false
                 M.default_diagnostic_config.virtual_text = {
                     source = "if_many",
-                    -- prefix = ' ',
-                    prefix = " ",
-                    -- prefix = "⏺ "
+                    -- prefix = " ",
+                    -- prefix = " ",
+                    prefix = "⏺ ",
                 }
                 vim.diagnostic.config(M.default_diagnostic_config)
                 lsp_lines_curr_line_enabled = false

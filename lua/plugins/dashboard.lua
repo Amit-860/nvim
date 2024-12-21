@@ -1,4 +1,5 @@
-return {
+return {}
+--[[ return {
     "nvimdev/dashboard-nvim",
     lazy = false,
     -- cond = not vim.g.vscode,
@@ -312,4 +313,4 @@ return {
         return dashboard_opts
     end,
     dependencies = { { "nvim-tree/nvim-web-devicons" } },
-}
+} ]]

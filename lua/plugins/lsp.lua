@@ -4,7 +4,7 @@ return {
         cmd = "Mason",
         cond = not vim.g.vscode,
     },
-    {
+    --[[ {
         "williamboman/mason-lspconfig.nvim",
         cond = false,
         event = { "VeryLazy" },
@@ -26,7 +26,7 @@ return {
                 automatic_installation = false,
             })
         end,
-    },
+    }, ]]
     {
         "antosha417/nvim-lsp-file-operations",
         event = { "LspAttach" },
@@ -43,6 +43,14 @@ return {
         "nvim-java/nvim-java",
         cond = not vim.g.vscode,
         ft = "java",
+        dependencies = {
+            "nvim-java/nvim-java-core",
+            "nvim-java/nvim-java-dap",
+            "nvim-java/nvim-java-refactor",
+            "nvim-java/nvim-java-test",
+            "nvim-java/lua-async-await",
+            "JavaHello/spring-boot.nvim",
+        },
         config = function()
             local java = require("java")
             java.setup()
@@ -111,10 +119,10 @@ return {
                 "force",
                 {},
                 vim.lsp.protocol.make_client_capabilities(),
-                cmp_capabilities or {},
-                blink_capabilities or {},
-                lsp_file_capabilities or {},
-                capabilities_opts or {}
+                cmp_capabilities,
+                blink_capabilities,
+                lsp_file_capabilities,
+                capabilities_opts
             )
 
             local function setup_lsp(server, opts)
@@ -231,11 +239,63 @@ return {
                 autostart = false,
             })
 
-            -- INFO: Java
+            -- -- INFO: Java
             setup_lsp("jdtls", {
                 on_attach = on_attach,
                 capabilities = capabilities,
                 autostart = false,
+                settings = {
+                    java = {
+                        implementationsCodeLens = { enabled = false },
+                        referencesCodeLens = { enabled = false },
+                        references = { includeDecompiledSources = true },
+                        signatureHelp = { enabled = true },
+                        inlayHints = {
+                            parameterNames = {
+                                enabled = "all",
+                            },
+                        },
+                        saveActions = {
+                            organizeImports = false,
+                        },
+                        format = {
+                            enabled = true,
+                            comments = {
+                                enabled = true,
+                            },
+                            insertSpaces = true,
+                            onType = {
+                                enabled = true,
+                            },
+                            settings = {
+                                profile = "GoogleStyle",
+                                url = "https://raw.githubusercontent.com/google/styleguide/gh-pages/eclipse-java-google-style.xml",
+                            },
+                            tabSize = 4,
+                        },
+                        completion = {
+                            maxResults = 20,
+                            importOrder = {
+                                "java",
+                                "javax",
+                                "com",
+                                "org",
+                            },
+                        },
+                        sources = {
+                            organizeImports = {
+                                starThreshold = 9999,
+                                staticStarThreshold = 9999,
+                            },
+                        },
+                        codeGeneration = {
+                            toString = {
+                                template = "${object.className}{${member.name()}=${member.value}, ${otherMembers}}",
+                            },
+                            useBlocks = true,
+                        },
+                    },
+                },
             })
 
             vim.api.nvim_create_autocmd({ "BufReadPre" }, {
