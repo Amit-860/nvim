@@ -3,6 +3,9 @@ if not vim.g.vscode then
     local utils = require("utils")
     local telescope_builtins = require("telescope.builtin")
     local telescope_extensinos = require("telescope").extensions
+    local fzf_lua = function()
+        return pcall(require, "fzf-lua")
+    end
 
     -- explorer
     vim.keymap.set("n", "<leader>e", "<cmd>NvimTreeToggle<cr>", { noremap = true, silent = true, desc = "NvimTree" })
@@ -293,30 +296,36 @@ if not vim.g.vscode then
     end, { desc = "Rename File", noremap = true, silent = true })
 
     -- help
-    vim.keymap.set(
-        "n",
-        "<leader>ok",
-        ":Telescope keymaps<cr>",
-        { desc = "Search Keymaps", noremap = true, silent = true }
-    )
-    vim.keymap.set(
-        "n",
-        "<leader>oc",
-        ":Telescope commands<cr>",
-        { desc = "Search Commands", noremap = true, silent = true }
-    )
+    vim.keymap.set("n", "<leader>ok", function()
+        local fzf_lua_ok, fzf_lua = fzf_lua()
+        if fzf_lua_ok then
+            fzf_lua.keymaps()
+        else
+            vim.cmd("Telescope keymaps")
+        end
+    end, { desc = "Search Keymaps", noremap = true, silent = true })
+    vim.keymap.set("n", "<leader>oc", function()
+        local fzf_lua_ok, fzf_lua = fzf_lua()
+        if fzf_lua_ok then
+            fzf_lua.commands()
+        else
+            vim.cmd("Telescope commands")
+        end
+    end, { desc = "Search Commands", noremap = true, silent = true })
     vim.keymap.set(
         "n",
         "<leader>od",
         ":Telescope help_tags<cr>",
         { desc = "Search Docs", noremap = true, silent = true }
     )
-    vim.keymap.set(
-        "n",
-        "<leader>oh",
-        ":Telescope highlights<cr>",
-        { desc = "Search Highlights", noremap = true, silent = true }
-    )
+    vim.keymap.set("n", "<leader>oh", function()
+        local fzf_lua_ok, fzf_lua = fzf_lua()
+        if fzf_lua_ok then
+            fzf_lua.highlights()
+        else
+            vim.cmd("Telescope highlights")
+        end
+    end, { desc = "Search Highlights", noremap = true, silent = true })
     vim.keymap.set(
         "n",
         "<leader>ot",
@@ -376,7 +385,13 @@ if not vim.g.vscode then
     vim.keymap.set({ "n", "i" }, "<F13>=", function()
         vim.cmd("Telescope spell_suggest")
     end, { noremap = true, silent = true, desc = "Edit the alternate file" })
-    vim.keymap.set({ "n" }, "<F13>\\", "<esc>:term<cr>", { noremap = false, silent = true, desc = "Terminal Buffer" })
+    vim.keymap.set({ "n" }, "<F13>\\", "<esc>:term<cr>", { noremap = true, silent = true, desc = "Terminal Buffer" })
+
+    -- Fzf lua
+    vim.keymap.set({ "n" }, "<F13>f", ":FzfLua<cr>", { noremap = true, silent = true, desc = "Fzf-Lua" })
+
+    -- ecape in terminal mode
+    vim.keymap.set({ "t" }, "<esc>", "<C-\\><C-n>", { noremap = true, silent = true, desc = "Terminal Normal Mode" })
 
     --INFO: not disabled for vscode -----------------------------------------------------------------------------------------------------------------
 end

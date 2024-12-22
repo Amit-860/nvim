@@ -393,7 +393,7 @@ local snacks_keys = {
         desc = "Select Scratch Buffer",
     },
     {
-        "<F13>h",
+        "<F13>n",
         function()
             Snacks.notifier.show_history()
         end,
@@ -428,7 +428,7 @@ local snacks_keys = {
         desc = "Lazygit Log (cwd)",
     },
     {
-        "<F13>H",
+        "<F13>N",
         function()
             Snacks.notifier.hide()
         end,

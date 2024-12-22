@@ -269,7 +269,7 @@ return {
                 timeout = vim.o.timeoutlen,
                 mappings = {
                     i = { j = { k = "<esc>", j = false } },
-                    t = { j = { k = "<C-\\><C-n>", j = false } },
+                    t = { j = { k = false, j = false } },
                     v = { j = { k = false, j = false } },
                     c = { j = { k = false, j = false } },
                     s = { j = { k = false, j = false } },

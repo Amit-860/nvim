@@ -96,6 +96,7 @@ local blink_opts = {
             lua = { "lsp", "lazydev", "luasnip", "buffer" },
             norg = { "lsp", "luasnip", "buffer", "spell" },
             text = { "lsp", "buffer", "spell" },
+            gitcommit = { "lsp", "buffer", "spell" },
         },
         providers = {
             -- dont show LuaLS require statements when lazydev has items
@@ -156,11 +157,8 @@ local blink_opts = {
     keymap = {
         preset = "enter",
         ["<M-d>"] = { "show", "show_documentation", "hide_documentation" },
-        ["<C-c>"] = { "hide", "fallback" },
-        --
-        ["<C-u>"] = { "scroll_documentation_up", "fallback" },
-        ["<C-d>"] = { "scroll_documentation_down", "fallback" },
 
+        ["<C-c>"] = { "hide", "fallback" },
         ["<C-e>"] = {
             function(cmp)
                 if vim.api.nvim_get_mode().mode == "c" then
@@ -171,6 +169,9 @@ local blink_opts = {
             end,
             "fallback",
         },
+
+        ["<C-u>"] = { "scroll_documentation_up", "fallback" },
+        ["<C-d>"] = { "scroll_documentation_down", "fallback" },
         --
         -- "super-tab" keymap
         --   you may want to set `completion.trigger.show_in_snippet = false`

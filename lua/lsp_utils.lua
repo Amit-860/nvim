@@ -243,24 +243,25 @@ M.on_attach = function(client, bufnr)
         { desc = "Signature Help", noremap = true, buffer = bufnr }
     )
     -- vim.keymap.set({ "n" }, "K", "<cmd>lua vim.lsp.buf.hover()<CR>", { desc = "Hover", noremap = true, buffer = bufnr })
-    vim.keymap.set(
-        { "n" },
-        "<leader>la",
-        -- "<cmd>lua vim.lsp.buf.code_action()<CR>",
-        function()
-            -- vim.lsp.buf.code_action()
-            require("fzf-lua").lsp_code_actions({
-                winopts = {
-                    relative = "cursor",
-                    width = 0.6,
-                    height = 0.6,
-                    row = 1,
-                    preview = { vertical = "up:70%" },
+    vim.keymap.set({ "n" }, "<leader>la", function()
+        -- vim.lsp.buf.code_action()
+        require("fzf-lua").lsp_code_actions({
+            winopts = {
+                relative = "cursor",
+                height = 0.3,
+                width = 0.75,
+                border = "single",
+                row = -math.floor(vim.o.lines * 0.32),
+                col = 3,
+                preview = {
+                    vertical = "up:55%",
+                    delay = 0,
+                    layout = "flex",
+                    flip_columns = 100,
                 },
-            })
-        end,
-        { desc = "Code Action", noremap = true, buffer = bufnr }
-    )
+            },
+        })
+    end, { desc = "Code Action", noremap = true, buffer = bufnr })
     vim.keymap.set(
         { "n" },
         "<leader>lr",
