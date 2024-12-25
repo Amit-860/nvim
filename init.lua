@@ -92,10 +92,10 @@ local function is_night()
     return not (now.hour >= 8 and now.hour <= 14)
 end
 
-vim.g.neovide_colorscheme = "terafox"
+vim.g.neovide_colorscheme = "nightfox"
 vim.g.transparent = false
 -- vim.g.autoload = not (vim.g.neovide or vim.g.vscode)
-vim.g.autoload = true
+vim.g.autoload = false
 
 if is_night() then
     vim.g.is_night = true
@@ -106,8 +106,14 @@ if is_night() then
 else
     vim.g.is_night = false
     -- vim.g.colorscheme = "dayfox"
-    vim.g.colorscheme = "dawnfox"
-    -- vim.g.colorscheme = "nordfox"
+    -- vim.g.colorscheme = "dawnfox"
+    vim.g.colorscheme = "duskfox"
+end
+
+if vim.g.neovide then
+    vim.g.win_border = "none"
+else
+    vim.g.win_border = "single"
 end
 
 -- NOTE: -------------------------------------------------------------------------------------------------------
