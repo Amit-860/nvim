@@ -4,10 +4,10 @@ return {
         cmd = "Mason",
         cond = not vim.g.vscode,
     },
-    --[[ {
+    {
         "williamboman/mason-lspconfig.nvim",
-        cond = false,
-        event = { "VeryLazy" },
+        cond = not vim.g.vscode,
+        event = { "BufNewFile", "BufReadPost" },
         config = function()
             -- mason configs
             require("mason-lspconfig").setup({
@@ -26,7 +26,7 @@ return {
                 automatic_installation = false,
             })
         end,
-    }, ]]
+    },
     {
         "antosha417/nvim-lsp-file-operations",
         event = { "LspAttach" },
@@ -43,14 +43,6 @@ return {
         "nvim-java/nvim-java",
         cond = not vim.g.vscode,
         ft = "java",
-        dependencies = {
-            "nvim-java/nvim-java-core",
-            "nvim-java/nvim-java-dap",
-            "nvim-java/nvim-java-refactor",
-            "nvim-java/nvim-java-test",
-            "nvim-java/lua-async-await",
-            "JavaHello/spring-boot.nvim",
-        },
         config = function()
             local java = require("java")
             java.setup()
@@ -137,7 +129,7 @@ return {
 
             -- NOTE: ===================== setting up servers ======================
 
-            -- comment below line to disable lsp support for nvim files
+            -- Comment below line to disable lsp support for nvim files
 
             -- INFO : lua
             local lua_ls_settings = {
@@ -208,8 +200,17 @@ return {
                 filetypes = { "tex", "markdown", "org", "norg" },
                 autostart = false,
             })
+            -- setup_lsp("harper_ls", {
+            --     on_attach = on_attach,
+            --     capabilities = capabilities,
+            --     filetypes = vim.list_extend(
+            --         { "text", "norg", "gitcommit" },
+            --         lspconfig["harper_ls"].config_def.default_config.filetypes
+            --     ),
+            --     autostart = false,
+            -- })
 
-            -- INFO : javascript, html, css
+            -- INFO : JavaScript, html, css
             vim.g.markdown_fenced_languages = { "ts=typescript" }
             setup_lsp("denols", {
                 on_attach = on_attach,
@@ -244,6 +245,7 @@ return {
                 on_attach = on_attach,
                 capabilities = capabilities,
                 autostart = false,
+                handlers = { ["$/progress"] = function(_, result, ctx) end },
                 settings = {
                     java = {
                         implementationsCodeLens = { enabled = false },

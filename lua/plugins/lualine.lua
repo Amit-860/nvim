@@ -429,9 +429,9 @@ return {
                 section_separators = { left = "", right = "" },
                 disabled_filetypes = { "dashboard" },
                 refresh = { -- sets how often lualine should refresh it's contents (in ms)
-                    statusline = 150,
-                    tabline = 30000, -- to maintain between refresh. It's not Guaranteed if situation
-                    winbar = 30000, -- arises that lualine needs to refresh itself before this time
+                    statusline = 200,
+                    tabline = 300, -- to maintain between refresh. It's not Guaranteed if situation
+                    winbar = 300, -- arises that lualine needs to refresh itself before this time
                 },
             },
             sections = process_sections(no_color_section),

@@ -248,16 +248,17 @@ M.on_attach = function(client, bufnr)
         require("fzf-lua").lsp_code_actions({
             winopts = {
                 relative = "cursor",
-                height = 0.3,
-                width = 0.75,
-                border = "single",
-                row = -math.floor(vim.o.lines * 0.32),
-                col = 3,
+                height = 0.5,
+                width = 0.4,
+                border = vim.g.win_border,
+                focusable = false,
+                row = -math.floor(vim.o.lines * 0.2),
+                col = 6,
                 preview = {
-                    vertical = "up:55%",
+                    vertical = "up:50%",
                     delay = 0,
-                    layout = "flex",
-                    flip_columns = 100,
+                    -- layout = "flex",
+                    -- flip_columns = 100,
                 },
             },
         })

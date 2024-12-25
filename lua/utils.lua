@@ -366,11 +366,4 @@ function M.on_load(name, fn)
     end
 end
 
-M.border_func = function()
-    if vim.g.neovide then
-        return "none"
-    end
-    return "single"
-end
-
 return M

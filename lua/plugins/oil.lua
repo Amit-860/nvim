@@ -1,6 +1,7 @@
 return {
     "stevearc/oil.nvim",
     cond = not vim.g.vscode,
+    cmd = { "Oil" },
     opts = {
         columns = { "icon" },
         keymaps = {
@@ -36,8 +37,8 @@ return {
         float = {
             -- Padding around the floating window
             padding = 2,
-            max_width = math.floor(vim.o.columns * 0.85),
-            max_height = math.floor(vim.o.lines * 0.85),
+            max_width = math.floor(vim.o.columns * 0.8),
+            max_height = math.floor(vim.o.lines * 0.8),
             border = "single",
             win_options = {
                 winblend = 10,
@@ -57,7 +58,7 @@ return {
         },
     },
     keymap = {
-        vim.keymap.set("n", "<F13>o", "<CMD>Oil --float<CR>", { desc = "Open parent directory" }),
+        vim.keymap.set("n", "<F13>o", "<CMD>Oil --float<CR>", { desc = "Oil Float" }),
     },
     dependencies = { "nvim-tree/nvim-web-devicons" },
     config = function(_, opts)

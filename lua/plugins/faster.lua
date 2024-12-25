@@ -161,6 +161,16 @@ return {
                     end, {})
                 end,
             },
+            navic = {
+                on = true,
+                defer = true,
+                enable = function()
+                    vim.b.navic_lazy_update_context = false
+                end,
+                disable = function()
+                    vim.b.navic_lazy_update_context = true
+                end,
+            },
             -- Neovim options that affect speed when big file is opened:
             -- swapfile, foldmethod, undolevels, undoreload, list
             vimopts = {

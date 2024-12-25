@@ -27,9 +27,9 @@ vim.diagnostic.config({
 -- Disabled as using Noice for this
 local hover_opts = {
     -- Use a sharp border with `FloatBorder` highlights
-    border = "none",
+    border = "single",
     -- add the title in hover float window
-    -- title = "hover"
+    -- title = "hover",
     relative = "win",
     max_height = math.floor(vim.o.lines * 0.6),
     max_width = math.floor(vim.o.columns * 0.5),
@@ -43,6 +43,24 @@ local status_hover, _ = pcall(require, "hover")
 if not (status_noice or status_hover) then
     vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, hover_opts)
 end
+
+local signature_help_opts = {
+    -- title = "signature help",
+    scope = "cursor",
+    focusable = false,
+    border = "single",
+    close_events = {
+        "CursorMoved",
+        "CursorMovedI",
+        "BufHidden",
+        "InsertCharPre",
+        "WinLeave",
+        "InsertEnter",
+        "InsertLeave",
+    },
+    padding = { 0, 0 },
+}
+vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, signature_help_opts)
 
 vim.keymap.set({ "n" }, "<F13>k", lsp_utils.open_diagnostics_float, { desc = "Open diagnostics float", noremap = true })
 

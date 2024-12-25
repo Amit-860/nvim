@@ -1,5 +1,3 @@
-local utils = require("utils")
-
 local menu_hl = {
     Class = "ItemMenuClass",
     Struct = "ItemMenuStruct",
@@ -164,7 +162,8 @@ local blink_opts = {
                 if vim.api.nvim_get_mode().mode == "c" then
                     cmp.show({ providers = { "cmdline", "path" } })
                 else
-                    cmp.show({ providers = { "codeium", "lsp", "luasnip", "path", "buffer" } })
+                    -- cmp.show({ providers = { "codeium", "lsp", "luasnip", "path", "buffer" } })
+                    cmp.show({})
                 end
             end,
             "fallback",
@@ -287,7 +286,7 @@ local blink_opts = {
         accept = { auto_brackets = { enabled = true } },
         -- Controls how the completion items are rendered on the popup window
         menu = {
-            border = utils.border_func(),
+            border = vim.g.win_border,
             winblend = 10,
             -- winhighlight = "Normal:CmpComplitionMenu,FloatBorder:CmpComplitionMenu,CursorLine:CmpSelectedItem,Search:None",
             winhighlight = "Normal:BlinkCmpDoc,FloatBorder:BlinkCmpDocBorder,CursorLine:BlinkCmpDocCursorLine,Search:None",
@@ -422,7 +421,7 @@ local blink_opts = {
                 min_width = 40,
                 max_width = 120,
                 max_height = 20,
-                border = utils.border_func(),
+                border = vim.g.win_border,
                 winblend = 10,
                 winhighlight = "Normal:BlinkCmpDoc,FloatBorder:BlinkCmpDocBorder,CursorLine:BlinkCmpDocCursorLine,Search:None",
                 -- Note that the gutter will be disabled when border ~= 'none'
@@ -450,7 +449,7 @@ local blink_opts = {
             min_width = 40,
             max_width = 120,
             max_height = 20,
-            border = utils.border_func(),
+            border = vim.g.win_border,
             winblend = 10,
             winhighlight = "Normal:BlinkCmpSignatureHelp,FloatBorder:BlinkCmpSignatureHelpBorder",
             scrollbar = false, -- Note that the gutter will be disabled when border ~= 'none'

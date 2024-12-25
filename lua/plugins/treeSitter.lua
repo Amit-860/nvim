@@ -229,7 +229,8 @@ return {
     {
         "romgrk/nvim-treesitter-context",
         event = { "BufReadPost" },
-        cond = not vim.g.vscode,
+        -- cond = not vim.g.vscode,
+        cond = false,
         config = function()
             require("treesitter-context").setup({
                 enable = true, -- Enable this plugin (Can be enabled/disabled later via commands)

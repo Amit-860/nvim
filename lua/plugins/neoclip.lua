@@ -23,14 +23,14 @@ return {
         default_register = '"',
         default_register_macros = "q",
         enable_macro_history = true,
-        content_spec_column = false,
+        content_spec_column = true,
         disable_keycodes_parsing = false,
         on_select = {
             move_to_front = false,
             close_telescope = true,
         },
         on_paste = {
-            set_reg = false,
+            set_reg = true,
             move_to_front = false,
             close_telescope = true,
         },
@@ -55,9 +55,9 @@ return {
                 },
                 n = {
                     select = "<cr>",
-                    paste = "p",
+                    -- paste = "p",
                     --- It is possible to map to more than one key.
-                    -- paste = { 'p', '<c-p>' },
+                    paste = { "p", "<c-p>" },
                     paste_behind = "P",
                     replay = "q",
                     delete = "d",
