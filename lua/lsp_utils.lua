@@ -245,22 +245,33 @@ M.on_attach = function(client, bufnr)
     -- vim.keymap.set({ "n" }, "K", "<cmd>lua vim.lsp.buf.hover()<CR>", { desc = "Hover", noremap = true, buffer = bufnr })
     vim.keymap.set({ "n" }, "<leader>la", function()
         -- vim.lsp.buf.code_action()
-        require("fzf-lua").lsp_code_actions({
-            winopts = {
-                relative = "cursor",
-                height = 0.5,
-                width = 0.4,
-                border = vim.g.win_border,
-                focusable = false,
-                row = -math.floor(vim.o.lines * 0.2),
-                col = 6,
-                preview = {
-                    vertical = "up:50%",
-                    delay = 0,
-                    -- layout = "flex",
-                    -- flip_columns = 100,
-                },
+        local winopts = {
+            relative = "cursor",
+            height = 0.4,
+            width = 0.35,
+            border = vim.g.win_border,
+            focusable = false,
+            row = -math.floor(vim.o.lines * 0.2),
+            col = 6,
+            preview = {
+                vertical = "up:60%",
+                delay = 0,
             },
+        }
+        if vim.g.neovide then
+            winopts.row = 1
+            winopts.height = 0.25
+            winopts.width = 0.6
+            winopts.preview = {
+                delay = 0,
+                horizontal = "right:60%",
+                layout = "horizontal",
+                flip_columns = 100,
+            }
+        end
+
+        require("fzf-lua").lsp_code_actions({
+            winopts = winopts,
         })
     end, { desc = "Code Action", noremap = true, buffer = bufnr })
     vim.keymap.set(

@@ -107,7 +107,7 @@ else
     vim.g.is_night = false
     -- vim.g.colorscheme = "dayfox"
     -- vim.g.colorscheme = "dawnfox"
-    vim.g.colorscheme = "duskfox"
+    vim.g.colorscheme = "nordfox"
 end
 
 if vim.g.neovide then

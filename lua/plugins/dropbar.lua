@@ -22,16 +22,14 @@ return {
                             extends = "…",
                         },
                         menu = {
-                            separator = " ",
+                            separator = "",
                             indicator = " ",
                         },
                     },
                 },
                 menu = {
                     preview = false,
-                    win_configs = {
-                        border = vim.g.win_border,
-                    },
+                    win_configs = { border = vim.g.win_border },
                     keymaps = {
                         ["i"] = function()
                             local menu = require("dropbar.utils").menu.get_current()
@@ -50,11 +48,11 @@ return {
                 },
             })
 
-            vim.api.nvim_set_hl(0, "DropBarMenuHoverEntry", { link = "DropBarMenuSbar" }) -- highlights for selected item in cmp menu
-            vim.api.nvim_set_hl(0, "DropBarMenuHoverIcon", { link = "DropBarMenuSbar" }) -- highlights for selected item in cmp menu
-            vim.api.nvim_set_hl(0, "DropBarMenuHoverSymbol", { link = "DropBarMenuSbar" }) -- highlights for selected item in cmp menu
-            vim.api.nvim_set_hl(0, "DropBarMenuThumb", { link = "DropBarMenuSbar" }) -- highlights for selected item in cmp menu
-            vim.api.nvim_set_hl(0, "DropBarMenuCurrentContext", { link = "DropBarMenuSbar" }) -- highlights for selected item in cmp menu
+            vim.api.nvim_set_hl(0, "DropBarMenuHoverEntry", { link = "DropBarMenuSbar" })
+            vim.api.nvim_set_hl(0, "DropBarMenuHoverIcon", { link = "DropBarMenuSbar" })
+            vim.api.nvim_set_hl(0, "DropBarMenuHoverSymbol", { link = "DropBarMenuSbar" })
+            vim.api.nvim_set_hl(0, "DropBarMenuThumb", { link = "DropBarMenuSbar" })
+            vim.api.nvim_set_hl(0, "DropBarMenuCurrentContext", { link = "DropBarMenuSbar" })
         end,
     },
 }

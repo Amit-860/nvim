@@ -32,19 +32,33 @@ return {
             },
             keymap = {
                 builtin = {
-                    ["<Esc>"] = "hide",
-                    ["<C-q>"] = "hide",
-                    ["<C-h>"] = "toggle-help",
-                    ["<C-p>"] = "toggle-preview",
+                    true,
                     ["<C-d>"] = "preview-page-down",
                     ["<C-u>"] = "preview-page-up",
                 },
                 fzf = {
-                    ["alt-t"] = "toggle",
-                    ["ctrl-q"] = "abort",
-                    ["alt-a"] = "toggle-all",
+                    true,
                     ["ctrl-d"] = "preview-page-down",
                     ["ctrl-u"] = "preview-page-up",
+                    ["ctrl-q"] = "select-all+accept",
+                },
+            },
+            actions = {
+                files = {
+                    true,
+                    ["enter"] = actions.file_edit_or_qf,
+                    ["ctrl-s"] = actions.file_split,
+                    ["ctrl-v"] = actions.file_vsplit,
+                    ["ctrl-t"] = actions.file_tabedit,
+                    ["alt-q"] = actions.file_sel_to_qf,
+                    ["alt-Q"] = actions.file_sel_to_ll,
+                },
+                buffers = {
+                    keymap = { builtin = { ["<C-d>"] = false } },
+                    actions = {
+                        ["ctrl-x"] = false,
+                        ["ctrl-d"] = { actions.buf_del, actions.resume },
+                    },
                 },
             },
             winopts = {

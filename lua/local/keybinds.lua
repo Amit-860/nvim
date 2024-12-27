@@ -62,11 +62,12 @@ if not vim.g.vscode then
         "<leader>fs",
         function()
             -- telescope_builtins.live_grep({
-            telescope_extensinos.live_grep_args.live_grep_args({
-                initial_mode = "insert",
-                layout_strategy = "horizontal",
-                layout_config = { preview_width = 0.5 },
-            })
+            -- telescope_extensinos.live_grep_args.live_grep_args({
+            --     initial_mode = "insert",
+            --     layout_strategy = "horizontal",
+            --     layout_config = { preview_width = 0.5 },
+            -- })
+            vim.cmd("FzfLua live_grep resume=true")
         end,
         -- "<cmd>Telescope live_grep layout_strategy=horizontal layout_config={preview_width=0.5}<cr>",
         { noremap = true, silent = true, desc = "String" }
