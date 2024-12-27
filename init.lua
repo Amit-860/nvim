@@ -38,7 +38,7 @@ local default_options = {
     foldlevel = 99,
     foldlevelstart = 99,
     foldnestmax = 10,
-    foldminlines = 10,
+    foldminlines = 5,
     hidden = true, -- required to keep multiple buffers and open multiple buffers
     hlsearch = true, -- highlight all matches on previous search pattern
     ignorecase = true, -- ignore case in search patterns
@@ -89,7 +89,7 @@ end
 
 local function is_night()
     local now = os.date("*t")
-    return not (now.hour >= 8 and now.hour <= 14)
+    return not (now.hour >= 7 and now.hour <= 18)
 end
 
 vim.g.neovide_colorscheme = "nightfox"
@@ -102,12 +102,12 @@ if is_night() then
     -- vim.g.transparent = true
     -- vim.g.colorscheme = "nightfox"
     -- vim.g.colorscheme = "terafox"
-    vim.g.colorscheme = "nordfox"
+    vim.g.colorscheme = "catppuccin-mocha"
 else
     vim.g.is_night = false
     -- vim.g.colorscheme = "dayfox"
     -- vim.g.colorscheme = "dawnfox"
-    vim.g.colorscheme = "nordfox"
+    vim.g.colorscheme = "catppuccin-macchiato"
 end
 
 if vim.g.neovide then

@@ -5,7 +5,7 @@ return {
         local ai = require("mini.ai")
         return {
             -- Number of lines within which textobject is searched
-            n_lines = 50,
+            n_lines = 500,
 
             -- Table with textobject id as fields, textobject specification as values.
             -- Also use this to disable builtin textobjects. See |MiniAi.config|.
