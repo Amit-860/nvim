@@ -3,6 +3,12 @@ return {
         "williamboman/mason.nvim",
         cmd = "Mason",
         cond = not vim.g.vscode,
+        opts = {
+            registries = {
+                "github:nvim-java/mason-registry",
+                "github:mason-org/mason-registry",
+            },
+        },
     },
     {
         "williamboman/mason-lspconfig.nvim",
@@ -40,83 +46,22 @@ return {
         end,
     },
     {
-        "nvim-java/nvim-java",
-        cond = not vim.g.vscode,
-        ft = "java",
-        config = function()
-            local java = require("java")
-            java.setup()
-        end,
-    },
-    {
         "neovim/nvim-lspconfig",
-        event = { "BufNewFile", "BufReadPre", "UIEnter" },
+        event = { "BufNewFile", "BufReadPre" },
         cond = not vim.g.vscode,
         dependencies = {
             "williamboman/mason.nvim",
+            -- "nvim-java/nvim-java",
         },
         config = function()
             require("lsp_opts")
-            local on_attach = require("lsp_utils").on_attach
+            local lsp_utils = require("lsp_utils")
+            local on_attach = lsp_utils.on_attach
 
             -- Set up lspconfig.
             local lspconfig = require("lspconfig")
 
-            -- setup lsp servers
-            -- add any global capabilities here
-            local capabilities_opts = {
-                workspace = {
-                    fileOperations = {
-                        didRename = true,
-                        willRename = true,
-                    },
-                },
-                -- textDocument = {
-                --     completion = {
-                --         completionItem = {
-                --             snippetSupport = true
-                --         },
-                --     }
-                -- },
-                -- references = {
-                --     dynamicRegistration = true
-                -- },
-                -- semanticTokens = {
-                --     dynamicRegistration = true,
-                -- },
-                -- signatureHelp = {
-                --     dynamicRegistration = true,
-                -- },
-            }
-
-            local cmp_ok, cmp = pcall(require, "cmp_nvim_lsp")
-            local cmp_capabilities = {}
-            if cmp_ok then
-                cmp_capabilities = cmp.default_capabilities()
-            end
-
-            local blink_ok, blink = pcall(require, "blink.cmp")
-            local blink_capabilities = {}
-            if blink_ok then
-                blink_capabilities = blink.get_lsp_capabilities()
-            end
-
-            local lsp_file_ops_ok, lsp_file_ops = pcall(require, "lsp-file-operations")
-            local lsp_file_capabilities = {}
-            if lsp_file_ops_ok then
-                lsp_file_capabilities = lsp_file_ops.default_capabilities()
-            end
-
-            local capabilities = vim.tbl_deep_extend(
-                "force",
-                {},
-                vim.lsp.protocol.make_client_capabilities(),
-                cmp_capabilities,
-                blink_capabilities,
-                lsp_file_capabilities,
-                capabilities_opts
-            )
-
+            local capabilities = lsp_utils.lsp_capabilities
             local function setup_lsp(server, opts)
                 -- lspconfig[server].setup(opts)
                 local conf = lspconfig[server]
@@ -241,64 +186,66 @@ return {
             })
 
             -- -- INFO: Java
-            setup_lsp("jdtls", {
-                on_attach = on_attach,
-                capabilities = capabilities,
-                autostart = false,
-                handlers = { ["$/progress"] = function(_, result, ctx) end },
-                settings = {
-                    java = {
-                        implementationsCodeLens = { enabled = false },
-                        referencesCodeLens = { enabled = false },
-                        references = { includeDecompiledSources = true },
-                        signatureHelp = { enabled = true },
-                        inlayHints = {
-                            parameterNames = {
-                                enabled = "all",
-                            },
-                        },
-                        saveActions = {
-                            organizeImports = false,
-                        },
-                        format = {
-                            enabled = true,
-                            comments = {
-                                enabled = true,
-                            },
-                            insertSpaces = true,
-                            onType = {
-                                enabled = true,
-                            },
-                            settings = {
-                                profile = "GoogleStyle",
-                                url = "https://raw.githubusercontent.com/google/styleguide/gh-pages/eclipse-java-google-style.xml",
-                            },
-                            tabSize = 4,
-                        },
-                        completion = {
-                            maxResults = 20,
-                            importOrder = {
-                                "java",
-                                "javax",
-                                "com",
-                                "org",
-                            },
-                        },
-                        sources = {
-                            organizeImports = {
-                                starThreshold = 9999,
-                                staticStarThreshold = 9999,
-                            },
-                        },
-                        codeGeneration = {
-                            toString = {
-                                template = "${object.className}{${member.name()}=${member.value}, ${otherMembers}}",
-                            },
-                            useBlocks = true,
-                        },
-                    },
-                },
-            })
+
+            -- local java_ok, java = pcall(require, "java")
+            -- if java_ok then
+            --     java.setup({
+            --         -- jdtls = { version = "latest" },
+            --         -- lombok = { version = "nightly" },
+            --         -- -- load java test plugins
+            --         -- java_test = { enable = true, version = "latest" },
+            --         -- -- load java debugger plugins
+            --         -- java_debug_adapter = { enable = true, version = "0.*" },
+            --         -- spring_boot_tools = { enable = true, version = "1.*" },
+            --         jdk = { auto_install = false },
+            --         notifications = { dap = true },
+            --     })
+            -- end
+            -- setup_lsp("jdtls", {
+            --     on_attach = on_attach,
+            --     capabilities = capabilities,
+            --     autostart = false,
+            --     handlers = { ["$/progress"] = function(_, result, ctx) end },
+            --     settings = {
+            --         java = {
+            --             implementationsCodeLens = { enabled = false },
+            --             referencesCodeLens = { enabled = false },
+            --             references = { includeDecompiledSources = true },
+            --             signatureHelp = { enabled = true },
+            --             inlayHints = { parameterNames = { enabled = "all" } },
+            --             saveActions = { organizeImports = false },
+            --             format = {
+            --                 enabled = true,
+            --                 comments = { enabled = true },
+            --                 insertSpaces = true,
+            --                 onType = { enabled = true },
+            --                 settings = {
+            --                     profile = "GoogleStyle",
+            --                     url = "https://raw.githubusercontent.com/google/styleguide/gh-pages/eclipse-java-google-style.xml",
+            --                 },
+            --                 tabSize = 4,
+            --             },
+            --             completion = {
+            --                 maxResults = 20,
+            --                 importOrder = {
+            --                     "java",
+            --                     "javax",
+            --                     "com",
+            --                     "org",
+            --                 },
+            --             },
+            --             sources = {
+            --                 organizeImports = { starThreshold = 9999, staticStarThreshold = 9999 },
+            --             },
+            --             codeGeneration = {
+            --                 toString = {
+            --                     template = "${object.className}{${member.name()}=${member.value}, ${otherMembers}}",
+            --                 },
+            --                 useBlocks = true,
+            --             },
+            --         },
+            --     },
+            -- })
 
             vim.api.nvim_create_autocmd({ "BufReadPre" }, {
                 group = vim.api.nvim_create_augroup("Toggle_LSP_ag", { clear = true }),

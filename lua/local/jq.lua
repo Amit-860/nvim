@@ -57,7 +57,6 @@ local function jq_filter(json_bufnr, filter, fpath)
     if fpath then
         fname = fpath
     end
-    print(fname)
     if (not modified) or fname ~= nil then
         -- the following should be faster as it lets jq read the file contents
         return vim.fn.system({ "jq", filter, fname })

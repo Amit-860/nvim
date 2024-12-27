@@ -255,7 +255,7 @@ local snacks_opts = {
         enabled = true,
     },
     input = {
-        enabled = false,
+        enabled = true,
     },
     -- scroll = {
     --     enabled = not vim.g.neovide,

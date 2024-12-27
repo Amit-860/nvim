@@ -2,6 +2,56 @@ local M = {}
 local icons = require("icons")
 local utils = require("utils")
 
+local capabilities_opts = {
+    workspace = {
+        fileOperations = {
+            didRename = true,
+            willRename = true,
+        },
+        didChangeWorkspaceFolders = {
+            dynamicRegistration = true,
+        },
+    },
+    textDocument = {
+        semanticTokens = {
+            dynamicRegistration = true,
+        },
+        synchronization = {
+            didChange = true,
+            willSave = true,
+            willSaveWaitUntil = true,
+            didSave = true,
+        },
+    },
+}
+local cmp_ok, cmp = pcall(require, "cmp_nvim_lsp")
+local cmp_capabilities = {}
+if cmp_ok then
+    cmp_capabilities = cmp.default_capabilities()
+end
+
+local blink_ok, blink = pcall(require, "blink.cmp")
+local blink_capabilities = {}
+if blink_ok then
+    blink_capabilities = blink.get_lsp_capabilities()
+end
+
+local lsp_file_ops_ok, lsp_file_ops = pcall(require, "lsp-file-operations")
+local lsp_file_capabilities = {}
+if lsp_file_ops_ok then
+    lsp_file_capabilities = lsp_file_ops.default_capabilities()
+end
+
+M.lsp_capabilities = vim.tbl_deep_extend(
+    "force",
+    {},
+    vim.lsp.protocol.make_client_capabilities(),
+    capabilities_opts,
+    cmp_capabilities,
+    blink_capabilities,
+    lsp_file_capabilities
+)
+
 M.default_diagnostic_config = {
     signs = {
         active = true,
@@ -429,11 +479,7 @@ M.on_attach = function(client, bufnr)
         -- else
         --     utils.code_runner(file_type, file_name, "horizontal") -- float, window, horizontal, vertical
         -- end
-        if file_type == "java" then
-            vim.cmd("JavaRunnerRunMain")
-        else
-            vim.cmd("RunCode")
-        end
+        vim.cmd("RunCode")
     end, { silent = true, desc = "Run Code" })
 
     vim.keymap.set("n", "<F4>", function()
@@ -444,11 +490,7 @@ M.on_attach = function(client, bufnr)
         -- else
         --     utils.code_runner(file_type, file_name, "horizontal") -- float, window, horizontal, vertical
         -- end
-        if file_type == "java" then
-            vim.cmd("JavaRunnerRunMain")
-        else
-            vim.cmd("RunCode")
-        end
+        vim.cmd("RunCode")
     end, { noremap = true, silent = true, desc = "Run Code" })
 
     -- jump lsp word

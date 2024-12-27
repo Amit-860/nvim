@@ -100,9 +100,8 @@ vim.g.autoload = false
 if is_night() then
     vim.g.is_night = true
     -- vim.g.transparent = true
-    -- vim.g.colorscheme = "nightfox"
+    vim.g.colorscheme = "nightfox"
     -- vim.g.colorscheme = "terafox"
-    vim.g.colorscheme = "catppuccin-mocha"
 else
     vim.g.is_night = false
     -- vim.g.colorscheme = "dayfox"
