@@ -111,20 +111,28 @@ return {
             end
 
             lsp_utils.setup()
-            lsp_utils.on_supports_method("textDocument/codeLens", function(client, buffer)
-                vim.lsp.codelens.refresh()
-                vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "InsertLeave" }, {
-                    buffer = buffer,
-                    callback = vim.lsp.codelens.refresh,
-                })
-            end)
 
             local lsp_opts = {
                 inlay_hints = {
                     enabled = true,
                     exclude = {},
                 },
+                code_lense = {
+                    enabled = false,
+                    exclude = {},
+                },
             }
+
+            lsp_utils.on_supports_method("textDocument/codeLens", function(client, buffer)
+                if lsp_opts.enabled and not vim.tbl_contains(lsp_opts.inlay_hints.exclude, vim.bo[buffer].filetype) then
+                    vim.lsp.codelens.refresh()
+                    vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "InsertLeave" }, {
+                        buffer = buffer,
+                        callback = vim.lsp.codelens.refresh,
+                    })
+                end
+            end)
+
             lsp_utils.on_supports_method("textDocument/inlayHint", function(client, buffer)
                 if
                     vim.api.nvim_buf_is_valid(buffer)
@@ -163,7 +171,7 @@ return {
                 end)
             end)
 
-            -- NOTE: ===================== setting up servers ======================
+            -- INFO: ===================== setting up servers ======================
 
             -- Comment below line to disable lsp support for nvim files
 

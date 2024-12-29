@@ -129,6 +129,25 @@ function M.get_clients(opts)
     return opts and opts.filter and vim.tbl_filter(opts.filter, ret) or ret
 end
 
+---@param on_attach fun(client:vim.lsp.Client, buffer)
+---@param name? string
+function M.on_lsp_attach(on_attach, name)
+    return vim.api.nvim_create_autocmd("LspAttach", {
+        callback = function(args)
+            local buffer = args.buf ---@type number
+            local client = vim.lsp.get_client_by_id(args.data.client_id)
+            if client and (not name or client.name == name) then
+                -- INFO: add any thing here if it has to attach to all lsp_attached buffer
+                -- Examle : - below keymap will attach to all lsp attached buffers other
+                -- wise add it to M.on_attach func if need to attach only to specific lsp/buffers
+                -- and pass that on_attach func to LSP during setup
+                -- vim.keymap.set("n", "<leader>m", function() end, {})
+                return on_attach(client, buffer)
+            end
+        end,
+    })
+end
+
 ---@type table<string, table<vim.lsp.Client, table<number, boolean>>>
 M._supports_method = {}
 
@@ -148,7 +167,7 @@ function M.setup()
         end
         return ret
     end
-    M.on_attach(M._check_methods)
+    M.on_lsp_attach(M._check_methods)
     M.on_dynamic_capability(M._check_methods)
 end
 
@@ -228,7 +247,6 @@ end
 -- INFO: on_attach func =========================================================================
 M.on_attach = function(client, bufnr)
     -- NOTE: lsp keymap ---------------------------------------------------------------------------------
-    -- vim.keymap.set("n", "<leader>l", "<nop>", { desc = "+LSP", noremap = true, buffer=bufnr })
     vim.keymap.set(
         { "n", "i" },
         "<M-i>",
