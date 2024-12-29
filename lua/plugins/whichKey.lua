@@ -169,6 +169,7 @@ return {
             { "<leader>L", group = "LeetCode" },
             { "<leader>P", group = "Plugins", icon = icons.ui.Package },
             { "<leader>S", group = "Session" },
+            { "<leader>s", group = "Surround" },
             { "<leader>e", group = "Explorer", icon = icons.ui.List },
             { "<leader>f", group = "Find" },
             { "<leader>g", group = "Git" },

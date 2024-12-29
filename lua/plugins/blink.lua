@@ -480,19 +480,14 @@ return {
     {
         "saghen/blink.cmp",
         event = { "BufReadPost", "BufNewFile" },
-        version = "v0.*",
+        version = "*",
         cond = not vim.g.vscode,
         -- build = "cargo build --release",
         dependencies = {
             { "L3MON4D3/LuaSnip", event = "VeryLazy", cond = not vim.g.vscode },
             { "rafamadriz/friendly-snippets", event = "VeryLazy", cond = not vim.g.vscode },
             { "f3fora/cmp-spell", event = "VeryLazy", cond = not vim.g.vscode },
-            {
-                "saghen/blink.compat",
-                event = "VeryLazy",
-                cond = not vim.g.vscode,
-                opts = {},
-            },
+            { "saghen/blink.compat", event = "VeryLazy", cond = not vim.g.vscode, opts = {} },
         },
         opts = blink_opts,
         opts_extend = {

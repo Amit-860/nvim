@@ -50,7 +50,7 @@ local default_options = {
     swapfile = false, -- creates a swapfile
     termguicolors = true, -- set term gui colors (most terminals support this)
     timeout = true,
-    timeoutlen = 500, -- time to wait for a mapped sequence to complete (in milliseconds)
+    timeoutlen = 300, -- time to wait for a mapped sequence to complete (in milliseconds)
     -- title          = true,                         -- set the title of window to the value of the titlestring
     -- opt.titlestring = "%<%F%=%l/%L - nvim" -- what the title of the window will be set to
     undofile = true, -- enable persistent undo
@@ -97,7 +97,7 @@ vim.g.neovide_colorscheme = "kanagawa"
 vim.g.neovide_custom_color = false
 vim.g.transparent = false
 -- vim.g.autoload = not (vim.g.neovide or vim.g.vscode)
-vim.g.autoload = true
+vim.g.autoload = false
 
 if is_night() then
     vim.g.is_night = true

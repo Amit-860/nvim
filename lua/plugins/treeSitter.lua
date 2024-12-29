@@ -199,7 +199,7 @@ return {
         --     "TSInstallSync",
         --     "TSInstallFromGrammar",
         -- },
-        event = { "VeryLazy", "BufReadPre", "BufNewFile" },
+        event = { "VeryLazy", "BufReadPost", "BufNewFile" },
         opts = ts_opts,
         config = function(_, opts)
             require("nvim-treesitter.configs").setup(opts)
@@ -226,20 +226,19 @@ return {
             vim.api.nvim_set_hl(0, "@lsp.type.comment", {})
         end,
     },
-    {
-        "romgrk/nvim-treesitter-context",
-        event = { "BufReadPost" },
-        -- cond = not vim.g.vscode,
-        cond = false,
-        config = function()
-            require("treesitter-context").setup({
-                enable = true, -- Enable this plugin (Can be enabled/disabled later via commands)
-                throttle = true, -- Throttles plugin updates (may improve performance)
-                max_lines = 8, -- How many lines the window should span. Values <= 0 mean no limit.
-                patterns = { default = { "class", "function", "method" } },
-            })
-        end,
-    },
+    -- {
+    --     "romgrk/nvim-treesitter-context",
+    --     event = { "BufReadPost" },
+    --     cond = not vim.g.vscode,
+    --     config = function()
+    --         require("treesitter-context").setup({
+    --             enable = true, -- Enable this plugin (Can be enabled/disabled later via commands)
+    --             throttle = true, -- Throttles plugin updates (may improve performance)
+    --             max_lines = 8, -- How many lines the window should span. Values <= 0 mean no limit.
+    --             patterns = { default = { "class", "function", "method" } },
+    --         })
+    --     end,
+    -- },
     -- {
     --     "drybalka/tree-climber.nvim",
     --     event = { "VeryLazy" },

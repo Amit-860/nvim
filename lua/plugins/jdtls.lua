@@ -111,7 +111,7 @@ return {
                 dap_main = {},
                 test = true,
                 handlers = { ["$/progress"] = function(_, result, ctx) end },
-                capabilities = lsp_utils.lsp_capabilities,
+                capabilities = lsp_utils.lsp_capabilities(),
                 settings = {
                     java = {
                         eclipse = { downloadSources = true },

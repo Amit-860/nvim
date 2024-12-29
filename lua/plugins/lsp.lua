@@ -1,4 +1,3 @@
-local lsp_utils = require("lsp_utils")
 return {
     {
         "williamboman/mason.nvim",
@@ -52,35 +51,38 @@ return {
         ft = { "javascriptreact", "typescriptreact" },
         cond = not vim.g.vscode,
         dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
-        opts = {
-            on_attach = lsp_utils.on_attach,
-            capabilities = lsp_utils.lsp_capabilities,
-            settings = {
-                format = { enable = false },
-                tsserver_format_options = {
-                    semicolons = "insert",
+        opts = function()
+            local lsp_utils = require("lsp_utils")
+            return {
+                on_attach = lsp_utils.on_attach,
+                capabilities = lsp_utils.lsp_capabilities(),
+                settings = {
+                    format = { enable = false },
+                    tsserver_format_options = {
+                        semicolons = "insert",
+                    },
+                    separate_diagnostic_server = true,
+                    expose_as_code_action = "all",
+                    -- tsserver_plugins = {},
+                    tsserver_max_memory = "auto",
+                    complete_function_calls = true,
+                    include_completions_with_insert_text = true,
+                    tsserver_file_preferences = {
+                        quotePreference = "single", -- auto | double | single
+                        includeInlayParameterNameHints = "all", -- "none" | "literals" | "all";
+                        includeInlayParameterNameHintsWhenArgumentMatchesName = true,
+                        includeInlayFunctionParameterTypeHints = true,
+                        includeInlayVariableTypeHints = true,
+                        includeInlayVariableTypeHintsWhenTypeMatchesName = true,
+                        includeInlayPropertyDeclarationTypeHints = true,
+                        includeInlayFunctionLikeReturnTypeHints = true,
+                        includeInlayEnumMemberValueHints = true,
+                        includeCompletionsForModuleExports = true,
+                        autoImportFileExcludePatterns = { "node_modules/*", ".git/*" },
+                    },
                 },
-                separate_diagnostic_server = true,
-                expose_as_code_action = "all",
-                -- tsserver_plugins = {},
-                tsserver_max_memory = "auto",
-                complete_function_calls = true,
-                include_completions_with_insert_text = true,
-                tsserver_file_preferences = {
-                    quotePreference = "single", -- auto | double | single
-                    includeInlayParameterNameHints = "all", -- "none" | "literals" | "all";
-                    includeInlayParameterNameHintsWhenArgumentMatchesName = true,
-                    includeInlayFunctionParameterTypeHints = true,
-                    includeInlayVariableTypeHints = true,
-                    includeInlayVariableTypeHintsWhenTypeMatchesName = true,
-                    includeInlayPropertyDeclarationTypeHints = true,
-                    includeInlayFunctionLikeReturnTypeHints = true,
-                    includeInlayEnumMemberValueHints = true,
-                    includeCompletionsForModuleExports = true,
-                    autoImportFileExcludePatterns = { "node_modules/*", ".git/*" },
-                },
-            },
-        },
+            }
+        end,
     },
     {
         "neovim/nvim-lspconfig",
@@ -91,12 +93,13 @@ return {
         },
         config = function()
             require("lsp_opts")
+            local lsp_utils = require("lsp_utils")
             local on_attach = lsp_utils.on_attach
 
             -- Set up lspconfig.
             local lspconfig = require("lspconfig")
 
-            local capabilities = lsp_utils.lsp_capabilities
+            local capabilities = lsp_utils.lsp_capabilities()
             local function setup_lsp(server, opts)
                 -- lspconfig[server].setup(opts)
                 local conf = lspconfig[server]
@@ -106,6 +109,57 @@ return {
                     return try_add(bufnr)
                 end
             end
+
+            lsp_utils.setup()
+            lsp_utils.on_supports_method("textDocument/codeLens", function(client, buffer)
+                vim.lsp.codelens.refresh()
+                vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "InsertLeave" }, {
+                    buffer = buffer,
+                    callback = vim.lsp.codelens.refresh,
+                })
+            end)
+
+            local lsp_opts = {
+                inlay_hints = {
+                    exclude = {},
+                },
+            }
+            lsp_utils.on_supports_method("textDocument/inlayHint", function(client, buffer)
+                if
+                    vim.api.nvim_buf_is_valid(buffer)
+                    and vim.bo[buffer].buftype == ""
+                    and not vim.tbl_contains(lsp_opts.inlay_hints.exclude, vim.bo[buffer].filetype)
+                then
+                    vim.lsp.inlay_hint.enable(true, { bufnr = buffer })
+                end
+            end)
+
+            local _, nvim_tree_api = pcall(require, "nvim-tree.api")
+            lsp_utils.on_supports_method("workspace/willRenameFiles", function(client, buffer)
+                local function on_rename(from, to, rename)
+                    local changes = {
+                        files = { { oldUri = vim.uri_from_fname(from), newUri = vim.uri_from_fname(to) } },
+                    }
+
+                    local resp = client.request_sync("workspace/willRenameFiles", changes, 1000, 0)
+                    if resp and resp.result ~= nil then
+                        vim.lsp.util.apply_workspace_edit(resp.result, client.offset_encoding)
+                    end
+
+                    if rename then
+                        rename()
+                    end
+
+                    if client.supports_method("workspace/didRenameFiles") then
+                        client.notify("workspace/didRenameFiles", changes)
+                    end
+                end
+
+                local Event = nvim_tree_api.events.Event
+                nvim_tree_api.events.subscribe(Event.NodeRenamed, function(data)
+                    on_rename(data.old_name, data.new_name, function() end)
+                end)
+            end)
 
             -- NOTE: ===================== setting up servers ======================
 
