@@ -244,6 +244,60 @@ function M.get_raw_config(server)
     return require("lspconfig.server_configurations." .. server)
 end
 
+-- INFO: Global LSP setup ------------------------------------------------------------------
+function M.global_lsp_setup(lsp_opts)
+    if lsp_opts.code_lens.enabled and vim.lsp.codelens then
+        M.on_supports_method("textDocument/codeLens", function(client, buffer)
+            if not vim.tbl_contains(lsp_opts.code_lens.exclude, vim.bo[buffer].filetype) then
+                vim.lsp.codelens.refresh()
+                vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "InsertLeave" }, {
+                    buffer = buffer,
+                    callback = vim.lsp.codelens.refresh,
+                })
+            end
+        end)
+    end
+
+    if lsp_opts.inlay_hints.enabled then
+        M.on_supports_method("textDocument/inlayHint", function(client, buffer)
+            if
+                vim.api.nvim_buf_is_valid(buffer)
+                and vim.bo[buffer].buftype == ""
+                and not vim.tbl_contains(lsp_opts.inlay_hints.exclude, vim.bo[buffer].filetype)
+            then
+                vim.lsp.inlay_hint.enable(true, { bufnr = buffer })
+            end
+        end)
+    end
+
+    local _, nvim_tree_api = pcall(require, "nvim-tree.api")
+    M.on_supports_method("workspace/willRenameFiles", function(client, buffer)
+        local function on_rename(from, to, rename)
+            local changes = {
+                files = { { oldUri = vim.uri_from_fname(from), newUri = vim.uri_from_fname(to) } },
+            }
+
+            local resp = client.request_sync("workspace/willRenameFiles", changes, 1000, 0)
+            if resp and resp.result ~= nil then
+                vim.lsp.util.apply_workspace_edit(resp.result, client.offset_encoding)
+            end
+
+            if rename then
+                rename()
+            end
+
+            if client.supports_method("workspace/didRenameFiles") then
+                client.notify("workspace/didRenameFiles", changes)
+            end
+        end
+
+        local Event = nvim_tree_api.events.Event
+        nvim_tree_api.events.subscribe(Event.NodeRenamed, function(data)
+            on_rename(data.old_name, data.new_name, function() end)
+        end)
+    end)
+end
+
 -- INFO: on_attach func =========================================================================
 M.on_attach = function(client, bufnr)
     -- NOTE: lsp keymap ---------------------------------------------------------------------------------
