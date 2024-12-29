@@ -74,7 +74,7 @@ vim.api.nvim_set_hl(0, "ItemMenuUnknown", { fg = "#fda47f", italic = true })
 -- INFO: theme specific settings
 if vim.g.neovide or vim.g.transparent then
     -- NOTE: only neovide
-    if vim.g.neovide then
+    if vim.g.neovide and vim.g.neovide_custom_color then
         vim.api.nvim_set_hl(0, "NormalFloat", { bg = M.float_color, blend = M.neovide_float_winblend }) -- highlights for cmp menu
         vim.api.nvim_set_hl(
             0,

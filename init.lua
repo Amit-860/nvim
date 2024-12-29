@@ -50,7 +50,7 @@ local default_options = {
     swapfile = false, -- creates a swapfile
     termguicolors = true, -- set term gui colors (most terminals support this)
     timeout = true,
-    timeoutlen = 200, -- time to wait for a mapped sequence to complete (in milliseconds)
+    timeoutlen = 500, -- time to wait for a mapped sequence to complete (in milliseconds)
     -- title          = true,                         -- set the title of window to the value of the titlestring
     -- opt.titlestring = "%<%F%=%l/%L - nvim" -- what the title of the window will be set to
     undofile = true, -- enable persistent undo
@@ -92,21 +92,23 @@ local function is_night()
     return not (now.hour >= 7 and now.hour <= 18)
 end
 
-vim.g.neovide_colorscheme = "nightfox"
+-- vim.g.neovide_colorscheme = "terafox"
+vim.g.neovide_colorscheme = "kanagawa"
+vim.g.neovide_custom_color = false
 vim.g.transparent = false
 -- vim.g.autoload = not (vim.g.neovide or vim.g.vscode)
-vim.g.autoload = false
+vim.g.autoload = true
 
 if is_night() then
     vim.g.is_night = true
     -- vim.g.transparent = true
-    vim.g.colorscheme = "nightfox"
+    vim.g.colorscheme = "catppuccin-macchiato"
     -- vim.g.colorscheme = "terafox"
 else
     vim.g.is_night = false
     -- vim.g.colorscheme = "dayfox"
     -- vim.g.colorscheme = "dawnfox"
-    vim.g.colorscheme = "catppuccin-macchiato"
+    vim.g.colorscheme = "nordfox"
 end
 
 if vim.g.neovide then
@@ -164,7 +166,8 @@ vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 vim.g.python3_host_prog = vim.fn.expand("$HOME/scoop/apps/python/current/python.exe")
 
-vim.o.guifont = "JetBrainsMono Nerd Font Mono:h10:sb"
+vim.o.guifont = "JetBrainsMono NFM:h10:l"
+-- vim.o.guifont = "JetBrainsMono Nerd Font Mono:h10:sb"
 -- vim.o.guifont = "Iosevka Nerd Font Mono:h10.3"
 
 ---  SETTINGS  ---

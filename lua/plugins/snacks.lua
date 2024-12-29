@@ -18,12 +18,13 @@ local dashboard_keys = {
         --     vim.cmd("Telescope oldfiles layout_strategy=horizontal layout_config={preview_width=0.5}")
         -- end,
         action = function()
-            require("telescope").extensions.frecency.frecency({
-                initial_mode = "insert",
-                layout_strategy = "horizontal",
-                layout_config = { preview_width = 0.5 },
-                path_display = { "shorten" },
-            })
+            -- require("telescope").extensions.frecency.frecency({
+            --     initial_mode = "insert",
+            --     layout_strategy = "horizontal",
+            --     layout_config = { preview_width = 0.5 },
+            --     path_display = { "shorten" },
+            -- })
+            require("fzf-lua").oldfiles()
         end,
     },
     {
@@ -255,7 +256,7 @@ local snacks_opts = {
         enabled = true,
     },
     input = {
-        enabled = true,
+        enabled = false,
     },
     -- scroll = {
     --     enabled = not vim.g.neovide,

@@ -115,5 +115,6 @@ return {
         -- calling `setup` is optional for customization
         local fzf_lua = require("fzf-lua")
         fzf_lua.setup(opts)
+        fzf_lua.register_ui_select()
     end,
 }

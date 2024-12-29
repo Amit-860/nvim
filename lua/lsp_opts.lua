@@ -81,13 +81,3 @@ vim.api.nvim_create_user_command("FormatEnable", function()
 end, {
     desc = "Re-enable autoformat-on-save",
 })
-
--- NOTE : lsp autocmds
-local lsp_attach_aug = vim.api.nvim_create_augroup("lsp_attach_aug", { clear = true })
-vim.api.nvim_create_autocmd({ "LspAttach" }, {
-    callback = function(args)
-        local client = vim.lsp.get_client_by_id(args.data.client_id)
-        lsp_utils.on_attach(client, 0)
-    end,
-    group = lsp_attach_aug,
-})

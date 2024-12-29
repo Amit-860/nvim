@@ -149,7 +149,7 @@ local function create_output_window(config)
 end
 
 -- Function to run the code in the output window
-local function run_code()
+local function run_code(cmd)
     local ft = vim.bo.filetype
     local filename = vim.fn.expand("%:p") -- Get the full path of the current file
 
@@ -173,9 +173,12 @@ local function run_code()
     }
 
     local command = command_map[ft]
+    if cmd then
+        command = cmd
+    end
 
     if not command then
-        vim.api.nvim_err_writeln("Unsupported filetype: " .. ft)
+        vim.api.nvim_err_writeln("No default command found : " .. ft)
         return
     end
 
@@ -262,7 +265,14 @@ end
 
 function M.setup(config)
     vim.g.runTA_config = config or {}
-    vim.api.nvim_create_user_command("RunCode", run_code, {})
+    vim.api.nvim_create_user_command("RunCode", function(args)
+        if args.args == "" or args.args == nil then
+            run_code(false)
+        else
+            run_code(args.args)
+        end
+    end, { nargs = "*" })
+
     vim.api.nvim_create_user_command("ReopenLastOutput", reopen_last_output, {})
 end
 

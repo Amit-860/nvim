@@ -1,3 +1,4 @@
+local lsp_utils = require("lsp_utils")
 return {
     {
         "williamboman/mason.nvim",
@@ -10,7 +11,7 @@ return {
             },
         },
     },
-    {
+    --[[ {
         "williamboman/mason-lspconfig.nvim",
         cond = not vim.g.vscode,
         event = { "BufNewFile", "BufReadPost" },
@@ -28,11 +29,12 @@ return {
                     "cssls",
                     "cssmodules_ls",
                     "emmet_language_server",
+                    "jdtls",
                 },
                 automatic_installation = false,
             })
         end,
-    },
+    }, ]]
     {
         "antosha417/nvim-lsp-file-operations",
         event = { "LspAttach" },
@@ -46,16 +48,49 @@ return {
         end,
     },
     {
+        "pmizio/typescript-tools.nvim",
+        ft = { "javascriptreact", "typescriptreact" },
+        cond = not vim.g.vscode,
+        dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
+        opts = {
+            on_attach = lsp_utils.on_attach,
+            capabilities = lsp_utils.lsp_capabilities,
+            settings = {
+                format = { enable = false },
+                tsserver_format_options = {
+                    semicolons = "insert",
+                },
+                separate_diagnostic_server = true,
+                expose_as_code_action = "all",
+                -- tsserver_plugins = {},
+                tsserver_max_memory = "auto",
+                complete_function_calls = true,
+                include_completions_with_insert_text = true,
+                tsserver_file_preferences = {
+                    quotePreference = "single", -- auto | double | single
+                    includeInlayParameterNameHints = "all", -- "none" | "literals" | "all";
+                    includeInlayParameterNameHintsWhenArgumentMatchesName = true,
+                    includeInlayFunctionParameterTypeHints = true,
+                    includeInlayVariableTypeHints = true,
+                    includeInlayVariableTypeHintsWhenTypeMatchesName = true,
+                    includeInlayPropertyDeclarationTypeHints = true,
+                    includeInlayFunctionLikeReturnTypeHints = true,
+                    includeInlayEnumMemberValueHints = true,
+                    includeCompletionsForModuleExports = true,
+                    autoImportFileExcludePatterns = { "node_modules/*", ".git/*" },
+                },
+            },
+        },
+    },
+    {
         "neovim/nvim-lspconfig",
         event = { "BufNewFile", "BufReadPre" },
         cond = not vim.g.vscode,
         dependencies = {
             "williamboman/mason.nvim",
-            -- "nvim-java/nvim-java",
         },
         config = function()
             require("lsp_opts")
-            local lsp_utils = require("lsp_utils")
             local on_attach = lsp_utils.on_attach
 
             -- Set up lspconfig.
@@ -184,68 +219,6 @@ return {
                 capabilities = capabilities,
                 autostart = false,
             })
-
-            -- -- INFO: Java
-
-            -- local java_ok, java = pcall(require, "java")
-            -- if java_ok then
-            --     java.setup({
-            --         -- jdtls = { version = "latest" },
-            --         -- lombok = { version = "nightly" },
-            --         -- -- load java test plugins
-            --         -- java_test = { enable = true, version = "latest" },
-            --         -- -- load java debugger plugins
-            --         -- java_debug_adapter = { enable = true, version = "0.*" },
-            --         -- spring_boot_tools = { enable = true, version = "1.*" },
-            --         jdk = { auto_install = false },
-            --         notifications = { dap = true },
-            --     })
-            -- end
-            -- setup_lsp("jdtls", {
-            --     on_attach = on_attach,
-            --     capabilities = capabilities,
-            --     autostart = false,
-            --     handlers = { ["$/progress"] = function(_, result, ctx) end },
-            --     settings = {
-            --         java = {
-            --             implementationsCodeLens = { enabled = false },
-            --             referencesCodeLens = { enabled = false },
-            --             references = { includeDecompiledSources = true },
-            --             signatureHelp = { enabled = true },
-            --             inlayHints = { parameterNames = { enabled = "all" } },
-            --             saveActions = { organizeImports = false },
-            --             format = {
-            --                 enabled = true,
-            --                 comments = { enabled = true },
-            --                 insertSpaces = true,
-            --                 onType = { enabled = true },
-            --                 settings = {
-            --                     profile = "GoogleStyle",
-            --                     url = "https://raw.githubusercontent.com/google/styleguide/gh-pages/eclipse-java-google-style.xml",
-            --                 },
-            --                 tabSize = 4,
-            --             },
-            --             completion = {
-            --                 maxResults = 20,
-            --                 importOrder = {
-            --                     "java",
-            --                     "javax",
-            --                     "com",
-            --                     "org",
-            --                 },
-            --             },
-            --             sources = {
-            --                 organizeImports = { starThreshold = 9999, staticStarThreshold = 9999 },
-            --             },
-            --             codeGeneration = {
-            --                 toString = {
-            --                     template = "${object.className}{${member.name()}=${member.value}, ${otherMembers}}",
-            --                 },
-            --                 useBlocks = true,
-            --             },
-            --         },
-            --     },
-            -- })
 
             vim.api.nvim_create_autocmd({ "BufReadPre" }, {
                 group = vim.api.nvim_create_augroup("Toggle_LSP_ag", { clear = true }),

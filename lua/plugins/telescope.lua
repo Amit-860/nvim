@@ -9,16 +9,16 @@ return {
         cond = not vim.g.vscode,
         cmd = { "Telescope undo" },
     },
-    {
-        "nvim-telescope/telescope-frecency.nvim",
-        cond = not vim.g.vscode,
-        event = "VeryLazy",
-    },
-    {
-        "nvim-telescope/telescope-live-grep-args.nvim",
-        cond = not vim.g.vscode,
-        event = "VeryLazy",
-    },
+    -- {
+    --     "nvim-telescope/telescope-frecency.nvim",
+    --     cond = not vim.g.vscode,
+    --     event = "VeryLazy",
+    -- },
+    -- {
+    --     "nvim-telescope/telescope-live-grep-args.nvim",
+    --     cond = not vim.g.vscode,
+    --     event = "VeryLazy",
+    -- },
     -- {
     --     "nvim-telescope/telescope-fzf-native.nvim",
     --     cond = not vim.g.vscode,
@@ -237,8 +237,8 @@ return {
         config = function(_, opts)
             local telescope = require("telescope")
             telescope.setup(opts)
-            -- pcall(telescope.load_extension, "fzy_native")
-            -- pcall(telescope.load_extension, "fzf")
+            pcall(telescope.load_extension, "fzy_native")
+            pcall(telescope.load_extension, "fzf")
             pcall(telescope.load_extension, "ui-select")
             pcall(telescope.load_extension, "undo")
             pcall(telescope.load_extension, "project")

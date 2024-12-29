@@ -440,9 +440,9 @@ return {
                 lualine_x = {},
             },
         }
-        if vim.g.neovide then
-            lualine_opts.options.theme = theme
-            lualine_opts.sections = process_sections(custom_color_section)
+        if vim.g.neovide and vim.g.neovide_custom_color then
+            lualine_opts.options.theme = "auto" -- theme | auto
+            lualine_opts.sections = process_sections(no_color_section) -- custom_color_section | no_color_section
         end
 
         return lualine_opts

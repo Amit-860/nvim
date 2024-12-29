@@ -240,34 +240,34 @@ return {
             })
         end,
     },
-    {
-        "drybalka/tree-climber.nvim",
-        event = { "VeryLazy" },
-        init = function()
-            vim.keymap.set(
-                { "n", "v", "o" },
-                "[o",
-                require("tree-climber").goto_parent,
-                { noremap = true, silent = true, desc = "Goto parent node" }
-            )
-            vim.keymap.set(
-                { "n", "v", "o" },
-                "]o",
-                require("tree-climber").goto_child,
-                { noremap = true, silent = true, desc = "Goto child node" }
-            )
-            vim.keymap.set(
-                { "n", "v", "o" },
-                "]]",
-                require("tree-climber").goto_next,
-                { noremap = true, silent = true, desc = "Goto next node" }
-            )
-            vim.keymap.set(
-                { "n", "v", "o" },
-                "[[",
-                require("tree-climber").goto_prev,
-                { noremap = true, silent = true, desc = "Goto perv node" }
-            )
-        end,
-    },
+    -- {
+    --     "drybalka/tree-climber.nvim",
+    --     event = { "VeryLazy" },
+    --     init = function()
+    --         vim.keymap.set(
+    --             { "n", "v", "o" },
+    --             "[o",
+    --             require("tree-climber").goto_parent,
+    --             { noremap = true, silent = true, desc = "Goto parent node" }
+    --         )
+    --         vim.keymap.set(
+    --             { "n", "v", "o" },
+    --             "]o",
+    --             require("tree-climber").goto_child,
+    --             { noremap = true, silent = true, desc = "Goto child node" }
+    --         )
+    --         vim.keymap.set(
+    --             { "n", "v", "o" },
+    --             "]]",
+    --             require("tree-climber").goto_next,
+    --             { noremap = true, silent = true, desc = "Goto next node" }
+    --         )
+    --         vim.keymap.set(
+    --             { "n", "v", "o" },
+    --             "[[",
+    --             require("tree-climber").goto_prev,
+    --             { noremap = true, silent = true, desc = "Goto perv node" }
+    --         )
+    --     end,
+    -- },
 }

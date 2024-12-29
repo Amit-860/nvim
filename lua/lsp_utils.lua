@@ -341,7 +341,7 @@ M.on_attach = function(client, bufnr)
     )
     vim.keymap.set(
         { "n" },
-        "<leader>lt",
+        "<leader>lT",
         -- "<cmd>Telescope lsp_type_definitions theme=get_ivy initial_mode=normal<CR>",
         function()
             require("telescope.builtin").lsp_type_definitions({

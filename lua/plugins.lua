@@ -45,25 +45,25 @@ return {
     },
 
     -- keymappings
-    {
-        "kylechui/nvim-surround",
-        event = "VeryLazy",
-        cond = not vim.g.vscode,
-        keymaps = { "<C-g>s", "<C-g>S", "ys", "yc", "S", "gs", "ds", "cs" },
-        opts = {
-            keymaps = {
-                insert = "<C-g>s",
-                insert_line = "<C-g>S",
-                normal = "ys",
-                normal_cur = "yc",
-                visual = "S",
-                visual_line = "gs",
-                delete = "ds",
-                change = "cs",
-                change_line = "cS",
-            },
-        },
-    },
+    -- {
+    --     "kylechui/nvim-surround",
+    --     event = "VeryLazy",
+    --     cond = not vim.g.vscode,
+    --     keymaps = { "<C-g>s", "<C-g>S", "ys", "yc", "S", "gs", "ds", "cs" },
+    --     opts = {
+    --         keymaps = {
+    --             insert = "<C-g>s",
+    --             insert_line = "<C-g>S",
+    --             normal = "ys",
+    --             normal_cur = "yc",
+    --             visual = "S",
+    --             visual_line = "gs",
+    --             delete = "ds",
+    --             change = "cs",
+    --             change_line = "cS",
+    --         },
+    --     },
+    -- },
 
     -- LSP
     {
@@ -82,39 +82,6 @@ return {
                 end
                 return true
             end,
-        },
-    },
-    {
-        "pmizio/typescript-tools.nvim",
-        ft = { "javascriptreact", "typescriptreact" },
-        cond = not vim.g.vscode,
-        dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
-        opts = {
-            settings = {
-                format = { enable = false },
-                tsserver_format_options = {
-                    semicolons = "insert",
-                },
-                separate_diagnostic_server = true,
-                expose_as_code_action = "all",
-                -- tsserver_plugins = {},
-                tsserver_max_memory = "auto",
-                complete_function_calls = true,
-                include_completions_with_insert_text = true,
-                tsserver_file_preferences = {
-                    quotePreference = "single", -- auto | double | single
-                    includeInlayParameterNameHints = "all", -- "none" | "literals" | "all";
-                    includeInlayParameterNameHintsWhenArgumentMatchesName = true,
-                    includeInlayFunctionParameterTypeHints = true,
-                    includeInlayVariableTypeHints = true,
-                    includeInlayVariableTypeHintsWhenTypeMatchesName = true,
-                    includeInlayPropertyDeclarationTypeHints = true,
-                    includeInlayFunctionLikeReturnTypeHints = true,
-                    includeInlayEnumMemberValueHints = true,
-                    includeCompletionsForModuleExports = true,
-                    autoImportFileExcludePatterns = { "node_modules/*", ".git/*" },
-                },
-            },
         },
     },
     {
@@ -180,6 +147,7 @@ return {
                 "flash_prompt",
                 "neogit",
                 "NeogitStatus",
+                "snacks_dashboard",
                 function(win)
                     return not vim.api.nvim_win_get_config(win).focusable
                 end,

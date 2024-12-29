@@ -3,9 +3,6 @@ if not vim.g.vscode then
     local utils = require("utils")
     local telescope_builtins = require("telescope.builtin")
     local telescope_extensinos = require("telescope").extensions
-    local fzf_lua = function()
-        return pcall(require, "fzf-lua")
-    end
 
     -- explorer
     vim.keymap.set("n", "<leader>e", "<cmd>NvimTreeToggle<cr>", { noremap = true, silent = true, desc = "NvimTree" })
@@ -77,12 +74,14 @@ if not vim.g.vscode then
         "<leader>fr",
         -- "<cmd>Telescope oldfiles layout_strategy=horizontal layout_config={preview_width=0.5}<cr>",
         function()
-            telescope_extensinos.frecency.frecency({
-                initial_mode = "insert",
-                layout_strategy = "horizontal",
-                layout_config = { preview_width = 0.5 },
-                path_display = { "shorten" },
-            })
+            -- telescope_extensinos.frecency.frecency({
+            --     initial_mode = "insert",
+            --     layout_strategy = "horizontal",
+            --     layout_config = { preview_width = 0.5 },
+            --     path_display = { "shorten" },
+            -- })
+            local fzf_lua_ok, fzf_lua = pcall(require, "fzf-lua")
+            fzf_lua.oldfiles()
         end,
         { noremap = true, silent = true, desc = "Recent Files" }
     )
@@ -298,7 +297,7 @@ if not vim.g.vscode then
 
     -- help
     vim.keymap.set("n", "<leader>ok", function()
-        local fzf_lua_ok, fzf_lua = fzf_lua()
+        local fzf_lua_ok, fzf_lua = pcall(require, "fzf-lua")
         if fzf_lua_ok then
             fzf_lua.keymaps()
         else
@@ -306,7 +305,7 @@ if not vim.g.vscode then
         end
     end, { desc = "Search Keymaps", noremap = true, silent = true })
     vim.keymap.set("n", "<leader>oc", function()
-        local fzf_lua_ok, fzf_lua = fzf_lua()
+        local fzf_lua_ok, fzf_lua = pcall(require, "fzf-lua")
         if fzf_lua_ok then
             fzf_lua.commands()
         else
@@ -320,7 +319,7 @@ if not vim.g.vscode then
         { desc = "Search Docs", noremap = true, silent = true }
     )
     vim.keymap.set("n", "<leader>oh", function()
-        local fzf_lua_ok, fzf_lua = fzf_lua()
+        local fzf_lua_ok, fzf_lua = pcall(require, "fzf-lua")
         if fzf_lua_ok then
             fzf_lua.highlights()
         else
