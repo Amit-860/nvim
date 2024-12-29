@@ -95,7 +95,7 @@ end
 -- vim.g.neovide_colorscheme = "terafox"
 vim.g.neovide_colorscheme = "kanagawa"
 vim.g.neovide_custom_color = false
-vim.g.transparent = false
+vim.g.transparent = true
 -- vim.g.autoload = not (vim.g.neovide or vim.g.vscode)
 vim.g.autoload = false
 

@@ -93,12 +93,20 @@ if vim.g.neovide or vim.g.transparent then
     -- NOTE: only transparency
     if vim.g.transparent then
         vim.api.nvim_set_hl(0, "NormalFloat", { bg = M.float_color, blend = M.float_winblend }) -- highlights for cmp menu
+        vim.api.nvim_set_hl(0, "FloatBorder", { bg = M.float_color, blend = M.float_winblend }) -- highlights for cmp menu
         vim.api.nvim_set_hl(
             0,
             "FloatBorder",
             { fg = M.float_border_fg_color, bg = M.float_border_bg_color, blend = M.float_winblend }
         )
-        vim.api.nvim_set_hl(0, "NoiceCmdlinePopup", { bg = M.float_color, blend = M.float_winblend }) -- highlights for cmp menu
+        vim.api.nvim_set_hl(0, "NoiceCmdlinePopup", { bg = M.float_color, blend = M.float_winblend })
+        vim.api.nvim_set_hl(0, "TelescopeBorder", { bg = nil, blend = M.float_winblend })
+        vim.api.nvim_set_hl(0, "FzfLuaNormal", { link = "NormalFloat" })
+        vim.api.nvim_set_hl(0, "FzfLuaBorder", { link = "FloatBorder" })
+        vim.api.nvim_set_hl(0, "NoiceCmdlinePopup", { link = "NormalFloat" })
+        vim.api.nvim_set_hl(0, "NoiceCmdlinePopupBorder", { link = "FloatBorder" })
+        vim.api.nvim_set_hl(0, "SnacksDashboardTerminal", { bg = M.float_color, blend = 10 })
+        vim.api.nvim_set_hl(0, "SnacksNotifierHistory", { link = "NormalFloat" })
     end
 
     -- cmp menu
@@ -118,8 +126,6 @@ if vim.g.neovide or vim.g.transparent then
     vim.api.nvim_set_hl(0, "TreesitterContextLineNumberBottom", { bg = "#001925", fg = "#b8514b", bold = true })
 
     vim.api.nvim_set_hl(0, "YaziFloat", { link = "NormalFloat" })
-
-    -- Floating windows
 end
 
 return M

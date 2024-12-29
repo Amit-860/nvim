@@ -33,13 +33,14 @@ if not vim.g.vscode then
         })
     end, { noremap = true, silent = true, desc = "Find Git Files" })
     vim.keymap.set("n", "<c-f>", function()
-        telescope_builtins.current_buffer_fuzzy_find({
-            initial_mode = "insert",
-            bufnr = 0,
-            theme = "dropdown",
-            layout_strategy = "vertical",
-            layout_config = { preview_height = 0.6 },
-        })
+        -- telescope_builtins.current_buffer_fuzzy_find({
+        --     initial_mode = "insert",
+        --     bufnr = 0,
+        --     theme = "dropdown",
+        --     layout_strategy = "vertical",
+        --     layout_config = { preview_height = 0.6 },
+        -- })
+        vim.cmd("FzfLua grep_curbuf resume=true")
     end, { noremap = true, silent = true, desc = "Find Git Files" })
     vim.keymap.set(
         "n",

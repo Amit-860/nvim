@@ -121,6 +121,7 @@ return {
 
             local lsp_opts = {
                 inlay_hints = {
+                    enabled = true,
                     exclude = {},
                 },
             }
@@ -128,6 +129,7 @@ return {
                 if
                     vim.api.nvim_buf_is_valid(buffer)
                     and vim.bo[buffer].buftype == ""
+                    and lsp_opts.inlay_hints.enabled
                     and not vim.tbl_contains(lsp_opts.inlay_hints.exclude, vim.bo[buffer].filetype)
                 then
                     vim.lsp.inlay_hint.enable(true, { bufnr = buffer })
