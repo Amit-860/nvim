@@ -1,8 +1,6 @@
 if not vim.g.vscode then
     -- ----------------------------------------------------------------------------------------------------------------
     local utils = require("utils")
-    local telescope_builtins = require("telescope.builtin")
-    local telescope_extensinos = require("telescope").extensions
 
     -- explorer
     vim.keymap.set("n", "<leader>e", "<cmd>NvimTreeToggle<cr>", { noremap = true, silent = true, desc = "NvimTree" })
@@ -20,7 +18,7 @@ if not vim.g.vscode then
         "n",
         "<M-f>",
         function()
-            telescope_builtins.resume()
+            require("telescope.builtin").resume()
         end,
         -- "<cmd>Telescope live_grep layout_strategy=horizontal layout_config={preview_width=0.5}<cr>",
         { noremap = true, silent = true, desc = "Find Resume" }
@@ -33,7 +31,7 @@ if not vim.g.vscode then
         })
     end, { noremap = true, silent = true, desc = "Find Git Files" })
     vim.keymap.set("n", "<c-f>", function()
-        -- telescope_builtins.current_buffer_fuzzy_find({
+        -- require("telescope.builtin").current_buffer_fuzzy_find({
         --     initial_mode = "insert",
         --     bufnr = 0,
         --     theme = "dropdown",
@@ -46,7 +44,7 @@ if not vim.g.vscode then
         "n",
         "<leader>fF",
         function()
-            telescope_builtins.find_files({
+            require("telescope.builtin").find_files({
                 initial_mode = "insert",
                 layout_strategy = "horizontal",
                 layout_config = { preview_width = 0.5 },
@@ -59,8 +57,8 @@ if not vim.g.vscode then
         "n",
         "<leader>fs",
         function()
-            -- telescope_builtins.live_grep({
-            -- telescope_extensinos.live_grep_args.live_grep_args({
+            -- require("telescope.builtin").live_grep({
+            -- require("telescope").extensions.live_grep_args.live_grep_args({
             --     initial_mode = "insert",
             --     layout_strategy = "horizontal",
             --     layout_config = { preview_width = 0.5 },
@@ -75,7 +73,7 @@ if not vim.g.vscode then
         "<leader>fr",
         -- "<cmd>Telescope oldfiles layout_strategy=horizontal layout_config={preview_width=0.5}<cr>",
         function()
-            -- telescope_extensinos.frecency.frecency({
+            -- require("telescope").extensions.frecency.frecency({
             --     initial_mode = "insert",
             --     layout_strategy = "horizontal",
             --     layout_config = { preview_width = 0.5 },
@@ -90,7 +88,7 @@ if not vim.g.vscode then
         "n",
         "<leader>fn",
         function()
-            telescope_builtins.find_files({
+            require("telescope.builtin").find_files({
                 find_command = { "fd", "-tf", "-H", "-E", ".git", ".", "D:/notes" },
                 initial_mode = "insert",
                 layout_strategy = "horizontal",
@@ -101,7 +99,7 @@ if not vim.g.vscode then
         { noremap = true, silent = true, desc = "find notes" }
     )
     vim.keymap.set("n", "<leader>fc", function()
-        telescope_builtins.find_files({
+        require("telescope.builtin").find_files({
             find_command = { "fd", "-tf", "-H", "-E", ".git", ".", vim.fn.expand("$HOME/AppData/Local/nvim") },
             initial_mode = "insert",
             layout_strategy = "horizontal",
@@ -109,7 +107,7 @@ if not vim.g.vscode then
         }) -- [[<cmd>lua require'telescope.builtin'.find_files({ find_command = { 'fd','-tf', '-H', '-E', '.git', '.', vim.fn.expand("$HOME/AppData/Local/nvim") } }) layout_strategy=horizontal layout_config={preview_width=0.5}<cr>]]
     end, { noremap = true, silent = true, desc = "find config_files" })
     -- vim.keymap.set("n", "<leader>fp", function()
-    --     telescope_extensinos.lazy_plugins.lazy_plugins({
+    --     require("telescope").extensions.lazy_plugins.lazy_plugins({
     --         initial_mode = "insert",
     --         layout_strategy = "horizontal",
     --         layout_config = { preview_width = 0.5 },
@@ -118,11 +116,10 @@ if not vim.g.vscode then
 
     -- close Buffer
     vim.keymap.set("n", "<leader>x", function()
-        -- local ok, _ = pcall(Snacks.bufdelete)
-        -- if not ok then
-        vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<esc>", true, false, true), "x", true) -- changing to normal mode
-        local c, _ = pcall(vim.cmd, "confirm close")
-        if not c then
+        local ok, _ = pcall(Snacks.bufdelete)
+        -- vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<esc>", true, false, true), "x", true) -- changing to normal mode
+        -- local ok, _ = pcall(vim.cmd, "confirm close")
+        if not ok then
             vim.cmd("confirm bd")
         end
         -- end

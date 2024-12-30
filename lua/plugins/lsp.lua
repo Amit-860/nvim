@@ -53,18 +53,6 @@ return {
         dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
         opts = function()
             local lsp_utils = require("lsp_utils")
-            local lsp_opts = {
-                inlay_hints = {
-                    enabled = true,
-                    exclude = {},
-                },
-                code_lens = {
-                    enabled = true,
-                    exclude = {},
-                },
-            }
-            lsp_utils.setup()
-            lsp_utils.global_lsp_setup(lsp_opts)
             return {
                 on_attach = lsp_utils.on_attach,
                 capabilities = lsp_utils.lsp_capabilities(),

@@ -177,10 +177,7 @@ return {
                 pattern = "java",
                 group = jdtls_aug,
                 callback = function()
-                    if not vim.g.vscode then
-                        jdtls.start_or_attach(config)
-                        local _, _ = pcall(vim.lsp.codelens.refresh)
-                    end
+                    jdtls.start_or_attach(config)
                 end,
             })
         end,

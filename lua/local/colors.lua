@@ -105,7 +105,7 @@ if vim.g.neovide or vim.g.transparent then
         vim.api.nvim_set_hl(0, "FzfLuaBorder", { link = "FloatBorder" })
         vim.api.nvim_set_hl(0, "NoiceCmdlinePopup", { link = "NormalFloat" })
         vim.api.nvim_set_hl(0, "NoiceCmdlinePopupBorder", { link = "FloatBorder" })
-        vim.api.nvim_set_hl(0, "SnacksDashboardTerminal", { bg = M.float_color, blend = 10 })
+        vim.api.nvim_set_hl(0, "SnacksDashboardTerminal", { bg = "#111c25", blend = 10 })
         vim.api.nvim_set_hl(0, "SnacksNotifierHistory", { link = "NormalFloat" })
     end
 
