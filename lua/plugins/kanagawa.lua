@@ -1,6 +1,7 @@
 return {
     "rebelot/kanagawa.nvim",
     priority = 1000,
+    cond = false,
     config = function()
         -- Default options:
         require("kanagawa").setup({

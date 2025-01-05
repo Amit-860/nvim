@@ -133,13 +133,13 @@ local dashboard_sections = {
         title = "Git Status",
         section = "terminal",
         enabled = function()
-            return Snacks.git.get_root() ~= nil
+            return require("snacks").git.get_root() ~= nil
         end,
         cmd = "git --no-pager diff --stat --stat-graph-width=28 -B -M -C",
         -- cmd = "git -c color.status=always status -sb --ignore-submodules=dirty && git diff --shortstat",
         key = "-",
         action = function()
-            Snacks.lazygit()
+            require("snacks").lazygit()
         end,
         height = 9,
         padding = 1,
@@ -217,7 +217,7 @@ local snacks_opts = {
         enabled = true,
     },
     lazygit = {
-        enabled = true,
+        enabled = false,
     },
     statuscolumn = {
         enabled = true,
@@ -287,10 +287,9 @@ local snacks_opts = {
             --     "SnacksIndent8",
             -- },
         },
-        ---@field style? "out"|"up_down"|"down"|"up"
         animate = {
             enabled = true,
-            style = "out",
+            style = "out", --  "out"|"up_down"|"down"|"up"
             easing = "linear",
             duration = {
                 step = 100, -- ms per step
@@ -382,63 +381,63 @@ local snacks_keys = {
     {
         "<F13>.",
         function()
-            Snacks.scratch()
+            require("snacks").scratch()
         end,
         desc = "Toggle Scratch Buffer",
     },
     {
         "<F13>?",
         function()
-            Snacks.scratch.select()
+            require("snacks").scratch.select()
         end,
         desc = "Select Scratch Buffer",
     },
     {
         "<F13>n",
         function()
-            Snacks.notifier.show_history()
+            require("snacks").notifier.show_history()
         end,
         desc = "Notification History",
     },
     {
         "<F13>gb",
         function()
-            Snacks.git.blame_line()
+            require("snacks").git.blame_line()
         end,
         desc = "Git Blame Line",
     },
     {
         "<F13>gl",
         function()
-            Snacks.lazygit.log_file()
+            require("snacks").lazygit.log_file()
         end,
         desc = "Lazygit Current File History",
     },
     {
         "<F13>gg",
         function()
-            Snacks.lazygit()
+            require("snacks").lazygit()
         end,
         desc = "Lazygit",
     },
     {
         "<F13>gL",
         function()
-            Snacks.lazygit.log()
+            require("snacks").lazygit.log()
         end,
         desc = "Lazygit Log (cwd)",
     },
     {
         "<F13>N",
         function()
-            Snacks.notifier.hide()
+            require("snacks").notifier.hide()
         end,
         desc = "Dismiss All Notifications",
     },
     {
         "<F13>z",
         function()
-            Snacks.zen()
+            require("snacks").zen()
         end,
         desc = "Dismiss All Notifications",
     },
@@ -447,22 +446,23 @@ local snacks_keys = {
 return {
     "folke/snacks.nvim",
     cond = not vim.g.vscode,
-    priority = 1000,
-    lazy = false,
+    event = "UIEnter",
     opts = snacks_opts,
     keys = snacks_keys,
     init = function()
         vim.api.nvim_create_autocmd("User", {
             pattern = "VeryLazy",
             callback = function()
+                local Snacks = require("snacks")
+
                 -- Setup some globals for debugging (lazy-loaded)
-                _G.dd = function(...)
-                    Snacks.debug.inspect(...)
-                end
-                _G.bt = function()
-                    Snacks.debug.backtrace()
-                end
-                vim.print = _G.dd -- Override print to use snacks for `:=` command
+                -- _G.dd = function(...)
+                --     Snacks.debug.inspect(...)
+                -- end
+                -- _G.bt = function()
+                --     Snacks.debug.backtrace()
+                -- end
+                -- vim.print = _G.dd -- Override print to use snacks for `:=` command
 
                 -- Create some toggle mappings
                 Snacks.toggle.option("spell", { name = "Spelling" }):map("<F13>ts")

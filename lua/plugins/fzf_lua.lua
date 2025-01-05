@@ -76,7 +76,6 @@ return {
                     vim.keymap.set("t", "<C-k>", "<Up>", { silent = true, buffer = true })
                 end,
             },
-            global_git_icons = false,
             -- Configuration for specific commands.
             files = {
                 winopts = {

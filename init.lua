@@ -92,8 +92,7 @@ local function is_night()
     return not (now.hour >= 7 and now.hour <= 18)
 end
 
--- vim.g.neovide_colorscheme = "terafox"
-vim.g.neovide_colorscheme = "kanagawa"
+vim.g.neovide_colorscheme = "terafox"
 vim.g.neovide_custom_color = false
 vim.g.transparent = true
 -- vim.g.autoload = not (vim.g.neovide or vim.g.vscode)

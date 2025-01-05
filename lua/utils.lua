@@ -366,4 +366,29 @@ function M.on_load(name, fn)
     end
 end
 
+function M.get_highlight_colors(name)
+    local hl = vim.api.nvim_get_hl(0, { name = name, link = true })
+
+    if not hl then
+        return nil, nil
+    end
+
+    local fg = nil
+    local bg = nil
+
+    if hl.guifg then
+        fg = string.format("#%06x", hl.guifg) -- Format as hex if it's a number
+    elseif hl.fg then
+        fg = string.format("#%06x", hl.fg)
+    end
+
+    if hl.guibg then
+        bg = string.format("#%06x", hl.guibg) -- Format as hex if it's a number
+    elseif hl.bg then
+        bg = string.format("#%06x", hl.bg)
+    end
+
+    return fg, bg
+end
+
 return M

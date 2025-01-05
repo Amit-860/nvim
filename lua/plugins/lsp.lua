@@ -228,11 +228,11 @@ return {
                 filetypes = { "css", "scss", "html", "typescriptreact", "javascriptreact" },
                 autostart = false,
             })
-            setup_lsp("emmet_language_server", {
-                on_attach = on_attach,
-                capabilities = capabilities,
-                autostart = false,
-            })
+            -- setup_lsp("emmet_language_server", {
+            --     on_attach = on_attach,
+            --     capabilities = capabilities,
+            --     autostart = false,
+            -- })
 
             vim.api.nvim_create_autocmd({ "BufReadPre" }, {
                 group = vim.api.nvim_create_augroup("Toggle_LSP_ag", { clear = true }),

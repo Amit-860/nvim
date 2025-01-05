@@ -103,7 +103,7 @@ local blink_opts = {
             dadbod = { name = "Dadbod", module = "vim_dadbod_completion.blink" },
             buffer = {
                 score_offset = -3,
-                min_keyword_length = 3, -- Minimum number of characters in the keyword to trigger the provider
+                min_keyword_length = 2, -- Minimum number of characters in the keyword to trigger the provider
                 max_items = 8,
             },
             spell = {
@@ -113,7 +113,7 @@ local blink_opts = {
                 transform_items = nil, -- Function to transform the items before they're returned
                 should_show_items = true, -- Whether or not to show the items
                 max_items = 5, -- Maximum number of items to display in the menu
-                min_keyword_length = 3, -- Minimum number of characters in the keyword to trigger the provider
+                min_keyword_length = 2, -- Minimum number of characters in the keyword to trigger the provider
                 fallbacks = {}, -- If any of these providers return 0 items, it will fallback to this provider
                 override = nil, -- Override the source's functions
                 opts = {},
@@ -155,9 +155,8 @@ local blink_opts = {
     keymap = {
         preset = "enter",
         ["<M-d>"] = { "show", "show_documentation", "hide_documentation" },
-
-        ["<C-c>"] = { "hide", "fallback" },
-        ["<C-e>"] = {
+        ["<Esc>"] = { "cancel", "hide", "fallback" },
+        ["<M-m>"] = {
             function(cmp)
                 if vim.api.nvim_get_mode().mode == "c" then
                     cmp.show({ providers = { "cmdline", "path" } })
@@ -166,9 +165,17 @@ local blink_opts = {
                     cmp.show({})
                 end
             end,
-            "fallback",
         },
-
+        ["<M-s>"] = {
+            function(cmp)
+                if vim.api.nvim_get_mode().mode == "c" then
+                    cmp.show({ providers = { "cmdline", "path" } })
+                else
+                    -- cmp.show({ providers = { "codeium", "lsp", "luasnip", "path", "buffer" } })
+                    cmp.show({})
+                end
+            end,
+        },
         ["<C-u>"] = { "scroll_documentation_up", "fallback" },
         ["<C-d>"] = { "scroll_documentation_down", "fallback" },
         --
@@ -198,12 +205,11 @@ local blink_opts = {
         ["<Tab>"] = {
             function(cmp)
                 if cmp.snippet_active() then
-                    return cmp.accept()
+                    return cmp.snippet_forward()
                 else
                     return cmp.select_and_accept()
                 end
             end,
-            "snippet_forward",
             "fallback",
         },
         ["<S-Tab>"] = { "snippet_backward", "fallback" },
@@ -292,7 +298,7 @@ local blink_opts = {
             winhighlight = "Normal:BlinkCmpDoc,FloatBorder:FloatBorder,CursorLine:BlinkCmpDocCursorLine,Search:None",
             draw = {
                 -- Aligns the keyword you've typed to a component in the menu
-                align_to_component = "kind_icon", -- or 'none' to disable
+                align_to = "kind_icon", -- or 'none' to disable
                 -- Left and right padding, optionally { left, right } for different padding on each side
                 padding = { 0, 1 },
                 -- Gap between columns

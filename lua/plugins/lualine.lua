@@ -4,6 +4,7 @@ return {
     cond = not vim.g.vscode,
     dependencies = { "nvim-tree/nvim-web-devicons" },
     opts = function()
+        local utils = require("utils")
         local icons = require("icons")
         local colors = {
             grey = "#a0a1a7",
@@ -246,6 +247,7 @@ return {
 
         local custom_color_section = {
             lualine_a = {
+                "fileformat",
                 {
                     "mode",
                     color = { gui = "bold" },
@@ -280,7 +282,7 @@ return {
                 {
                     "filename",
                     file_status = false,
-                    path = 1, -- 0 shows noly fileaname, 1 shows relative filepath, 2 shows absolute filepath
+                    path = 0, -- 0 shows noly fileaname, 1 shows relative filepath, 2 shows absolute filepath
                     color = { bg = colors.bg3 },
                     -- cond = conditions.hide_in_width,
                 },
@@ -321,7 +323,17 @@ return {
                     end,
                 },
             },
-            lualine_c = {},
+            lualine_c = {
+                {
+                    function()
+                        return string.lower(tostring(os.date("%a, %I:%M %p")))
+                    end,
+                    -- color = function()
+                    --     local fg, _ = utils.get_highlight_colors("@field")
+                    --     return { fg = fg }
+                    -- end,
+                },
+            },
             lualine_x = { search_result },
             lualine_y = {
                 { "filetype", color = { bg = colors.bg3 }, on_click = diagnostics_on_click },
@@ -332,6 +344,7 @@ return {
 
         local no_color_section = {
             lualine_a = {
+                "fileformat",
                 {
                     "mode",
                     color = { gui = "bold" },
@@ -372,7 +385,7 @@ return {
                 {
                     "filename",
                     file_status = false,
-                    path = 1, -- 0 shows noly fileaname, 1 shows relative filepath, 2 shows absolute filepath,
+                    path = 0, -- 0 shows noly fileaname, 1 shows relative filepath, 2 shows absolute filepath,
                     -- cond = conditions.hide_in_width,
                 },
                 {
@@ -412,7 +425,17 @@ return {
                     end,
                 },
             },
-            lualine_c = {},
+            lualine_c = {
+                {
+                    function()
+                        return string.lower(tostring(os.date("%a, %I:%M %p")))
+                    end,
+                    -- color = function()
+                    --     local fg, _ = utils.get_highlight_colors("@field")
+                    --     return { fg = fg }
+                    -- end,
+                },
+            },
             lualine_x = { search_result },
             lualine_y = {
                 { "filetype", on_click = diagnostics_on_click },

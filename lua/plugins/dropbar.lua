@@ -7,6 +7,7 @@ return {
             -- build = "make",
         },
         event = { "BufReadPost", "BufNewFile" },
+        keys = { "<leader>;" },
         config = function()
             local dropbar_api = require("dropbar.api")
             vim.keymap.set("n", "<Leader>;", dropbar_api.pick, { desc = "Winbar Symbol" })

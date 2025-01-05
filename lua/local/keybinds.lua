@@ -116,12 +116,9 @@ if not vim.g.vscode then
 
     -- close Buffer
     vim.keymap.set("n", "<leader>x", function()
-        local ok, _ = pcall(Snacks.bufdelete)
         -- vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<esc>", true, false, true), "x", true) -- changing to normal mode
         -- local ok, _ = pcall(vim.cmd, "confirm close")
-        if not ok then
-            vim.cmd("confirm bd")
-        end
+        vim.cmd("confirm bd")
         -- end
     end, { noremap = true, silent = true, desc = "which_key_ignore" })
     vim.keymap.set("n", "<leader>X", "<cmd>bd!<cr>", { noremap = true, silent = true, desc = "which_key_ignore" })
@@ -156,15 +153,12 @@ if not vim.g.vscode then
     end, { noremap = true, silent = true, desc = "Quit" })
     vim.keymap.set("n", "<leader>qw", "<cmd>wq<cr>", { noremap = true, silent = true, desc = "Write & Exit" })
     vim.keymap.set("n", "<leader>qQ", "<cmd>q!<cr>", { noremap = true, silent = true, desc = "Force Exit" })
-    vim.keymap.set({ "n", "i" }, "<C-q>", function()
+    vim.keymap.set({ "n", "i", "c", "t" }, "<C-q>", function()
         vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<esc>", true, false, true), "x", true) -- changing to normal mode
-        local s1, _ = pcall(vim.cmd, "confirm close")
-        -- if not s1 then
-        -- local s2, _ = pcall(vim.cmd, "confirm bd")
-        -- if not s2 then
-        -- vim.cmd("confirm q")
-        -- end
-        -- end
+        local ok, _ = pcall(vim.cmd, "confirm close")
+        if not ok then
+            require("snacks").bufdelete()
+        end
     end, { noremap = true, silent = true, desc = "Exit" })
 
     -- tab
@@ -184,7 +178,7 @@ if not vim.g.vscode then
     -- Home
     vim.keymap.set("n", "<leader>.", function()
         -- vim.cmd("Dashboard")
-        Snacks.dashboard.open()
+        require("snacks").dashboard.open()
     end, { noremap = true, silent = true, desc = "which_key_ignore" })
 
     --lazy
@@ -290,7 +284,7 @@ if not vim.g.vscode then
         { desc = "Replace Selected", noremap = true, silent = true }
     )
     vim.keymap.set({ "n" }, "<leader>rf", function()
-        Snacks.rename.rename_file()
+        require("snacks").rename.rename_file()
     end, { desc = "Rename File", noremap = true, silent = true })
 
     -- help
@@ -375,7 +369,7 @@ if not vim.g.vscode then
 
     -- general
     vim.keymap.set({ "n", "i" }, "<c-s>", "<esc>:w!<cr>", { noremap = false, silent = true, desc = "Save" })
-    vim.keymap.set({ "n", "i" }, "<M-s>", function()
+    vim.keymap.set({ "n", "i" }, "<C-M-s>", function()
         utils.save_as()
     end, { noremap = false, silent = true, desc = "Save_as" })
     vim.keymap.set({ "n", "i" }, "<M-o>", "<C-6>", { noremap = true, silent = true, desc = "Edit the alternate file" })

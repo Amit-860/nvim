@@ -10,6 +10,18 @@ return {
                 adaptive_size = true,
                 side = "right",
                 width = "22%",
+                float = {
+                    enable = true,
+                    quit_on_focus_loss = true,
+                    open_win_config = {
+                        relative = "editor",
+                        border = "none",
+                        height = vim.o.lines - 2,
+                        width = math.floor(vim.o.columns * 0.5),
+                        row = 1,
+                        col = vim.o.columns,
+                    },
+                },
             },
             renderer = {
                 full_name = true,
