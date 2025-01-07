@@ -61,6 +61,13 @@ M.lsp_capabilities = function()
     )
 end
 
+M.virtual_text_signs = {
+    source = "if_many",
+    -- prefix = " ",
+    prefix = " ",
+    -- prefix = "⏺ ",
+}
+
 M.default_diagnostic_config = {
     signs = {
         active = true,
@@ -71,12 +78,7 @@ M.default_diagnostic_config = {
             { name = "DiagnosticSignInfo", text = icons.diagnostics.Information },
         },
     },
-    virtual_text = {
-        source = "if_many",
-        -- prefix = " ",
-        -- prefix = " ",
-        prefix = "⏺ ",
-    },
+    virtual_text = M.virtual_text_signs,
     virtual_lines = false,
     update_in_insert = false,
     underline = true,
@@ -441,49 +443,23 @@ M.on_attach = function(client, bufnr)
         if not lsp_lines_enable then
             M.default_diagnostic_config.virtual_text = false
             M.default_diagnostic_config.virtual_lines = true
-            lsp_lines_enable = true
         else
-            M.default_diagnostic_config.virtual_text = {
-                source = "if_many",
-                -- prefix = " ",
-                -- prefix = " ",
-                prefix = "⏺ ",
-            }
+            M.default_diagnostic_config.virtual_text = M.virtual_text_signs
             M.default_diagnostic_config.virtual_lines = false
-            lsp_lines_enable = false
         end
+        lsp_lines_enable = not lsp_lines_enable
         vim.diagnostic.config(M.default_diagnostic_config)
     end, { desc = "Toggle HlChunk", noremap = true })
 
-    -- enable lsplines for curr line
-    local lsp_lines_curr_line_enabled = false
-    vim.keymap.set("n", "<F13>l", function()
-        if lsp_lines_enable then
-            return
-        end
-        if not lsp_lines_curr_line_enabled then
-            M.default_diagnostic_config.virtual_lines = { only_current_line = true }
-            lsp_lines_curr_line_enabled = true
-        else
-            M.default_diagnostic_config.virtual_lines = false
-            lsp_lines_curr_line_enabled = false
-        end
-        vim.diagnostic.config(M.default_diagnostic_config)
-    end, { desc = "HlChunk .", noremap = true })
     -- autocmd to disable per line HlChunk
     vim.api.nvim_create_autocmd({ "InsertEnter", "InsertLeave", "CursorMoved", "CursorMovedI" }, {
         group = vim.api.nvim_create_augroup("Diaable_hlchunk", { clear = true }),
         callback = function()
             if M.default_diagnostic_config.virtual_lines then
                 M.default_diagnostic_config.virtual_lines = false
-                M.default_diagnostic_config.virtual_text = {
-                    source = "if_many",
-                    -- prefix = " ",
-                    -- prefix = " ",
-                    prefix = "⏺ ",
-                }
+                M.default_diagnostic_config.virtual_text = M.virtual_text_signs
                 vim.diagnostic.config(M.default_diagnostic_config)
-                lsp_lines_curr_line_enabled = false
+                lsp_lines_enable = false
             end
         end,
     })

@@ -35,7 +35,7 @@ return {
         event = "VeryLazy",
         dependencies = {
             -- "nvim-telescope/telescope-ui-select.nvim",
-            -- "nvim-telescope/telescope-fzy-native.nvim",
+            "nvim-telescope/telescope-fzy-native.nvim",
         },
         opts = function()
             local icons = require("icons")

@@ -175,6 +175,7 @@ return {
             { "<leader>c", group = "Cursor", icon = "󰗧" },
             { "<leader>f", group = "Find" },
             { "<leader>g", group = "Git" },
+            { "<leader>m", group = "Grapple", icon = icons.ui.Watches },
             { "<leader>l", group = "LSP", icon = icons.astro.ActiveLSP },
             { "<leader>lt", group = "Test", icon = icons.astro.LSPLoading1 },
             { "<leader>n", group = "Notes", icon = icons.ui.Note },
@@ -192,7 +193,6 @@ return {
             { "<F13>t", desc = "Toggle", icon = icons.astro.Selected },
             { "<F13>g", desc = "Git", icon = icons.astro.GitBranch },
             { "<F13>o", desc = "Oil", icon = icons.astro.FolderEmpty },
-            { "<F13>l", desc = "HlChunk", icon = icons.astro.DiagnosticHint },
             { "<F13>d", desc = "Dadbod", icon = icons.astro.FileNew },
         })
     end,

@@ -7,6 +7,9 @@ return {
         "<leader>cn",
         "<leader>cN",
         "<leader>cA",
+        "<C-M-i>",
+        "<C-M-n>",
+        "<C-M-p>",
     },
     config = function()
         local mc = require("multicursor-nvim")
@@ -33,10 +36,16 @@ return {
         set({ "n", "v" }, "<leader>cn", function()
             mc.matchAddCursor(1)
         end, { desc = "matchAddCursor[1]" })
+        set({ "n", "v" }, "<C-M-n>", function()
+            mc.matchAddCursor(1)
+        end, { desc = "matchAddCursor[1]" })
         set({ "n", "v" }, "<leader>cs", function()
             mc.matchSkipCursor(1)
         end, { desc = "matchSkipCursor[1]" })
         set({ "n", "v" }, "<leader>cN", function()
+            mc.matchAddCursor(-1)
+        end, { desc = "matchAddCursor[-1]" })
+        set({ "n", "v" }, "<C-M-p>", function()
             mc.matchAddCursor(-1)
         end, { desc = "matchAddCursor[-1]" })
         set({ "n", "v" }, "<leader>cS", function()
@@ -50,6 +59,9 @@ return {
         set("n", "<leader>cc", function()
             mc.addCursor()
         end, { desc = "addCursor" })
+        set("n", "<C-M-i>", function()
+            mc.addCursor()
+        end, { desc = "addCursor" })
         -- set("n", "<leader><right>", function()
         --     mc.skipCursor("w")
         -- end)
@@ -60,6 +72,7 @@ return {
 
         -- Delete the main cursor.
         set({ "n", "v" }, "<leader>cd", mc.deleteCursor, { desc = "deleteCursor" })
+        set({ "n", "v" }, "<C-M-d>", mc.deleteCursor, { desc = "deleteCursor" })
 
         -- Add and remove cursors with control + left click.
         set("n", "<c-leftmouse>", mc.handleMouse)

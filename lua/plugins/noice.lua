@@ -41,18 +41,18 @@ return {
                     win_options = {
                         winhighlight = "NormalFloat:NormalFloat,FloatBorder:FloatBorder",
                     },
-                    -- relative = "win",
+                    relative = "editor", -- win, cursor
+                    -- position = {
+                    --     row = math.floor(vim.o.lines * 0.22),
+                    --     -- col = math.floor(vim.o.columns * 0.35),
+                    --     col = "50%",
+                    -- },
                     position = {
-                        row = math.floor(vim.o.lines * 0.22),
-                        -- col = math.floor(vim.o.columns * 0.35),
+                        row = "90%",
                         col = "50%",
                     },
-                    -- position = {
-                    --     row = 10,
-                    --     col = "50%"
-                    -- },
                     size = {
-                        width = "45%",
+                        width = "60%",
                     },
                 },
                 hover = {
