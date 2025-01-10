@@ -1,19 +1,20 @@
-local lsp_utils = require("lsp_utils")
+local M = {}
 
-vim.diagnostic.config(lsp_utils.default_diagnostic_config)
-
-local signs = { Error = "󰅚 ", Warn = "󰀪 ", Hint = "󰌶 ", Info = " " }
--- for type, icon in pairs(signs) do
---     local hl = "DiagnosticSign" .. type
---     vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
--- end
-vim.diagnostic.config({
+M.diagnostic_signs = { Error = "󰅚 ", Warn = "󰀪 ", Hint = "󰌶 ", Info = " " }
+M.virtual_text_signs = {
+    source = "if_many",
+    -- prefix = " ",
+    prefix = " ",
+    -- prefix = "⏺ ",
+}
+M.default_diagnostic_config = {
     signs = {
+        active = true,
         text = {
-            [vim.diagnostic.severity.ERROR] = signs.Error,
-            [vim.diagnostic.severity.WARN] = signs.Warn,
-            [vim.diagnostic.severity.HINT] = signs.Hint,
-            [vim.diagnostic.severity.INFO] = signs.Info,
+            [vim.diagnostic.severity.ERROR] = M.diagnostic_signs.Error,
+            [vim.diagnostic.severity.WARN] = M.diagnostic_signs.Warn,
+            [vim.diagnostic.severity.HINT] = M.diagnostic_signs.Hint,
+            [vim.diagnostic.severity.INFO] = M.diagnostic_signs.Info,
         },
         numhl = {
             [vim.diagnostic.severity.ERROR] = "DiagnosticSign" .. "Error",
@@ -22,7 +23,69 @@ vim.diagnostic.config({
             [vim.diagnostic.severity.INFO] = "DiagnosticSign" .. "Info",
         },
     },
-})
+    virtual_text = M.virtual_text_signs,
+    virtual_lines = false,
+    update_in_insert = false,
+    underline = true,
+    severity_sort = true,
+    float = {
+        focusable = true,
+        style = "minimal",
+        border = "single",
+        source = "always",
+        header = "",
+        prefix = "",
+    },
+}
+
+M.default_capabilities_opts = {
+    workspace = {
+        fileOperations = {
+            didRename = true,
+            willRename = true,
+        },
+        didChangeWorkspaceFolders = {
+            dynamicRegistration = true,
+        },
+        didChangeConfiguration = {
+            dynamicRegistration = true,
+        },
+    },
+    textDocument = {
+        semanticTokens = {
+            dynamicRegistration = true,
+        },
+        callHierarchy = {
+            dynamicRegistration = true,
+        },
+        synchronization = {
+            didChange = true,
+            willSave = true,
+            dynamicRegistration = true,
+            willSaveWaitUntil = true,
+            didSave = true,
+        },
+    },
+}
+
+M.open_diagnostics_float = function()
+    vim.diagnostic.open_float({
+        scope = "cursor",
+        focusable = false,
+        border = "single",
+        close_events = {
+            "CursorMoved",
+            "CursorMovedI",
+            "BufHidden",
+            "InsertCharPre",
+            "WinLeave",
+            "InsertEnter",
+            "InsertLeave",
+        },
+    })
+end
+
+vim.diagnostic.config(M.default_diagnostic_config)
 
 -- Disabled as using Noice for this
 local hover_opts = {
@@ -62,8 +125,6 @@ local signature_help_opts = {
 }
 vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, signature_help_opts)
 
-vim.keymap.set({ "n" }, "<F13>k", lsp_utils.open_diagnostics_float, { desc = "Open diagnostics float", noremap = true })
-
 vim.api.nvim_create_user_command("FormatDisable", function(args)
     if args.bang then
         -- FormatDisable! will disable formatting just for this buffer
@@ -81,3 +142,5 @@ vim.api.nvim_create_user_command("FormatEnable", function()
 end, {
     desc = "Re-enable autoformat-on-save",
 })
+
+return M

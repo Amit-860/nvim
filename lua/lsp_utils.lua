@@ -1,36 +1,11 @@
 local M = {}
-local icons = require("icons")
 local utils = require("utils")
+local lsp_options = require("lsp_opts")
 
-local capabilities_opts = {
-    workspace = {
-        fileOperations = {
-            didRename = true,
-            willRename = true,
-        },
-        didChangeWorkspaceFolders = {
-            dynamicRegistration = true,
-        },
-        didChangeConfiguration = {
-            dynamicRegistration = true,
-        },
-    },
-    textDocument = {
-        semanticTokens = {
-            dynamicRegistration = true,
-        },
-        callHierarchy = {
-            dynamicRegistration = true,
-        },
-        synchronization = {
-            didChange = true,
-            willSave = true,
-            dynamicRegistration = true,
-            willSaveWaitUntil = true,
-            didSave = true,
-        },
-    },
-}
+local virtual_text_signs = lsp_options.virtual_text_signs
+local default_diagnostic_config = lsp_options.default_diagnostic_config
+local capabilities_opts = lsp_options.default_capabilities_opts
+local open_diagnostics_float = lsp_options.open_diagnostics_float
 
 M.lsp_capabilities = function()
     local cmp_ok, cmp = pcall(require, "cmp_nvim_lsp")
@@ -59,55 +34,6 @@ M.lsp_capabilities = function()
         blink_capabilities,
         lsp_file_capabilities
     )
-end
-
-M.virtual_text_signs = {
-    source = "if_many",
-    -- prefix = " ",
-    prefix = " ",
-    -- prefix = "⏺ ",
-}
-
-M.default_diagnostic_config = {
-    signs = {
-        active = true,
-        values = {
-            { name = "DiagnosticSignError", text = icons.diagnostics.Error },
-            { name = "DiagnosticSignWarn", text = icons.diagnostics.Warning },
-            { name = "DiagnosticSignHint", text = icons.diagnostics.Hint },
-            { name = "DiagnosticSignInfo", text = icons.diagnostics.Information },
-        },
-    },
-    virtual_text = M.virtual_text_signs,
-    virtual_lines = false,
-    update_in_insert = false,
-    underline = true,
-    severity_sort = true,
-    float = {
-        focusable = true,
-        style = "minimal",
-        border = "single",
-        source = "always",
-        header = "",
-        prefix = "",
-    },
-}
-
-M.open_diagnostics_float = function()
-    vim.diagnostic.open_float({
-        scope = "cursor",
-        focusable = false,
-        border = "single",
-        close_events = {
-            "CursorMoved",
-            "CursorMovedI",
-            "BufHidden",
-            "InsertCharPre",
-            "WinLeave",
-            "InsertEnter",
-            "InsertLeave",
-        },
-    })
 end
 
 -- NOTE: ---------------------------------------------------------------------------------------
@@ -140,7 +66,7 @@ function M.on_lsp_attach(on_attach, name)
             local client = vim.lsp.get_client_by_id(args.data.client_id)
             if client and (not name or client.name == name) then
                 -- INFO: add any thing here if it has to attach to all lsp_attached buffer
-                -- Examle : - below keymap will attach to all lsp attached buffers other
+                -- Example : - below keymap will attach to all lsp attached buffers other
                 -- wise add it to M.on_attach func if need to attach only to specific lsp/buffers
                 -- and pass that on_attach func to LSP during setup
                 -- vim.keymap.set("n", "<leader>m", function() end, {})
@@ -324,6 +250,7 @@ M.on_attach = function(client, bufnr)
             row = -math.floor(vim.o.lines * 0.2),
             col = 6,
             preview = {
+                border = vim.g.win_border,
                 vertical = "up:60%",
                 delay = 0,
             },
@@ -441,24 +368,24 @@ M.on_attach = function(client, bufnr)
     local lsp_lines_enable = false
     vim.keymap.set("n", "<leader>lh", function()
         if not lsp_lines_enable then
-            M.default_diagnostic_config.virtual_text = false
-            M.default_diagnostic_config.virtual_lines = true
+            default_diagnostic_config.virtual_text = false
+            default_diagnostic_config.virtual_lines = true
         else
-            M.default_diagnostic_config.virtual_text = M.virtual_text_signs
-            M.default_diagnostic_config.virtual_lines = false
+            default_diagnostic_config.virtual_text = virtual_text_signs
+            default_diagnostic_config.virtual_lines = false
         end
         lsp_lines_enable = not lsp_lines_enable
-        vim.diagnostic.config(M.default_diagnostic_config)
+        vim.diagnostic.config(default_diagnostic_config)
     end, { desc = "Toggle HlChunk", noremap = true })
 
-    -- autocmd to disable per line HlChunk
+    -- autocmd to disable HlChunk
     vim.api.nvim_create_autocmd({ "InsertEnter", "InsertLeave", "CursorMoved", "CursorMovedI" }, {
         group = vim.api.nvim_create_augroup("Diaable_hlchunk", { clear = true }),
         callback = function()
-            if M.default_diagnostic_config.virtual_lines then
-                M.default_diagnostic_config.virtual_lines = false
-                M.default_diagnostic_config.virtual_text = M.virtual_text_signs
-                vim.diagnostic.config(M.default_diagnostic_config)
+            if default_diagnostic_config.virtual_lines then
+                default_diagnostic_config.virtual_lines = false
+                default_diagnostic_config.virtual_text = virtual_text_signs
+                vim.diagnostic.config(default_diagnostic_config)
                 lsp_lines_enable = false
             end
         end,
@@ -495,6 +422,9 @@ M.on_attach = function(client, bufnr)
 
     -- outline
     vim.keymap.set({ "n" }, "<leader>ls", "<cmd>Outline<CR>", { desc = "Document Symbols", noremap = true })
+
+    -- open_diagnostics_float
+    vim.keymap.set({ "n" }, "<F13>k", open_diagnostics_float, { desc = "Open diagnostics float", noremap = true })
 end
 
 return M

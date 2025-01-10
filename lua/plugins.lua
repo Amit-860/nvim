@@ -127,10 +127,6 @@ return {
             -- vim.g.matchup_matchparen_offscreen = { method = "popup" }
             vim.g.matchup_matchparen_offscreen = {}
         end,
-        config = function()
-            vim.api.nvim_set_hl(0, "MatchParen", { bg = nil, fg = "#dbc074", underline = true, bold = true })
-            -- vim.api.nvim_set_hl(0, "MatchParen", { bg = "222b39", fg = "#ffffff", underline = false, bold = true })
-        end,
     },
 
     -- motion

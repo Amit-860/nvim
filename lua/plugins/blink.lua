@@ -1,5 +1,6 @@
 local menu_hl = {
     Class = "ItemMenuClass",
+    Interface = "ItemMenuInterface",
     Struct = "ItemMenuStruct",
     Module = "ItemMenuStruct",
     Snippet = "ItemMenuSnippet",
@@ -18,6 +19,7 @@ local menu_hl = {
 
 local kind_hl = {
     Class = "ItemKindClass",
+    Interface = "ItemKindInterface",
     Struct = "ItemKindStruct",
     Module = "ItemKindStruct",
     Snippet = "ItemKindSnippet",
@@ -46,26 +48,13 @@ local kind_symbol = {
 }
 
 local blink_opts = {
-    snippets = {
-        expand = function(snippet)
-            require("luasnip").lsp_expand(snippet)
-        end,
-        active = function(filter)
-            if filter and filter.direction then
-                return require("luasnip").jumpable(filter.direction)
-            end
-            return require("luasnip").in_snippet()
-        end,
-        jump = function(direction)
-            require("luasnip").jump(direction)
-        end,
-    },
+    snippets = { preset = "luasnip" },
 
     sources = {
         default = {
             "codeium",
+            "snippets",
             "lsp",
-            "luasnip",
             "path",
             "buffer",
         },
@@ -90,9 +79,9 @@ local blink_opts = {
         --     end
         -- end,
         per_filetype = {
-            sql = { "lsp", "dadbod", "luasnip", "buffer", "spell" },
-            lua = { "lsp", "lazydev", "luasnip", "buffer" },
-            norg = { "lsp", "luasnip", "buffer", "spell" },
+            sql = { "snippets", "lsp", "dadbod", "buffer", "spell" },
+            lua = { "snippets", "lsp", "lazydev", "buffer" },
+            norg = { "snippets", "lsp", "buffer", "spell" },
             text = { "lsp", "buffer", "spell" },
             gitcommit = { "lsp", "buffer", "spell" },
         },
@@ -156,22 +145,13 @@ local blink_opts = {
         preset = "enter",
         ["<M-d>"] = { "show", "show_documentation", "hide_documentation" },
         ["<Esc>"] = { "cancel", "hide", "fallback" },
-        ["<M-m>"] = {
-            function(cmp)
-                if vim.api.nvim_get_mode().mode == "c" then
-                    cmp.show({ providers = { "cmdline", "path" } })
-                else
-                    -- cmp.show({ providers = { "codeium", "lsp", "luasnip", "path", "buffer" } })
-                    cmp.show({})
-                end
-            end,
-        },
+        ["<M-c>"] = { "hide", "cancel", "fallback" },
         ["<M-s>"] = {
             function(cmp)
                 if vim.api.nvim_get_mode().mode == "c" then
                     cmp.show({ providers = { "cmdline", "path" } })
                 else
-                    -- cmp.show({ providers = { "codeium", "lsp", "luasnip", "path", "buffer" } })
+                    -- cmp.show({ providers = { "codeium", "lsp", "snippets", "path", "buffer" } })
                     cmp.show({})
                 end
             end,
@@ -281,12 +261,17 @@ local blink_opts = {
             range = "prefix",
         },
         list = {
-            selection = "auto_insert",
-            -- Controls how the completion items are selected
-            -- 'preselect' will automatically select the first item in the completion list
-            -- 'manual' will not select any item by default
-            -- 'auto_insert' will not select any item by default, and insert the completion items automatically
-            -- when selecting them
+            selection = {
+                -- When `true`, will automatically select the first item in the completion list
+                preselect = false,
+                -- preselect = function(ctx) return ctx.mode ~= 'cmdline' end,
+
+                -- When `true`, inserts the completion item automatically when selecting it
+                -- You may want to bind a key to the `cancel` command (default <C-e>) when using this option,
+                -- which will both undo the selection and hide the completion menu
+                auto_insert = true,
+                -- auto_insert = function(ctx) return ctx.mode ~= 'cmdline' end
+            },
         },
         -- experimental auto-brackets support
         accept = { auto_brackets = { enabled = true } },
@@ -487,7 +472,8 @@ return {
         "saghen/blink.cmp",
         event = { "BufReadPost", "BufNewFile" },
         version = "*",
-        cond = not vim.g.vscode,
+        -- cond = not vim.g.vscode,
+        cond = true,
         -- build = "cargo build --release",
         dependencies = {
             { "L3MON4D3/LuaSnip", cond = not vim.g.vscode },

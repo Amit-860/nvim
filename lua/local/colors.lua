@@ -17,8 +17,11 @@ if vim.g.neovide then
     M.line_hilight = "#011425"
 end
 
-M.neovide_float_winblend = 30
+M.neovide_float_winblend = 10
 M.float_winblend = 20
+
+-- matching bracket
+vim.api.nvim_set_hl(0, "MatchParen", { bg = "#f5a97f", fg = "#1b1d2b", underline = false, bold = true })
 
 -- GitSings highlights
 vim.api.nvim_set_hl(0, "GitSignsUntracked", { fg = "#394b97" })
@@ -46,6 +49,7 @@ vim.api.nvim_set_hl(0, "TelescopeBorder", { link = "FloatBorder" })
 -- cmp kind hl
 vim.api.nvim_set_hl(0, "ItemKindKeyword", { bg = "#cf3930", fg = "#131a24" })
 vim.api.nvim_set_hl(0, "ItemKindClass", { bg = "#dbc874", fg = "#131a24" })
+vim.api.nvim_set_hl(0, "ItemKindInterface", { bg = "#eb6f92", fg = "#131a24" })
 vim.api.nvim_set_hl(0, "ItemKindStruct", { bg = "#ff5c52", fg = "#131a24" })
 vim.api.nvim_set_hl(0, "ItemKindSnippet", { bg = "#59b9ff", fg = "#131a24" })
 vim.api.nvim_set_hl(0, "ItemKindMethod", { bg = "#76abdc", fg = "#131a24" })
@@ -58,11 +62,13 @@ vim.api.nvim_set_hl(0, "ItemKindValue", { bg = "#cfa333", fg = "#131a24" })
 vim.api.nvim_set_hl(0, "ItemKindText", { bg = "#81b29a", fg = "#131a24" })
 vim.api.nvim_set_hl(0, "ItemKindUnknown", { bg = "#fda47f", fg = "#131a24" })
 
+-- blink ghost text
 vim.api.nvim_set_hl(0, "BlinkCmpGhostText", { fg = "#898e98" })
 
 -- cmp menu hl
 vim.api.nvim_set_hl(0, "ItemMenuKeyword", { fg = "#cf3930", italic = true })
 vim.api.nvim_set_hl(0, "ItemMenuClass", { fg = "#dbc074", italic = true })
+vim.api.nvim_set_hl(0, "ItemMenuInterface", { fg = "#eb6f92", italic = true })
 vim.api.nvim_set_hl(0, "ItemMenuStruct", { fg = "#ff5c52", italic = true })
 vim.api.nvim_set_hl(0, "ItemMenuSnippet", { fg = "#59b9ff", italic = true })
 vim.api.nvim_set_hl(0, "ItemMenuMethod", { fg = "#76abdc", italic = true })
@@ -86,9 +92,8 @@ if vim.g.neovide or vim.g.transparent then
             { fg = M.float_border_fg_color, bg = M.float_border_bg_color, blend = M.neovide_float_winblend }
         )
         vim.api.nvim_set_hl(0, "NoiceCmdlinePopup", { bg = M.float_color, blend = M.neovide_float_winblend }) -- highlights for cmp menu
-        -- vim.api.nvim_set_hl(0, "SnacksNormal", { link = "NormalFloat" }) -- highlights for selected item in cmp menu
-        -- vim.api.nvim_set_hl(0, "SnacksNormalNC", { link = "NormalFloat" }) -- highlights for selected item in cmp menu
-        -- vim.api.nvim_set_hl(0, "SnacksDashboardTerminal", { bg = "#061621", blend = 75 }) -- highlights for selected item in cmp menu
+        vim.api.nvim_set_hl(0, "SnacksNormal", { link = "NormalFloat" }) -- highlights for selected item in cmp menu
+        vim.api.nvim_set_hl(0, "SnacksNormalNC", { link = "NormalFloat" }) -- highlights for selected item in cmp menu
         vim.api.nvim_set_hl(0, "SnacksDashboardTerminal", { bg = M.float_color, blend = 70 }) -- highlights for selected item in cmp menu
         vim.api.nvim_set_hl(0, "SnacksScratchTitle", { link = "NormalFloat" }) -- highlights for selected item in cmp menu
         vim.api.nvim_set_hl(0, "SnacksScratchFooter", { link = "NormalFloat" }) -- highlights for selected item in cmp menu
@@ -103,14 +108,20 @@ if vim.g.neovide or vim.g.transparent then
             "FloatBorder",
             { fg = M.float_border_fg_color, bg = M.float_border_bg_color, blend = M.float_winblend }
         )
-        vim.api.nvim_set_hl(0, "NoiceCmdlinePopup", { bg = M.float_color, blend = M.float_winblend })
+
+        -- fzf lua
         vim.api.nvim_set_hl(0, "FzfLuaNormal", { link = "NormalFloat" })
         vim.api.nvim_set_hl(0, "FzfLuaBorder", { link = "FloatBorder" })
+
+        vim.api.nvim_set_hl(0, "NoiceCmdlinePopup", { bg = M.float_color, blend = M.float_winblend })
         vim.api.nvim_set_hl(0, "NoiceCmdlinePopup", { link = "NormalFloat" })
         vim.api.nvim_set_hl(0, "NoiceCmdlinePopupBorder", { link = "FloatBorder" })
         vim.api.nvim_set_hl(0, "SnacksDashboardTerminal", { bg = "#111c25", blend = 10 })
         vim.api.nvim_set_hl(0, "SnacksNotifierHistory", { link = "NormalFloat" })
     end
+
+    --fzf
+    vim.api.nvim_set_hl(0, "FzfLuaBorder", { link = "FloatBorder" })
 
     -- cmp menu
     vim.api.nvim_set_hl(0, "CmpComplitionMenu", { bg = M.float_color }) -- highlights for cmp menu

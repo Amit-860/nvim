@@ -322,6 +322,14 @@ return {
                         return vim.bo.buftype == "quickfix"
                     end,
                 },
+                {
+                    function()
+                        return " "
+                    end,
+                    cond = function()
+                        return package.loaded["grapple"] and require("grapple").exists()
+                    end,
+                },
             },
             lualine_c = {
                 {
@@ -422,6 +430,14 @@ return {
                     "%q",
                     cond = function()
                         return vim.bo.buftype == "quickfix"
+                    end,
+                },
+                {
+                    function()
+                        return " "
+                    end,
+                    cond = function()
+                        return package.loaded["grapple"] and require("grapple").exists()
                     end,
                 },
             },

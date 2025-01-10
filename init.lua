@@ -92,28 +92,30 @@ local function is_night()
     return not (now.hour >= 7 and now.hour <= 18)
 end
 
-vim.g.neovide_colorscheme = "terafox"
-vim.g.neovide_custom_color = false
 vim.g.transparent = true
 -- vim.g.autoload = not (vim.g.neovide or vim.g.vscode)
 vim.g.autoload = false
 
 if is_night() then
     vim.g.is_night = true
+    vim.g.neovide_colorscheme = "terafox"
+    vim.g.neovide_custom_color = true
+    vim.g.colorscheme = "duskfox"
     -- vim.g.transparent = true
-    vim.g.colorscheme = "catppuccin-macchiato"
-    -- vim.g.colorscheme = "terafox"
+    -- vim.g.colorscheme = "catppuccin-macchiato"
 else
     vim.g.is_night = false
+    vim.g.neovide_colorscheme = "duskfox"
+    vim.g.neovide_custom_color = false
+    vim.g.colorscheme = "nordfox"
     -- vim.g.colorscheme = "dayfox"
     -- vim.g.colorscheme = "dawnfox"
-    vim.g.colorscheme = "nordfox"
 end
 
 if vim.g.neovide then
     vim.g.win_border = "none"
 else
-    vim.g.win_border = "single"
+    vim.g.win_border = "none"
 end
 
 -- NOTE: -------------------------------------------------------------------------------------------------------
@@ -250,9 +252,9 @@ if not vim.g.vscode then
 
     -- loading custom colors
     vim.api.nvim_create_autocmd("ColorScheme", {
-        group = vim.api.nvim_create_augroup("colors", { clear = true }),
+        group = vim.api.nvim_create_augroup("colors_aug", { clear = true }),
         callback = function(_)
-            -- Snacks.notify("Custom colors are loaded")
+            Snacks.notify("Custom colors are loaded.")
             require("local.colors")
         end,
     })
