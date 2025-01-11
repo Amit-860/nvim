@@ -67,7 +67,7 @@ local config = {
         "-javaagent:" .. lombok_path, -- uncomment for lombok support
         "-Xbootclasspath/a:" .. lombok_path, -- uncomment for lombok support
         "-jar",
-        vim.fn.glob(jdtls_path .. "/plugins/org.eclipse.equinox.launcher_*.jar"),
+        vim.fn.glob(jdtls_path .. "/plugins/org.eclipse.equinox.launcher.jar"),
         "-configuration",
         jdtls_path .. "/config_" .. os_config,
         "-data",
@@ -123,13 +123,13 @@ local config = {
             completion = {
                 maxResults = 20,
                 favoriteStaticMembers = {
-                    "org.hamcrest.MatcherAssert.assertThat",
-                    "org.hamcrest.Matchers.*",
-                    "org.hamcrest.CoreMatchers.*",
-                    "org.junit.jupiter.api.Assertions.*",
-                    "java.util.Objects.requireNonNull",
-                    "java.util.Objects.requireNonNullElse",
-                    "org.mockito.Mockito.*",
+                    -- "org.hamcrest.MatcherAssert.assertThat",
+                    -- "org.hamcrest.Matchers.*",
+                    -- "org.hamcrest.CoreMatchers.*",
+                    -- "org.junit.jupiter.api.Assertions.*",
+                    -- "java.util.Objects.requireNonNull",
+                    -- "java.util.Objects.requireNonNullElse",
+                    -- "org.mockito.Mockito.*",
                 },
                 importOrder = {
                     "java",
