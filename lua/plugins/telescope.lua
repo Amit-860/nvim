@@ -9,6 +9,11 @@ return {
         cond = not vim.g.vscode,
         cmd = { "Telescope undo" },
     },
+    {
+        "polirritmico/telescope-lazy-plugins.nvim",
+        cond = not vim.g.vscode,
+        event = "VeryLazy",
+    },
     -- {
     --     "nvim-telescope/telescope-frecency.nvim",
     --     cond = not vim.g.vscode,
@@ -225,6 +230,9 @@ return {
                     --     case_mode = "smart_case", -- or "ignore_case" or "respect_case"
                     --     -- the default case_mode is "smart_case"
                     -- },
+                    lazy_plugins = {
+                        lazy_config = vim.fn.stdpath("config") .. "/init.lua", -- Must be a valid path to the file containing the lazy spec and setup() call.
+                    },
                 },
             }
 
@@ -243,9 +251,10 @@ return {
             pcall(telescope.load_extension, "undo")
             pcall(telescope.load_extension, "project")
             pcall(telescope.load_extension, "noice")
-            pcall(telescope.load_extension, "frecency")
+            pcall(telescope.load_extension, "freceny")
             pcall(telescope.load_extension, "live_grep_args")
             pcall(telescope.load_extension, "persisted")
+            pcall(telescope.load_extension, "lazy_plugins")
 
             vim.api.nvim_create_autocmd("FileType", {
                 pattern = "TelescopeResults",

@@ -53,7 +53,7 @@ return {
         --     end
         --
         --     local config = {
-        --         root_dir = jdtls.setup.find_root({ ".metadata", ".git", "pom.xml", "build.gradle", "mvnw" }),
+        --         root_dir = vim.fs.root(0, { ".metadata", ".git", "pom.xml", "build.gradle", "mvnw" }),
         --         cmd = {
         --             "java",
         --             "-Declipse.application=org.eclipse.jdt.ls.core.id1",

@@ -48,7 +48,7 @@ return {
             command = { a = { fg = colors.black, bg = colors.blue, gui = "bold" } },
         }
 
-        local window_width_limit = 125
+        local window_width_limit = 150
         local conditions = {
             buffer_not_empty = function()
                 return vim.fn.empty(vim.fn.expand("%:t")) ~= 1
@@ -245,6 +245,10 @@ return {
             pcall(vim.cmd, "LspInfo")
         end
 
+        local tasks_on_click = function()
+            pcall(vim.cmd, "LazyDoToggle")
+        end
+
         local custom_color_section = {
             lualine_a = {
                 "fileformat",
@@ -329,6 +333,7 @@ return {
                     cond = function()
                         return package.loaded["grapple"] and require("grapple").exists()
                     end,
+                    color = { fg = "#bf616a", gui = "bold" },
                 },
             },
             lualine_c = {
@@ -336,13 +341,33 @@ return {
                     function()
                         return string.lower(tostring(os.date("%a, %I:%M %p")))
                     end,
-                    -- color = function()
-                    --     local fg, _ = utils.get_highlight_colors("@field")
-                    --     return { fg = fg }
-                    -- end,
+                    cond = conditions.hide_in_width,
+                    color = function()
+                        local fg, _ = utils.get_highlight_colors("Function")
+                        return { fg = fg }
+                    end,
                 },
             },
-            lualine_x = { search_result },
+            lualine_x = {
+                search_result,
+                {
+                    function()
+                        return " " .. require("lazydo").get_lualine_stats()
+                    end,
+                    cond = function()
+                        local show = conditions.hide_in_width()
+                        if not show then
+                            return false
+                        end
+                        local ok, lazydo = pcall(require, "lazydo")
+                        if ok then
+                            return lazydo._initialized
+                        end
+                        return false
+                    end,
+                    on_click = tasks_on_click,
+                },
+            },
             lualine_y = {
                 { "filetype", color = { bg = colors.bg3 }, on_click = diagnostics_on_click },
                 { get_attached_clients, cond = conditions.hide_in_width, on_click = attached_on_click },
@@ -439,6 +464,7 @@ return {
                     cond = function()
                         return package.loaded["grapple"] and require("grapple").exists()
                     end,
+                    color = { fg = "#bf616a", gui = "bold" },
                 },
             },
             lualine_c = {
@@ -446,13 +472,33 @@ return {
                     function()
                         return string.lower(tostring(os.date("%a, %I:%M %p")))
                     end,
-                    -- color = function()
-                    --     local fg, _ = utils.get_highlight_colors("@field")
-                    --     return { fg = fg }
-                    -- end,
+                    cond = conditions.hide_in_width,
+                    color = function()
+                        local fg, _ = utils.get_highlight_colors("Function")
+                        return { fg = fg }
+                    end,
                 },
             },
-            lualine_x = { search_result },
+            lualine_x = {
+                search_result,
+                {
+                    function()
+                        return " " .. require("lazydo").get_lualine_stats()
+                    end,
+                    cond = function()
+                        local show = conditions.hide_in_width()
+                        if not show then
+                            return false
+                        end
+                        local ok, lazydo = pcall(require, "lazydo")
+                        if ok then
+                            return lazydo._initialized
+                        end
+                        return false
+                    end,
+                    on_click = tasks_on_click,
+                },
+            },
             lualine_y = {
                 { "filetype", on_click = diagnostics_on_click },
                 { get_attached_clients, cond = conditions.hide_in_width, on_click = attached_on_click },

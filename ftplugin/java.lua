@@ -1,3 +1,7 @@
+if vim.g.vscode then
+    return
+end
+
 local jdtls = require("jdtls")
 local lsp_utils = require("lsp_utils")
 local mason_registry = require("mason-registry")
@@ -46,7 +50,7 @@ local jdtls_specific_keymaps = function(client, bufnr)
 end
 
 local config = {
-    root_dir = jdtls.setup.find_root({ ".metadata", ".git", "pom.xml", "build.gradle", "mvnw" }),
+    root_dir = vim.fs.root(0, { ".metadata", ".git", "pom.xml", "build.gradle", "mvnw" }),
     cmd = {
         "java",
         "-Declipse.application=org.eclipse.jdt.ls.core.id1",
@@ -83,9 +87,6 @@ local config = {
     },
     on_attach = function(client, bufnr)
         if client.name == "jdtls" then
-            -- jdtls = require("jdtls")
-            -- jdtls.setup_dap({ hotcodereplace = "auto" })
-            -- jdtls.setup.add_commands()
             -- Auto-detect main and setup dap config
             require("jdtls.dap").setup_dap_main_class_configs({
                 config_overrides = { vmArgs = "-Dspring.profiles.active=local" },
@@ -155,10 +156,10 @@ local config = {
                 -- And search for `interface RuntimeOption`
                 -- The `name` is NOT arbitrary, but must match one of the elements from `enum ExecutionEnvironment` in the link above
                 runtimes = {
-                    {
-                        name = "JavaSE-21",
-                        path = vim.fn.expand("$HOME/scoop/apps/graalvm-oracle-21jdk/current/"),
-                    },
+                    -- {
+                    --     name = "JavaSE-21",
+                    --     path = vim.fn.expand("$HOME/scoop/apps/graalvm-oracle-21jdk/current/"),
+                    -- },
                 },
             },
         },
@@ -167,3 +168,6 @@ local config = {
 
 -- initializing jdtls lsp on java files
 jdtls.start_or_attach(config)
+vim.keymap.set("n", "<F3>", function()
+    jdtls.start_or_attach(config)
+end, {})

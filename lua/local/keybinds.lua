@@ -3,7 +3,7 @@ if not vim.g.vscode then
     local utils = require("utils")
 
     -- explorer
-    vim.keymap.set("n", "<leader>e", "<cmd>NvimTreeToggle<cr>", { noremap = true, silent = true, desc = "NvimTree" })
+    vim.keymap.set("n", "<leader>et", "<cmd>NvimTreeToggle<cr>", { noremap = true, silent = true, desc = "NvimTree" })
 
     -- list buffers
     vim.keymap.set(
@@ -106,13 +106,13 @@ if not vim.g.vscode then
             layout_config = { preview_width = 0.5 },
         }) -- [[<cmd>lua require'telescope.builtin'.find_files({ find_command = { 'fd','-tf', '-H', '-E', '.git', '.', vim.fn.expand("$HOME/AppData/Local/nvim") } }) layout_strategy=horizontal layout_config={preview_width=0.5}<cr>]]
     end, { noremap = true, silent = true, desc = "find config_files" })
-    -- vim.keymap.set("n", "<leader>fp", function()
-    --     require("telescope").extensions.lazy_plugins.lazy_plugins({
-    --         initial_mode = "insert",
-    --         layout_strategy = "horizontal",
-    --         layout_config = { preview_width = 0.5 },
-    --     })
-    -- end, { noremap = true, silent = true, desc = "find plugins" })
+    vim.keymap.set("n", "<leader>fp", function()
+        require("telescope").extensions.lazy_plugins.lazy_plugins({
+            initial_mode = "insert",
+            layout_strategy = "horizontal",
+            layout_config = { preview_width = 0.5 },
+        })
+    end, { noremap = true, silent = true, desc = "find plugins" })
 
     -- close Buffer
     vim.keymap.set("n", "<leader>x", function()
@@ -307,7 +307,7 @@ if not vim.g.vscode then
     vim.keymap.set(
         "n",
         "<leader>od",
-        ":Telescope help_tags<cr>",
+        ":Telescope help_tags layout_strategy=horizontal layout_config={preview_width=0.5}<cr>",
         { desc = "Search Docs", noremap = true, silent = true }
     )
     vim.keymap.set("n", "<leader>oh", function()

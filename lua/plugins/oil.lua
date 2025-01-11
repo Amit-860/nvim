@@ -1,6 +1,7 @@
 return {
     "stevearc/oil.nvim",
-    cond = not vim.g.vscode,
+    -- cond = not vim.g.vscode,
+    cond = false,
     cmd = { "Oil" },
     opts = {
         columns = { "icon" },

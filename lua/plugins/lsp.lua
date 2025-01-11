@@ -188,21 +188,22 @@ return {
             })
 
             -- INFO : text, markdown, org, norg
-            setup_lsp("ltex", {
-                on_attach = on_attach,
-                capabilities = capabilities,
-                filetypes = { "tex", "markdown", "org", "norg" },
-                autostart = false,
-            })
-            -- setup_lsp("harper_ls", {
+            -- setup_lsp("ltex", {
             --     on_attach = on_attach,
             --     capabilities = capabilities,
-            --     filetypes = vim.list_extend(
-            --         { "text", "norg", "gitcommit" },
-            --         lspconfig["harper_ls"].config_def.default_config.filetypes
-            --     ),
+            --     filetypes = { "text", "markdown", "org", "norg" },
             --     autostart = false,
             -- })
+            setup_lsp("harper_ls", {
+                on_attach = on_attach,
+                capabilities = capabilities,
+                filetypes = vim.list_extend(
+                    {},
+                    { "text", "norg", "gitcommit" }
+                    -- lspconfig["harper_ls"].config_def.default_config.filetypes
+                ),
+                autostart = false,
+            })
 
             -- INFO : JavaScript, html, css
             vim.g.markdown_fenced_languages = { "ts=typescript" }
@@ -228,22 +229,20 @@ return {
                 filetypes = { "css", "scss", "html", "typescriptreact", "javascriptreact" },
                 autostart = false,
             })
-            -- setup_lsp("emmet_language_server", {
-            --     on_attach = on_attach,
-            --     capabilities = capabilities,
-            --     autostart = false,
-            -- })
+            setup_lsp("emmet_language_server", {
+                on_attach = on_attach,
+                capabilities = capabilities,
+                autostart = false,
+            })
 
             vim.api.nvim_create_autocmd({ "BufReadPre" }, {
                 group = vim.api.nvim_create_augroup("Toggle_LSP_ag", { clear = true }),
                 pattern = "*",
                 callback = function(event)
-                    local max_filesize = 1020 * 1024 * 2 -- 2MB
-                    local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(event.buf))
+                    local max_filesize = 1020 * 1024 * 3
+                    local ok, stats = pcall(vim.uv.fs_stat, vim.api.nvim_buf_get_name(event.buf))
                     if ok and stats and stats.size > max_filesize then
                         vim.cmd("LspStop")
-                    else
-                        vim.cmd("LspStart")
                     end
                 end,
             })

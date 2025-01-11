@@ -472,8 +472,7 @@ return {
         "saghen/blink.cmp",
         event = { "BufReadPost", "BufNewFile" },
         version = "*",
-        -- cond = not vim.g.vscode,
-        cond = true,
+        cond = not vim.g.vscode,
         -- build = "cargo build --release",
         dependencies = {
             { "L3MON4D3/LuaSnip", cond = not vim.g.vscode },

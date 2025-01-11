@@ -21,7 +21,8 @@ M.neovide_float_winblend = 10
 M.float_winblend = 20
 
 -- matching bracket
-vim.api.nvim_set_hl(0, "MatchParen", { bg = "#f5a97f", fg = "#1b1d2b", underline = false, bold = true })
+-- vim.api.nvim_set_hl(0, "MatchParen", { bg = "#f5a97f", fg = "#1b1d2b", underline = false, bold = true })
+vim.api.nvim_set_hl(0, "MatchParen", { bg = "None", fg = "#f7941a", underline = true, bold = true })
 
 -- GitSings highlights
 vim.api.nvim_set_hl(0, "GitSignsUntracked", { fg = "#394b97" })

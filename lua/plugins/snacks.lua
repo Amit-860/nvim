@@ -4,7 +4,7 @@ local calendar = require("local.calendar")
 local dashboard_keys = {
     {
         icon = "  ",
-        key = "N",
+        key = "n",
         desc = "New file",
         action = function()
             vim.cmd("enew")
@@ -13,7 +13,7 @@ local dashboard_keys = {
     {
         icon = "󱋢  ",
         desc = "Recent files",
-        key = "R",
+        key = "r",
         -- action = function()
         --     vim.cmd("Telescope oldfiles layout_strategy=horizontal layout_config={preview_width=0.5}")
         -- end,
@@ -30,23 +30,28 @@ local dashboard_keys = {
     {
         icon = "󰮗  ",
         desc = "Find file",
-        key = "F",
+        key = "f",
         action = function()
-            require("utils").smart_find_file({})
+            require("utils").smart_find_file({
+                initial_mode = "insert",
+                layout_strategy = "horizontal",
+                layout_config = { preview_width = 0.5 },
+            })
         end,
     },
     {
         icon = "  ",
         desc = "File explorer",
-        key = "E",
+        key = "e",
         action = function()
-            require("yazi").yazi(nil, vim.fn.getcwd())
+            -- require("yazi").yazi(nil, vim.fn.getcwd())
+            require("mini.files").open(vim.uv.cwd(), true)
         end,
     },
     {
         icon = "  ",
         desc = "Find session",
-        key = "S",
+        key = "s",
         action = function()
             -- require("persistence").load({ last = true })
             vim.cmd("Telescope persisted theme=dropdown")
@@ -55,7 +60,7 @@ local dashboard_keys = {
     {
         icon = "  ",
         desc = "Last session",
-        key = "L",
+        key = "l",
         action = function()
             -- require("persistence").load({ last = true })
             vim.cmd("SessionLoadLast")
@@ -64,7 +69,7 @@ local dashboard_keys = {
     {
         icon = "  ",
         desc = "LeetCode",
-        key = "T",
+        key = "t",
         action = function()
             vim.cmd("Leet")
         end,
@@ -72,7 +77,7 @@ local dashboard_keys = {
     {
         icon = "  ",
         desc = "Projects",
-        key = "P",
+        key = "p",
         action = function()
             require("telescope").extensions.project.project({ display_type = "full" })
         end,
@@ -80,7 +85,7 @@ local dashboard_keys = {
     {
         icon = "  ",
         desc = "NeoGit",
-        key = "G",
+        key = "g",
         action = function()
             vim.cmd("Neogit")
         end,
@@ -88,7 +93,7 @@ local dashboard_keys = {
     {
         icon = "  ",
         desc = "Configs",
-        key = "C",
+        key = "c",
         key_hl = "DashboardButtonShortcut",
         action = function()
             require("telescope.builtin").find_files({
@@ -104,14 +109,14 @@ local dashboard_keys = {
             })
         end,
     },
-    {
-        icon = "󰿅  ",
-        desc = "Quit",
-        key = "Q",
-        action = function()
-            vim.cmd("q")
-        end,
-    },
+    -- {
+    --     icon = "󰿅  ",
+    --     desc = "Quit",
+    --     key = "Q",
+    --     action = function()
+    --         vim.cmd("q")
+    --     end,
+    -- },
 }
 
 -- INFO: Dashboard Sections

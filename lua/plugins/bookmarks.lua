@@ -51,6 +51,7 @@ return {
         "cbochs/grapple.nvim",
         opts = { scope = "git" },
         event = { "BufReadPost", "BufNewFile" },
+        cond = not vim.g.vscode,
         cmd = "Grapple",
         keys = {
             { "<leader>ma", "<cmd>Grapple toggle<cr>", desc = "Grapple toggle tag" },
