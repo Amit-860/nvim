@@ -182,7 +182,7 @@ local blink_opts = {
         --     "fallback",
         -- },
 
-        ["<Tab>"] = {
+        ["<C-n>"] = {
             function(cmp)
                 if cmp.snippet_active() then
                     return cmp.snippet_forward()
@@ -192,7 +192,11 @@ local blink_opts = {
             end,
             "fallback",
         },
-        ["<S-Tab>"] = { "snippet_backward", "fallback" },
+
+        ["<C-b>"] = { "snippet_backward", "fallback" },
+
+        ["<tab>"] = { "select_next", "fallback" },
+        ["<S-tab>"] = { "select_prev", "fallback" },
 
         ["<Up>"] = { "select_prev", "fallback" },
         ["<Down>"] = { "select_next", "fallback" },
@@ -280,7 +284,7 @@ local blink_opts = {
             border = vim.g.win_border,
             winblend = 10,
             -- winhighlight = "Normal:CmpComplitionMenu,FloatBorder:CmpComplitionMenu,CursorLine:CmpSelectedItem,Search:None",
-            winhighlight = "Normal:BlinkCmpDoc,FloatBorder:FloatBorder,CursorLine:BlinkCmpDocCursorLine,Search:None",
+            winhighlight = "Normal:BlinkCmpMenu,FloatBorder:FloatBorder,CursorLine:QuickFixLine,Search:Search",
             draw = {
                 -- Aligns the keyword you've typed to a component in the menu
                 align_to = "kind_icon", -- or 'none' to disable
@@ -414,7 +418,8 @@ local blink_opts = {
                 max_height = 20,
                 border = vim.g.win_border,
                 winblend = 10,
-                winhighlight = "Normal:BlinkCmpDoc,FloatBorder:FloatBorder,CursorLine:BlinkCmpDocCursorLine,Search:None",
+                -- winhighlight = "Normal:BlinkCmpDoc,FloatBorder:FloatBorder,CursorLine:BlinkCmpDocCursorLine,Search:None",
+                winhighlight = "Normal:BlinkCmpMenu,FloatBorder:FloatBorder,CursorLine:CursorLine,Search:None",
                 -- Note that the gutter will be disabled when border ~= 'none'
                 scrollbar = true,
                 -- Which directions to show the documentation window,
@@ -442,8 +447,9 @@ local blink_opts = {
             max_height = 20,
             border = vim.g.win_border,
             winblend = 10,
-            winhighlight = "Normal:BlinkCmpSignatureHelp,FloatBorder:FloatBorder",
-            scrollbar = false, -- Note that the gutter will be disabled when border ~= 'none'
+            -- winhighlight = "Normal:BlinkCmpSignatureHelp,FloatBorder:FloatBorder",
+            winhighlight = "Normal:BlinkCmpMenu,FloatBorder:FloatBorder",
+            scrollbar = true, -- Note that the gutter will be disabled when border ~= 'none'
             -- Which directions to show the window,
             -- falling back to the next direction when there's not enough space,
             -- or another window is in the way

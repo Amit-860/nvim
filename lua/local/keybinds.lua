@@ -10,7 +10,7 @@ if not vim.g.vscode then
         "n",
         "<leader><leader>",
         "<cmd>Telescope buffers theme=dropdown<cr>",
-        { noremap = true, silent = true, desc = "which_key_ignore" }
+        { noremap = true, silent = true, desc = "Buf List" }
     )
 
     -- find
@@ -120,7 +120,7 @@ if not vim.g.vscode then
         -- local ok, _ = pcall(vim.cmd, "confirm close")
         vim.cmd("confirm bd")
         -- end
-    end, { noremap = true, silent = true, desc = "which_key_ignore" })
+    end, { noremap = true, silent = true, desc = "Buf Delete" })
     vim.keymap.set("n", "<leader>X", "<cmd>bd!<cr>", { noremap = true, silent = true, desc = "which_key_ignore" })
 
     -- session
@@ -179,7 +179,7 @@ if not vim.g.vscode then
     vim.keymap.set("n", "<leader>.", function()
         -- vim.cmd("Dashboard")
         require("snacks").dashboard.open()
-    end, { noremap = true, silent = true, desc = "which_key_ignore" })
+    end, { noremap = true, silent = true, desc = "Dashboard" })
 
     --lazy
     vim.keymap.set("n", "<leader>Pc", "<cmd>Lazy clean<CR>", { noremap = true, silent = true, desc = "Clean" })
@@ -287,6 +287,7 @@ if not vim.g.vscode then
         require("snacks").rename.rename_file()
     end, { desc = "Rename File", noremap = true, silent = true })
 
+    -- INFO: Others
     -- help
     vim.keymap.set("n", "<leader>ok", function()
         local fzf_lua_ok, fzf_lua = pcall(require, "fzf-lua")
@@ -343,6 +344,38 @@ if not vim.g.vscode then
             layout_config = { preview_height = 0.6 },
         })
     end, { desc = "Telescope Noice", silent = true })
+
+    -- screen_shot
+    vim.keymap.set("v", "<leader>os", function()
+        local cmd_opts = {
+            "--no-window-controls",
+            "-f",
+            "Cartograph CF; JetBrainsMono NFM",
+            "--theme",
+            "Coldark-Dark",
+            "--pad-horiz",
+            50,
+            "--pad-vert",
+            80,
+        }
+        utils.code_shot(cmd_opts, false, nil, true)
+    end, { desc = "Code-Shot" })
+    vim.keymap.set("n", "<leader>os", function()
+        local cmd_opts = {
+            "--no-window-controls",
+            "-f",
+            "Cartograph CF; JetBrainsMono NFM",
+            "--theme",
+            "Coldark-Dark",
+            "--pad-horiz",
+            50,
+            "--pad-vert",
+            80,
+        }
+        -- local path = vim.fn.expand("$HOME/ss/")
+        -- utils.screen_shot(cmd_opts, true, path, true)
+        utils.code_shot(cmd_opts, true, nil, true)
+    end, { desc = "Code-Shot" })
 
     -- Project
     vim.keymap.set("n", "<leader>p", function()

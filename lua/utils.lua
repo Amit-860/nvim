@@ -391,4 +391,62 @@ function M.get_highlight_colors(name)
     return fg, bg
 end
 
+local get_selected_area = function()
+    if vim.fn.mode() == "n" then
+        local pos = vim.api.nvim_win_get_cursor(0)
+        return {
+            pos[1],
+            pos[1],
+        }
+    end
+
+    local start_line = vim.fn.getpos("v")[2]
+    local end_line = vim.fn.getpos(".")[2]
+
+    if start_line > end_line then
+        start_line, end_line = end_line, start_line
+    end
+
+    return start_line, end_line
+end
+M.get_selected_area = get_selected_area
+
+M.code_shot = function(cmd_opts, entire_buf, path, copy_to_clipboard)
+    local file_type = vim.bo.filetype
+    local cmd = { "silicon", "-l", file_type }
+    if cmd_opts then
+        vim.list_extend(cmd, cmd_opts)
+    else
+        return
+    end
+
+    local lines = nil
+    if entire_buf then
+        lines = vim.fn.getline(1, "$")
+    else
+        local start_line, end_line = get_selected_area()
+        if start_line and end_line then
+            lines = vim.api.nvim_buf_get_lines(0, start_line - 1, end_line, false)
+        end
+    end
+
+    if lines then
+        if path then
+            local now = os.date("*t")
+            local datetime_str =
+                string.format("%04d%02d%02d_%02d%02d%02d", now.year, now.month, now.day, now.hour, now.min, now.sec)
+            local filename = vim.fn.fnamemodify(vim.fn.expand("%"), ":t") .. "_" .. datetime_str .. ".png"
+            local output = path .. filename
+            local new_cmd = vim.deepcopy(cmd)
+            vim.list_extend(new_cmd, { "-o", output })
+            vim.fn.system(new_cmd, lines)
+        end
+        if copy_to_clipboard then
+            vim.list_extend(cmd, { "-c" })
+            vim.fn.system(cmd, lines)
+        end
+        vim.notify("Code Shot Captured!!", vim.log.levels.INFO)
+    end
+end
+
 return M

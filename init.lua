@@ -29,7 +29,7 @@ local default_options = {
     cmdwinheight = math.floor(vim.o.lines * 0.2),
     completeopt = { "menuone", "noselect" },
     conceallevel = 0, -- so that `` is visible in markdown files
-    fileencoding = "utf-8", -- the encoding written to a file
+    fileencoding = "utf-16", -- the encoding written to a file
     foldcolumn = "auto:1",
     foldenable = true,
     -- foldmethod = "manual",
@@ -89,18 +89,18 @@ end
 
 local function is_night()
     local now = os.date("*t")
-    return not (now.hour >= 7 and now.hour <= 18)
+    return not (now.hour >= 7 and now.hour < 18)
 end
 
 vim.g.transparent = true
 -- vim.g.autoload = not (vim.g.neovide or vim.g.vscode)
-vim.g.autoload = false
+vim.g.autoload = true
 
 if is_night() then
     vim.g.is_night = true
     vim.g.neovide_colorscheme = "terafox"
     vim.g.neovide_custom_color = true
-    vim.g.colorscheme = "duskfox"
+    vim.g.colorscheme = "catppuccin"
     -- vim.g.transparent = true
     -- vim.g.colorscheme = "catppuccin-macchiato"
 else
@@ -112,10 +112,10 @@ else
     -- vim.g.colorscheme = "dawnfox"
 end
 
-if vim.g.neovide then
+if vim.g.neovide or vim.g.transparent then
     vim.g.win_border = "none"
 else
-    vim.g.win_border = "none"
+    vim.g.win_border = "single"
 end
 
 -- NOTE: -------------------------------------------------------------------------------------------------------

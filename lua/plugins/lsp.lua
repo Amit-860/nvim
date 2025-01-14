@@ -101,7 +101,6 @@ return {
 
             local capabilities = lsp_utils.lsp_capabilities()
             local function setup_lsp(server, opts)
-                -- lspconfig[server].setup(opts)
                 local conf = lspconfig[server]
                 conf.setup(opts)
                 local try_add = conf.manager.try_add
@@ -110,19 +109,9 @@ return {
                 end
             end
 
-            local lsp_opts = {
-                inlay_hints = {
-                    enabled = true,
-                    exclude = {},
-                },
-                code_lens = {
-                    enabled = false,
-                    exclude = {},
-                },
-            }
-
+            -- INFO: ================== setting up vim lsp settings ================
             lsp_utils.setup()
-            lsp_utils.global_lsp_setup(lsp_opts)
+            lsp_utils.global_lsp_setup()
 
             -- INFO: ===================== setting up servers ======================
             -- INFO : lua

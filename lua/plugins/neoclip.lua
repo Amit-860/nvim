@@ -9,7 +9,7 @@ return {
                 layout_strategy = "vertical",
                 layout_config = { preview_height = 0.6 },
             })
-        end, { noremap = true, silent = true, desc = "which_key_ignore" }),
+        end, { noremap = true, silent = true, desc = "Yank History" }),
     },
     opts = {
         history = 100,

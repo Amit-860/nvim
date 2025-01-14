@@ -57,8 +57,8 @@ local config = {
         "-Dosgi.bundles.defaultStartLevel=4",
         "-Declipse.product=org.eclipse.jdt.ls.core.product",
         "-Dlog.protocol=true",
-        "-Dlog.level=ALL",
-        "-Xms1g",
+        "-Dlog.level=ERROR", -- ALL, OFF, ERROR, INFO, TRACE, DEBUG
+        "-Xms2g",
         "--add-modules=ALL-SYSTEM",
         "--add-opens",
         "java.base/java.util=ALL-UNNAMED",
@@ -123,13 +123,13 @@ local config = {
             completion = {
                 maxResults = 20,
                 favoriteStaticMembers = {
-                    -- "org.hamcrest.MatcherAssert.assertThat",
-                    -- "org.hamcrest.Matchers.*",
-                    -- "org.hamcrest.CoreMatchers.*",
-                    -- "org.junit.jupiter.api.Assertions.*",
-                    -- "java.util.Objects.requireNonNull",
-                    -- "java.util.Objects.requireNonNullElse",
-                    -- "org.mockito.Mockito.*",
+                    "org.hamcrest.MatcherAssert.assertThat",
+                    "org.hamcrest.Matchers.*",
+                    "org.hamcrest.CoreMatchers.*",
+                    "org.junit.jupiter.api.Assertions.*",
+                    "java.util.Objects.requireNonNull",
+                    "java.util.Objects.requireNonNullElse",
+                    "org.mockito.Mockito.*",
                 },
                 importOrder = {
                     "java",
@@ -156,10 +156,10 @@ local config = {
                 -- And search for `interface RuntimeOption`
                 -- The `name` is NOT arbitrary, but must match one of the elements from `enum ExecutionEnvironment` in the link above
                 runtimes = {
-                    -- {
-                    --     name = "JavaSE-21",
-                    --     path = vim.fn.expand("$HOME/scoop/apps/graalvm-oracle-21jdk/current/"),
-                    -- },
+                    {
+                        name = "JavaSE-21",
+                        path = vim.fn.expand("$HOME/scoop/apps/graalvm-oracle-21jdk/current/"),
+                    },
                 },
             },
         },
@@ -168,6 +168,3 @@ local config = {
 
 -- initializing jdtls lsp on java files
 jdtls.start_or_attach(config)
-vim.keymap.set("n", "<F3>", function()
-    jdtls.start_or_attach(config)
-end, {})

@@ -333,7 +333,10 @@ return {
                     cond = function()
                         return package.loaded["grapple"] and require("grapple").exists()
                     end,
-                    color = { fg = "#bf616a", gui = "bold" },
+                    color = function()
+                        local fg, _ = utils.get_highlight_colors("Number")
+                        return { fg = fg, gui = "bold" }
+                    end,
                 },
             },
             lualine_c = {
@@ -464,7 +467,10 @@ return {
                     cond = function()
                         return package.loaded["grapple"] and require("grapple").exists()
                     end,
-                    color = { fg = "#bf616a", gui = "bold" },
+                    color = function()
+                        local fg, _ = utils.get_highlight_colors("Number")
+                        return { fg = fg, gui = "bold" }
+                    end,
                 },
             },
             lualine_c = {

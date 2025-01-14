@@ -2,6 +2,7 @@ local M = {}
 local utils = require("utils")
 local lsp_options = require("lsp_opts")
 
+local lsp_feature_opts = lsp_options.lsp_feature_opts
 local virtual_text_signs = lsp_options.virtual_text_signs
 local default_diagnostic_config = lsp_options.default_diagnostic_config
 local capabilities_opts = lsp_options.default_capabilities_opts
@@ -173,10 +174,10 @@ function M.get_raw_config(server)
 end
 
 -- INFO: Global LSP setup ------------------------------------------------------------------
-function M.global_lsp_setup(lsp_opts)
-    if lsp_opts.code_lens.enabled and vim.lsp.codelens then
+function M.global_lsp_setup()
+    if lsp_feature_opts.code_lens.enabled and vim.lsp.codelens then
         M.on_supports_method("textDocument/codeLens", function(client, buffer)
-            if not vim.tbl_contains(lsp_opts.code_lens.exclude, vim.bo[buffer].filetype) then
+            if not vim.tbl_contains(lsp_feature_opts.code_lens.exclude, vim.bo[buffer].filetype) then
                 vim.lsp.codelens.refresh()
                 vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "InsertLeave" }, {
                     buffer = buffer,
@@ -186,12 +187,12 @@ function M.global_lsp_setup(lsp_opts)
         end)
     end
 
-    if lsp_opts.inlay_hints.enabled then
+    if lsp_feature_opts.inlay_hints.enabled then
         M.on_supports_method("textDocument/inlayHint", function(client, buffer)
             if
                 vim.api.nvim_buf_is_valid(buffer)
                 and vim.bo[buffer].buftype == ""
-                and not vim.tbl_contains(lsp_opts.inlay_hints.exclude, vim.bo[buffer].filetype)
+                and not vim.tbl_contains(lsp_feature_opts.inlay_hints.exclude, vim.bo[buffer].filetype)
             then
                 vim.lsp.inlay_hint.enable(true, { bufnr = buffer })
             end
@@ -224,6 +225,64 @@ function M.global_lsp_setup(lsp_opts)
             on_rename(data.old_name, data.new_name, function() end)
         end)
     end)
+
+    vim.diagnostic.config(default_diagnostic_config)
+
+    -- Disabled as using Noice for this
+    local hover_opts = {
+        -- Use a sharp border with `FloatBorder` highlights
+        border = "single",
+        -- add the title in hover float window
+        -- title = "hover",
+        relative = "win",
+        max_height = math.floor(vim.o.lines * 0.6),
+        max_width = math.floor(vim.o.columns * 0.5),
+    }
+    if not vim.g.neovide then
+        -- [ "╔", "═" ,"╗", "║", "╝", "═", "╚", "║" ].
+        hover_opts.border = { "┏", "━", "┓", "┃", "┛", "━", "┗", "┃" }
+    end
+    local status_noice, _ = pcall(require, "noice")
+    local status_hover, _ = pcall(require, "hover")
+    if not (status_noice or status_hover) then
+        vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, hover_opts)
+    end
+
+    local signature_help_opts = {
+        -- title = "signature help",
+        scope = "cursor",
+        focusable = false,
+        border = "single",
+        close_events = {
+            "CursorMoved",
+            "CursorMovedI",
+            "BufHidden",
+            "InsertCharPre",
+            "WinLeave",
+            "InsertEnter",
+            "InsertLeave",
+        },
+        padding = { 0, 0 },
+    }
+    vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, signature_help_opts)
+
+    vim.api.nvim_create_user_command("FormatDisable", function(args)
+        if args.bang then
+            -- FormatDisable! will disable formatting just for this buffer
+            vim.b.disable_autoformat = true
+        else
+            vim.g.disable_autoformat = true
+        end
+    end, {
+        desc = "Disable autoformat-on-save",
+        bang = true,
+    })
+    vim.api.nvim_create_user_command("FormatEnable", function()
+        vim.b.disable_autoformat = false
+        vim.g.disable_autoformat = false
+    end, {
+        desc = "Re-enable autoformat-on-save",
+    })
 end
 
 -- INFO: on_attach func =========================================================================

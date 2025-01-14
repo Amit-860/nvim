@@ -5,7 +5,7 @@ return {
     -- keys = { "<leader>", "<SPC>", " ", "<F13>" },
     opts = {
         ---@type false | "classic" | "modern" | "helix"
-        preset = "helix",
+        preset = false,
         -- Delay before showing the popup. Can be a number or a function that returns a number.
         ---@type number | fun(ctx: { keys: string, mode: string, plugin?: string }):number
         delay = function(ctx)
@@ -40,26 +40,26 @@ return {
             },
         },
         win = {
-            -- width = 1,
-            height = { min = 4, max = 24 },
-            -- col = 0,
+            -- don't allow the popup to overlap with the cursor
+            relative = "editor",
+            no_overlap = true,
+            height = { min = 8, max = 8 },
+            col = 0.5,
             row = -1,
             border = "single",
-            no_overlap = false,
             padding = { 1, 2 }, -- extra window padding [top/bottom, right/left]
-            title = false,
+            title = true,
             title_pos = "center",
             zindex = 1000,
             -- Additional vim.wo and vim.bo options
             bo = {},
             wo = {
-                -- winblend = 0, -- value between 0-100 0 for fully opaque and 100 for fully transparent
+                winblend = 10, -- value between 0-100 0 for fully opaque and 100 for fully transparent
             },
         },
         layout = {
-            width = { min = 20 }, -- min and max width of the columns
-            spacing = 5, -- spacing between columns
-            align = "center", -- align columns left, center or right
+            width = { min = 8, max = 24 }, -- min and max width of the columns
+            spacing = 3, -- spacing between columns
         },
         keys = {
             scroll_down = "<c-d>", -- binding to scroll down inside the popup
@@ -171,6 +171,10 @@ return {
             { "<leader>S", group = "Session" },
             { "<leader>s", group = "Surround", icon = icons.ui.Surround },
             { "<leader>;", group = "Dropbar", icon = icons.ui.Map },
+            { "<leader>x", group = "Buf Delete", icon = icons.astro.Window },
+            { "<leader><leader>", group = "Buf List", icon = icons.astro.Window },
+            { "<leader>y", group = "Yank History", icon = icons.kind.EnumMember },
+            { "<leader>.", group = "Dashboard", icon = icons.ui.init },
             { "<leader>e", group = "Explorer", icon = icons.ui.List },
             { "<leader>c", group = "Cursor", icon = "󰗧" },
             { "<leader>f", group = "Find" },
@@ -183,7 +187,7 @@ return {
             { "<leader>q", group = "Quit" },
             { "<leader>u", name = "Undo", icon = icons.ui.Undo },
             { "<leader>z", desc = "Zoxide", icon = icons.ui.FolderSymlink },
-            { "<leader>/", desc = "which_key_ignore", icon = icons.ui.Comment },
+            { "<leader>/", desc = "Comment", icon = icons.ui.Comment },
             { "<leader>r", desc = "Replace", icon = "" },
             { "<leader>le", desc = "Diagnostics", icon = icons.diagnostics.Information },
             { "<leader>lE", desc = "Project Diagnostics", icon = icons.diagnostics.Information },
@@ -192,7 +196,7 @@ return {
             { "<F13>s", desc = "Spectre", icon = icons.misc.Robot },
             { "<F13>t", desc = "Toggle", icon = icons.astro.Selected },
             { "<F13>g", desc = "Git", icon = icons.astro.GitBranch },
-            { "<F13>o", desc = "Oil", icon = icons.astro.FolderEmpty },
+            -- { "<F13>o", desc = "Oil", icon = icons.astro.FolderEmpty },
             { "<F13>d", desc = "Dadbod", icon = icons.astro.FileNew },
         })
     end,

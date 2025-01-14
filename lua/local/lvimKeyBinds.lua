@@ -1,3 +1,4 @@
+local ignore_for_vscode = { "normal_mode", "insert_mode", "term_mode", "command_mode" }
 local generic_opts_any = { noremap = true, silent = true }
 
 local generic_opts = {
@@ -131,7 +132,13 @@ end
 local function load(keymaps)
     keymaps = keymaps or {}
     for mode, mapping in pairs(keymaps) do
-        load_mode(mode, mapping)
+        if vim.g.vscode then
+            if not vim.tbl_contains(ignore_for_vscode, mode) then
+                load_mode(mode, mapping)
+            end
+        else
+            load_mode(mode, mapping)
+        end
     end
 end
 

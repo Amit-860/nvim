@@ -83,7 +83,7 @@ return {
                     oil.save()
                 end,
             },
-            ["<F13>o"] = {
+            ["<leader>eo"] = {
                 desc = "Quit Oil",
                 mode = "n",
                 callback = function()
