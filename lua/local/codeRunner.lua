@@ -19,8 +19,8 @@ local function create_floating_term(config)
     config = config or {}
     local window_configs = config.output_window_configs or {}
 
-    local width = window_configs.width or 80
-    local height = window_configs.height or 20
+    local width = window_configs.float.width or 80
+    local height = window_configs.float.height or 20
     local position = window_configs.position or "center"
 
     local col, row
@@ -149,7 +149,7 @@ local function create_output_window(config)
 end
 
 -- Function to run the code in the output window
-local function run_code(cmd)
+local function run_code(direction, cmd)
     local ft = vim.bo.filetype
     local filename = vim.fn.expand("%:p") -- Get the full path of the current file
 
@@ -182,7 +182,7 @@ local function run_code(cmd)
         return
     end
 
-    local config = vim.g.runTA_config or {}
+    local config = vim.tbl_deep_extend("force", {}, vim.g.runTA_config or {}, { output_window_type = direction or nil })
 
     output_buf, output_win = create_output_window(config)
 
@@ -266,10 +266,16 @@ end
 function M.setup(config)
     vim.g.runTA_config = config or {}
     vim.api.nvim_create_user_command("RunCode", function(args)
-        if args.args == "" or args.args == nil then
-            run_code(false)
+        local direction = nil
+        if #args.fargs > 0 then
+            direction = args.fargs[1]
+        end
+
+        if #args.fargs <= 1 then
+            run_code(direction, nil)
         else
-            run_code(args.args)
+            local cmd = table.concat(args.fargs, " ", 2)
+            run_code(direction, cmd)
         end
     end, { nargs = "*" })
 

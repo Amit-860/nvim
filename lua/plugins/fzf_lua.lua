@@ -67,6 +67,7 @@ return {
                 border = "single",
                 backdrop = 90,
                 preview = {
+                    border = "single",
                     scrollbar = true,
                     layout = "vertical",
                     vertical = "up:60%",

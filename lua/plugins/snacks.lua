@@ -353,9 +353,14 @@ local snacks_opts = {
         notification = {
             wo = { wrap = true }, -- Wrap notifications
         },
+        notification_history = {
+            height = math.floor(vim.o.lines * 0.7),
+            width = math.floor(vim.o.columns * 0.7),
+            border = "single",
+        },
         scratch = {
-            height = math.floor(vim.o.lines * 0.85),
-            width = math.floor(vim.o.columns * 0.85),
+            height = math.floor(vim.o.lines * 0.80),
+            width = math.floor(vim.o.columns * 0.84),
             bo = { buftype = "", buflisted = false, bufhidden = "hide", swapfile = false },
             minimal = false,
             noautocmd = false,

@@ -48,7 +48,7 @@ return {
                     --     col = "50%",
                     -- },
                     position = {
-                        row = "90%",
+                        row = "78%",
                         col = "50%",
                     },
                     size = {

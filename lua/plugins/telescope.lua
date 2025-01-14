@@ -114,8 +114,8 @@ return {
 
                     winblend = 0,
                     -- border = {},
-                    -- borderchars = nil,
-                    borderchars = { "━", "┃", "━", "┃", "┏", "┓", "┛", "┗" },
+                    borderchars = { "─", "│", "─", "│", "┌", "┐", "┘", "└" },
+                    -- borderchars = { "━", "┃", "━", "┃", "┏", "┓", "┛", "┗" },
                     color_devicons = true,
                     set_env = {
                         ["COLORTERM"] = "truecolor",

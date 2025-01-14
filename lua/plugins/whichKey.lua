@@ -40,9 +40,27 @@ return {
             },
         },
         win = {
-            -- don't allow the popup to overlap with the cursor
+            --------------------------------------- Helix style ---------------------------------------------
             relative = "editor",
-            no_overlap = true,
+            no_overlap = false,
+            height = { min = 4, max = 32 },
+            width = { min = 24, max = 96 },
+            col = -1,
+            row = -1,
+            border = "single",
+            padding = { 1, 2 }, -- extra window padding [top/bottom, right/left]
+            title = true,
+            title_pos = "center",
+            zindex = 1000,
+            -- Additional vim.wo and vim.bo options
+            bo = {},
+            wo = {
+                winblend = 10, -- value between 0-100 0 for fully opaque and 100 for fully transparent
+            },
+
+            ---------------------------------------- Center Syle ----------------------------------------------
+            --[[ relative = "editor",
+            no_overlap = false,
             height = { min = 8, max = 8 },
             col = 0.5,
             row = -1,
@@ -55,11 +73,16 @@ return {
             bo = {},
             wo = {
                 winblend = 10, -- value between 0-100 0 for fully opaque and 100 for fully transparent
-            },
+            }, ]]
         },
         layout = {
-            width = { min = 8, max = 24 }, -- min and max width of the columns
+            --------------------------------------- Helix style ---------------------------------------------
+            width = { min = 8, max = 40 }, -- min and max width of the columns
             spacing = 3, -- spacing between columns
+
+            ---------------------------------------- Center Syle ----------------------------------------------
+            --[[ width = { min = 8, max = 24 }, -- min and max width of the columns
+            spacing = 3, -- spacing between columns ]]
         },
         keys = {
             scroll_down = "<c-d>", -- binding to scroll down inside the popup

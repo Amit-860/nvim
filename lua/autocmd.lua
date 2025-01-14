@@ -88,20 +88,20 @@ if not vim.g.vscode then
         end,
     })
 
-    if vim.g.transparent and not vim.g.neovide then
-        vim.api.nvim_create_autocmd({ "UIEnter" }, {
-            group = vim.api.nvim_create_augroup("transparent", { clear = true }),
-            callback = function(event)
-                -- transparent
+    vim.api.nvim_create_autocmd({ "UIEnter" }, {
+        group = vim.api.nvim_create_augroup("transparent", { clear = true }),
+        callback = function(event)
+            -- transparent
+            if vim.g.transparent and not vim.g.neovide then
                 vim.api.nvim_set_hl(0, "Normal", { bg = "NONE" })
                 vim.api.nvim_set_hl(0, "NormalNC", { bg = "NONE" })
                 vim.api.nvim_set_hl(0, "WinBar", { bg = "NONE" })
                 vim.api.nvim_set_hl(0, "WinBarNC", { bg = "NONE" })
                 vim.api.nvim_set_hl(0, "SignColumn", { bg = "NONE" })
                 vim.api.nvim_set_hl(0, "FoldColumn", { bg = "NONE" })
-            end,
-        })
-    end
+            end
+        end,
+    })
 
     vim.api.nvim_create_autocmd("ColorScheme", {
         group = vim.api.nvim_create_augroup("colors", { clear = true }),

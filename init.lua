@@ -29,7 +29,7 @@ local default_options = {
     cmdwinheight = math.floor(vim.o.lines * 0.2),
     completeopt = { "menuone", "noselect" },
     conceallevel = 0, -- so that `` is visible in markdown files
-    fileencoding = "utf-16", -- the encoding written to a file
+    fileencoding = "utf-8", -- the encoding written to a file
     foldcolumn = "auto:1",
     foldenable = true,
     -- foldmethod = "manual",
@@ -101,8 +101,8 @@ if is_night() then
     vim.g.neovide_colorscheme = "terafox"
     vim.g.neovide_custom_color = true
     vim.g.colorscheme = "catppuccin"
+    -- vim.g.colorscheme = "terafox"
     -- vim.g.transparent = true
-    -- vim.g.colorscheme = "catppuccin-macchiato"
 else
     vim.g.is_night = false
     vim.g.neovide_colorscheme = "duskfox"
@@ -264,8 +264,12 @@ if not vim.g.vscode then
     require("local.codeRunner").setup({
         output_window_type = "floating", -- floating, pane, tab, split
         output_window_configs = {
-            width = math.floor(vim.o.columns * 0.8),
-            height = math.floor(vim.o.lines * 0.8),
+            width = math.floor(vim.o.columns * 0.35),
+            height = math.floor(vim.o.lines * 0.35),
+            float = {
+                width = math.floor(vim.o.columns * 0.7),
+                height = math.floor(vim.o.lines * 0.7),
+            },
             position = "center", -- Position of the floating window ("center", "top", "bottom", "left", "right", "custom")
             custom_col = nil,
             custom_row = nil,
