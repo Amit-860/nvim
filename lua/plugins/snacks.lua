@@ -349,6 +349,24 @@ local snacks_opts = {
             char = "·",
         },
     },
+    picker = {
+        layout = {
+            cycle = true,
+            --- Use the default layout or vertical if the window is too narrow
+            preset = function()
+                return vim.o.columns >= 120 and "default" or "vertical" -- default, vertical, select, ivy
+            end,
+            win = {
+                input = {
+                    keys = {
+                        -- to close the picker on ESC instead of going to normal mode,
+                        -- add the following keymap to your config
+                        ["<Esc>"] = { "close", mode = { "n", "i" } },
+                    },
+                },
+            },
+        },
+    },
     styles = {
         notification = {
             wo = { wrap = true }, -- Wrap notifications
@@ -450,6 +468,17 @@ local snacks_keys = {
             require("snacks").zen()
         end,
         desc = "Dismiss All Notifications",
+    },
+    {
+        "<leader>fz",
+        function()
+            require("snacks").picker.zoxide({
+                layout = {
+                    preset = "ivy",
+                },
+            })
+        end,
+        desc = "ZOxide",
     },
 }
 

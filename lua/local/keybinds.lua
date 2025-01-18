@@ -6,12 +6,14 @@ if not vim.g.vscode then
     vim.keymap.set("n", "<leader>et", "<cmd>NvimTreeToggle<cr>", { noremap = true, silent = true, desc = "NvimTree" })
 
     -- list buffers
-    vim.keymap.set(
-        "n",
-        "<leader><leader>",
-        "<cmd>Telescope buffers theme=dropdown<cr>",
-        { noremap = true, silent = true, desc = "Buf List" }
-    )
+    vim.keymap.set("n", "<leader><leader>", function()
+        require("telescope.builtin").buffers({
+            initial_mode = "insert",
+            theme = "dropdown",
+            previewer = false,
+            borderchars = { "─", "│", "─", "│", "┌", "┐", "┘", "└" },
+        })
+    end, { noremap = true, silent = true, desc = "Buf List" })
 
     -- find
     vim.keymap.set(
@@ -164,8 +166,6 @@ if not vim.g.vscode then
     -- tab
     vim.keymap.set("n", "<M-x>", "<cmd>tabclose<cr>", { noremap = true, silent = true, desc = "Tab close" })
     vim.keymap.set("n", "<M-w>", "<cmd>tabnew<cr>", { noremap = true, silent = true, desc = "Tab new" })
-    vim.keymap.set("n", "<M-l>", "<cmd>tabnext<cr>", { noremap = true, silent = true, desc = "Tab next" })
-    vim.keymap.set("n", "<M-h>", "<cmd>tabprevious<cr>", { noremap = true, silent = true, desc = "Tab prev" })
 
     -- LeetCode
     vim.keymap.set("n", "<leader>Lt", "<cmd>Leet test<cr>", { noremap = true, silent = true, desc = "Test" })
@@ -344,6 +344,12 @@ if not vim.g.vscode then
             layout_config = { preview_height = 0.6 },
         })
     end, { desc = "Telescope Noice", silent = true })
+    vim.keymap.set("n", "<leader>or", function()
+        require("telescope.builtin").reloader({
+            initial_mode = "insert",
+            borderchars = { "─", "│", "─", "│", "┌", "┐", "┘", "└" },
+        })
+    end, { noremap = true, silent = true, desc = "Buf List" })
 
     -- screen_shot
     vim.keymap.set("v", "<leader>os", function()
@@ -408,7 +414,9 @@ if not vim.g.vscode then
     vim.keymap.set({ "n", "i" }, "<M-o>", "<C-6>", { noremap = true, silent = true, desc = "Edit the alternate file" })
     vim.keymap.set({ "n", "i" }, "<M-O>", "<C-^>", { noremap = true, silent = true, desc = "Edit the alternate file" })
     vim.keymap.set({ "n", "i" }, "<F13>=", function()
-        vim.cmd("Telescope spell_suggest")
+        require("telescope.builtin").spell_suggest({
+            borderchars = { "─", "│", "─", "│", "┌", "┐", "┘", "└" },
+        })
     end, { noremap = true, silent = true, desc = "Edit the alternate file" })
     vim.keymap.set({ "n" }, "<F13>\\", "<esc>:term<cr>", { noremap = true, silent = true, desc = "Terminal Buffer" })
 
@@ -416,7 +424,10 @@ if not vim.g.vscode then
     vim.keymap.set({ "n" }, "<F13>f", ":FzfLua<cr>", { noremap = true, silent = true, desc = "Fzf-Lua" })
 
     -- ecape in terminal mode
-    vim.keymap.set({ "t" }, "<esc>", "<C-\\><C-n>", { noremap = true, silent = true, desc = "Terminal Normal Mode" })
+    vim.keymap.set({ "t" }, "<C-n>", "<C-\\><C-n>", { noremap = true, silent = true, desc = "Terminal Normal Mode" })
+
+    -- taks manager [dooit]
+    vim.keymap.set({ "n", "i" }, "<F2>", utils.dooit_toggle, { noremap = true, silent = true, desc = "Dooit" })
 
     --INFO: not disabled for vscode -----------------------------------------------------------------------------------------------------------------
 end
@@ -463,5 +474,13 @@ end, { desc = "Spider-b", noremap = true })
 vim.keymap.set({ "n", "o", "x" }, "ge", function()
     require("spider").motion("ge", { customPatterns = { patterns = cusotm_patterns, overrideDefault = false } })
 end, { desc = "Spider-ge", noremap = true })
+
+vim.keymap.set({ "i" }, "<M-l>", function()
+    require("spider").motion("e", { customPatterns = { patterns = cusotm_patterns, overrideDefault = false } })
+    vim.api.nvim_input("<right>")
+end, { desc = "Spider-e", noremap = true })
+vim.keymap.set({ "i" }, "<M-h>", function()
+    vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<esc>gea", true, false, true), "n", true)
+end, { desc = "Spider-b", noremap = true })
 
 -- disabling key

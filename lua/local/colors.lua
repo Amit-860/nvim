@@ -50,6 +50,16 @@ vim.api.nvim_set_hl(0, "CmpSelectedItem", { link = "Visual" }) -- highlights for
 -- telescope
 vim.api.nvim_set_hl(0, "TelescopeBorder", { link = "FloatBorder" })
 
+-- blink ghost text
+vim.api.nvim_set_hl(0, "BlinkCmpGhostText", { fg = "#898e98" })
+
+local nf_fg, nf_bg = getColor("NormalFloat")
+vim.api.nvim_set_hl(0, "BlinkCmpMenu", { bg = nf_bg, fg = c_fg, blend = 10 })
+vim.api.nvim_set_hl(0, "BlinkCmpDoc", { bg = nf_bg, fg = c_fg, blend = 10 })
+
+local wm_fg, wm_bg = getColor("PmenuSbar")
+vim.api.nvim_set_hl(0, "BlinkMenuSelection", { bg = wm_bg, bold = true })
+
 -- cmp kind hl
 vim.api.nvim_set_hl(0, "ItemKindKeyword", { bg = "#cf3930", fg = "#131a24" })
 vim.api.nvim_set_hl(0, "ItemKindClass", { bg = "#dbc874", fg = "#131a24" })
@@ -65,13 +75,6 @@ vim.api.nvim_set_hl(0, "ItemKindVariable", { bg = "#dfdfe0", fg = "#131a24" })
 vim.api.nvim_set_hl(0, "ItemKindValue", { bg = "#cfa333", fg = "#131a24" })
 vim.api.nvim_set_hl(0, "ItemKindText", { bg = "#81b29a", fg = "#131a24" })
 vim.api.nvim_set_hl(0, "ItemKindUnknown", { bg = "#fda47f", fg = "#131a24" })
-
--- blink ghost text
-vim.api.nvim_set_hl(0, "BlinkCmpGhostText", { fg = "#898e98" })
-
-nf_fg, nf_bg = getColor("NormalFloat")
-vim.api.nvim_set_hl(0, "BlinkCmpMenu", { bg = nf_bg, fg = c_fg, blend = 10 })
-vim.api.nvim_set_hl(0, "BlinkCmpDoc", { bg = nf_bg, fg = c_fg, blend = 10 })
 
 -- cmp menu hl
 vim.api.nvim_set_hl(0, "ItemMenuKeyword", { fg = "#cf3930", italic = true })
@@ -92,7 +95,7 @@ vim.api.nvim_set_hl(0, "ItemMenuUnknown", { fg = "#fda47f", italic = true })
 -- INFO: theme specific settings
 if vim.g.neovide or vim.g.transparent then
     nf_fg, nf_bg = getColor("NormalFloat")
-    c_fg, c_bg = getColor("Comment")
+    local c_fg, c_bg = getColor("Comment")
     vim.api.nvim_set_hl(0, "FloatBorder", { bg = nf_bg, fg = c_fg })
     vim.api.nvim_set_hl(0, "FloatTitle", { bg = nf_bg, fg = c_fg })
 
@@ -114,7 +117,7 @@ if vim.g.neovide or vim.g.transparent then
 
     -- NOTE: only transparency
     if vim.g.transparent and not vim.g.neovide then
-        -- vim.api.nvim_set_hl(0, "NormalFloat", { bg = M.float_color, blend = M.float_winblend }) -- highlights for cmp menu
+        -- vim.api.nvim_set_hl(0, "NormalFloat", { bg = nf_bg, blend = 50 }) -- highlights for cmp menu
         -- vim.api.nvim_set_hl(
         --     0,
         --     "FloatBorder",
@@ -157,7 +160,7 @@ if vim.g.neovide or vim.g.transparent then
     vim.api.nvim_set_hl(0, "TelescopeBorder", { fg = c_fg, bg = nil, blend = M.float_winblend })
 
     -- blink
-    c_fg, bg = getColor("NormalFloat")
+    nf_fg, nf_bg = getColor("NormalFloat")
     vim.api.nvim_set_hl(0, "BlinkCmpMenu", { bg = nf_bg, fg = c_fg, blend = 5 })
     vim.api.nvim_set_hl(0, "BlinkCmpDoc", { bg = nf_bg, fg = c_fg, blend = 5 })
 end

@@ -93,8 +93,8 @@ local function is_night()
 end
 
 vim.g.transparent = true
--- vim.g.autoload = not (vim.g.neovide or vim.g.vscode)
-vim.g.autoload = true
+vim.g.autoload = not (vim.g.neovide or vim.g.vscode)
+-- vim.g.autoload = true
 
 if is_night() then
     vim.g.is_night = true

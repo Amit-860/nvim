@@ -238,7 +238,7 @@ M.lazygit_toggle = function()
         hidden = true,
         direction = "float",
         float_opts = float_opts,
-        on_open = function(_)
+        on_open = function(term)
             vim.cmd("startinsert!")
         end,
         on_close = function(_) end,
@@ -264,11 +264,11 @@ M.jj_toggle = function()
         hidden = true,
         direction = "float",
         float_opts = float_opts,
-        on_open = function(_)
+        on_open = function(term)
             vim.cmd("startinsert!")
         end,
         on_close = function(_) end,
-        count = 99,
+        count = 98,
     })
     -- condition for neovide
     if vim.g.neovide then
@@ -281,19 +281,19 @@ end
 M.broot_toggle = function()
     local Terminal = require("toggleterm.terminal").Terminal
     local float_opts = {
-        -- height = math.floor(vim.o.lines * 1),
-        -- width = math.floor(vim.o.columns * 1),
+        height = math.floor(vim.o.lines * 0.80),
+        width = math.floor(vim.o.columns * 0.84),
     }
     local broot = Terminal:new({
         cmd = "broot",
         hidden = true,
         direction = "float",
         float_opts = float_opts,
-        on_open = function(_)
+        on_open = function(term)
             vim.cmd("startinsert!")
         end,
         on_close = function(_) end,
-        count = 99,
+        count = 97,
     })
     -- condition for neovide
     -- if vim.g.neovide then
@@ -314,11 +314,11 @@ M.atac_toggle = function()
         hidden = true,
         direction = "float",
         float_opts = float_opts,
-        on_open = function(_)
+        on_open = function(term)
             vim.cmd("startinsert!")
         end,
         on_close = function(_) end,
-        count = 99,
+        count = 96,
     })
     -- condition for neovide
     -- if vim.g.neovide then
@@ -328,9 +328,35 @@ M.atac_toggle = function()
     atac:toggle()
 end
 
+M.dooit_toggle = function()
+    local Terminal = require("toggleterm.terminal").Terminal
+    local float_opts = {
+        border = "none",
+        height = math.floor(vim.o.lines * 0.80),
+        width = math.floor(vim.o.columns * 0.84),
+    }
+    local dooit = Terminal:new({
+        cmd = "dooit",
+        hidden = true,
+        direction = "float",
+        float_opts = float_opts,
+        on_open = function(term)
+            vim.cmd("startinsert!")
+        end,
+        on_close = function(_) end,
+        count = 95,
+    })
+    -- condition for neovide
+    if vim.g.neovide then
+        float_opts.height = math.floor(vim.o.lines * 0.98)
+        float_opts.width = math.floor(vim.o.columns * 0.98)
+    end
+    dooit:toggle()
+end
+
 M.code_runner = function(run_cmd, file_name, direction)
     local Terminal = require("toggleterm.terminal").Terminal
-    local py_runner = Terminal:new({
+    local code_runner = Terminal:new({
         cmd = run_cmd .. " " .. file_name,
         hidden = true,
         direction = direction,
@@ -340,9 +366,9 @@ M.code_runner = function(run_cmd, file_name, direction)
             vim.cmd("startinsert!")
         end,
         on_close = function(_) end,
-        count = 99,
+        count = 94,
     })
-    py_runner:toggle()
+    code_runner:toggle()
 end
 
 local function is_loaded(name)
@@ -367,7 +393,7 @@ function M.on_load(name, fn)
 end
 
 function M.get_highlight_colors(name)
-    local hl = vim.api.nvim_get_hl(0, { name = name, link = true })
+    local hl = vim.api.nvim_get_hl(0, { name = name, link = false })
 
     if not hl then
         return nil, nil

@@ -320,6 +320,7 @@ M.on_attach = function(client, bufnr)
             winopts.width = 0.6
             winopts.preview = {
                 delay = 0,
+                border = vim.g.win_border,
                 horizontal = "right:60%",
                 layout = "horizontal",
                 flip_columns = 100,
@@ -393,7 +394,10 @@ M.on_attach = function(client, bufnr)
     vim.keymap.set(
         { "n" },
         "<leader>lS",
-        "<cmd>Telescope lsp_workspace_symbols<CR>",
+        -- "<cmd>Telescope lsp_workspace_symbols<CR>",
+        function()
+            require("snacks").picker.lsp_symbols()
+        end,
         { desc = "Workspace Symbols", noremap = true, buffer = bufnr }
     )
     vim.keymap.set({ "n" }, "<leader>lE", function()

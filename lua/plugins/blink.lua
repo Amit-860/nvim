@@ -284,7 +284,7 @@ local blink_opts = {
             border = vim.g.win_border,
             winblend = 10,
             -- winhighlight = "Normal:CmpComplitionMenu,FloatBorder:CmpComplitionMenu,CursorLine:CmpSelectedItem,Search:None",
-            winhighlight = "Normal:BlinkCmpMenu,FloatBorder:FloatBorder,CursorLine:QuickFixLine,Search:Search",
+            winhighlight = "Normal:BlinkCmpMenu,FloatBorder:FloatBorder,CursorLine:BlinkMenuSelection,Search:Search",
             draw = {
                 -- Aligns the keyword you've typed to a component in the menu
                 align_to = "kind_icon", -- or 'none' to disable
@@ -419,7 +419,7 @@ local blink_opts = {
                 border = vim.g.win_border,
                 winblend = 10,
                 -- winhighlight = "Normal:BlinkCmpDoc,FloatBorder:FloatBorder,CursorLine:BlinkCmpDocCursorLine,Search:None",
-                winhighlight = "Normal:BlinkCmpMenu,FloatBorder:FloatBorder,CursorLine:CursorLine,Search:None",
+                winhighlight = "Normal:BlinkCmpDoc,FloatBorder:FloatBorder,CursorLine:CursorLine,Search:None",
                 -- Note that the gutter will be disabled when border ~= 'none'
                 scrollbar = true,
                 -- Which directions to show the documentation window,
