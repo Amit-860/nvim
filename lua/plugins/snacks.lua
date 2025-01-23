@@ -206,6 +206,30 @@ local function indent_highlight()
     return { scope = "@constructor" }
 end
 
+-- INFO: Modified Telescope Picker layout
+local custom_telescope_picker_layout = {
+    reverse = true,
+    layout = {
+        box = "horizontal",
+        backdrop = true,
+        width = 0.8,
+        height = 0.84,
+        border = "none",
+        {
+            box = "vertical",
+            { win = "list", title = " Results ", title_pos = "center", border = "single" },
+            { win = "input", height = 1, border = "single", title = "{title} {live} {flags}", title_pos = "center" },
+        },
+        {
+            win = "preview",
+            title = "{preview:Preview}",
+            width = 0.5,
+            border = "single",
+            title_pos = "center",
+        },
+    },
+}
+
 -- INFO: Snacks Modeules
 local snacks_opts = {
     dashboard = dashboard_opts,
@@ -473,12 +497,19 @@ local snacks_keys = {
         "<leader>fz",
         function()
             require("snacks").picker.zoxide({
-                layout = {
-                    preset = "ivy",
-                },
+                layout = custom_telescope_picker_layout,
             })
         end,
         desc = "ZOxide",
+    },
+    {
+        "<leader>fr",
+        function()
+            require("snacks").picker.recent({
+                layout = custom_telescope_picker_layout,
+            })
+        end,
+        desc = "Find Recent Files",
     },
 }
 

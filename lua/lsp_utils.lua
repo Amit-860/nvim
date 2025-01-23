@@ -393,7 +393,7 @@ M.on_attach = function(client, bufnr)
     )
     vim.keymap.set(
         { "n" },
-        "<leader>lS",
+        "<leader>ls",
         -- "<cmd>Telescope lsp_workspace_symbols<CR>",
         function()
             require("snacks").picker.lsp_symbols()
@@ -484,7 +484,7 @@ M.on_attach = function(client, bufnr)
     --     { desc = "prev LSP word", noremap = true, buffer = bufnr })
 
     -- outline
-    vim.keymap.set({ "n" }, "<leader>ls", "<cmd>Outline<CR>", { desc = "Document Symbols", noremap = true })
+    vim.keymap.set({ "n" }, "<leader>lo", "<cmd>Outline<CR>", { desc = "Document Symbols", noremap = true })
 
     -- open_diagnostics_float
     vim.keymap.set({ "n" }, "<F13>k", open_diagnostics_float, { desc = "Open diagnostics float", noremap = true })

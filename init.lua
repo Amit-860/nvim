@@ -157,30 +157,31 @@ local lazy_opts = {
 }
 
 -- loading neovim options
-for k, v in pairs(default_options) do
-    vim.opt[k] = v
-end
-
 vim.g.mapleader = " "
-vim.g.maplocalleader = "\\"
-vim.g.loaded_netrw = 1
-vim.g.loaded_netrwPlugin = 1
-vim.g.python3_host_prog = vim.fn.expand("$HOME/scoop/apps/python/current/python.exe")
+if not vim.g.vscode then
+    for k, v in pairs(default_options) do
+        vim.opt[k] = v
+    end
 
-vim.o.guifont = "JetBrainsMono NFM:h10:l"
--- vim.o.guifont = "JetBrainsMono Nerd Font Mono:h10:sb"
--- vim.o.guifont = "Iosevka Nerd Font Mono:h10.3"
+    vim.g.loaded_netrw = 1
+    vim.g.loaded_netrwPlugin = 1
+    vim.g.python3_host_prog = vim.fn.expand("$HOME/scoop/apps/python/current/python.exe")
+    vim.o.guifont = "JetBrainsMono NFM:h10:l"
+    -- vim.o.guifont = "JetBrainsMono Nerd Font Mono:h10:sb"
+    -- vim.o.guifont = "Iosevka Nerd Font Mono:h10.3"
 
----  SETTINGS  ---
-vim.opt.spelllang:append("cjk") -- disable spellchecking for asian characters (VIM algorithm does not support it)
-vim.opt.shortmess:append("c") -- don't show redundant messages from ins-completion-menu
-vim.opt.shortmess:append("I") -- don't show the default intro message
-vim.opt.whichwrap:append("<,>,[,],h,l")
+    ---  SETTINGS  ---
+    vim.g.maplocalleader = "\\"
+    vim.opt.spelllang:append("cjk") -- disable spellchecking for asian characters (VIM algorithm does not support it)
+    vim.opt.shortmess:append("c") -- don't show redundant messages from ins-completion-menu
+    vim.opt.shortmess:append("I") -- don't show the default intro message
+    vim.opt.whichwrap:append("<,>,[,],h,l")
 
-vim.filetype.add({
-    extension = { tex = "tex", zir = "zir", cr = "crystal", http = "http" },
-    pattern = { ["[jt]sconfig.*.json"] = "jsonc" },
-})
+    vim.filetype.add({
+        extension = { tex = "tex", zir = "zir", cr = "crystal", http = "http" },
+        pattern = { ["[jt]sconfig.*.json"] = "jsonc" },
+    })
+end
 
 -- NOTE: Use vim.fn.expand($HOME/path/to/file.exe) for providing path
 

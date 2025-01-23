@@ -91,9 +91,30 @@ local blink_opts = {
             lazydev = { name = "LazyDev", module = "lazydev.integrations.blink" },
             dadbod = { name = "Dadbod", module = "vim_dadbod_completion.blink" },
             buffer = {
+                name = "Buffer",
                 score_offset = -3,
                 min_keyword_length = 2, -- Minimum number of characters in the keyword to trigger the provider
                 max_items = 8,
+                module = "blink.cmp.sources.buffer",
+                opts = {
+                    -- default to all visible buffers
+                    get_bufnrs = function()
+                        local open_bufs = vim.iter(vim.api.nvim_list_bufs())
+                            :filter(function(buf)
+                                return vim.bo[buf].buftype ~= "nofile"
+                            end)
+                            :totable()
+                        --[[ local visible_bufs = vim.iter(vim.api.nvim_list_wins())
+                            :map(function(win)
+                                return vim.api.nvim_win_get_buf(win)
+                            end)
+                            :filter(function(buf)
+                                return vim.bo[buf].buftype ~= "nofile"
+                            end)
+                            :totable() ]]
+                        return open_bufs
+                    end,
+                },
             },
             spell = {
                 name = "spell",

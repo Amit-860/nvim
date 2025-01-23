@@ -70,22 +70,22 @@ if not vim.g.vscode then
         -- "<cmd>Telescope live_grep layout_strategy=horizontal layout_config={preview_width=0.5}<cr>",
         { noremap = true, silent = true, desc = "String" }
     )
-    vim.keymap.set(
-        "n",
-        "<leader>fr",
-        -- "<cmd>Telescope oldfiles layout_strategy=horizontal layout_config={preview_width=0.5}<cr>",
-        function()
-            -- require("telescope").extensions.frecency.frecency({
-            --     initial_mode = "insert",
-            --     layout_strategy = "horizontal",
-            --     layout_config = { preview_width = 0.5 },
-            --     path_display = { "shorten" },
-            -- })
-            local fzf_lua_ok, fzf_lua = pcall(require, "fzf-lua")
-            fzf_lua.oldfiles()
-        end,
-        { noremap = true, silent = true, desc = "Recent Files" }
-    )
+    -- vim.keymap.set(
+    --     "n",
+    --     "<leader>fr",
+    --     -- "<cmd>Telescope oldfiles layout_strategy=horizontal layout_config={preview_width=0.5}<cr>",
+    --     function()
+    --         -- require("telescope").extensions.frecency.frecency({
+    --         --     initial_mode = "insert",
+    --         --     layout_strategy = "horizontal",
+    --         --     layout_config = { preview_width = 0.5 },
+    --         --     path_display = { "shorten" },
+    --         -- })
+    --         local fzf_lua_ok, fzf_lua = pcall(require, "fzf-lua")
+    --         fzf_lua.oldfiles()
+    --     end,
+    --     { noremap = true, silent = true, desc = "Recent Files" }
+    -- )
     vim.keymap.set(
         "n",
         "<leader>fn",
@@ -475,11 +475,11 @@ vim.keymap.set({ "n", "o", "x" }, "ge", function()
     require("spider").motion("ge", { customPatterns = { patterns = cusotm_patterns, overrideDefault = false } })
 end, { desc = "Spider-ge", noremap = true })
 
-vim.keymap.set({ "i" }, "<M-l>", function()
+vim.keymap.set({ "i" }, "<M-w>", function()
     require("spider").motion("e", { customPatterns = { patterns = cusotm_patterns, overrideDefault = false } })
     vim.api.nvim_input("<right>")
 end, { desc = "Spider-e", noremap = true })
-vim.keymap.set({ "i" }, "<M-h>", function()
+vim.keymap.set({ "i" }, "<M-b>", function()
     vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<esc>gea", true, false, true), "n", true)
 end, { desc = "Spider-b", noremap = true })
 
