@@ -49,7 +49,27 @@ return {
     -- },
     {
         "cbochs/grapple.nvim",
-        opts = { scope = "git" },
+        opts = {
+            scope = "git",
+            win_opts = {
+                width = 140,
+                height = 22,
+                row = 0.5,
+                col = 0.5,
+
+                relative = "editor",
+                border = "single",
+                focusable = false,
+                style = "minimal",
+
+                title = "Grapple", -- fallback title for Grapple windows
+                title_pos = "center",
+                title_padding = " ", -- custom: adds padding around window title
+
+                -- footer = "", -- disable footer
+                footer_pos = "center",
+            },
+        },
         event = { "BufReadPost", "BufNewFile" },
         cond = not vim.g.vscode,
         cmd = "Grapple",

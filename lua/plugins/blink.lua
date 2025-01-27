@@ -283,7 +283,7 @@ local blink_opts = {
             -- 'prefix' will fuzzy match on the text before the cursor
             -- 'full' will fuzzy match on the text before *and* after the cursor
             -- example: 'foo_|_bar' will match 'foo_' for 'prefix' and 'foo__bar' for 'full'
-            range = "prefix",
+            range = "full",
         },
         list = {
             selection = {
@@ -481,9 +481,11 @@ local blink_opts = {
     },
 
     fuzzy = {
-        -- When enabled, allows for a number of typos relative to the length of the query
-        -- Disabling this matches the behavior of fzf
-        use_typo_resistance = false,
+        -- Allows for a number of typos relative to the length of the query
+        -- Set this to 0 to match the behavior of fzf
+        max_typos = function(keyword)
+            return math.floor(#keyword / 5)
+        end,
         -- Frecency tracks the most recently/frequently used items and boosts the score of the item
         use_frecency = false,
         -- Proximity bonus boosts the score of items matching nearby words

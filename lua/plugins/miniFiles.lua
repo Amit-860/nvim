@@ -77,7 +77,7 @@ return {
                     require("mini.files").open(vim.uv.cwd(), true)
                 end
             end,
-            desc = "Open mini.files (Directory of Current File or CWD if not exists)",
+            desc = "Open mini.files",
         },
         -- Open the current working directory
         {

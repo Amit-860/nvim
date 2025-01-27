@@ -12,7 +12,7 @@ return {
             black = "#2F3239",
             red = "#e85c51",
             light_red = "#ff7059",
-            green = "#688b89",
+            green = "#89b482",
             yellow = "#fda47f",
             blue = "#5a93aa",
             magenta = "#ad5c7c",
@@ -292,21 +292,33 @@ return {
                 },
                 {
                     function()
+                        return "󰍒"
+                    end,
+                    cond = function()
+                        return package.loaded["grapple"] and require("grapple").exists()
+                    end,
+                    color = function()
+                        local fg, _ = utils.get_highlight_colors("Number")
+                        return { fg = fg, gui = "bold" }
+                    end,
+                },
+                {
+                    function()
                         if vim.bo.modified then
-                            return ""
+                            return "󰺕"
                         end
                         return ""
                     end,
-                    color = { bg = colors.light_green, fg = colors.black, gui = "bold" },
+                    color = { fg = colors.green, gui = "bold" },
                 },
                 {
                     function()
                         if vim.bo.modifiable == false or vim.bo.readonly == true then
-                            return ""
+                            return "󰺕"
                         end
                         return ""
                     end,
-                    color = { bg = colors.light_red, fg = colors.black, gui = "bold" },
+                    color = { fg = colors.light_red, gui = "bold" },
                 },
                 {
                     "%w",
@@ -324,18 +336,6 @@ return {
                     "%q",
                     cond = function()
                         return vim.bo.buftype == "quickfix"
-                    end,
-                },
-                {
-                    function()
-                        return " "
-                    end,
-                    cond = function()
-                        return package.loaded["grapple"] and require("grapple").exists()
-                    end,
-                    color = function()
-                        local fg, _ = utils.get_highlight_colors("Number")
-                        return { fg = fg, gui = "bold" }
                     end,
                 },
             },
@@ -426,21 +426,33 @@ return {
                 },
                 {
                     function()
+                        return "󰍒"
+                    end,
+                    cond = function()
+                        return package.loaded["grapple"] and require("grapple").exists()
+                    end,
+                    color = function()
+                        local fg, _ = utils.get_highlight_colors("Number")
+                        return { fg = fg, gui = "bold" }
+                    end,
+                },
+                {
+                    function()
                         if vim.bo.modified then
-                            return ""
+                            return "󰺕"
                         end
                         return ""
                     end,
-                    color = { bg = colors.light_green, fg = colors.black, gui = "bold" },
+                    color = { fg = colors.green, gui = "bold" },
                 },
                 {
                     function()
                         if vim.bo.modifiable == false or vim.bo.readonly == true then
-                            return " "
+                            return "󰺕"
                         end
                         return ""
                     end,
-                    color = { bg = colors.light_red, fg = colors.black, gui = "bold" },
+                    color = { fg = colors.light_red, gui = "bold" },
                 },
                 {
                     "%w",
@@ -458,18 +470,6 @@ return {
                     "%q",
                     cond = function()
                         return vim.bo.buftype == "quickfix"
-                    end,
-                },
-                {
-                    function()
-                        return " "
-                    end,
-                    cond = function()
-                        return package.loaded["grapple"] and require("grapple").exists()
-                    end,
-                    color = function()
-                        local fg, _ = utils.get_highlight_colors("Number")
-                        return { fg = fg, gui = "bold" }
                     end,
                 },
             },

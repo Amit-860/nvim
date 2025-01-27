@@ -334,9 +334,6 @@ if not vim.g.vscode then
     vim.keymap.set("n", "<leader>ol", function()
         utils.lazygit_toggle()
     end, { desc = "Lazygit", noremap = true, silent = true })
-    vim.keymap.set("n", "<leader>ov", function()
-        vim.cmd("HighlightColors Toggle")
-    end, { desc = "Highlights Colors", silent = true })
     vim.keymap.set("n", "<leader>on", function()
         require("telescope").extensions.noice.noice({
             theme = "dropdown",
@@ -349,7 +346,7 @@ if not vim.g.vscode then
             initial_mode = "insert",
             borderchars = { "─", "│", "─", "│", "┌", "┐", "┘", "└" },
         })
-    end, { noremap = true, silent = true, desc = "Buf List" })
+    end, { noremap = true, silent = true, desc = "Module Reloader" })
 
     -- screen_shot
     vim.keymap.set("v", "<leader>os", function()

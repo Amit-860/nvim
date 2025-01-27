@@ -12,9 +12,10 @@ local lombok_path = vim.fn.expand(mason_registry.get_package("lombok-nightly"):g
 
 -- Setup Workspace
 local home = vim.fn.expand("$HOME")
-local workspace_path = home .. "/jdtls_workspace/"
+local root_dir = vim.fs.root(0, { ".metadata", ".git", "pom.xml", "build.gradle", "mvnw", ".project" })
+local workspace_path = home .. "/.nvim/workspace/"
 local project_name = vim.fn.fnamemodify(vim.fn.getcwd(), ":p:h:t")
-local workspace_dir = workspace_path .. project_name
+local workspace_dir = vim.fn.expand(workspace_path .. project_name)
 local os_config = "win"
 local bundles = {
     vim.fn.glob(
@@ -50,7 +51,7 @@ local jdtls_specific_keymaps = function(client, bufnr)
 end
 
 local config = {
-    root_dir = vim.fs.root(0, { ".metadata", ".git", "pom.xml", "build.gradle", "mvnw" }),
+    root_dir = root_dir,
     cmd = {
         "java",
         "-Declipse.application=org.eclipse.jdt.ls.core.id1",

@@ -28,7 +28,7 @@ return {
                 full_name = true,
                 group_empty = true,
                 special_files = {},
-                symlink_destination = false,
+                symlink_destination = true,
                 indent_markers = {
                     enable = true,
                 },
@@ -47,9 +47,9 @@ return {
                 },
             },
             update_focused_file = {
-                enable = false,
-                update_root = true,
-                ignore_list = { "help" },
+                enable = true,
+                update_root = false,
+                ignore_list = { "help", "TelescopePrompt", "sancks_dashboard" },
             },
             diagnostics = {
                 enable = false,

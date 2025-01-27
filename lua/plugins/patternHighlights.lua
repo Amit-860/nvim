@@ -4,6 +4,11 @@ return {
         cond = not vim.g.vscode,
         cmd = { "HighlightColors" },
         -- event = { 'BufReadPost', 'BufNewFile' },
+        keys = {
+            vim.keymap.set("n", "<F13>tp", function()
+                vim.cmd("HighlightColors Toggle")
+            end, { desc = "Highlights Colors", silent = true }),
+        },
         opts = {
             ---@usage 'background'|'foreground'|'virtual'
             render = "virtual",
