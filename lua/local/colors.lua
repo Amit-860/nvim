@@ -107,6 +107,11 @@ if vim.g.neovide or vim.g.transparent then
             "FloatBorder",
             { fg = M.float_border_fg_color, bg = M.float_border_bg_color, blend = M.neovide_float_winblend }
         )
+
+        -- visual
+        -- vim.api.nvim_set_hl(0, "Visual", { bg = "#3a4f6d", bold = true, })
+        vim.api.nvim_set_hl(0, "Visual", { bg = "#194c65", bold = true })
+
         vim.api.nvim_set_hl(0, "NoiceCmdlinePopup", { bg = M.float_color, blend = M.neovide_float_winblend }) -- highlights for cmp menu
         vim.api.nvim_set_hl(0, "SnacksNormal", { link = "NormalFloat" }) -- highlights for selected item in cmp menu
         vim.api.nvim_set_hl(0, "SnacksNormalNC", { link = "NormalFloat" }) -- highlights for selected item in cmp menu
@@ -145,10 +150,6 @@ if vim.g.neovide or vim.g.transparent then
     -- vim.api.nvim_set_hl(0, "FloatTitle", { bg = M.float_color, blend = M.float_winblend })
 
     vim.api.nvim_set_hl(0, "IncSearch", { bg = "#ff6f65", fg = "#131a24", bold = true })
-
-    -- visual
-    -- vim.api.nvim_set_hl(0, "Visual", { bg = "#3a4f6d", bold = true, })
-    vim.api.nvim_set_hl(0, "Visual", { bg = "#194c65", bold = true })
 
     -- treesitter context
     vim.api.nvim_set_hl(0, "TreesitterContextLineNumber", { bg = "#001925", fg = "#84c4c9", bold = false })

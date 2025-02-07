@@ -167,6 +167,7 @@ return {
         triggers = {
             { "<auto>", mode = "nixsotc" },
             { "m", mode = "n" },
+            { "ys", mode = "n" },
         },
         disable = {
             -- disable WhichKey for certain buf types and file types.
@@ -192,7 +193,7 @@ return {
             { "<leader>L", group = "LeetCode" },
             { "<leader>P", group = "Plugins", icon = icons.ui.Package },
             { "<leader>S", group = "Session" },
-            { "<leader>s", group = "Surround", icon = icons.ui.Surround },
+            -- { "<leader>s", group = "Surround", icon = icons.ui.Surround },
             { "<leader>;", group = "Dropbar", icon = icons.ui.Map },
             { "<leader>x", group = "Buf Delete", icon = icons.astro.Window },
             { "<leader><leader>", group = "Buf List", icon = icons.astro.Window },

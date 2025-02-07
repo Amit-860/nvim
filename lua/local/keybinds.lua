@@ -3,7 +3,10 @@ if not vim.g.vscode then
     local utils = require("utils")
 
     -- explorer
-    vim.keymap.set("n", "<leader>et", "<cmd>NvimTreeToggle<cr>", { noremap = true, silent = true, desc = "NvimTree" })
+    -- vim.keymap.set("n", "<leader>et", "<cmd>NvimTreeToggle<cr>", { noremap = true, silent = true, desc = "NvimTree" })
+    vim.keymap.set("n", "<leader>et", function()
+        require("snacks").picker.explorer()
+    end, { noremap = true, silent = true, desc = "NvimTree" })
 
     -- list buffers
     vim.keymap.set("n", "<leader><leader>", function()

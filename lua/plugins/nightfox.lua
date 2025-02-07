@@ -10,6 +10,13 @@ return {
                 -- options = {
                 --     styles = { comments = "italic", keywords = "bold", types = "italic,bold" },
                 -- },
+                options = {
+                    styles = {
+                        comments = "italic",
+                        keywords = "bold",
+                        types = "bold",
+                    },
+                },
                 palettes = {
                     -- terafox = {
                     --     bg1 = "#002f44",

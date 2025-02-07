@@ -84,6 +84,7 @@ local blink_opts = {
             norg = { "snippets", "lsp", "buffer", "spell" },
             text = { "lsp", "buffer", "spell" },
             gitcommit = { "lsp", "buffer", "spell" },
+            codecompanion = { "codecompanion" },
         },
         providers = {
             -- dont show LuaLS require statements when lazydev has items

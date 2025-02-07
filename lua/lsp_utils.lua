@@ -199,7 +199,7 @@ function M.global_lsp_setup()
         end)
     end
 
-    local _, nvim_tree_api = pcall(require, "nvim-tree.api")
+    local nvim_tree_ok, nvim_tree_api = pcall(require, "nvim-tree.api")
     M.on_supports_method("workspace/willRenameFiles", function(client, buffer)
         local function on_rename(from, to, rename)
             local changes = {
@@ -220,10 +220,12 @@ function M.global_lsp_setup()
             end
         end
 
-        local Event = nvim_tree_api.events.Event
-        nvim_tree_api.events.subscribe(Event.NodeRenamed, function(data)
-            on_rename(data.old_name, data.new_name, function() end)
-        end)
+        if nvim_tree_ok then
+            local Event = nvim_tree_api.events.Event
+            nvim_tree_api.events.subscribe(Event.NodeRenamed, function(data)
+                on_rename(data.old_name, data.new_name, function() end)
+            end)
+        end
     end)
 
     vim.diagnostic.config(default_diagnostic_config)

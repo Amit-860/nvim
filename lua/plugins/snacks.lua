@@ -300,6 +300,9 @@ local snacks_opts = {
             inlay_hints = false,
         },
     },
+    explorer = {
+        enabled = true,
+    },
     indent = {
         enabled = true,
         indent = {
@@ -374,6 +377,12 @@ local snacks_opts = {
         },
     },
     picker = {
+        sources = {
+            explorer = {
+                -- your explorer picker configuration comes here
+                -- or leave it empty to use the default settings
+            },
+        },
         layout = {
             cycle = true,
             --- Use the default layout or vertical if the window is too narrow

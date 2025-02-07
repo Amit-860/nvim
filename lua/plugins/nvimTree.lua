@@ -1,5 +1,6 @@
 return {
     "nvim-tree/nvim-tree.lua",
+    enabled = false,
     cond = not vim.g.vscode,
     cmd = { "NvimTreeToggle", "NvimTreeOpen", "NvimTreeFocus", "NvimTreeFindFile", "NvimTreeCollapse" },
     opts = function()

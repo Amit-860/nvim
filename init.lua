@@ -92,31 +92,45 @@ local function is_night()
     return not (now.hour >= 7 and now.hour < 18)
 end
 
-vim.g.transparent = true
 vim.g.autoload = not (vim.g.neovide or vim.g.vscode)
 -- vim.g.autoload = true
 
-if is_night() then
-    vim.g.is_night = true
-    vim.g.neovide_colorscheme = "terafox"
-    vim.g.neovide_custom_color = true
-    vim.g.colorscheme = "catppuccin"
-    -- vim.g.colorscheme = "terafox"
-    -- vim.g.transparent = true
-else
-    vim.g.is_night = false
-    vim.g.neovide_colorscheme = "duskfox"
-    vim.g.neovide_custom_color = false
-    vim.g.colorscheme = "nordfox"
-    -- vim.g.colorscheme = "dayfox"
-    -- vim.g.colorscheme = "dawnfox"
+local set_theme = function()
+    if is_night() then
+        vim.g.is_night = true
+        vim.g.transparent = true
+        vim.g.neovide_custom_color = false
+        vim.g.neovide_colorscheme = "rose-pine-main"
+        vim.g.colorscheme = "catppuccin"
+    else
+        vim.g.is_night = false
+        vim.g.transparent = true
+        vim.g.neovide_custom_color = false
+        vim.g.neovide_colorscheme = "rose-pine-main"
+        vim.g.colorscheme = "nordfox"
+    end
+
+    if vim.g.neovide or vim.g.transparent then
+        vim.g.win_border = "none"
+    else
+        vim.g.win_border = "single"
+    end
 end
 
-if vim.g.neovide or vim.g.transparent then
-    vim.g.win_border = "none"
-else
-    vim.g.win_border = "single"
-end
+set_theme()
+
+local timer = (vim.uv or vim.loop).new_timer()
+timer:start(
+    0,
+    3600 * 1000,
+    vim.schedule_wrap(function()
+        set_theme()
+    end)
+)
+vim.api.nvim_create_autocmd("FocusGained", {
+    pattern = "*",
+    callback = set_theme,
+})
 
 -- NOTE: -------------------------------------------------------------------------------------------------------
 local lazy_opts = {
@@ -166,7 +180,7 @@ if not vim.g.vscode then
     vim.g.loaded_netrw = 1
     vim.g.loaded_netrwPlugin = 1
     vim.g.python3_host_prog = vim.fn.expand("$HOME/scoop/apps/python/current/python.exe")
-    vim.o.guifont = "JetBrainsMono NFM:h10:l"
+    vim.o.guifont = "JetBrainsMono Nerd Font:h10:l"
     -- vim.o.guifont = "JetBrainsMono Nerd Font Mono:h10:sb"
     -- vim.o.guifont = "Iosevka Nerd Font Mono:h10.3"
 
@@ -207,6 +221,7 @@ if vim.g.neovide then
     vim.g.neovide_no_idle = true
     vim.g.neovide_cursor_unfocused_outline_width = 0.05
     vim.g.neovide_confirm_quit = false
+    vim.g.neovide_floating_shadow = false
 
     -- vim.g.neovide_transparency = 0.85
     vim.g.neovide_transparency = 0.9
@@ -255,7 +270,7 @@ if not vim.g.vscode then
     vim.api.nvim_create_autocmd("ColorScheme", {
         group = vim.api.nvim_create_augroup("colors_aug", { clear = true }),
         callback = function(_)
-            Snacks.notify("Custom colors are loaded.")
+            Snacks.notify("Custom colors applied")
             require("local.colors")
         end,
     })
