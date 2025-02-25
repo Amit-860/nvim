@@ -1,5 +1,5 @@
-#Neovim config for windows
-##Optimized for neovide and VSCode Neovim
+# *Neovim config for windows*
+## Optimized for neovide and VSCode Neovim
 
 Neovim + Alacritty
 ![image](https://github.com/user-attachments/assets/60fd709b-0267-4747-b109-df17889da7d0)
