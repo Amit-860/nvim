@@ -142,20 +142,6 @@ local blink_opts = {
                 opts = {},
             },
         },
-        -- By default, we choose providers for the cmdline based on the current cmdtype
-        -- You may disable cmdline completions by replacing this with an empty table
-        cmdline = function()
-            local type = vim.fn.getcmdtype()
-            -- Search forward and backward
-            if type == "/" or type == "?" then
-                return { "buffer" }
-            end
-            -- Commands
-            if type == ":" then
-                return { "cmdline", "path" }
-            end
-            return {}
-        end,
     },
 
     -- 'default' for mappings similar to built-in completion
@@ -164,7 +150,7 @@ local blink_opts = {
     -- see the "default configuration" section below for full documentation on how to define
     -- your own keymap.
     keymap = {
-        preset = "enter",
+        preset = "none",
         ["<M-d>"] = { "show", "show_documentation", "hide_documentation" },
         ["<Esc>"] = { "cancel", "hide", "fallback" },
         ["<M-c>"] = { "hide", "cancel", "fallback" },
@@ -230,6 +216,21 @@ local blink_opts = {
         --   you may want to set `completion.list.selection = "manual" | "auto_insert"`
         --
         ["<CR>"] = { "accept", "fallback" },
+    },
+
+    cmdline = {
+        keymap = {
+            ["<CR>"] = { "accept_and_enter", "fallback" },
+
+            ["<tab>"] = { "select_next", "fallback" },
+            ["<S-tab>"] = { "select_prev", "fallback" },
+
+            ["<Up>"] = { "select_prev", "fallback" },
+            ["<Down>"] = { "select_next", "fallback" },
+
+            ["<C-k>"] = { "select_prev", "fallback" },
+            ["<C-j>"] = { "select_next", "fallback" },
+        },
     },
 
     appearance = {
@@ -309,7 +310,7 @@ local blink_opts = {
             winhighlight = "Normal:BlinkCmpMenu,FloatBorder:FloatBorder,CursorLine:BlinkMenuSelection,Search:Search",
             draw = {
                 -- Aligns the keyword you've typed to a component in the menu
-                align_to = "kind_icon", -- or 'none' to disable
+                align_to = "label", -- or 'none' to disable
                 -- Left and right padding, optionally { left, right } for different padding on each side
                 padding = { 0, 1 },
                 -- Gap between columns
