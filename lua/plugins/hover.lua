@@ -134,8 +134,8 @@ return {
                 vim.lsp.buf_request(0, "textDocument/definition", params, function(error, defs)
                     if not error and defs then
                         local localDef = 0
-                        for _, ref in pairs(defs) do
-                            if thisFileUri == ref.uri then
+                        for _, def in pairs(defs) do
+                            if thisFileUri == def.targetUri then
                                 localDef = localDef + 1
                             end
                         end

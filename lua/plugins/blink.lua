@@ -406,11 +406,11 @@ local blink_opts = {
                     },
 
                     label_description = {
-                        width = { max = 20, min = 10 },
+                        width = { max = 60, min = 10 },
                         text = function(ctx)
                             return ctx.label_description
                         end,
-                        highlight = "BlinkCmpLabelDescription",
+                        highlight = "BlinkCmpGhostText",
                     },
 
                     source_name = {

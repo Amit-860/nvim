@@ -7,6 +7,7 @@ return {
             -- build = "make",
         },
         event = { "BufReadPost", "BufNewFile" },
+        enabled = false,
         keys = { "<leader>;" },
         config = function()
             local dropbar_api = require("dropbar.api")
