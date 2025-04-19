@@ -69,22 +69,32 @@ end
 local result_bufnr = nil
 local function Jq_command(horizontal, filter)
     local splitcmd = "vnew"
-
     if horizontal == true then
         splitcmd = "new"
     end
 
     local json_bufnr = vim.fn.bufnr()
     local json_winnr = vim.fn.bufwinid(json_bufnr)
-    -- if vim.bo.filetype ~= "json" then
-    --     return
-    -- end
 
     if result_bufnr == nil or not vim.fn.bufexists(result_bufnr) then
+        -- Buffer doesn't exist, create new
         vim.cmd(splitcmd)
         vim.cmd("set filetype=text")
         result_bufnr = vim.fn.bufnr()
+    else
+        -- Check if buffer is visible in any window [[4]][[5]]
+        local existing_win = vim.fn.bufwinnr(result_bufnr)
+        if existing_win == -1 then
+            -- Buffer exists but isn't visible, create new split
+            vim.cmd(splitcmd)
+            vim.cmd("buffer " .. result_bufnr)
+        else
+            -- Buffer is already visible, switch to its window
+            vim.fn.win_gotoid(existing_win)
+        end
     end
+
+    -- Update buffer content and return focus to original window
     set_buf_text(jq_filter(json_bufnr, filter, nil), result_bufnr)
     vim.fn.win_gotoid(json_winnr)
 end
@@ -172,6 +182,10 @@ end
 
 ucmd("Jq", function(opts)
     Jq_command(false, opts.fargs[1])
+end, { nargs = 1 })
+
+ucmd("Jqh", function(opts)
+    Jq_command(true, opts.fargs[1])
 end, { nargs = 1 })
 
 ucmd("Jqf", function(args)

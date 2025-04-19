@@ -224,7 +224,7 @@ if vim.g.neovide then
     vim.g.neovide_floating_shadow = false
 
     -- vim.g.neovide_transparency = 0.85
-    vim.g.neovide_transparency = 0.9
+    vim.g.neovide_opacity = 0.9
     vim.g.neovide_fullscreen = false
 
     default_options.winblend = 50

@@ -222,9 +222,6 @@ local blink_opts = {
         keymap = {
             ["<CR>"] = { "accept_and_enter", "fallback" },
 
-            ["<tab>"] = { "select_next", "fallback" },
-            ["<S-tab>"] = { "select_prev", "fallback" },
-
             ["<Up>"] = { "select_prev", "fallback" },
             ["<Down>"] = { "select_next", "fallback" },
 
