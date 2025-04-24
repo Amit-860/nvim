@@ -2,13 +2,28 @@ if vim.g.vscode then
     return
 end
 
+local function file_exists(filename)
+    local f = io.open(filename, "r")
+    if f then
+        f:close()
+        return true
+    else
+        return false
+    end
+end
+
 local jdtls = require("jdtls")
 local lsp_utils = require("lsp_utils")
 local mason_registry = require("mason-registry")
 local jdtls_path = mason_registry.get_package("jdtls"):get_install_path()
+
 local lombok_path = vim.fn.expand(mason_registry.get_package("lombok-nightly"):get_install_path() .. "/lombok.jar")
--- local lombok_path = vim.fn.expand(vim.fn.stdpath("data") .. "/mason/packages/lombok-nightly/lombok.jar") -- install lombok-nightly from mason
--- local lombok_path = jdtls_path .. vim.fn.expand("/lombok.jar")
+if not file_exists(lombok_path) then
+    lombok_path = vim.fn.expand(vim.fn.stdpath("data") .. "/mason/packages/lombok-nightly/lombok.jar") -- install lombok-nightly from mason
+end
+if not file_exists(lombok_path) then
+    lombok_path = jdtls_path .. vim.fn.expand("/lombok.jar")
+end
 
 -- Setup Workspace
 local home = vim.fn.expand("$HOME")
@@ -27,16 +42,16 @@ local bundles = {
 
 -- vim.list_extend(bundles, require("spring_boot").java_extensions())
 
--- local java_test_path = mason_registry.get_package("java-test"):get_install_path()
--- local jar_patterns = {
---     java_test_path .. "/extension/server/com*.jar",
---     java_test_path .. "/extension/server/org*.jar",
---     java_test_path .. "/extension/server/junit*.jar",
--- }
---
--- for _, jar_pattern in ipairs(jar_patterns) do
---     vim.list_extend(bundles, vim.split(vim.fn.glob(jar_pattern), "\n"))
--- end
+local java_test_path = mason_registry.get_package("java-test"):get_install_path()
+local jar_patterns = {
+    java_test_path .. "/extension/server/com*.jar",
+    java_test_path .. "/extension/server/org*.jar",
+    java_test_path .. "/extension/server/junit*.jar",
+}
+
+for _, jar_pattern in ipairs(jar_patterns) do
+    vim.list_extend(bundles, vim.split(vim.fn.glob(jar_pattern), "\n"))
+end
 
 local jdtls_specific_keymaps = function(client, bufnr)
     vim.keymap.set({ "n" }, "<leader>ltc", function()
@@ -52,7 +67,9 @@ end
 
 local config = {
     root_dir = root_dir,
-    cmd = {
+    cmd = vim.tbl_filter(function(x)
+        return x ~= nil
+    end, {
         "java",
         "-Declipse.application=org.eclipse.jdt.ls.core.id1",
         "-Dosgi.bundles.defaultStartLevel=4",
@@ -65,15 +82,15 @@ local config = {
         "java.base/java.util=ALL-UNNAMED",
         "--add-opens",
         "java.base/java.lang=ALL-UNNAMED",
-        "-javaagent:" .. lombok_path, -- uncomment for lombok support
-        "-Xbootclasspath/a:" .. lombok_path, -- uncomment for lombok support
+        lombok_path and ("-javaagent:" .. lombok_path),
+        lombok_path and ("-Xbootclasspath/a:" .. lombok_path),
         "-jar",
         vim.fn.glob(jdtls_path .. "/plugins/org.eclipse.equinox.launcher.jar"),
         "-configuration",
         jdtls_path .. "/config_" .. os_config,
         "-data",
         workspace_dir,
-    },
+    }),
     flags = {
         debounce_text_changes = 150,
         allow_incremental_sync = false,
