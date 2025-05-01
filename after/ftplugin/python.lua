@@ -6,7 +6,7 @@ local default_options = {
     foldlevel = 99,
     foldlevelstart = 99,
     foldnestmax = 9,
-    foldminlines = 1,
+    foldminlines = 3,
 }
 
 for k, v in pairs(default_options) do
