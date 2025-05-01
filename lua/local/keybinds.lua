@@ -6,7 +6,7 @@ if not vim.g.vscode then
     -- vim.keymap.set("n", "<leader>et", "<cmd>NvimTreeToggle<cr>", { noremap = true, silent = true, desc = "NvimTree" })
     vim.keymap.set("n", "<leader>et", function()
         require("snacks").picker.explorer()
-    end, { noremap = true, silent = true, desc = "NvimTree" })
+    end, { noremap = true, silent = true, desc = "Tree" })
 
     -- list buffers
     vim.keymap.set("n", "<leader><leader>", function()
@@ -194,9 +194,6 @@ if not vim.g.vscode then
     -- are in ./pluginSetups/lspConfig.lua
 
     -- DAP keymappings
-    -- vim.keymap.set("n", "<F5>", function() require('dap').continue() end,
-    --     { desc = "Continue", noremap = true, silent = true })
-
     local function conditional_breakpoint()
         vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<esc>", true, false, true), "x", true) -- changing to normal mode
         vim.ui.input({
@@ -210,26 +207,8 @@ if not vim.g.vscode then
         end)
     end
 
-    vim.keymap.set("n", "<Leader>DR", function()
-        require("dap").repl.toggle()
-    end, { desc = "REPL", noremap = true, silent = true })
-    vim.keymap.set({ "n", "v" }, "<Leader>De", function()
-        require("dapui").eval()
-    end, { desc = "Eval", noremap = true, silent = true })
     vim.keymap.set("n", "<F5>", "<CMD>DapContinue<CR>", { desc = "Continue", noremap = true, silent = true })
     vim.keymap.set("n", "<F9>", "<CMD>DapToggleBreakpoint<CR>", { desc = "Breakpoints", noremap = true, silent = true })
-    vim.keymap.set(
-        "n",
-        "<leader>Dbb",
-        "<CMD>DapToggleBreakpoint<CR>",
-        { desc = "Breakpoints", noremap = true, silent = true }
-    )
-    vim.keymap.set(
-        "n",
-        "<leader>Dbc",
-        conditional_breakpoint,
-        { desc = "Conditional Breakpoints", noremap = true, silent = true }
-    )
     vim.keymap.set("n", "<F7>", function()
         require("dap").step_into()
     end, { desc = "Step Into", noremap = true, silent = true })
@@ -239,30 +218,43 @@ if not vim.g.vscode then
     vim.keymap.set("n", "<F10>", function()
         require("dap").step_over()
     end, { desc = "Step Over", noremap = true, silent = true })
-    vim.keymap.set("n", "<leader>Dx", function()
+    vim.keymap.set(
+        "n",
+        "<leader>dbb",
+        "<CMD>DapToggleBreakpoint<CR>",
+        { desc = "Breakpoints", noremap = true, silent = true }
+    )
+    vim.keymap.set(
+        "n",
+        "<leader>dbc",
+        conditional_breakpoint,
+        { desc = "Conditional Breakpoints", noremap = true, silent = true }
+    )
+    vim.keymap.set("n", "<Leader>dR", function()
+        require("dap").repl.toggle()
+    end, { desc = "REPL", noremap = true, silent = true })
+    vim.keymap.set({ "n", "v" }, "<Leader>de", function()
+        require("dapui").eval()
+    end, { desc = "Eval", noremap = true, silent = true })
+    vim.keymap.set("n", "<leader>dT", function()
         require("dap").terminate()
     end, { desc = "Terminate", noremap = true, silent = true })
-    vim.keymap.set("n", "<leader>Dr", function()
+    vim.keymap.set("n", "<leader>dr", function()
         require("dap").restart()
     end, { desc = "Restart", noremap = true, silent = true })
-    vim.keymap.set("n", "<leader>Dc", function()
+    vim.keymap.set("n", "<leader>dc", function()
         require("dap").clear_breakpoints()
     end, { desc = "Clear Breakpoints", noremap = true, silent = true })
-    vim.keymap.set("n", "<leader>Dl", function()
+    vim.keymap.set("n", "<leader>dl", function()
         require("dap").list_breakpoints()
         vim.cmd([[copen]])
     end, { desc = "List Breakpoints", noremap = true, silent = true })
-    vim.keymap.set("n", "<leader>Du", function()
+    vim.keymap.set("n", "<leader>du", function()
         require("dap").up()
     end, { desc = "Up", noremap = true, silent = true })
-    vim.keymap.set("n", "<leader>Dd", function()
+    vim.keymap.set("n", "<leader>dd", function()
         require("dap").down()
     end, { desc = "Down", noremap = true, silent = true })
-
-    -- DAP UI
-    vim.keymap.set("n", "<leader>Dt", function()
-        require("dapui").toggle()
-    end, { desc = "DapUI toggle", noremap = true, silent = true })
 
     -- zoxide
     vim.keymap.set("n", "<leader>z", utils.zoxide, { desc = "Zoxide", noremap = true, silent = true })
@@ -435,7 +427,7 @@ end
 -- general
 vim.keymap.set("v", "<BS>", '"_d', { noremap = true, silent = true })
 vim.keymap.set("n", "U", "<C-r>", { noremap = true, silent = true })
-vim.keymap.set("n", "<leader>h", "<cmd>noh<cr>", { desc = "which_key_ignore", noremap = true })
+vim.keymap.set("n", "<leader>h", "<cmd>noh<cr>", { desc = "NoH", noremap = true })
 vim.keymap.set({ "n", "o", "x" }, "gs", "_", { noremap = true, silent = true, desc = "Goto first char" })
 vim.keymap.set({ "n", "o", "x" }, "gh", "0", { noremap = true, silent = true, desc = "Goto BOL" })
 vim.keymap.set({ "n", "o", "x" }, "gl", "$", { noremap = true, silent = true, desc = "Goto EOL" })

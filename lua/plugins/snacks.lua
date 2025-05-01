@@ -260,7 +260,7 @@ local snacks_opts = {
             -- patterns to match Git signs
             patterns = { "GitSign", "MiniDiffSign" },
         },
-        refresh = 100, -- refresh at most every 50ms
+        refresh = 150, -- refresh at most every 50ms
     },
     -- bigfile = {
     --     notify = true, -- show notification when big file detected

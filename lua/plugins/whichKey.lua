@@ -187,13 +187,13 @@ return {
         which_key.setup(opts)
 
         which_key.add({
-            { "<leader>p", desc = "Project", icon = icons.ui.Project },
-            { "<leader>D", group = "Debug" },
-            { "<leader>Db", group = "Breakpoints", icon = icons.astro.Debugger },
+
+            { "<leader>d", group = "Debug" },
+            { "<leader>db", group = "Breakpoints", icon = icons.astro.Debugger },
             { "<leader>L", group = "LeetCode" },
             { "<leader>P", group = "Plugins", icon = icons.ui.Package },
             { "<leader>S", group = "Session" },
-            -- { "<leader>s", group = "Surround", icon = icons.ui.Surround },
+            { "<leader>s", group = "Surround", icon = icons.ui.Surround },
             { "<leader>;", group = "Dropbar", icon = icons.ui.Map },
             { "<leader>x", group = "Buf Delete", icon = icons.astro.Window },
             { "<leader><leader>", group = "Buf List", icon = icons.astro.Window },
