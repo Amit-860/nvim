@@ -59,11 +59,20 @@ local dashboard_keys = {
     },
     {
         icon = "  ",
-        desc = "Last session",
+        desc = "Resume session",
         key = "l",
         action = function()
             -- require("persistence").load({ last = true })
             vim.cmd("SessionLoadLast")
+        end,
+    },
+    {
+        icon = "  ",
+        desc = "Resume dir session",
+        key = "i",
+        action = function()
+            -- require("persistence").load({ last = true })
+            vim.cmd("SessionLoad")
         end,
     },
     {

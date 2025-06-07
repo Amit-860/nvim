@@ -117,7 +117,7 @@ function M._check_methods(client, buffer)
     for method, clients in pairs(M._supports_method) do
         clients[client] = clients[client] or {}
         if not clients[client][buffer] then
-            if client.supports_method and client.supports_method(method, { bufnr = buffer }) then
+            if client.supports_method and client.supports_method(method, buffer) then
                 clients[client][buffer] = true
                 vim.api.nvim_exec_autocmds("User", {
                     pattern = "LspSupportsMethod",
@@ -420,8 +420,13 @@ M.on_attach = function(client, bufnr)
     vim.keymap.set({ "n" }, "<leader>lR", function()
         utils.lsp_rename()
     end, { desc = "Rename Symbol", noremap = true, buffer = bufnr })
-    vim.keymap.set({ "n" }, "]d", vim.diagnostic.goto_next)
-    vim.keymap.set({ "n" }, "[d", vim.diagnostic.goto_prev)
+    vim.keymap.set({ "n" }, "]d", function()
+        vim.diagnostic.jump({ count = 1, float = true })
+    end, { desc = "Go to next diagnostic message" })
+
+    vim.keymap.set({ "n" }, "[d", function()
+        vim.diagnostic.jump({ count = -1, float = true })
+    end, { desc = "Go to previous diagnostic message" })
 
     -- toggle inlay_hint
     -- vim.keymap.set({ "n" }, "<leader>lH", function()

@@ -5,7 +5,7 @@ return {
     cond = not vim.g.vscode,
     lazy = false,
     init = function()
-        vim.api.nvim_create_autocmd({ "BufReadPost" }, {
+        vim.api.nvim_create_autocmd({ "BufReadPre" }, {
             group = vim.api.nvim_create_augroup("Faster_ag", { clear = true }),
             pattern = "*",
             callback = function(event)
@@ -14,8 +14,6 @@ return {
                 if ok and stats and stats.size > max_filesize then
                     vim.cmd("FasterDisableAllFeatures")
                     vim.cmd("LspStop")
-                else
-                    vim.cmd("LspStart")
                 end
             end,
         })

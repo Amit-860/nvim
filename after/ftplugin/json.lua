@@ -34,44 +34,8 @@ end
 lsp_utils.setup()
 lsp_utils.global_lsp_setup()
 
--- INFO : python
-local basedpyright_settings = {
-    basedpyright = {
-        analysis = {
-            autoSearchPaths = true,
-            diagnosticMode = "openFilesOnly",
-            useLibraryCodeForTypes = true,
-            typeCheckingMode = "basic", -- ["off", "basic", "standard", "strict", "all"]
-        },
-    },
-}
-setup_lsp("basedpyright", {
+-- INFO : Json
+setup_lsp("jsonls", {
     on_attach = on_attach,
     capabilities = capabilities,
-    settings = basedpyright_settings,
-})
--- setup_lsp("ruff", {
---     on_attach = on_attach,
---     capabilities = capabilities,
---     cmd = { "ruff", "server", "--preview" },
--- })
-setup_lsp("pyrefly", {
-    on_attach = on_attach,
-    capabilities = capabilities,
-})
-
--- INFO : text, markdown, org, norg
--- setup_lsp("ltex", {
---     on_attach = on_attach,
---     capabilities = capabilities,
---     filetypes = { "text", "markdown", "org", "norg" },
--- })
-setup_lsp("harper_ls", {
-    on_attach = on_attach,
-    capabilities = capabilities,
-    filetypes = vim.list_extend(
-        {},
-        { "text", "norg", "gitcommit" }
-        -- lspconfig["harper_ls"].config_def.default_config.filetypes
-    ),
 })

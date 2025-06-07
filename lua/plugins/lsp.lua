@@ -96,16 +96,16 @@ return {
             local lsp_utils = require("lsp_utils")
             local on_attach = lsp_utils.on_attach
 
-            -- Set up lspconfig.
-            local lspconfig = require("lspconfig")
-
             local capabilities = lsp_utils.lsp_capabilities()
             local function setup_lsp(server, opts)
-                local conf = lspconfig[server]
-                conf.setup(opts)
-                local try_add = conf.manager.try_add
-                conf.manager.try_add = function(bufnr)
-                    return try_add(bufnr)
+                if type(server) ~= "string" or server == "" then
+                    print("Error: Invalid LSP server name provided:", server)
+                    return
+                end
+                if server ~= nil then
+                    local default_lsp_config = vim.lsp.config[server]
+                    vim.lsp.config[server] = vim.tbl_deep_extend("force", {}, default_lsp_config, opts)
+                    vim.lsp.enable(server)
                 end
             end
 
@@ -135,7 +135,6 @@ return {
                 on_attach = on_attach,
                 capabilities = capabilities,
                 settings = lua_ls_settings,
-                autostart = false,
             })
 
             -- INFO : python
@@ -153,27 +152,27 @@ return {
                 on_attach = on_attach,
                 capabilities = capabilities,
                 settings = basedpyright_settings,
-                autostart = false,
             })
-            setup_lsp("ruff", {
+            -- setup_lsp("ruff", {
+            --     on_attach = on_attach,
+            --     capabilities = capabilities,
+            --     cmd = { "ruff", "server", "--preview" },
+            -- })
+            setup_lsp("pyrefly", {
                 on_attach = on_attach,
                 capabilities = capabilities,
-                cmd = { "ruff", "server", "--preview" },
-                autostart = false,
             })
 
             -- INFO : Json
             setup_lsp("jsonls", {
                 on_attach = on_attach,
                 capabilities = capabilities,
-                autostart = false,
             })
 
             -- INFO : GO
             setup_lsp("gopls", {
                 on_attach = on_attach,
                 capabilities = capabilities,
-                autostart = false,
             })
 
             -- INFO : text, markdown, org, norg
@@ -181,7 +180,6 @@ return {
             --     on_attach = on_attach,
             --     capabilities = capabilities,
             --     filetypes = { "text", "markdown", "org", "norg" },
-            --     autostart = false,
             -- })
             setup_lsp("harper_ls", {
                 on_attach = on_attach,
@@ -191,7 +189,6 @@ return {
                     { "text", "norg", "gitcommit" }
                     -- lspconfig["harper_ls"].config_def.default_config.filetypes
                 ),
-                autostart = false,
             })
 
             -- INFO : JavaScript, html, css
@@ -200,40 +197,23 @@ return {
                 on_attach = on_attach,
                 capabilities = capabilities,
                 filetypes = { "javascript", "typescript", "html", "css" },
-                autostart = false,
             })
             setup_lsp("html", {
                 on_attach = on_attach,
                 capabilities = capabilities,
-                autostart = false,
             })
             setup_lsp("cssls", {
                 on_attach = on_attach,
                 capabilities = capabilities,
-                autostart = false,
             })
             setup_lsp("cssmodules_ls", {
                 on_attach = on_attach,
                 capabilities = capabilities,
                 filetypes = { "css", "scss", "html", "typescriptreact", "javascriptreact" },
-                autostart = false,
             })
             setup_lsp("emmet_language_server", {
                 on_attach = on_attach,
                 capabilities = capabilities,
-                autostart = false,
-            })
-
-            vim.api.nvim_create_autocmd({ "BufReadPre" }, {
-                group = vim.api.nvim_create_augroup("Toggle_LSP_ag", { clear = true }),
-                pattern = "*",
-                callback = function(event)
-                    local max_filesize = 1020 * 1024 * 3
-                    local ok, stats = pcall(vim.uv.fs_stat, vim.api.nvim_buf_get_name(event.buf))
-                    if ok and stats and stats.size > max_filesize then
-                        vim.cmd("LspStop")
-                    end
-                end,
             })
         end,
     },

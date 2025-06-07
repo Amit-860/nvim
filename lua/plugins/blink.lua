@@ -53,8 +53,8 @@ local blink_opts = {
     sources = {
         default = {
             "codeium",
-            "snippets",
             "lsp",
+            "snippets",
             "path",
             "buffer",
         },
@@ -483,7 +483,8 @@ local blink_opts = {
         -- Allows for a number of typos relative to the length of the query
         -- Set this to 0 to match the behavior of fzf
         max_typos = function(keyword)
-            return math.floor(#keyword / 5)
+            -- return math.floor(#keyword / 5)
+            return 0
         end,
         -- Frecency tracks the most recently/frequently used items and boosts the score of the item
         use_frecency = false,

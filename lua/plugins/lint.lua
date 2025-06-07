@@ -13,7 +13,10 @@ return {
             -- Event to trigger linters
             events = { "BufWritePost", "BufReadPost", "InsertLeave" },
             linters_by_ft = {
-                python = { "pylint", "codespell" },
+                python = {
+                    -- "pylint",
+                    "codespell",
+                },
                 lua = { "codespell" },
                 json = { "codespell" },
                 toml = { "codespell" },

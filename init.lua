@@ -92,21 +92,23 @@ local function is_night()
     return not (now.hour >= 7 and now.hour < 18)
 end
 
-vim.g.autoload = not (vim.g.neovide or vim.g.vscode)
+-- vim.g.autoload = not (vim.g.neovide or vim.g.vscode)
 -- vim.g.autoload = true
+vim.g.autoload = false
 
 local set_theme = function()
     if is_night() then
         vim.g.is_night = true
         vim.g.transparent = true
         vim.g.neovide_custom_color = false
-        vim.g.neovide_colorscheme = "rose-pine-main"
+        vim.g.neovide_colorscheme = "terafox"
         vim.g.colorscheme = "catppuccin"
     else
         vim.g.is_night = false
         vim.g.transparent = true
         vim.g.neovide_custom_color = false
-        vim.g.neovide_colorscheme = "rose-pine-main"
+        vim.g.neovide_colorscheme = "terafox"
+        -- vim.g.neovide_colorscheme = "rose-pine-main"
         vim.g.colorscheme = "nordfox"
     end
 
@@ -213,8 +215,8 @@ if vim.g.neovide then
     vim.g.neovide_cursor_trail_size = 0.2
     vim.g.neovide_cursor_animate_in_insert_mode = false
     vim.g.neovide_cursor_animate_command_line = false
-    vim.g.neovide_cursor_vfx_mode = "wireframe"
-    -- vim.g.neovide_cursor_vfx_mode = "railgun"
+    -- vim.g.neovide_cursor_vfx_mode = "wireframe"
+    vim.g.neovide_cursor_vfx_mode = "railgun"
     vim.g.neovide_cursor_vfx_particle_density = 10
     vim.g.neovide_hide_mouse_when_typing = true
     vim.g.neovide_underline_automatic_scaling = true

@@ -46,29 +46,20 @@ local workspace_path = home .. "/.nvim/workspace/"
 local project_name = vim.fn.fnamemodify(vim.fn.getcwd(), ":p:h:t")
 local workspace_dir = vim.fn.expand(workspace_path .. project_name)
 local os_config = "win"
-local bundles = {
-    vim.fn.glob(
-        vim.fn.expand("$MASON/packages/java-debug-adapter") .. "/com.microsoft.java.debug.plugin-*.jar",
-        -- mason_registry.get_package("java-debug-adapter"):get_install_path()
-        -- .. "/extension/server/com.microsoft.java.debug.plugin-*.jar",
-        true
-    ),
-}
 
--- vim.list_extend(bundles, require("spring_boot").java_extensions())
+local bundles = {}
+
+vim.list_extend(bundles, require("spring_boot").java_extensions())
 
 local java_test_path = vim.fn.expand("$MASON/packages/java-test")
+local java_debug_adapter_path = vim.fn.expand("$MASON/packages/java-debug-adapter")
 local jar_patterns = {
-    java_test_path .. "/com*.jar",
-    java_test_path .. "/extension/server/org*.jar", -- Potentially corrected path
-    java_test_path .. "/junit*.jar",
+    java_test_path .. "/extension/server/com*.jar",
+    java_test_path .. "/extension/server/org*.jar",
+    java_test_path .. "/extension/server/junit*.jar",
+    java_debug_adapter_path .. "/com.microsoft.java.debug.plugin-*.jar",
+    java_debug_adapter_path .. "/extension/server/com.microsoft.java.debug.plugin-*.jar",
 }
--- local java_test_path = mason_registry.get_package("java-test"):get_install_path()
--- local jar_patterns = {
---     java_test_path .. "/extension/server/com*.jar",
---     java_test_path .. "/extension/server/org*.jar",
---     java_test_path .. "/extension/server/junit*.jar",
--- }
 
 for _, jar_pattern in ipairs(jar_patterns) do
     local found_jars_str = vim.fn.glob(jar_pattern)
@@ -101,13 +92,13 @@ local config = {
         "-Dlog.protocol=true",
         "-Dlog.level=ALL", -- ALL, OFF, ERROR, INFO, TRACE, DEBUG
         "-Xms2g",
-        -- "--add-modules=ALL-SYSTEM",
-        -- "--add-opens",
-        -- "java.base/java.util=ALL-UNNAMED",
-        -- "--add-opens",
-        -- "java.base/java.lang=ALL-UNNAMED",
-        -- lombok_path and ("-javaagent:" .. lombok_path),
-        -- lombok_path and ("-Xbootclasspath/a:" .. lombok_path),
+        "--add-modules=ALL-SYSTEM",
+        "--add-opens",
+        "java.base/java.util=ALL-UNNAMED",
+        "--add-opens",
+        "java.base/java.lang=ALL-UNNAMED",
+        lombok_path and ("-javaagent:" .. lombok_path),
+        lombok_path and ("-Xbootclasspath/a:" .. lombok_path),
         "-jar",
         vim.fn.glob(jdtls_path .. "/plugins/org.eclipse.equinox.launcher.jar"),
         "-configuration",
@@ -125,18 +116,17 @@ local config = {
         end
     end,
     init_options = {
-        -- bundles = bundles,
+        bundles = bundles,
     },
     on_attach = function(client, bufnr)
         if client.name == "jdtls" then
             -- Auto-detect main and setup dap config
-            -- require("jdtls.dap").setup_dap_main_class_configs({
-            --     config_overrides = { vmArgs = "-Dspring.profiles.active=local" },
-            -- })
+            require("jdtls.dap").setup_dap_main_class_configs({
+                config_overrides = { vmArgs = "-Dspring.profiles.active=local" },
+            })
             -- require("jdtls.dap").setup_dap_main_class_configs({})
-            --
+
             -- Add specific keys for jdtls
-            --
         end
         lsp_utils.on_attach(client, bufnr)
         jdtls_specific_keymaps(client, bufnr)
