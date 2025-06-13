@@ -97,7 +97,7 @@ return {
                         },
                     },
                     file_ignore_patterns = { "node_modules", "package-lock.json" },
-                    path_display = { "smart" },
+                    path_display = { tail = 3 },
                     -- - "hidden"          hide file names
                     -- - "tail"            only display the file name, and not the path
                     -- - "absolute"        display absolute paths

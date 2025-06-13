@@ -114,106 +114,50 @@ return {
             lsp_utils.global_lsp_setup()
 
             -- INFO: ===================== setting up servers ======================
-            -- INFO : lua
-            local lua_ls_settings = {
-                Lua = {
-                    workspace = { checkThirdParty = false },
-                    codeLens = { enable = false },
-                    completion = { callSnippet = "Replace" },
-                    doc = { privateName = { "^_" } },
-                    hint = {
-                        enable = true,
-                        setType = false,
-                        paramType = true,
-                        paramName = true,
-                        semicolon = "Disable",
-                        arrayIndex = "Disable",
-                    },
-                },
-            }
-            setup_lsp("lua_ls", {
-                on_attach = on_attach,
-                capabilities = capabilities,
-                settings = lua_ls_settings,
+
+            vim.api.nvim_create_autocmd("FileType", {
+                pattern = { "text", "markdown", "norg", "gitcommit" },
+                callback = function()
+                    -- INFO : text, markdown, org, norg
+                    -- setup_lsp("ltex", {
+                    --     on_attach = on_attach,
+                    --     capabilities = capabilities,
+                    --     filetypes = { "text", "markdown", "norg" },
+                    -- })
+                    setup_lsp("harper_ls", {
+                        on_attach = on_attach,
+                        capabilities = capabilities,
+                        filetypes = vim.list_extend(
+                            {},
+                            { "text", "markdown", "norg", "gitcommit" }
+                            -- lspconfig["harper_ls"].config_def.default_config.filetypes
+                        ),
+                    })
+                end,
             })
 
-            -- INFO : python
-            local basedpyright_settings = {
-                basedpyright = {
-                    analysis = {
-                        autoSearchPaths = true,
-                        diagnosticMode = "openFilesOnly",
-                        useLibraryCodeForTypes = true,
-                        typeCheckingMode = "basic", -- ["off", "basic", "standard", "strict", "all"]
-                    },
-                },
-            }
-            setup_lsp("basedpyright", {
-                on_attach = on_attach,
-                capabilities = capabilities,
-                settings = basedpyright_settings,
-            })
-            -- setup_lsp("ruff", {
-            --     on_attach = on_attach,
-            --     capabilities = capabilities,
-            --     cmd = { "ruff", "server", "--preview" },
-            -- })
-            setup_lsp("pyrefly", {
-                on_attach = on_attach,
-                capabilities = capabilities,
-            })
-
-            -- INFO : Json
-            setup_lsp("jsonls", {
-                on_attach = on_attach,
-                capabilities = capabilities,
-            })
-
-            -- INFO : GO
-            setup_lsp("gopls", {
-                on_attach = on_attach,
-                capabilities = capabilities,
-            })
-
-            -- INFO : text, markdown, org, norg
-            -- setup_lsp("ltex", {
-            --     on_attach = on_attach,
-            --     capabilities = capabilities,
-            --     filetypes = { "text", "markdown", "org", "norg" },
-            -- })
-            setup_lsp("harper_ls", {
-                on_attach = on_attach,
-                capabilities = capabilities,
-                filetypes = vim.list_extend(
-                    {},
-                    { "text", "norg", "gitcommit" }
-                    -- lspconfig["harper_ls"].config_def.default_config.filetypes
-                ),
-            })
-
-            -- INFO : JavaScript, html, css
-            vim.g.markdown_fenced_languages = { "ts=typescript" }
-            setup_lsp("denols", {
-                on_attach = on_attach,
-                capabilities = capabilities,
-                filetypes = { "javascript", "typescript", "html", "css" },
-            })
-            setup_lsp("html", {
-                on_attach = on_attach,
-                capabilities = capabilities,
-            })
-            setup_lsp("cssls", {
-                on_attach = on_attach,
-                capabilities = capabilities,
-            })
-            setup_lsp("cssmodules_ls", {
-                on_attach = on_attach,
-                capabilities = capabilities,
-                filetypes = { "css", "scss", "html", "typescriptreact", "javascriptreact" },
-            })
-            setup_lsp("emmet_language_server", {
-                on_attach = on_attach,
-                capabilities = capabilities,
+            vim.api.nvim_create_autocmd("FileType", {
+                pattern = { "html", "css", "typescript", "javascript", "typescriptreact", "javascriptreact" },
+                callback = function()
+                    -- INFO: html, css
+                    setup_lsp("html", {
+                        on_attach = on_attach,
+                        capabilities = capabilities,
+                    })
+                    setup_lsp("cssls", {
+                        on_attach = on_attach,
+                        capabilities = capabilities,
+                    })
+                    setup_lsp("cssmodules_ls", {
+                        on_attach = on_attach,
+                        capabilities = capabilities,
+                        filetypes = { "css", "scss", "html", "typescriptreact", "javascriptreact" },
+                    })
+                    setup_lsp("emmet_language_server", {
+                        on_attach = on_attach,
+                        capabilities = capabilities,
+                    })
+                end,
             })
         end,
     },

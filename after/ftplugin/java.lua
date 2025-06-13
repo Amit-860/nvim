@@ -1,4 +1,6 @@
-if vim.g.vscode then
+local max_filesize = vim.g.max_filesize
+local ok, stats = pcall((vim.uv or vim.loop).fs_stat, vim.api.nvim_buf_get_name(0))
+if (ok and stats and stats.size > max_filesize) or vim.g.vscode then
     return
 end
 
@@ -142,8 +144,8 @@ local config = {
         java = {
             eclipse = { downloadSources = true },
             maven = { downloadSources = true },
-            implementationsCodeLens = { enabled = false },
-            referencesCodeLens = { enabled = false },
+            implementationsCodeLens = { enabled = true },
+            referencesCodeLens = { enabled = true },
             references = { includeDecompiledSources = true },
             signatureHelp = { enabled = true },
             inlayHints = {

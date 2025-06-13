@@ -92,9 +92,11 @@ local function is_night()
     return not (now.hour >= 7 and now.hour < 18)
 end
 
--- vim.g.autoload = not (vim.g.neovide or vim.g.vscode)
+vim.g.autoload = not (vim.g.neovide or vim.g.vscode)
 -- vim.g.autoload = true
-vim.g.autoload = false
+-- vim.g.autoload = false
+
+vim.g.max_filesize = 1024 * 1024 * 5 -- (in MB) max filesize threshold
 
 local set_theme = function()
     if is_night() then

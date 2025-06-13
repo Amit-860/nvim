@@ -4,19 +4,19 @@ return {
     "pteroctopus/faster.nvim",
     cond = not vim.g.vscode,
     lazy = false,
+    priority = 1000,
     init = function()
-        vim.api.nvim_create_autocmd({ "BufReadPre" }, {
-            group = vim.api.nvim_create_augroup("Faster_ag", { clear = true }),
-            pattern = "*",
-            callback = function(event)
-                local max_filesize = 1020 * 1024 * 2 -- 2MB
-                local ok, stats = pcall((vim.uv or vim.loop).fs_stat, vim.api.nvim_buf_get_name(event.buf))
-                if ok and stats and stats.size > max_filesize then
-                    vim.cmd("FasterDisableAllFeatures")
-                    vim.cmd("LspStop")
-                end
-            end,
-        })
+        -- vim.api.nvim_create_autocmd({ "BufReadPre" }, {
+        --     group = vim.api.nvim_create_augroup("Faster_ag", { clear = true }),
+        --     pattern = "*",
+        --     callback = function(event)
+        --         local max_filesize = vim.g.max_filesize
+        --         local ok, stats = pcall((vim.uv or vim.loop).fs_stat, vim.api.nvim_buf_get_name(event.buf))
+        --         if ok and stats and stats.size > max_filesize then
+        --             vim.cmd("FasterDisableAllFeatures")
+        --         end
+        --     end,
+        -- })
     end,
     opts = {
         -- Behaviour table contains configuration for behaviours faster.nvim uses
@@ -34,17 +34,17 @@ return {
                 features_disabled = {
                     "illuminate",
                     "matchparen",
-                    "lsp",
+                    -- "lsp",
                     "treesitter",
                     "indent_blankline",
                     "vimopts",
                     "syntax",
                     "filetype",
                     "ts_context",
-                    "lualine",
+                    -- "lualine",
                 },
                 -- Files larger than `filesize` are considered big files. Value is in MB.
-                filesize = 2,
+                filesize = 5,
                 -- Autocmd pattern that controls on which files behaviour will be applied.
                 -- `*` means any file.
                 pattern = "*",
@@ -149,13 +149,13 @@ return {
                     pcall(vim.cmd, "TSContextDisable")
                 end,
                 commands = function()
-                    vim.api.nvim_create_user_command("FasterEnableTSContext", function()
-                        pcall(vim.cmd, "TSContextEnable")
+                    vim.api.nvim_create_user_command("FasterEnableTSContext", function(_)
+                        ts_context.enable()
                         vim.notify("TSContext enabled", 1)
                     end, {})
-                    vim.api.nvim_create_user_command("FasterDisableTSContext", function()
-                        pcall(vim.cmd, "TSContextDisable")
-                        vim.notify("TScontext disabled", 1)
+                    vim.api.nvim_create_user_command("FasterDisableTSContext", function(_)
+                        ts_context.disable()
+                        vim.notify("TSContext disabled", 1)
                     end, {})
                 end,
             },

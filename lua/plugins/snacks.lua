@@ -534,7 +534,7 @@ local snacks_keys = {
 return {
     "folke/snacks.nvim",
     cond = not vim.g.vscode,
-    event = { "UIEnter", "BufNewFile", "BufReadPost" },
+    event = { "UIEnter" },
     opts = snacks_opts,
     keys = snacks_keys,
     init = function()
