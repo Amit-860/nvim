@@ -1,6 +1,8 @@
 local kmap = vim.keymap.set
 local ucmd = vim.api.nvim_create_user_command
 local Menu = require("nui.menu")
+local q = require("local.get_query_under_cursor")
+
 -- INFO: add list of file with name = path ============================================================================
 local json_files = {
     large = vim.fn.expand("$HOME/Downloads/large-file.json"),
@@ -99,9 +101,73 @@ local function Jq_command(horizontal, filter)
     vim.fn.win_gotoid(json_winnr)
 end
 
+local function zq_filter(command)
+    return vim.fn.system(command)
+end
+
+local function prepare_zq_query(args_table, ex_file)
+    local c = q.get_current_query_with_file_name()
+
+    local command = { "super" }
+    for _, v in ipairs(args_table) do
+        table.insert(command, v)
+    end
+
+    table.insert(command, "-c")
+    table.insert(command, c.query)
+
+    if c.query ~= "" and (c.filename ~= "" or ex_file ~= nil) then
+        if ex_file == nil then
+            table.insert(command, vim.fn.expand(c.filename))
+        else
+            table.insert(command, vim.fn.expand(ex_file))
+        end
+        return command
+    end
+end
+
+local function zq_command(horizontal, args_table)
+    local splitcmd = "vnew"
+    if horizontal == true then
+        splitcmd = "new"
+    end
+
+    local zed_bufnr = vim.fn.bufnr()
+    local zed_winnr = vim.fn.bufwinid(zed_bufnr)
+
+    local command = prepare_zq_query(args_table, nil)
+    if command == nil then
+        return
+    end
+
+    if result_bufnr == nil or not vim.fn.bufexists(result_bufnr) then
+        -- Buffer doesn't exist, create new
+        vim.cmd(splitcmd)
+        vim.cmd("set filetype=text")
+        result_bufnr = vim.fn.bufnr()
+    else
+        -- Check if buffer is visible in any window [[4]][[5]]
+        local existing_win = vim.fn.bufwinnr(result_bufnr)
+        if existing_win == -1 then
+            -- Buffer exists but isn't visible, create new split
+            vim.cmd(splitcmd)
+            vim.cmd("buffer " .. result_bufnr)
+        else
+            -- Buffer is already visible, switch to its window
+            vim.fn.win_gotoid(existing_win)
+        end
+    end
+
+    -- print(vim.inspect(command))
+
+    -- execute zq query and public result
+    set_buf_text(zq_filter(command), result_bufnr)
+    vim.fn.win_gotoid(zed_winnr)
+end
+
 local file = nil
 local jq_win = {}
-function Jq_file_command(horizontal)
+function Jq_file_command(horizontal, tool)
     local splitcmd = "vnew"
 
     if horizontal == true then
@@ -115,7 +181,7 @@ function Jq_file_command(horizontal)
     vim.cmd("tabnew")
     vim.cmd("set filetype=conf")
 
-    set_buf_text("# JQ filter: press <CR> to execute it\n\n.")
+    -- set_buf_text("# JQ filter: press <CR> to execute it\n\n.")
     vim.cmd("normal!G")
     local jq_bufnr = vim.fn.bufnr()
     local jq_winnr = vim.fn.bufwinid(jq_bufnr)
@@ -128,8 +194,17 @@ function Jq_file_command(horizontal)
 
     -- setup keybinding autocmd in the filter buffer:
     kmap("n", "<CR>", function()
-        local filter = buf_text(jq_bufnr)
-        set_buf_text(jq_filter(nil, filter, file), r_result_bufnr)
+        if tool == "jq" then
+            local filter = buf_text(jq_bufnr)
+            set_buf_text(jq_filter(nil, filter, file), r_result_bufnr)
+        else
+            local filter = prepare_zq_query({ "-J" }, file)
+            if filter == nil then
+                return
+            end
+            -- print(vim.inspect(filter))
+            set_buf_text(zq_filter(filter), r_result_bufnr)
+        end
     end, { buffer = jq_bufnr })
 
     jq_win.jq_bufnr = jq_bufnr
@@ -138,7 +213,7 @@ function Jq_file_command(horizontal)
     jq_win.r_result_winnr = r_result_winnr
 end
 
-local function create_menu(file_list)
+local function create_menu(file_list, tool)
     local f_list = {}
     local map = {}
     local i = 1
@@ -173,7 +248,7 @@ local function create_menu(file_list)
         end,
         on_submit = function(item)
             file = map[item.text]
-            Jq_file_command(false)
+            Jq_file_command(false, tool)
         end,
     })
 
@@ -193,6 +268,23 @@ ucmd("Jqf", function(args)
         vim.cmd.bwipeout({ count = jq_win.jq_bufnr, bang = true })
         vim.cmd.bwipeout({ count = jq_win.r_result_bufnr, bang = true })
     else
-        create_menu(json_files)
+        create_menu(json_files, "jq")
+    end
+end, { desc = "Jq File", bang = true })
+
+ucmd("Zq", function(opts)
+    zq_command(false, opts.fargs)
+end, { nargs = "*" })
+
+ucmd("Zqh", function(opts)
+    zq_command(true, opts.fargs)
+end, { nargs = "*" })
+
+ucmd("Zqf", function(args)
+    if args.bang and jq_win.jq_bufnr and jq_win.r_result_bufnr then
+        vim.cmd.bwipeout({ count = jq_win.jq_bufnr, bang = true })
+        vim.cmd.bwipeout({ count = jq_win.r_result_bufnr, bang = true })
+    else
+        create_menu(json_files, "super")
     end
 end, { desc = "Jq File", bang = true })
