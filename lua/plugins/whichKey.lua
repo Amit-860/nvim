@@ -221,7 +221,9 @@ return {
             { "<F13>t", desc = "Toggle", icon = icons.astro.Selected },
             { "<F13>c", desc = "Color", icon = icons.astro.Selected },
             { "<F13>g", desc = "Git", icon = icons.astro.GitBranch },
-            -- { "<F13>o", desc = "Oil", icon = icons.astro.FolderEmpty },
+            { "<F13>u", desc = "Line Undo", icon = icons.astro.Environment },
+            { "<F13>cu", desc = "Char Undo", icon = icons.astro.Environment },
+            { "<F13>o", desc = "Oil", icon = icons.astro.FolderEmpty },
             { "<F13>d", desc = "Dadbod", icon = icons.astro.FileNew },
         })
     end,

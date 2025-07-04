@@ -371,6 +371,31 @@ M.code_runner = function(run_cmd, file_name, direction)
     code_runner:toggle()
 end
 
+M.gemini_toggle = function()
+    local Terminal = require("toggleterm.terminal").Terminal
+    local float_opts = {
+        height = math.floor(vim.o.lines * 1),
+        width = math.floor(vim.o.columns * 1),
+    }
+    local atac = Terminal:new({
+        cmd = "gemini --model gemini-2.5-flash",
+        hidden = true,
+        direction = "float",
+        float_opts = float_opts,
+        on_open = function(term)
+            vim.cmd("startinsert!")
+        end,
+        on_close = function(_) end,
+        count = 93,
+    })
+    -- condition for neovide
+    -- if vim.g.neovide then
+    -- float_opts.height = math.floor(vim.o.lines * 1.0)
+    -- float_opts.width = math.floor(vim.o.columns * 1.0)
+    -- end
+    atac:toggle()
+end
+
 local function is_loaded(name)
     local Config = require("lazy.core.config")
     return Config.plugins[name] and Config.plugins[name]._.loaded

@@ -1,7 +1,6 @@
 return {
     "stevearc/oil.nvim",
-    -- cond = not vim.g.vscode,
-    cond = false,
+    cond = not vim.g.vscode,
     cmd = { "Oil" },
     opts = {
         columns = { "icon" },
@@ -83,7 +82,14 @@ return {
                     oil.save()
                 end,
             },
-            ["<leader>eo"] = {
+            ["<C-q>"] = {
+                desc = "Quit Oil",
+                mode = "n",
+                callback = function()
+                    oil.close()
+                end,
+            },
+            ["<leader>x"] = {
                 desc = "Quit Oil",
                 mode = "n",
                 callback = function()

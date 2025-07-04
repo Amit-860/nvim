@@ -136,6 +136,8 @@ local function zq_command(horizontal, args_table)
     local zed_winnr = vim.fn.bufwinid(zed_bufnr)
 
     local command = prepare_zq_query(args_table, nil)
+    -- print(vim.inspect(command))
+
     if command == nil then
         return
     end
@@ -157,8 +159,6 @@ local function zq_command(horizontal, args_table)
             vim.fn.win_gotoid(existing_win)
         end
     end
-
-    -- print(vim.inspect(command))
 
     -- execute zq query and public result
     set_buf_text(zq_filter(command), result_bufnr)
@@ -255,6 +255,7 @@ local function create_menu(file_list, tool)
     menu:mount()
 end
 
+-- NOTE : Jq ------------------------------------------------------------
 ucmd("Jq", function(opts)
     Jq_command(false, opts.fargs[1])
 end, { nargs = 1 })
@@ -272,6 +273,7 @@ ucmd("Jqf", function(args)
     end
 end, { desc = "Jq File", bang = true })
 
+-- NOTE : Zq ------------------------------------------------------------
 ucmd("Zq", function(opts)
     zq_command(false, opts.fargs)
 end, { nargs = "*" })
@@ -288,3 +290,7 @@ ucmd("Zqf", function(args)
         create_menu(json_files, "super")
     end
 end, { desc = "Jq File", bang = true })
+
+-- keymapping
+vim.keymap.set({ "n" }, "<leader>rz", ":Zq -S<CR>", { desc = "Run Zq Query", noremap = true, silent = true })
+vim.keymap.set({ "n" }, "<leader>rj", ":Jq<CR>", { desc = "Run Jq Query", noremap = true, silent = true })

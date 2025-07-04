@@ -311,6 +311,7 @@ local snacks_opts = {
     },
     explorer = {
         enabled = true,
+        replace_netrw = true,
     },
     indent = {
         enabled = true,
