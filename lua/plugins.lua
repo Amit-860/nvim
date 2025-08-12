@@ -352,16 +352,16 @@ return {
             vim.keymap.set("n", "<leader>rs", function()
                 require("spectre").toggle()
             end, { desc = "Toggle Spectre" }),
-            vim.keymap.set("n", "<F13>ss", function()
+            vim.keymap.set("n", "<leader>ss", function()
                 require("spectre").toggle()
             end, { desc = "Toggle Spectre" }),
-            vim.keymap.set("n", "<F13>sw", function()
+            vim.keymap.set("n", "<leader>sw", function()
                 require("spectre").open_visual({ select_word = true })
             end, { desc = "Search current word" }),
-            vim.keymap.set("v", "<F13>sw", function()
+            vim.keymap.set("v", "<leader>sw", function()
                 require("spectre").open_visual()
             end, { desc = "Search current word" }),
-            vim.keymap.set("n", "<F13>sf", function()
+            vim.keymap.set("n", "<leader>sf", function()
                 require("spectre").open_file_search({ select_word = true })
             end, { desc = "Search on current file" }),
         },

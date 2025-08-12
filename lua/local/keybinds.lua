@@ -421,9 +421,6 @@ if not vim.g.vscode then
     -- ecape in terminal mode
     vim.keymap.set({ "t" }, "<C-n>", "<C-\\><C-n>", { noremap = true, silent = true, desc = "Terminal Normal Mode" })
 
-    -- taks manager [dooit]
-    vim.keymap.set({ "n", "i" }, "<F2>", utils.dooit_toggle, { noremap = true, silent = true, desc = "Dooit" })
-
     --INFO: not disabled for vscode -----------------------------------------------------------------------------------------------------------------
 end
 

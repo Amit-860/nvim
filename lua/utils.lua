@@ -328,32 +328,6 @@ M.atac_toggle = function()
     atac:toggle()
 end
 
-M.dooit_toggle = function()
-    local Terminal = require("toggleterm.terminal").Terminal
-    local float_opts = {
-        border = "none",
-        height = math.floor(vim.o.lines * 0.80),
-        width = math.floor(vim.o.columns * 0.84),
-    }
-    local dooit = Terminal:new({
-        cmd = "dooit",
-        hidden = true,
-        direction = "float",
-        float_opts = float_opts,
-        on_open = function(term)
-            vim.cmd("startinsert!")
-        end,
-        on_close = function(_) end,
-        count = 95,
-    })
-    -- condition for neovide
-    if vim.g.neovide then
-        float_opts.height = math.floor(vim.o.lines * 0.98)
-        float_opts.width = math.floor(vim.o.columns * 0.98)
-    end
-    dooit:toggle()
-end
-
 M.code_runner = function(run_cmd, file_name, direction)
     local Terminal = require("toggleterm.terminal").Terminal
     local code_runner = Terminal:new({

@@ -2,6 +2,7 @@ return {
     "lewis6991/hover.nvim",
     event = "VeryLazy",
     cond = not vim.g.vscode,
+    enabled = false,
     keys = function()
         local hover = require("hover")
         return {
@@ -63,7 +64,11 @@ return {
 
         local enable = {}
         local enable_lsp_rd_flag = function(bufnr)
-            for _, client in pairs(vim.lsp.get_clients({ bufnr = bufnr })) do
+            local active_clients = vim.lsp.get_clients({ bufnr = bufnr })
+            if #active_clients > 0 then
+                enable[bufnr] = false
+            end
+            for _, client in pairs(active_clients) do
                 local capable = client.server_capabilities or {}
                 if capable.referencesProvider and capable.definitionProvider then
                     enable[bufnr] = true and valid_filetypes(bufnr)
@@ -106,11 +111,17 @@ return {
                             },
                             filetype = "markdown",
                         })
-                        return
-                    else
-                        return
                     end
                 end)
+                if error ~= nil or #error > 0 then
+                    done({
+                        lines = {
+                            ("File : **%s** | Workspace : **%s**"):format("-", "-"),
+                        },
+                        filetype = "markdown",
+                    })
+                    return
+                end
             end,
         })
 
@@ -148,10 +159,17 @@ return {
                             filetype = "markdown",
                         })
                         return
-                    else
-                        return
                     end
                 end)
+                if error ~= nil or #error > 0 then
+                    done({
+                        lines = {
+                            ("File : **%s** | Workspace : **%s**"):format("-", "-"),
+                        },
+                        filetype = "markdown",
+                    })
+                    return
+                end
             end,
         })
 
@@ -173,6 +191,9 @@ return {
                     cword,
                     "-over",
                 })
+                if #output == 0 or output == nil then
+                    output = { ('No definition found for word "**%s**"'):format(cword) }
+                end
                 -- vim.list_extend(result, output)
                 done({
                     lines = output,

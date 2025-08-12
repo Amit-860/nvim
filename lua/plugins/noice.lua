@@ -1,3 +1,16 @@
+local function get_hover_padding_values()
+    if vim.g.win_border == "none" then
+        return {
+            1,
+            2,
+        }
+    end
+    return {
+        0,
+        1,
+    }
+end
+
 return {
     "folke/noice.nvim",
     cond = not vim.g.vscode,
@@ -15,7 +28,7 @@ return {
                 },
                 signature = { enabled = false },
                 hover = {
-                    enabled = false,
+                    enabled = true,
                     opts = {},
                 },
                 message = { enabled = true },
@@ -57,7 +70,10 @@ return {
                 },
                 hover = {
                     relative = "cursor",
-                    border = { style = "single", padding = { 0, 1 } },
+                    border = {
+                        style = vim.g.win_border,
+                        padding = get_hover_padding_values(),
+                    },
                     position = {
                         row = 2,
                         col = 0,
